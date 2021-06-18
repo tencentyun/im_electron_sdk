@@ -66,8 +66,8 @@ function createWindow () {
     const initTime = Date.now();
     // console.log(lib.TIMGetSDKVersion());
     const a = JSON.stringify({
-      "sdk_config_log_file_path":path.resolve(__dirname),
-      "sdk_config_config_file_path":path.resolve(__dirname)
+      "sdk_config_log_file_path":path.resolve(__dirname,'sdk-log'),
+      "sdk_config_config_file_path":path.resolve(__dirname,'sdk-config')
     });
     
 
