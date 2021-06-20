@@ -1,27 +1,13 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
-const url = require('url')
-const ffi = require('ffi-napi');
-const os = require('os')
-const ref = require('ref-napi');
-const ffipaths =  {
-  "linux": path.resolve(__dirname,'im_electron_sdk/lib/linux/lib/libImSDK.so')
-}
-function getFFIPath(){
-  let res = ""
-  const platform = os.platform().toLocaleLowerCase();
-  switch(platform){
-    case 'linux':
-    res = ffipaths[platform];
-    break;
-  }
-  if(!res){
-    throw new Error(`tencent im sdk not support ${platform} os now.`);
-    return;
-  }
-  return res;
-}
+
+const TIM = require('./im_electron_sdk')
+
+const tim = new TIM({
+  sdkappid:1400187352
+});
+console.log(tim)
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -47,41 +33,38 @@ function createWindow () {
   //   })
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
-  function nodeStrigToCString(str){
-    const buffer = Buffer.from(str)
-    return ref.readCString(buffer, 0);
-  }
+ 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-    const ffiPath = getFFIPath();
-    console.log(ffiPath);
-    const startTime = Date.now();
+    // const ffiPath = getFFIPath();
+    // console.log(ffiPath);
+    // const startTime = Date.now();
     
-    const lib = ffi.Library(ffiPath,{
-      "TIMGetSDKVersion":[ref.types.char,[]],
-      "TIMInit": [ref.types.int,[ref.types.uint64,ref.types.CString]],
-      "TIMLogin":[ref.types.int,[ref.types.CString,ref.types.CString,'pointer',ref.types.CString]]
-    });
-    // ffi.Callback()
-    const initTime = Date.now();
-    // console.log(lib.TIMGetSDKVersion());
-    const a = JSON.stringify({
-      "sdk_config_log_file_path":path.resolve(__dirname,'sdk-log'),
-      "sdk_config_config_file_path":path.resolve(__dirname,'sdk-config')
-    });
+    // const lib = ffi.Library(ffiPath,{
+    //   "TIMGetSDKVersion":[ref.types.char,[]],
+    //   "TIMInit": [ref.types.int,[ref.types.uint64,ref.types.CString]],
+    //   "TIMLogin":[ref.types.int,[ref.types.CString,ref.types.CString,'pointer',ref.types.CString]]
+    // });
+    // // ffi.Callback()
+    // const initTime = Date.now();
+    // // console.log(lib.TIMGetSDKVersion());
+    // const a = JSON.stringify({
+    //   "sdk_config_log_file_path":path.resolve(__dirname,'sdk-log'),
+    //   "sdk_config_config_file_path":path.resolve(__dirname,'sdk-config')
+    // });
     
 
-    console.log(lib.TIMInit(1400187352,nodeStrigToCString(a)))
-    const endTime = Date.now();
-    var callback = ffi.Callback('void', [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
-      function (code, desc,json_params,user_data) {
-        console.log("code: ", code);
-        console.log("desc: ", desc);
-        console.log("json_params: ", json_params);
-        console.log("user_data: ", user_data);
-    });
-    console.log(`initTime:${initTime-startTime}ms,callTime:${endTime-initTime}ms`);
-    console.log(lib.TIMLogin(nodeStrigToCString('3708'),nodeStrigToCString('eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_'),callback,nodeStrigToCString("test")))
+    // console.log(lib.TIMInit(1400187352,nodeStrigToCString(a)))
+    // const endTime = Date.now();
+    // var callback = ffi.Callback('void', [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
+    //   function (code, desc,json_params,user_data) {
+    //     console.log("code: ", code);
+    //     console.log("desc: ", desc);
+    //     console.log("json_params: ", json_params);
+    //     console.log("user_data: ", user_data);
+    // });
+    // console.log(`initTime:${initTime-startTime}ms,callTime:${endTime-initTime}ms`);
+    // console.log(lib.TIMLogin(nodeStrigToCString('3708'),nodeStrigToCString('eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_'),callback,nodeStrigToCString("test")))
   })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
