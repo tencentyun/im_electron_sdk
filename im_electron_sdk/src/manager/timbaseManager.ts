@@ -39,7 +39,8 @@ class TimbaseManager {
         return this._sdkconfig.Imsdklib.TIMLogout(logoutCallback,userData);
     } 
     getLoginStatus():number{
-        return this._sdkconfig.Imsdklib.TIMGetLoginStatus();
+        this._sdkconfig.Imsdklib.TIMGetLoginStatus()
+        return 1;
     }
 }
 export default TimbaseManager;

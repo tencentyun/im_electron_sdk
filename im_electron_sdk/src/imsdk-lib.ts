@@ -11,12 +11,12 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMUninit":[ref.types.int,[]],
       "TIMGetServerTime":[ref.types.uint64,[]],
       "TIMLogout":[ref.types.int,['pointer',ref.types.CString]],
-      "TIMGetLoginStatus":[[StructType({
+      "TIMGetLoginStatus":[[ref.refType(StructType({
             kTIMLoginStatus_Logined:ref.types.int,
             kTIMLoginStatus_Logining:ref.types.int,
             kTIMLoginStatus_UnLogined:ref.types.int,
             kTIMLoginStatus_Logouting:ref.types.int,
-      })],[]]
+      }))],[]]
 });
 
 export default Imsdklib;

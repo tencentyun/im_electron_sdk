@@ -49,7 +49,7 @@ function createWindow () {
         //     console.log('退出成功',code,desc,json,data)
         //   }
         // });
-        // console.log(tim.getTimbaseManager().getLoginStatus());
+        console.log(tim.getTimbaseManager().getLoginStatus());
       }
     })
 
