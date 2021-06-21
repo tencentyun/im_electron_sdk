@@ -11,12 +11,12 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMUninit":[ref.types.int,[]],
       "TIMGetServerTime":[ref.types.uint64,[]],
       "TIMLogout":[ref.types.int,['pointer',ref.types.CString]],
-      "TIMGetLoginStatus":[[ref.refType(StructType({
-            kTIMLoginStatus_Logined:ref.types.int,
-            kTIMLoginStatus_Logining:ref.types.int,
-            kTIMLoginStatus_UnLogined:ref.types.int,
-            kTIMLoginStatus_Logouting:ref.types.int,
-      }))],[]],
+      // "TIMGetLoginStatus":[[ref.refType(StructType({
+      //       kTIMLoginStatus_Logined:ref.types.int,
+      //       kTIMLoginStatus_Logining:ref.types.int,
+      //       kTIMLoginStatus_UnLogined:ref.types.int,
+      //       kTIMLoginStatus_Logouting:ref.types.int,
+      // }))],[]],
       "TIMGroupCreate": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupDelete": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupJoin": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
