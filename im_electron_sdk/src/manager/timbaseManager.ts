@@ -1,6 +1,7 @@
-import { sdkconfig } from "../interface/inerface";
+import { loginParam, sdkconfig } from "../interface/inerface";
 import path from "path";
-import { nodeStrigToCString } from "../utils/utils";
+import { jsFuncToFFIFun, nodeStrigToCString } from "../utils/utils";
+
 class TimbaseManager {
     private _sdkconfig:sdkconfig;
     constructor(config:sdkconfig) {
@@ -16,5 +17,12 @@ class TimbaseManager {
         });
        return this._sdkconfig.Imsdklib.TIMInit(this._sdkconfig.sdkappid,nodeStrigToCString(sdkconfig));
     }
+    login(login_param:loginParam) :number{
+       const loginCallback = jsFuncToFFIFun(login_param.callback);
+       const userID = nodeStrigToCString(login_param.userID);
+       const userSig = nodeStrigToCString(login_param.userSig);
+       const userData = login_param.data ? nodeStrigToCString(login_param.data): Buffer.from("");
+       return this._sdkconfig.Imsdklib.TIMLogin(userID,userSig,loginCallback,userData);
+    }   
 }
 export default TimbaseManager;

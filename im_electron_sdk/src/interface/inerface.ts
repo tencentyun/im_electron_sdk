@@ -1,7 +1,12 @@
 interface TIMInitFun {
     (sdkappid:number,sdkconfig:Buffer): number;
 }
-
+interface TIMLoginFun {
+    (userID:Buffer,userSig:Buffer,callback:Buffer,data:Buffer): number;
+}
+interface CommonCallbackFun {
+    (code:number,desc:Buffer,json_data:Buffer,data:Buffer): number;
+}
 interface initConfig {
     sdkappid:number,
 }
@@ -11,10 +16,19 @@ interface sdkconfig {
     Imsdklib:libMethods
 }
 interface libMethods {
-    TIMInit:TIMInitFun
+    TIMInit:TIMInitFun,
+    TIMLogin:TIMLoginFun
+}
+interface loginParam {
+    userID:string,
+    userSig:string,
+    callback:CommonCallbackFun,
+    data?:string
 }
 export {
     initConfig,
     sdkconfig,
-    libMethods
+    libMethods,
+    loginParam,
+    CommonCallbackFun
 }

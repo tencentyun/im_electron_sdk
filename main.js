@@ -36,37 +36,15 @@ function createWindow () {
  
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-    const success = tim.getTimbaseManager().initSDK();
-    console.log(success);
-    // const ffiPath = getFFIPath();
-    // console.log(ffiPath);
-    // const startTime = Date.now();
-    
-    // const lib = ffi.Library(ffiPath,{
-    //   "TIMGetSDKVersion":[ref.types.char,[]],
-    //   "TIMInit": [ref.types.int,[ref.types.uint64,ref.types.CString]],
-    //   "TIMLogin":[ref.types.int,[ref.types.CString,ref.types.CString,'pointer',ref.types.CString]]
-    // });
-    // // ffi.Callback()
-    // const initTime = Date.now();
-    // // console.log(lib.TIMGetSDKVersion());
-    // const a = JSON.stringify({
-    //   "sdk_config_log_file_path":path.resolve(__dirname,'sdk-log'),
-    //   "sdk_config_config_file_path":path.resolve(__dirname,'sdk-config')
-    // });
-    
-
-    // console.log(lib.TIMInit(1400187352,nodeStrigToCString(a)))
-    // const endTime = Date.now();
-    // var callback = ffi.Callback('void', [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
-    //   function (code, desc,json_params,user_data) {
-    //     console.log("code: ", code);
-    //     console.log("desc: ", desc);
-    //     console.log("json_params: ", json_params);
-    //     console.log("user_data: ", user_data);
-    // });
-    // console.log(`initTime:${initTime-startTime}ms,callTime:${endTime-initTime}ms`);
-    // console.log(lib.TIMLogin(nodeStrigToCString('3708'),nodeStrigToCString('eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_'),callback,nodeStrigToCString("test")))
+    const initRes = tim.getTimbaseManager().initSDK();
+    console.log("initRes:",initRes);
+    const loginRes = tim.getTimbaseManager().login({
+      userID:"3708",
+      userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+      callback:(code,desc,json,data)=>{
+        console.log('登陆成功',code,desc,json,data);
+      }
+    })
   })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
