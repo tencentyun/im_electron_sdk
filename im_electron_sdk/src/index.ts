@@ -1,6 +1,6 @@
 import { CONSOLETAG } from "./const/const";
 import Imsdklib from "./imsdk-lib";
-import { initConfig, sdkconfig } from "./interface/inerface";
+import { initConfig, sdkconfig } from "./interface";
 import AdvanceMessageManage from "./manager/advanceMessageManager";
 import ConversationManager from "./manager/conversationManager";
 import FriendshipManager from "./manager/friendshipManager";

@@ -1,23 +1,35 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
 const TIM = require('./im_electron_sdk')
 
 const tim = new TIM({
-  sdkappid:1400187352
+  sdkappid: 1400187352
 });
 
-function createWindow () {
+
+function createGroup() {
+  const groupManager = tim.getGroupManager();
+  console.log(groupManager.createGroup);
+  const res = groupManager.createGroup({
+    params: { name: "test-name" },
+    callback: (code, desc, json, data) => {
+      console.log('登陆成功', code, desc, json, data);
+    }
+  });
+};
+
+function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    show:false,
+    show: false,
     webPreferences: {
       webSecurity: false,
       nodeIntegration: true,
-      nodeIntegrationInWorker:true,
+      nodeIntegrationInWorker: true,
       enableRemoteModule: true,
       contextIsolation: false,
       preload: path.join(__dirname, 'preload.js')
@@ -33,15 +45,15 @@ function createWindow () {
   //   })
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
- 
+
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
     tim.getTimbaseManager().initSDK();
     tim.getTimbaseManager().login({
-      userID:"3708",
-      userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
-      callback:(code,desc,json,data)=>{
-        console.log('登陆成功',code,desc,json,data);
+      userID: "3708",
+      userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+      callback: (code, desc, json, data) => {
+        console.log('登陆成功', code, desc, json, data);
         console.log(tim.getTimbaseManager().getSDKVersion());
         console.log(tim.getTimbaseManager().getServerTime());
         // tim.getTimbaseManager().logout({
@@ -50,6 +62,7 @@ function createWindow () {
         //   }
         // });
         // console.log(tim.getTimbaseManager().getLoginStatus());
+        createGroup();
       }
     })
 
@@ -63,7 +76,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-  
+
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
