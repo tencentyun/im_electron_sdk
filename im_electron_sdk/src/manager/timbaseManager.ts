@@ -23,6 +23,6 @@ class TimbaseManager {
        const userSig = nodeStrigToCString(login_param.userSig);
        const userData = login_param.data ? nodeStrigToCString(login_param.data): Buffer.from("");
        return this._sdkconfig.Imsdklib.TIMLogin(userID,userSig,loginCallback,userData);
-    }   
+    }
 }
 export default TimbaseManager;

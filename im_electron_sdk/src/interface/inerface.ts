@@ -4,6 +4,10 @@ interface TIMInitFun {
 interface TIMLoginFun {
     (userID:Buffer,userSig:Buffer,callback:Buffer,data:Buffer): number;
 }
+
+interface TIMFriendshipGetFriendProfileListFun {
+    (callback:Buffer,data:Buffer): number;
+}
 interface CommonCallbackFun {
     (code:number,desc:Buffer,json_data:Buffer,data:Buffer): number;
 }
@@ -17,7 +21,8 @@ interface sdkconfig {
 }
 interface libMethods {
     TIMInit:TIMInitFun,
-    TIMLogin:TIMLoginFun
+    TIMLogin:TIMLoginFun,
+    TIMFriendshipGetFriendProfileList:TIMFriendshipGetFriendProfileListFun
 }
 interface loginParam {
     userID:string,
