@@ -1,8 +1,8 @@
-import { CommonCallbackFun, loginParam, sdkconfig } from "../interface/inerface";
 import path from "path";
 import { jsFuncToFFIFun, nodeStrigToCString } from "../utils/utils";
 const ffi = require('ffi-napi');
 const ref = require('ref-napi');
+import { sdkconfig } from "../interface";
 
 class  FriendshipManager {
     private _sdkconfig:sdkconfig;

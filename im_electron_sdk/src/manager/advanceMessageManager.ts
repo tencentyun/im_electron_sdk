@@ -1,4 +1,4 @@
-import { sdkconfig } from "../interface/inerface";
+import { sdkconfig } from "../interface";
 
 class AdvanceMessageManage {
     private _sdkconfig:sdkconfig;
