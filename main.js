@@ -39,10 +39,17 @@ function createWindow () {
     const initRes = tim.getTimbaseManager().initSDK();
     console.log("initRes:",initRes);
     const loginRes = tim.getTimbaseManager().login({
-      userID:"3708",
-      userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+      userID:"lexuslin",
+      // userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+      userSig: "eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk",
       callback:(code,desc,json,data)=>{
         console.log('登陆成功',code,desc,json,data);
+
+        tim.getFriendshipManager().TIMFriendshipGetFriendProfileList({
+          callback:(code,desc,json,data) => {
+            console.log("================> TIMFriendshipGetFriendProfileList", json)
+          }
+        })
       }
     })
   })
