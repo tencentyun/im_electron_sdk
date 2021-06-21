@@ -1,4 +1,4 @@
-import { loginParam, logoutParam, sdkconfig } from "../interface/inerface";
+import { loginParam, logoutParam, sdkconfig } from "../interface";
 import path from "path";
 import { jsFuncToFFIFun, nodeStrigToCString } from "../utils/utils";
 

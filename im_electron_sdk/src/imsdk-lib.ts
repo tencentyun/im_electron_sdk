@@ -16,7 +16,10 @@ const Imsdklib = ffi.Library(ffiPath,{
             kTIMLoginStatus_Logining:ref.types.int,
             kTIMLoginStatus_UnLogined:ref.types.int,
             kTIMLoginStatus_Logouting:ref.types.int,
-      }))],[]]
+      }))],[]],
+      "TIMGroupCreate": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupDelete": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupJoin": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
 });
 
 export default Imsdklib;
