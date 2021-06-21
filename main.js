@@ -36,15 +36,23 @@ function createWindow () {
  
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-    const initRes = tim.getTimbaseManager().initSDK();
-    console.log("initRes:",initRes);
-    const loginRes = tim.getTimbaseManager().login({
+    tim.getTimbaseManager().initSDK();
+    tim.getTimbaseManager().login({
       userID:"3708",
       userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
       callback:(code,desc,json,data)=>{
         console.log('登陆成功',code,desc,json,data);
+        console.log(tim.getTimbaseManager().getSDKVersion());
+        console.log(tim.getTimbaseManager().getServerTime());
+        // tim.getTimbaseManager().logout({
+        //   callback:(code,desc,json,data)=>{
+        //     console.log('退出成功',code,desc,json,data)
+        //   }
+        // });
+        // console.log(tim.getTimbaseManager().getLoginStatus());
       }
     })
+
   })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
