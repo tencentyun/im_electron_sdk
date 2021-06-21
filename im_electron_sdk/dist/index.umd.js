@@ -54,7 +54,7 @@
   var ref$1 = require('ref-napi');
 
   var ffipaths = {
-    "linux": path.resolve(__dirname, '../lib/linux/lib/libImSDK.so')
+    "linux": path.resolve(__dirname, '../src/lib/linux/lib/libImSDK.so')
   };
 
   function getFFIPath() {
@@ -129,8 +129,8 @@
       key: "initSDK",
       value: function initSDK() {
         var sdkconfig = JSON.stringify({
-          "sdk_config_log_file_path": path__default['default'].resolve(__dirname, 'sdk-log'),
-          "sdk_config_config_file_path": path__default['default'].resolve(__dirname, 'sdk-config')
+          "sdk_config_log_file_path": path__default['default'].resolve(__dirname, '../sdk-log/'),
+          "sdk_config_config_file_path": path__default['default'].resolve(__dirname, '../sdk-config/')
         });
         return this._sdkconfig.Imsdklib.TIMInit(this._sdkconfig.sdkappid, nodeStrigToCString(sdkconfig));
       }

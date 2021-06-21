@@ -7,7 +7,7 @@ const TIM = require('./im_electron_sdk')
 const tim = new TIM({
   sdkappid:1400187352
 });
-console.log(tim)
+
 function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -36,6 +36,8 @@ function createWindow () {
  
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
+    const success = tim.getTimbaseManager().initSDK();
+    console.log(success);
     // const ffiPath = getFFIPath();
     // console.log(ffiPath);
     // const startTime = Date.now();
