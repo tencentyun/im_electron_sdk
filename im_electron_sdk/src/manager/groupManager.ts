@@ -14,7 +14,11 @@ import {
     GetGroupListParams,
     ModifyGroupParams,
     GetGroupMemberInfoParams,
-    ModifyMemberInfoParams
+    ModifyMemberInfoParams,
+    GetPendencyListParams,
+    ReportParams,
+    HandlePendencyParams,
+    GetOnlineMemberCountParams
 } from "../interface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 
@@ -233,6 +237,58 @@ class GroupManager {
             const res = this._imskdLib.TIMGroupModifyMemberInfo(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (res !== 0) reject(`Error Code ${res}`);
         });
+    }
+
+    TIMGroupGetPendencyList(getPendencyListParams: GetPendencyListParams) {
+        const { params, data } = getPendencyListParams;
+        const formatedParams = formatObject(params, 'group_pendency_option_');
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupGetPendencyList(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupReportPendencyReaded(reportParams: ReportParams) {
+        const {timeStamp, data } = reportParams;
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupReportPendencyReaded(timeStamp, jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupHandlePendency(handlePendencyParams: HandlePendencyParams) {
+        const { params, data } = handlePendencyParams;
+        let formateParamsWithPendency = {
+            ...params,
+            pendency: formatObject(params.pendency, 'group_pendency_')
+        };
+
+        const formatedParams = formatObject(formateParamsWithPendency, 'group_handle_pendency_param_');
+        const userData = this.stringFormator(data);
+
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupHandlePendency(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupGetOnlineMemberCount(params: GetOnlineMemberCountParams) {
+        const { groupId, data } = params;
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupGetOnlineMemberCount(nodeStrigToCString(groupId), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        }); 
     }
 }
 export default GroupManager;

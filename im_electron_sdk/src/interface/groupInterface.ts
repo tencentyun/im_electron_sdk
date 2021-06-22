@@ -109,6 +109,47 @@ interface ModifyMemberInfoParams {
     data?: string,
 }
 
+interface GetPendencyListParams {
+    params: {
+        startTime: number,
+        maxLimited: number,
+    },
+    data?: string,
+}
+
+interface ReportParams {
+    timeStamp: number,
+    data?: string,
+}
+
+interface HandlePendencyParams {
+    params: {
+        isAccept?: boolean,
+        handleMsg?: string,
+        pendency: {
+            groupId: string,
+            formIdentifier: string,
+            addTime: number,
+            toIdentifier: string,
+            pendencyType: number,
+            handled: number,
+            handleResult: number,
+            applyInviteMsg: string,
+            formUserDefinedData: string,
+            approvalMsg: string,
+            toUserDefinedData: string,
+            authentication: string,
+            selfIdentifier: string
+        }
+    },
+    data?: string
+}
+
+interface GetOnlineMemberCountParams {
+    groupId: string,
+    data?: string,
+}
+
 export {
     Pureobject,
     GroupMemberInfo,
@@ -122,5 +163,9 @@ export {
     GetGroupListParams,
     ModifyGroupParams,
     GetGroupMemberInfoParams,
-    ModifyMemberInfoParams
+    ModifyMemberInfoParams,
+    GetPendencyListParams,
+    ReportParams,
+    HandlePendencyParams,
+    GetOnlineMemberCountParams
 }
