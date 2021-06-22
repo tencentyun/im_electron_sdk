@@ -24,6 +24,14 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMGroupCreate": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupDelete": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupJoin": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupQuit": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupInviteMember": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupDeleteMember": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupGetJoinedGroupList": [ref.types.int, ['pointer', ref.types.CString]],
+      "TIMGroupGetGroupInfoList": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupModifyGroupInfo": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupGetMemberInfoList": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupModifyMemberInfo": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       // groupManager end
 });
 

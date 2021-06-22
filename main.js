@@ -4,6 +4,7 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 
 const TIM = require('./im_electron_sdk')
+const groupManagerTest = require('./groupManagerTest');
 
 const tim = new TIM({
   sdkappid: 1400187352
@@ -75,6 +76,7 @@ function createWindow() {
            userData:"TIMConvCreate"
          }),'创建会话返回')
          // createGroup();
+         groupManagerTest.testGroupManager(tim);
        },
        userData:"hahah"
      }))

@@ -48,6 +48,24 @@ interface TIMGroupDeleteFun {
 interface TIMGroupJoinFun {
     (groupId:Buffer, hello_msg: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
+
+interface TIMGroupQuitFun  extends TIMGroupDeleteFun{};
+
+interface TIMGroupInviteMemberFun extends TIMGroupCreateFun {}
+
+interface TIMGroupDeleteMemberFun extends TIMGroupCreateFun {}
+
+interface TIMGroupGetJoinedGroupListFun {
+    (successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
+
+interface TIMGroupGetGroupInfoListFun extends TIMGroupCreateFun {}
+
+interface TIMGroupModifyGroupInfoFun extends TIMGroupCreateFun {}
+
+interface TIMGroupGetMemberInfoListFun extends TIMGroupCreateFun {}
+
+interface TIMGroupModifyMemberInfoFun extends TIMGroupCreateFun {}
 // ==========Interface For Group End===========
 
 
@@ -73,7 +91,16 @@ interface libMethods {
     TIMGroupCreate: TIMGroupCreateFun,
     TIMGroupDelete: TIMGroupDeleteFun,
     TIMGroupJoin: TIMGroupJoinFun,
+    TIMGroupQuit: TIMGroupQuitFun,
+    TIMGroupInviteMember: TIMGroupInviteMemberFun,
+    TIMGroupDeleteMember: TIMGroupDeleteMemberFun,
+    TIMGroupGetJoinedGroupList: TIMGroupGetJoinedGroupListFun,
+    TIMGroupGetGroupInfoList: TIMGroupGetGroupInfoListFun,
+    TIMGroupModifyGroupInfo: TIMGroupModifyGroupInfoFun,
+    TIMGroupGetMemberInfoList: TIMGroupGetMemberInfoListFun,
+    TIMGroupModifyMemberInfo: TIMGroupModifyMemberInfoFun,
     // group end
+
 }
 
 export {
