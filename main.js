@@ -52,7 +52,7 @@ function createWindow() {
     tim.getTimbaseManager().login({
       userID: "3708",
       userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
-      callback: (code, desc, json, data) => {
+      callback: async (code, desc, json, data) => {
         console.log('登陆成功', code, desc, json, data);
         console.log(tim.getTimbaseManager().getSDKVersion());
         console.log(tim.getTimbaseManager().getServerTime());
@@ -62,7 +62,11 @@ function createWindow() {
         //   }
         // });
         // console.log(tim.getTimbaseManager().getLoginStatus());
-        createGroup();
+        // createGroup();
+
+        let res = await tim.getFriendshipManager().TIMFriendshipGetFriendProfileList()
+        console.log(res)
+        
       }
     })
 

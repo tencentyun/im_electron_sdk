@@ -1,4 +1,4 @@
-import { CommonCallbackFun } from '../interface/inerface'
+import { CommonCallbackFun } from '../interface'
 const path = require('path');
 const os = require('os');
 const ref = require('ref-napi');

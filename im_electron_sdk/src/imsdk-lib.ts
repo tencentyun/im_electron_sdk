@@ -1,5 +1,5 @@
 import { getFFIPath } from "./utils/utils";
-import StructType from 'ref-struct-napi';
+// import StructType from 'ref-struct-napi';
 
 const ffi = require('ffi-napi');
 const ref = require('ref-napi');

@@ -12,7 +12,8 @@ interface initConfig {
 interface sdkconfig {
     sdkappid: number,
     consoleTag: string,
-    Imsdklib: libMethods
+    Imsdklib: libMethods,
+
 }
 
 export {
