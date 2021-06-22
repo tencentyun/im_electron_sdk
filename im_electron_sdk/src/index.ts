@@ -45,5 +45,17 @@ class TIM {
     getGroupManager(){
         return this._groupManager;
     }
+    async lexusTest() {
+        // let res = await tim.getFriendshipManager().TIMFriendshipGetFriendProfileList()
+        let res = await this.getFriendshipManager().TIMFriendshipAddFriend({
+            friendship_add_friend_param_identifier: "lexuslin5",
+            // friendship_add_friend_param_friend_type: "lexuslin5",
+            friendship_add_friend_param_remark: "lexuslin5",
+            friendship_add_friend_param_group_name: "lexuslin5",
+            friendship_add_friend_param_add_source: "lexuslin5",
+            friendship_add_friend_param_add_wording: "lexuslin5",
+        })
+        console.log(res)
+    }
 }
 export default TIM;

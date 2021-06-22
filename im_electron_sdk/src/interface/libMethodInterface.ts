@@ -45,6 +45,9 @@ interface TIMGroupJoinFun {
 interface TIMFriendshipGetFriendProfileListFun {
     (groupId:Buffer, hello_msg: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
+interface TIMFriendshipAddFriendFun {
+    (json_add_friend_param?: string, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
 // ==========Interface For friendship End===========
 
 
@@ -59,7 +62,8 @@ interface libMethods {
     TIMGroupCreate: TIMGroupCreateFun,
     TIMGroupDelete: TIMGroupDeleteFun,
     TIMGroupJoin: TIMGroupJoinFun,
-    TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun
+    TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,
+    TIMFriendshipAddFriend: TIMFriendshipAddFriendFun
 }
 
 export {

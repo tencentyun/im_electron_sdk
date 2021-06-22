@@ -64,9 +64,8 @@ function createWindow() {
         // console.log(tim.getTimbaseManager().getLoginStatus());
         // createGroup();
 
-        let res = await tim.getFriendshipManager().TIMFriendshipGetFriendProfileList()
-        console.log(res)
         
+        tim.lexusTest();
       }
     })
 
