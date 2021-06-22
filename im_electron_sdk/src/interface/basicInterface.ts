@@ -2,7 +2,7 @@
 import { libMethods } from "./libMethodInterface"
 
 interface CommonCallbackFun {
-    (code: number, desc: Buffer, json_data: Buffer, data: Buffer): void;
+    (code: number, desc: String, json_param: String, user_data: String): void;
 }
 
 interface initConfig {

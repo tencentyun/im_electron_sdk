@@ -26,6 +26,15 @@ interface TIMGetSDKVersionFun {
 interface TIMGetServerTimeFun {
     (): number;
 }
+interface TIMGetLoginUserIDFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMSetNetworkStatusListenerCallbackFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvCreateFun {
+    (conv_id:Buffer,conv_type:number,callback:Buffer,user_data:Buffer):number;
+}
 
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
@@ -40,6 +49,36 @@ interface TIMGroupJoinFun {
     (groupId:Buffer, hello_msg: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 
+interface TIMGroupQuitFun  extends TIMGroupDeleteFun{};
+
+interface TIMGroupInviteMemberFun extends TIMGroupCreateFun {}
+
+interface TIMGroupDeleteMemberFun extends TIMGroupCreateFun {}
+
+interface TIMGroupGetJoinedGroupListFun {
+    (successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
+
+interface TIMGroupGetGroupInfoListFun extends TIMGroupCreateFun {}
+
+interface TIMGroupModifyGroupInfoFun extends TIMGroupCreateFun {}
+
+interface TIMGroupGetMemberInfoListFun extends TIMGroupCreateFun {}
+
+interface TIMGroupModifyMemberInfoFun extends TIMGroupCreateFun {}
+
+interface TIMGroupGetPendencyListFun extends TIMGroupCreateFun {}
+
+interface TIMGroupReportPendencyReadedFun {
+    (timeStamp: number, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
+
+interface TIMGroupHandlePendencyFun  extends TIMGroupCreateFun {}
+
+interface TIMGroupGetOnlineMemberCountFun extends TIMGroupDeleteFun {}
+
+interface TIMGroupSearchGroupsFun extends TIMGroupCreateFun {}
+
 // ==========Interface For Group End===========
 // ==========Interface For friendship begin===========
 interface TIMFriendshipGetFriendProfileListFun {
@@ -52,18 +91,45 @@ interface TIMFriendshipAddFriendFun {
 
 
 interface libMethods {
-    TIMInit:TIMInitFun,
-    TIMLogin:TIMLoginFun,
-    TIMUninit:TIMUninitFun,
-    TIMGetSDKVersion:TIMGetSDKVersionFun,
-    TIMGetServerTime:TIMGetServerTimeFun,
-    TIMLogout:TIMLogoutFun,
-    TIMGetLoginStatus:TIMGetLoginStatusFun
+    // timbase start
+    TIMInit: TIMInitFun,
+    TIMLogin: TIMLoginFun,
+    TIMUninit: TIMUninitFun,
+    TIMGetSDKVersion: TIMGetSDKVersionFun,
+    TIMGetServerTime: TIMGetServerTimeFun,
+    TIMLogout: TIMLogoutFun,
+    TIMGetLoginStatus: TIMGetLoginStatusFun,
+    TIMGetLoginUserID: TIMGetLoginUserIDFun,
+    TIMSetNetworkStatusListenerCallback:TIMSetNetworkStatusListenerCallbackFun,
+    // timbase end
+
+    // conversation start
+    TIMConvCreate:TIMConvCreateFun,
+    // converastion end
+    // friendship start
+    TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,
+    TIMFriendshipAddFriend: TIMFriendshipAddFriendFun
+    // friendship end
+
+
+    // group start
     TIMGroupCreate: TIMGroupCreateFun,
     TIMGroupDelete: TIMGroupDeleteFun,
     TIMGroupJoin: TIMGroupJoinFun,
-    TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,
-    TIMFriendshipAddFriend: TIMFriendshipAddFriendFun
+    TIMGroupQuit: TIMGroupQuitFun,
+    TIMGroupInviteMember: TIMGroupInviteMemberFun,
+    TIMGroupDeleteMember: TIMGroupDeleteMemberFun,
+    TIMGroupGetJoinedGroupList: TIMGroupGetJoinedGroupListFun,
+    TIMGroupGetGroupInfoList: TIMGroupGetGroupInfoListFun,
+    TIMGroupModifyGroupInfo: TIMGroupModifyGroupInfoFun,
+    TIMGroupGetMemberInfoList: TIMGroupGetMemberInfoListFun,
+    TIMGroupModifyMemberInfo: TIMGroupModifyMemberInfoFun,
+    TIMGroupGetPendencyList: TIMGroupGetPendencyListFun,
+    TIMGroupReportPendencyReaded: TIMGroupReportPendencyReadedFun,
+    TIMGroupHandlePendency: TIMGroupHandlePendencyFun,
+    TIMGroupGetOnlineMemberCount: TIMGroupGetOnlineMemberCountFun,
+    TIMGroupSearchGroups: TIMGroupSearchGroupsFun
+    // group end
 }
 
 export {

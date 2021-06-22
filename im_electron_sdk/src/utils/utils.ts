@@ -26,9 +26,9 @@ function nodeStrigToCString(str:string) :Buffer{
     return ref.readCString(buffer, 0);
 }
 function jsFuncToFFIFun(fun:CommonCallbackFun){
-  const callback = ffi.Callback('void', [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
-      function (code:number, desc:Buffer,json_params:Buffer,user_data:Buffer) {
-        fun(code,desc,json_params,user_data);
+  const callback = ffi.Callback(ref.types.void, [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
+      function (code:number, desc:Buffer,json_param:Buffer,user_data:Buffer) {
+        fun(code,desc.toString(),json_param.toString(),user_data.toString());
     });
   return callback;
 }
