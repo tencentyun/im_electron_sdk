@@ -26,6 +26,15 @@ interface TIMGetSDKVersionFun {
 interface TIMGetServerTimeFun {
     (): number;
 }
+interface TIMGetLoginUserIDFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMSetNetworkStatusListenerCallbackFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvCreateFun {
+    (conv_id:Buffer,conv_type:number,callback:Buffer,user_data:Buffer):number;
+}
 
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
@@ -39,21 +48,32 @@ interface TIMGroupDeleteFun {
 interface TIMGroupJoinFun {
     (groupId:Buffer, hello_msg: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
-
 // ==========Interface For Group End===========
 
 
 interface libMethods {
-    TIMInit:TIMInitFun,
-    TIMLogin:TIMLoginFun,
-    TIMUninit:TIMUninitFun,
-    TIMGetSDKVersion:TIMGetSDKVersionFun,
-    TIMGetServerTime:TIMGetServerTimeFun,
-    TIMLogout:TIMLogoutFun,
-    TIMGetLoginStatus:TIMGetLoginStatusFun
+    // timbase start
+    TIMInit: TIMInitFun,
+    TIMLogin: TIMLoginFun,
+    TIMUninit: TIMUninitFun,
+    TIMGetSDKVersion: TIMGetSDKVersionFun,
+    TIMGetServerTime: TIMGetServerTimeFun,
+    TIMLogout: TIMLogoutFun,
+    TIMGetLoginStatus: TIMGetLoginStatusFun,
+    TIMGetLoginUserID: TIMGetLoginUserIDFun,
+    TIMSetNetworkStatusListenerCallback:TIMSetNetworkStatusListenerCallbackFun,
+    // timbase end
+
+    // conversation start
+    TIMConvCreate:TIMConvCreateFun,
+    // converastion end
+
+
+    // group start
     TIMGroupCreate: TIMGroupCreateFun,
     TIMGroupDelete: TIMGroupDeleteFun,
     TIMGroupJoin: TIMGroupJoinFun,
+    // group end
 }
 
 export {

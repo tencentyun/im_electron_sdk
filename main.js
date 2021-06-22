@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
+
 const path = require('path')
 
 const TIM = require('./im_electron_sdk')
@@ -9,16 +10,16 @@ const tim = new TIM({
 });
 
 
-function createGroup() {
-  const groupManager = tim.getGroupManager();
-  console.log(groupManager.createGroup);
-  const res = groupManager.createGroup({
-    params: { name: "test-name" },
-    callback: (code, desc, json, data) => {
-      console.log('登陆成功', code, desc, json, data);
-    }
-  });
-};
+// function createGroup() {
+//   const groupManager = tim.getGroupManager();
+//   console.log(groupManager.createGroup);
+//   const res = groupManager.createGroup({
+//     params: { name: "test-name" },
+//     callback: (code, desc, json, data) => {
+//       console.log('登陆成功', code, desc, json, data);
+//     }
+//   });
+// };
 
 function createWindow() {
   // Create the browser window.
@@ -48,23 +49,35 @@ function createWindow() {
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
-    tim.getTimbaseManager().initSDK();
-    tim.getTimbaseManager().login({
+    console.log('初始化返回',tim.getTimbaseManager().TIMInit())
+    console.log('登录返回',tim.getTimbaseManager().TIMLogin({
       userID: "3708",
-      userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
-      callback: (code, desc, json, data) => {
-        console.log('登陆成功', code, desc, json, data);
-        console.log(tim.getTimbaseManager().getSDKVersion());
-        console.log(tim.getTimbaseManager().getServerTime());
-        // tim.getTimbaseManager().logout({
-        //   callback:(code,desc,json,data)=>{
-        //     console.log('退出成功',code,desc,json,data)
-        //   }
-        // });
-        // console.log(tim.getTimbaseManager().getLoginStatus());
-        createGroup();
-      }
-    })
+      userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+       callback: (code, desc, json, data) => {
+         console.log('登陆成功', code, desc, json, data);
+         console.log('sdk版本',tim.getTimbaseManager().TIMGetSDKVersion());
+         console.log('服务器时间',tim.getTimbaseManager().TIMGetServerTime());
+         console.log('获取当前登陆用户:',tim.getTimbaseManager().TIMGetLoginUserID({callback:(code, desc, json, data)=>{
+           console.log('获取当前登陆用户TIMGetLoginUserID',code,desc,json,data)
+         },userData:'hahah1'}))
+         // tim.getTimbaseManager().logout({
+         //   callback:(code,desc,json,data)=>{
+         //     console.log('退出成功',code,desc,json,data)
+         //   }
+         // });
+         console.log('当前登陆状态:', tim.getTimbaseManager().TIMGetLoginStatus());
+         console.log(tim.getConversationManager().TIMConvCreate({
+           convId:"C2C_3708",
+           convType:1,
+           callback:(code, desc, json, data)=>{
+             console.log('创建回话成功',code,desc,json,data)
+           },
+           userData:"TIMConvCreate"
+         }),'创建会话返回')
+         // createGroup();
+       },
+       userData:"hahah"
+     }))
 
   })
   // Open the DevTools.
