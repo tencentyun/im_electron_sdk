@@ -15,7 +15,7 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipHandleFriendAddRequest()
             // let res = await this.TIMFriendshipModifyFriendProfile()
             // let res = await this.TIMFriendshipDeleteFriend()
-            let res = await this.TIMFriendshipCheckFriendType()
+            // let res = await this.TIMFriendshipCheckFriendType()
             // let res = await this.TIMFriendshipCreateFriendGroup()
             // let res = await this.TIMFriendshipGetFriendGroupList()
             // let res = await this.TIMFriendshipModifyFriendGroup()
@@ -30,9 +30,9 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipGetFriendsInfo()
             // let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
-            let res = await this.TIMMsgFindMessages()
+            // let res = await this.TIMMsgFindMessages()
             // let res = await this.TIMMsgReportReaded()
-            // let res = await this.TIMMsgRevoke()
+            let res = await this.TIMMsgRevoke()
             // let res = await this.TIMMsgFindByMsgLocatorList()
             // let res = await this.TIMMsgImportMsgList()
             // let res = await this.TIMMsgSaveMsg()
@@ -174,7 +174,7 @@ class LexuslinTest {
         return this.advanceMessageManager.TIMMsgReportReaded("c2c_lexuslin3", 1, "msg_id", "user data")
     }
     TIMMsgRevoke() {
-        return this.advanceMessageManager.TIMMsgRevoke("c2c_lexuslin3", 1, "msg_id", "user data")
+        return this.advanceMessageManager.TIMMsgRevoke("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
     TIMMsgFindByMsgLocatorList() {
         return this.advanceMessageManager.TIMMsgFindByMsgLocatorList({

@@ -99,14 +99,17 @@ class AdvanceMessageManage {
         return this.TIMMsgFindMessages([message_id], user_data).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params
-                const c_json_msg_param = this.stringFormator(JSON.stringify(JSON.parse(json_msg_param_array)[0]))
-                this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const json_msg_param = JSON.stringify(JSON.parse(json_msg_param_array)[0])
+                const c_json_msg_param = this.stringFormator(json_msg_param)
+                const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
                     if(code === 0) {
                         resolve({ code, desc, json_params, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
                 }), c_user_data)
+
+                code !== 0 && reject(this.getErrorResponse({ code }))
             })
         })
     }

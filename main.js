@@ -61,13 +61,13 @@ function createWindow() {
          console.log('登陆成功', code, desc, json, data);
          
         //  test base apis
-        baseManagerTest.testBaseManager(tim);
+        // baseManagerTest.testBaseManager(tim);
         //  test conversation apis
-        conversationManagerTest.testConversation(tim);
+        // conversationManagerTest.testConversation(tim);
         // test group apis
-        groupManagerTest.testGroupManager(tim);
+        // groupManagerTest.testGroupManager(tim);
 
-        // new LexuslinTest(tim).start();
+        new LexuslinTest(tim).start();
        },
        userData:"hahah"
      }))
