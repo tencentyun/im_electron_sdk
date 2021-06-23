@@ -4,3 +4,13 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
+
+const { ipcRenderer } = require('electron');
+
+console.log("Render js lodaded");
+
+ipcRenderer.send('create-group');
+
+ipcRenderer.on('create-group-reply', (event, result) => {
+    console.log('result', JSON.parse(result));
+})
