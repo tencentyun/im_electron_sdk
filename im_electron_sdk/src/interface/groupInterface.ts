@@ -183,6 +183,13 @@ interface DeleteAttributeParams {
     data?: string
 }
 
+interface ErrorResponse {
+    code?: number,
+    desc?: String,
+    json_params?: String,
+    user_data?: String
+}
+
 export {
     Pureobject,
     GroupMemberInfo,
@@ -204,5 +211,6 @@ export {
     SearchGroupParams,
     SearchMemberParams,
     InitGroupAttributeParams,
-    DeleteAttributeParams
+    DeleteAttributeParams,
+    ErrorResponse
 }
