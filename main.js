@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
-
+const { ipcMain } = require('electron');
 const path = require('path')
 
 const TIM = require('./im_electron_sdk')
@@ -8,22 +8,51 @@ const groupManagerTest = require('./groupManagerTest');
 const { LexuslinTest } = require('./LexuslinTest');
 
 const baseManagerTest = require('./baseManaterTest');
-const conversationManagerTest = require('./conversationManagerTest')
+const conversationManagerTest = require('./conversationManagerTest');
 const tim = new TIM({
   sdkappid: 1400187352
 });
 
+let initSDKResolver = null;
+const initPromise = new Promise((resolve) => initSDKResolver = resolve);
 
-// function createGroup() {
-//   const groupManager = tim.getGroupManager();
-//   console.log(groupManager.createGroup);
-//   const res = groupManager.createGroup({
-//     params: { name: "test-name" },
-//     callback: (code, desc, json, data) => {
-//       console.log('登陆成功', code, desc, json, data);
-//     }
-//   });
-// };
+
+const createGroup = async () => {
+  console.log("invoke create group methos");
+  const groupManager = tim.getGroupManager();
+  try {
+      const fakeParams = {
+          name: "test-name",
+          memberArray: [{
+              identifer: "123",
+              customInfo: [
+                  { key: "test1", value: "111" },
+                  { key: "test2", value: "222" }
+              ]
+          }],
+          customInfo: [
+              { key: "group test1", value: "111" },
+              { key: "group test2", value: "222" }
+          ]
+      };
+      const res = await groupManager.TIMGroupCreate({
+          params: fakeParams,
+          data: "{a:1, b:2}"
+      });
+      console.log("=========res", res);
+      return res;
+  } catch (e) {
+      console.log("=========error===", e)
+  }
+};
+
+ipcMain.on('create-group', async (event, arg) => {
+  await initPromise;
+  const res = await createGroup();
+  console.log('==============res==============', res);
+  event.sender.send('create-group-reply', JSON.stringify(res));
+})
+
 
 function createWindow() {
   // Create the browser window.
@@ -50,9 +79,10 @@ function createWindow() {
   //   })
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
+  mainWindow.loadFile("index.html")
 
   mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
+    mainWindow.show();
     console.log('初始化返回',tim.getTimbaseManager().TIMInit())
     tim.getTimbaseManager().TIMLogin({
       userID: "lexuslin",
@@ -61,6 +91,8 @@ function createWindow() {
      }).then(({code, desc, json, data})=>{
       console.log('登陆成功', code, desc, json, data);
       // test base apis
+      initSDKResolver();
+      //  test base apis
       baseManagerTest.testBaseManager(tim);
       // test conversation apis
       conversationManagerTest.testConversation(tim);
