@@ -10,9 +10,20 @@ function TIMConvCreate(){
         userData:"user_data:TIMConvCreate"
     }))
 }
+function TIMConvGetConvList(){
+    console.log('TIMConvGetConvList res:',tim.getConversationManager().TIMConvGetConvList(
+        {
+            callback:(code, desc, json, data)=>{
+                console.log(code,desc,json,data)
+            },
+            userData:"user_data:TIMConvGetConvList"
+        }
+    ))
+}
 const testConversation = data => {
     tim = data;
-    TIMConvCreate();
+    // TIMConvCreate();
+    TIMConvGetConvList();
 }
 module.exports = {
     testConversation

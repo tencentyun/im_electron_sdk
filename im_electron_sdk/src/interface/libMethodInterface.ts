@@ -35,7 +35,18 @@ interface TIMSetNetworkStatusListenerCallbackFun {
 interface TIMConvCreateFun {
     (conv_id:Buffer,conv_type:number,callback:Buffer,user_data:Buffer):number;
 }
+interface TIMConvGetConvListFun {
+    (callback:Buffer,user_data:Buffer):number;
+}
+interface TIMConvSetDraftFun {
+    (conv_id:Buffer,conv_type:number,json_draft_param:Buffer):number;
+}
+interface TIMConvCancelDraftFun {
+    (conv_id:Buffer,conv_type:number):number;
+}
+interface TIMConvDeleteFun extends TIMConvCreateFun {
 
+}
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
     (params: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
@@ -97,6 +108,10 @@ interface libMethods {
 
     // conversation start
     TIMConvCreate:TIMConvCreateFun,
+    TIMConvGetConvList:TIMConvGetConvListFun,
+    TIMConvDelete:TIMConvDeleteFun,
+    TIMConvSetDraft:TIMConvSetDraftFun
+    TIMConvCancelDraft:TIMConvCancelDraftFun,
     // converastion end
 
 
