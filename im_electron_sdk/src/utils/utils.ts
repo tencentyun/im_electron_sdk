@@ -1,4 +1,4 @@
-import { CommonCallbackFun } from '../interface'
+import { CommonCallbackFun, commonResponse } from '../interface'
 const path = require('path');
 const os = require('os');
 const ref = require('ref-napi');
@@ -32,6 +32,7 @@ function jsFuncToFFIFun(fun:CommonCallbackFun){
     });
   return callback;
 }
+
 export {
     getFFIPath,
     nodeStrigToCString,

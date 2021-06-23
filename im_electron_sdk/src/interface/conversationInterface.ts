@@ -1,17 +1,14 @@
 import { TIMConvType, TIMElemType } from "../enum";
-import { CommonCallbackFun } from "./basicInterface";
 
 interface convCreate {
     convId:string,
     convType:TIMConvType,
-    callback:CommonCallbackFun,
     userData?:string,
 }
 interface convDelete extends convCreate {
 
 }
 interface getConvList{
-    callback:CommonCallbackFun,
     userData?:string,
     
 }
@@ -36,6 +33,23 @@ interface convCancelDraft {
     convId:string,
     convType:TIMConvType,
 }
+interface convItem {
+    get_conversation_list_param_conv_id:string,
+    get_conversation_list_param_conv_type:string
+}
+interface convGetConvInfo {
+    json_get_conv_list_param:Array<convItem>,
+    user_data?:string, 
+}
+interface convPinConversation {
+    convId:string,
+    convType:TIMConvType,
+    isPinged:boolean,
+    user_data?:string,
+}
+interface convGetTotalUnreadMessageCount {
+    user_data?:string,
+}
 export {
     convCreate,
     getConvList,
@@ -44,5 +58,9 @@ export {
     draftParams,
     draftMessage,
     messageElem,
-    convCancelDraft
+    convCancelDraft,
+    convGetConvInfo,
+    convItem,
+    convPinConversation,
+    convGetTotalUnreadMessageCount
 }

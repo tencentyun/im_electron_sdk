@@ -26,6 +26,8 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMConvDelete":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
       "TIMConvSetDraft":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.CString]],
       "TIMConvCancelDraft":[ref.types.int,[ref.types.CString,ref.types.int]],
+      "TIMConvGetConvInfo":[ref.types.int,[ref.types.CString,'pointer']],
+      "TIMConvPinConversation":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.bool,'pointer',ref.types.CString]],
       // "TIMConvGetConvInfo":[ref.types.int,[]],
       // conversationManager end
       // groupManager start

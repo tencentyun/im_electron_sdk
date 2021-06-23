@@ -33,6 +33,8 @@ interface TIMGetLoginUserIDFun {
 interface TIMSetNetworkStatusListenerCallbackFun {
     (callback:CommonCallbackFun,user_data:Buffer):number;
 }
+
+// ==========Interface For Conversation Start===========
 interface TIMConvCreateFun {
     (conv_id:Buffer,conv_type:number,callback:Buffer,user_data:Buffer):number;
 }
@@ -48,6 +50,16 @@ interface TIMConvCancelDraftFun {
 interface TIMConvDeleteFun extends TIMConvCreateFun {
 
 }
+interface TIMConvGetConvInfoFun {
+    (json_get_conv_list_param:Buffer,callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvPinConversationFun{
+    (conv_id:Buffer,conv_type:number,is_pinned:boolean,callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvGetTotalUnreadMessageCountFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+// ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
     (params: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
@@ -227,6 +239,9 @@ interface libMethods {
     TIMConvDelete:TIMConvDeleteFun,
     TIMConvSetDraft:TIMConvSetDraftFun
     TIMConvCancelDraft:TIMConvCancelDraftFun,
+    TIMConvGetConvInfo:TIMConvGetConvInfoFun,
+    TIMConvPinConversation:TIMConvPinConversationFun,
+    TIMConvGetTotalUnreadMessageCount:TIMConvGetTotalUnreadMessageCountFun,
     // converastion end
     // friendship start
     TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,

@@ -15,9 +15,15 @@ interface sdkconfig {
     Imsdklib: libMethods,
 
 }
-
+interface commonResponse {
+    code: number,
+    desc?: string,
+    json_param?: string,
+    user_data?: string
+}
 export {
     initConfig,
     sdkconfig,
     CommonCallbackFun,
+    commonResponse
 }

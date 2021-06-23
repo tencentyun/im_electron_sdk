@@ -1,4 +1,3 @@
-import { CommonCallbackFun } from "./basicInterface";
 import { TIMFriendType } from "../enum";
 
 interface Json_add_friend_param {

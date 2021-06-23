@@ -1,5 +1,5 @@
-import { sdkconfig } from "../interface";
-import { convCreate, convDelete, getConvList, convSetDrat, convCancelDraft } from "../interface/conversationInterface";
+import { CommonCallbackFun, commonResponse, sdkconfig } from "../interface";
+import { convCreate, convDelete, getConvList, convSetDrat, convCancelDraft, convGetConvInfo, convPinConversation, convGetTotalUnreadMessageCount } from "../interface/conversationInterface";
 import { jsFuncToFFIFun, nodeStrigToCString } from "../utils/utils";
 
 class ConversationManager {
@@ -8,24 +8,54 @@ class ConversationManager {
     constructor(config:sdkconfig) {
         this._sdkconfig = config;
     }
-    TIMConvCreate(param:convCreate) :number{
+    TIMConvCreate(param:convCreate) :Promise<commonResponse>{
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType
-        const callback = jsFuncToFFIFun(param.callback);
         const userData = param.userData?nodeStrigToCString(param.userData):Buffer.from("");
-        return this._sdkconfig.Imsdklib.TIMConvCreate(convId,convType,callback,userData);
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvCreate(convId,convType,callback,userData);
+            code !== 0 && reject({code});
+        })
     }
-    TIMConvDelete(param:convDelete) :number{
+    TIMConvDelete(param:convDelete) :Promise<commonResponse>{
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType
-        const callback = jsFuncToFFIFun(param.callback);
         const userData = param.userData?nodeStrigToCString(param.userData):Buffer.from("");
-        return this._sdkconfig.Imsdklib.TIMConvDelete(convId,convType,callback,userData);
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvDelete(convId,convType,callback,userData);
+            code !== 0 && reject({code});
+        })
     }
-    TIMConvGetConvList(param:getConvList) :number{
-        const callback = jsFuncToFFIFun(param.callback);
+    TIMConvGetConvList(param:getConvList) :Promise<commonResponse>{
         const userData = param.userData?nodeStrigToCString(param.userData):Buffer.from("");
-        return this._sdkconfig.Imsdklib.TIMConvGetConvList(callback,userData);
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvGetConvList(callback,userData);
+            code !== 0 && reject({code});
+        })
     }
     TIMConvSetDraft(param:convSetDrat) :number{
         const convId = nodeStrigToCString(param.convId);
@@ -37,6 +67,55 @@ class ConversationManager {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType
         return this._sdkconfig.Imsdklib.TIMConvCancelDraft(convId,convType);
+    }
+    TIMConvGetConvInfo(param:convGetConvInfo) :Promise<commonResponse>{
+        const convList = nodeStrigToCString(JSON.stringify(param.json_get_conv_list_param));
+        const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("");
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvGetConvInfo(convList,callback,userData);
+            code !== 0 && reject({code});
+        })
+    }
+    TIMConvPinConversation(param:convPinConversation) :Promise<commonResponse>{
+        const convId = nodeStrigToCString(param.convId);
+        const convType = param.convType
+        const isPinged = param.isPinged
+        const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("")
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvPinConversation(convId,convType,isPinged,callback,userData);
+            code !== 0 && reject({code});
+        })
+    }
+    TIMConvGetTotalUnreadMessageCount(param:convGetTotalUnreadMessageCount) :Promise<commonResponse>{
+        const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("")
+        return new Promise((resolve,reject)=>{
+            const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
+                if(code===0){
+                    resolve({code,desc,json_param,user_data})
+                }else{
+                    reject({code,desc,json_param,user_data})
+                }
+            }
+            const callback = jsFuncToFFIFun(cb);
+            const code:number = this._sdkconfig.Imsdklib.TIMConvGetTotalUnreadMessageCount(callback,userData);
+            code !== 0 && reject({code});
+        })
     }
 }
 export default ConversationManager;
