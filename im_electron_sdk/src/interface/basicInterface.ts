@@ -2,7 +2,7 @@
 import { libMethods } from "./libMethodInterface"
 
 interface CommonCallbackFun {
-    (code: number, desc: String, json_param: String, user_data: String): void;
+    (code: number, desc: string, json_param: string, user_data: string): void;
 }
 
 interface initConfig {
@@ -12,7 +12,8 @@ interface initConfig {
 interface sdkconfig {
     sdkappid: number,
     consoleTag: string,
-    Imsdklib: libMethods
+    Imsdklib: libMethods,
+
 }
 
 export {
