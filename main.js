@@ -57,16 +57,15 @@ function createWindow() {
     tim.getTimbaseManager().TIMLogin({
       userID: "lexuslin",
       userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk",
-       userData:"hahah"
+      userData:"hahah"
      }).then(({code, desc, json, data})=>{
       console.log('登陆成功', code, desc, json, data);
-      //  test base apis
+      // test base apis
       baseManagerTest.testBaseManager(tim);
-      //  test conversation apis
+      // test conversation apis
       conversationManagerTest.testConversation(tim);
       // test group apis
       groupManagerTest.testGroupManager(tim);
- 
       // new LexuslinTest(tim).start();
      })
   })
