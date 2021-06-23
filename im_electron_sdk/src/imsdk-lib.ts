@@ -73,7 +73,7 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMMsgSendMessage": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgCancelSend": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgFindMessages": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
-      "TIMMsgReportReaded": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMMsgReportReaded": [ref.types.int, [ref.types.CString, ref.types.int, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgRevoke": [ref.types.int, [ref.types.CString, ref.types.int, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgFindByMsgLocatorList": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgImportMsgList": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],

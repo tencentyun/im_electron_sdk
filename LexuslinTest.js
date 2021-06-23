@@ -31,8 +31,8 @@ class LexuslinTest {
             // let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
             // let res = await this.TIMMsgFindMessages()
-            // let res = await this.TIMMsgReportReaded()
-            let res = await this.TIMMsgRevoke()
+            let res = await this.TIMMsgReportReaded()
+            // let res = await this.TIMMsgRevoke()
             // let res = await this.TIMMsgFindByMsgLocatorList()
             // let res = await this.TIMMsgImportMsgList()
             // let res = await this.TIMMsgSaveMsg()
@@ -164,14 +164,14 @@ class LexuslinTest {
         }, "user data")
     }
     TIMMsgCancelSend() {
-        return this.advanceMessageManager.TIMMsgCancelSend("c2c_lexuslin3", 1, "msg_id", "user data") // TIMConvType: 0无效1个人2群组3系统会话
+        return this.advanceMessageManager.TIMMsgCancelSend("lexuslin3", 1, "msg_id", "user data") // TIMConvType: 0无效1个人2群组3系统会话
     }
     TIMMsgFindMessages() {
         return this.advanceMessageManager.TIMMsgFindMessages(["144115231469886159-1623751826-4234216750"], "user data")
     }
     // TODOs: 支持上报单条消息，目前msg_id无效
     TIMMsgReportReaded() {
-        return this.advanceMessageManager.TIMMsgReportReaded("c2c_lexuslin3", 1, "msg_id", "user data")
+        return this.advanceMessageManager.TIMMsgReportReaded("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
     TIMMsgRevoke() {
         return this.advanceMessageManager.TIMMsgRevoke("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
