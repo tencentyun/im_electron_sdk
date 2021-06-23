@@ -48,7 +48,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgBatchSend()
             // let res = await this.TIMMsgSearchLocalMessages()
 
-            console.log("==========> 成功了：", JSON.parse(res.json_params))
+            console.log("==========> 成功了：", res.json_params === "" ? "none" : JSON.parse(res.json_params))
         } catch(e) {
             console.log("==========> 出错了：", e)
         }
