@@ -5,6 +5,7 @@ const path = require('path')
 
 const TIM = require('./im_electron_sdk')
 const groupManagerTest = require('./groupManagerTest');
+const lexuslinTest = require('./lexuslinTest');
 
 const tim = new TIM({
   sdkappid: 1400187352
@@ -52,8 +53,8 @@ function createWindow() {
     mainWindow.show()
     console.log('初始化返回',tim.getTimbaseManager().TIMInit())
     console.log('登录返回',tim.getTimbaseManager().TIMLogin({
-      userID: "3708",
-      userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
+      userID: "lexuslin",
+      userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk",
        callback: (code, desc, json, data) => {
          console.log('登陆成功', code, desc, json, data);
          console.log('sdk版本',tim.getTimbaseManager().TIMGetSDKVersion());
@@ -77,6 +78,8 @@ function createWindow() {
          }),'创建会话返回')
          // createGroup();
          groupManagerTest.testGroupManager(tim);
+
+         new lexuslinTest(tim).start()
        },
        userData:"hahah"
      }))
