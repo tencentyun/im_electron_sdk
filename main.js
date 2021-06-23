@@ -5,7 +5,8 @@ const path = require('path')
 
 const TIM = require('./im_electron_sdk')
 const groupManagerTest = require('./groupManagerTest');
-
+const baseManagerTest = require('./baseManaterTest');
+const conversationManagerTest = require('./conversationManagerTest')
 const tim = new TIM({
   sdkappid: 1400187352
 });
@@ -56,27 +57,13 @@ function createWindow() {
       userSig:"eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMwKqNjIwMYaakpkONNYpwzTSsCzTp9wjyNQxzTnHI7Agy9nUJdyoqCIw0dKkMsrA1zUrx7zCw8LVVqkWAGtSL5A_",
        callback: (code, desc, json, data) => {
          console.log('登陆成功', code, desc, json, data);
-         console.log('sdk版本',tim.getTimbaseManager().TIMGetSDKVersion());
-         console.log('服务器时间',tim.getTimbaseManager().TIMGetServerTime());
-         console.log('获取当前登陆用户:',tim.getTimbaseManager().TIMGetLoginUserID({callback:(code, desc, json, data)=>{
-           console.log('获取当前登陆用户TIMGetLoginUserID',code,desc,json,data)
-         },userData:'hahah1'}))
-         // tim.getTimbaseManager().logout({
-         //   callback:(code,desc,json,data)=>{
-         //     console.log('退出成功',code,desc,json,data)
-         //   }
-         // });
-         console.log('当前登陆状态:', tim.getTimbaseManager().TIMGetLoginStatus());
-         console.log(tim.getConversationManager().TIMConvCreate({
-           convId:"C2C_3708",
-           convType:1,
-           callback:(code, desc, json, data)=>{
-             console.log('创建回话成功',code,desc,json,data)
-           },
-           userData:"TIMConvCreate"
-         }),'创建会话返回')
-         // createGroup();
-         groupManagerTest.testGroupManager(tim);
+         
+        //  test base apis
+        baseManagerTest.testBaseManager(tim);
+        //  test conversation apis
+        conversationManagerTest.testConversation(tim);
+        // test group apis
+        groupManagerTest.testGroupManager(tim);
        },
        userData:"hahah"
      }))
