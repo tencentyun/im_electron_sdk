@@ -150,6 +150,46 @@ interface GetOnlineMemberCountParams {
     data?: string,
 }
 
+type GroupSearchParams = {
+    keywordList: Array<string>,
+    fieldList: Array<number>,
+}
+
+type MemberSearchParams = {
+    groupidList: Array<string>,
+    keywordList: Array<string>,
+    fieldList: Array<number>,
+}
+
+interface SearchGroupParams {
+    searchParams: Array<GroupSearchParams>,
+    data?: string
+}
+
+interface SearchMemberParams {
+    searchParams: Array<MemberSearchParams>;
+    data?: string;
+}
+
+interface InitGroupAttributeParams {
+    groupId: string;
+    attributes: Array<Pureobject>;
+    data?: string
+}
+
+interface DeleteAttributeParams {
+    groupId: string;
+    attributesKey: Array<string>;
+    data?: string
+}
+
+interface ErrorResponse {
+    code?: number,
+    desc?: String,
+    json_params?: String,
+    user_data?: String
+}
+
 export {
     Pureobject,
     GroupMemberInfo,
@@ -167,5 +207,10 @@ export {
     GetPendencyListParams,
     ReportParams,
     HandlePendencyParams,
-    GetOnlineMemberCountParams
+    GetOnlineMemberCountParams,
+    SearchGroupParams,
+    SearchMemberParams,
+    InitGroupAttributeParams,
+    DeleteAttributeParams,
+    ErrorResponse
 }
