@@ -39,9 +39,10 @@ class AdvanceMessageManage {
         })
     }
 
-    TIMMsgCancelSend(json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
-        const params = this.stringFormator(JSON.stringify(json_advance_message_param));
+    TIMMsgCancelSend(conv_id: string, conv_type: number, message_id: string, user_data: string) :Promise<any> {
         const userData = this.stringFormator(user_data);
+        const c_conv_id = this.stringFormator(conv_id);
+        const c_message_id = this.stringFormator(message_id);
     
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
@@ -50,13 +51,13 @@ class AdvanceMessageManage {
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
-            const code = this._sdkconfig.Imsdklib.TIMMsgCancelSend(params, callback, userData)
+            const code = this._sdkconfig.Imsdklib.TIMMsgCancelSend(c_conv_id, conv_type, c_message_id, callback, userData)
             
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
 
-    TIMMsgFindMessages(json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
+    TIMMsgFindMessages(json_advance_message_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_advance_message_param));
         const userData = this.stringFormator(user_data);
     
@@ -73,7 +74,7 @@ class AdvanceMessageManage {
         })
     }
 
-    TIMMsgReportReaded(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
+    TIMMsgReportReaded(conv_id: string, conv_type: number, json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_advance_message_param));
         const userData = this.stringFormator(user_data);
         const c_conv_id = this.stringFormator(conv_id);
@@ -91,12 +92,7 @@ class AdvanceMessageManage {
         })
     }
 
-
-
-
-
-    TIMMsgRevoke(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
-        const params = this.stringFormator(JSON.stringify(json_advance_message_param));
+    TIMMsgRevoke(conv_id: string, conv_type: number, message_id: string, user_data: string) :Promise<any> {
         const userData = this.stringFormator(user_data);
         const c_conv_id = this.stringFormator(conv_id);
         
@@ -107,7 +103,7 @@ class AdvanceMessageManage {
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
-            const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, params, callback, userData)
+            const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_conv_id, callback, userData)
             
             code !== 0 && reject(this.getErrorResponse({ code }))
         })

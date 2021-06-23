@@ -69,7 +69,7 @@ class LexuslinTest {
     }
     TIMFriendshipHandleFriendAddRequest() {
         return this.friendshipManager.TIMFriendshipHandleFriendAddRequest({
-            friend_respone_identifier: "xx",
+            friend_respone_identifier: "lexuslin3",
             friend_respone_action: 1,
             friend_respone_remark: "xx",
             friend_respone_group_name: "xx",
@@ -77,7 +77,7 @@ class LexuslinTest {
     }
     TIMFriendshipModifyFriendProfile() {
         return this.friendshipManager.TIMFriendshipModifyFriendProfile({
-            friendship_modify_friend_profile_param_identifier: "xx",
+            friendship_modify_friend_profile_param_identifier: "lexuslin3",
             friendship_modify_friend_profile_param_item: {
                 friend_profile_item_remark: "xx",
                 friend_profile_item_group_name_array: ["xx"],
@@ -90,9 +90,8 @@ class LexuslinTest {
     }
     TIMFriendshipDeleteFriend() {
         return this.friendshipManager.TIMFriendshipDeleteFriend({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_delete_friend_param_friend_type: 1,
+            friendship_delete_friend_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
     TIMFriendshipCheckFriendType() {
@@ -103,84 +102,60 @@ class LexuslinTest {
     }
     TIMFriendshipCreateFriendGroup() {
         return this.friendshipManager.TIMFriendshipCreateFriendGroup({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_create_friend_group_param_name_array: ["ggg1"],
+            friendship_create_friend_group_param_identifier_array: ["lexuslin3"],
         }, "user data")
     }
     TIMFriendshipGetFriendGroupList() {
-        return this.friendshipManager.TIMFriendshipGetFriendGroupList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipGetFriendGroupList(["ggg1"], "user data")
     }
     TIMFriendshipModifyFriendGroup() {
         return this.friendshipManager.TIMFriendshipModifyFriendGroup({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_modify_friend_group_param_name: "ggg1",
+            friendship_modify_friend_group_param_new_name: "ggg2",
+            friendship_modify_friend_group_param_delete_identifier_array: ["lexuslin3"],
+            friendship_modify_friend_group_param_add_identifier_array: ["lexuslin3"]
         }, "user data")
     }
     TIMFriendshipDeleteFriendGroup() {
-        return this.friendshipManager.TIMFriendshipDeleteFriendGroup({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipDeleteFriendGroup(["lexuslin3"], "user data")
     }
     TIMFriendshipAddToBlackList() {
-        return this.friendshipManager.TIMFriendshipAddToBlackList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipAddToBlackList(["lexuslin3"], "user data")
     }
     TIMFriendshipGetBlackList() {
-        return this.friendshipManager.TIMFriendshipGetBlackList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipGetBlackList("user data")
     }
     TIMFriendshipDeleteFromBlackList() {
-        return this.friendshipManager.TIMFriendshipDeleteFromBlackList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipDeleteFromBlackList(["lexuslin3"], "user data")
     }
     TIMFriendshipGetPendencyList() {
         return this.friendshipManager.TIMFriendshipGetPendencyList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_get_pendency_list_param_type: 1,
+            friendship_get_pendency_list_param_start_seq: 0,
+            friendship_get_pendency_list_param_start_time: 0,
+            friendship_get_pendency_list_param_limited_size: 10,
         }, "user data")
     }
     TIMFriendshipDeletePendency() {
         return this.friendshipManager.TIMFriendshipDeletePendency({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_delete_pendency_param_type: 1,
+            friendship_delete_pendency_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
     TIMFriendshipReportPendencyReaded() {
-        return this.friendshipManager.TIMFriendshipReportPendencyReaded({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.friendshipManager.TIMFriendshipReportPendencyReaded(+new Date, "user data")
     }
     TIMFriendshipSearchFriends() {
         return this.friendshipManager.TIMFriendshipSearchFriends({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_search_param_keyword_list: ["lexus"],
+            friendship_search_param_search_field_list: [1, 2, 4]
         }, "user data")
     }
     TIMFriendshipGetFriendsInfo() {
         return this.friendshipManager.TIMFriendshipGetFriendsInfo(["lexuslin3"], "user data")
     }
+    // TODOs
     TIMMsgSendMessage() {
         return this.advanceMessageManager.TIMMsgSendMessage({
             attr1: "xxxx",
@@ -189,32 +164,17 @@ class LexuslinTest {
         }, "user data")
     }
     TIMMsgCancelSend() {
-        return this.advanceMessageManager.TIMMsgCancelSend({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgCancelSend("c2c_lexuslin3", 1, "msg_id", "user data") // TIMConvType: 0无效1个人2群组3系统会话
     }
     TIMMsgFindMessages() {
-        return this.advanceMessageManager.TIMMsgFindMessages({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgFindMessages(["msg_id"], "user data")
     }
+    // TODOs: 支持上报单条消息，目前msg_id无效
     TIMMsgReportReaded() {
-        return this.advanceMessageManager.TIMMsgReportReaded({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgReportReaded("c2c_lexuslin3", 1, "msg_id", "user data")
     }
     TIMMsgRevoke() {
-        return this.advanceMessageManager.TIMMsgRevoke({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgRevoke("c2c_lexuslin3", 1, "msg_id", "user data")
     }
     TIMMsgFindByMsgLocatorList() {
         return this.advanceMessageManager.TIMMsgFindByMsgLocatorList({

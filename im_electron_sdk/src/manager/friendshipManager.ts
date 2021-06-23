@@ -1,4 +1,16 @@
-import { Json_add_friend_param, ErrorResponse } from "../interface";
+import { 
+    Json_add_friend_param, 
+    Json_delete_friend_param,
+    Json_modify_friend_info_param,
+    Json_handle_friend_add_param,
+    Json_check_friend_list_param,
+    Json_create_friend_group_param,
+    Json_modify_friend_group_param,
+    Json_get_pendency_list_param,
+    Json_delete_pendency_param,
+    Json_search_friends_param,
+    ErrorResponse 
+} from "../interface";
 import { sdkconfig } from "../interface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 
@@ -56,7 +68,7 @@ class  FriendshipManager {
         })
     }
 
-    TIMFriendshipHandleFriendAddRequest(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipHandleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -72,7 +84,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipModifyFriendProfile(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipModifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -88,7 +100,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFriend(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -104,7 +116,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipCheckFriendType(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipCheckFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -120,7 +132,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipCreateFriendGroup(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipCreateFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -136,7 +148,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendGroupList(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendGroupList(json_friendship_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -152,7 +164,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipModifyFriendGroup(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipModifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -168,7 +180,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFriendGroup(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFriendGroup(json_friendship_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -184,7 +196,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipAddToBlackList(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipAddToBlackList(json_friendship_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -200,8 +212,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetBlackList(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
-        const params = this.stringFormator(JSON.stringify(json_friendship_param));
+    TIMFriendshipGetBlackList(user_data: string) :Promise<any> {
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
@@ -216,7 +227,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFromBlackList(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFromBlackList(json_friendship_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -232,7 +243,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetPendencyList(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipGetPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -248,7 +259,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeletePendency(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -264,10 +275,8 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipReportPendencyReaded(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
-        const params = this.stringFormator(JSON.stringify(json_friendship_param));
+    TIMFriendshipReportPendencyReaded(timestamp: number, user_data: string) :Promise<any> {
         const userData = this.stringFormator(user_data);
-        const timestamp = +new Date;
     
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
@@ -281,7 +290,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipSearchFriends(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipSearchFriends(json_friendship_param: Json_search_friends_param, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -297,7 +306,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendsInfo(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendsInfo(json_friendship_param: [string], user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
