@@ -37,6 +37,11 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMGroupHandlePendency": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupGetOnlineMemberCount": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupSearchGroups": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupSearchGroupMembers": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupInitGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupSetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupDeleteGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMGroupGetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       // groupManager end
 });
 

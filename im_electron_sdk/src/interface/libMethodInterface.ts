@@ -79,6 +79,17 @@ interface TIMGroupGetOnlineMemberCountFun extends TIMGroupDeleteFun {}
 
 interface TIMGroupSearchGroupsFun extends TIMGroupCreateFun {}
 
+interface TIMGroupSearchGroupMembersFun extends TIMGroupCreateFun {}
+
+interface TIMGroupInitGroupAttributesFun {
+    (groupId:Buffer, params: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
+
+interface TIMGroupSetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMGroupDeleteGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMGroupGetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
 // ==========Interface For Group End===========
 
 
@@ -116,7 +127,12 @@ interface libMethods {
     TIMGroupReportPendencyReaded: TIMGroupReportPendencyReadedFun,
     TIMGroupHandlePendency: TIMGroupHandlePendencyFun,
     TIMGroupGetOnlineMemberCount: TIMGroupGetOnlineMemberCountFun,
-    TIMGroupSearchGroups: TIMGroupSearchGroupsFun
+    TIMGroupSearchGroups: TIMGroupSearchGroupsFun,
+    TIMGroupSearchGroupMembers: TIMGroupSearchGroupMembersFun,
+    TIMGroupInitGroupAttributes: TIMGroupInitGroupAttributesFun,
+    TIMGroupSetGroupAttributes: TIMGroupSetGroupAttributesFun,
+    TIMGroupDeleteGroupAttributes: TIMGroupDeleteGroupAttributesFun,
+    TIMGroupGetGroupAttributes: TIMGroupGetGroupAttributesFun
     // group end
 }
 

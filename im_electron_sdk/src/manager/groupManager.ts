@@ -18,7 +18,11 @@ import {
     GetPendencyListParams,
     ReportParams,
     HandlePendencyParams,
-    GetOnlineMemberCountParams
+    GetOnlineMemberCountParams,
+    SearchGroupParams,
+    SearchMemberParams,
+    InitGroupAttributeParams,
+    DeleteAttributeParams
 } from "../interface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 
@@ -287,6 +291,81 @@ class GroupManager {
         return new Promise((resolve, reject) => {
             const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
             const res = this._imskdLib.TIMGroupGetOnlineMemberCount(nodeStrigToCString(groupId), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        }); 
+    }
+
+    TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams ) {
+        const { searchParams, data } = searchGroupsParams;
+        const formatedParams = searchParams.map(member => formatObject(member, 'group_search_params_'));
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupSearchGroups(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        }); 
+
+    }
+
+    TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams ) {
+        const { searchParams, data } = searchMemberParams;
+        const formatedParams = searchParams.map(member => formatObject(member, 'group_search_member_params_'));
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupSearchGroupMembers(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupInitGroupAttributes(initAttributesParams: InitGroupAttributeParams) {
+        const { groupId, attributes, data } = initAttributesParams;
+        const formatedAttribute = attributes.map(attribute => formatObject(attribute, 'group_atrribute_'));
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupInitGroupAttributes(nodeStrigToCString(groupId), nodeStrigToCString(JSON.stringify(formatedAttribute)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupSetGroupAttributes(params: InitGroupAttributeParams) {
+        const { groupId, attributes, data } = params;
+        const formatedAttribute = attributes.map(attribute => formatObject(attribute, 'group_atrribute_'));
+        const userData = this.stringFormator(data);
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupSetGroupAttributes(nodeStrigToCString(groupId), nodeStrigToCString(JSON.stringify(formatedAttribute)), jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        });
+    }
+
+    TIMGroupDeleteGroupAttributes(params: DeleteAttributeParams) {
+        const { groupId, attributesKey, data } = params;
+        const userData = this.stringFormator(data);
+        const formatedGroupId = nodeStrigToCString(groupId);
+        const formatedAttributesKey = nodeStrigToCString(JSON.stringify(attributesKey));
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupDeleteGroupAttributes(formatedGroupId, formatedAttributesKey, jsFuncToFFIFun(successCallback), userData);
+            if (res !== 0) reject(`Error Code ${res}`);
+        }); 
+    }
+
+    TIMGroupGetGroupAttributes(params: DeleteAttributeParams) {
+        const { groupId, attributesKey, data } = params;
+        const userData = this.stringFormator(data);
+        const formatedGroupId = nodeStrigToCString(groupId);
+        const formatedAttributesKey = nodeStrigToCString(JSON.stringify(attributesKey));
+
+        return new Promise((resolve, reject) => {
+            const successCallback: CommonCallbackFun = (code, desc, json, data) => resolve({ code, desc, json, data });
+            const res = this._imskdLib.TIMGroupGetGroupAttributes(formatedGroupId, formatedAttributesKey, jsFuncToFFIFun(successCallback), userData);
             if (res !== 0) reject(`Error Code ${res}`);
         }); 
     }
