@@ -93,20 +93,41 @@ class AdvanceMessageManage {
     }
 
     TIMMsgRevoke(conv_id: string, conv_type: number, message_id: string, user_data: string) :Promise<any> {
-        const userData = this.stringFormator(user_data);
-        const c_conv_id = this.stringFormator(conv_id);
+        // const userData = this.stringFormator(user_data);
+        // const c_conv_id = this.stringFormator(conv_id);
         
-        return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
-                if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
-                else
-                    reject(this.getErrorResponse({ code, desc }))
-            })
-            const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_conv_id, callback, userData)
+        // return new Promise((resolve, reject) => {
+            // const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            //     if(code === 0) 
+            //         resolve({ code, desc, json_params, user_data })
+            //     else
+            //         reject(this.getErrorResponse({ code, desc }))
+            // })
+        //     const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_conv_id, callback, userData)
             
-            code !== 0 && reject(this.getErrorResponse({ code }))
-        })
+        //     code !== 0 && reject(this.getErrorResponse({ code }))
+        // })
+
+        // return new Promise((resolve, reject) => {
+        //     const c_message_id = this.stringFormator(JSON.stringify([message_id]));
+        //     const userData = this.stringFormator(user_data);
+        //     const c_conv_id = this.stringFormator(conv_id);
+
+        //     const code = this._sdkconfig.Imsdklib.TIMMsgFindMessages(c_message_id, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+        //         if(code === 0) {
+        //             const msg = JSON.parse(json_params)[0]
+        //             const c_msg = this.stringFormator(JSON.stringify(msg))
+        //             this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_msg, callback, userData)
+        //         }
+        //         else
+        //             reject(this.getErrorResponse({ code, desc }))
+        //     }), userData)
+
+        //     code !== 0 && reject(this.getErrorResponse({ code }))
+        // })
+        // const res = await this.TIMMsgFindMessages(["msg_id"], "x")
+        // console.log("============>>>>>>>>>", res)
+        return this.TIMMsgFindMessages(["msg_id"], "x")
     }
     
     TIMMsgFindByMsgLocatorList(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
