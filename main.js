@@ -79,7 +79,6 @@ function createWindow() {
   //   })
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
-  mainWindow.loadFile("index.html")
 
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
