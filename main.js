@@ -5,7 +5,7 @@ const path = require('path')
 
 const TIM = require('./im_electron_sdk')
 const groupManagerTest = require('./groupManagerTest');
-const lexuslinTest = require('./lexuslinTest');
+const {LexuslinTest} = require('./LexuslinTest');
 
 const tim = new TIM({
   sdkappid: 1400187352
@@ -79,7 +79,7 @@ function createWindow() {
          // createGroup();
          groupManagerTest.testGroupManager(tim);
 
-         new lexuslinTest(tim).start()
+         new LexuslinTest(tim).start()
        },
        userData:"hahah"
      }))

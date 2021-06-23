@@ -1,4 +1,4 @@
-const TIM = require('./im_electron_sdk')
+const TIM = require('./im_electron_sdk/dist/index.umd')
 
 let tim = null;
 
@@ -10,47 +10,47 @@ class LexuslinTest {
     }
     async start() {
         try {
-            let res = this.TIMFriendshipGetFriendProfileList()
-            // let res = this.TIMFriendshipAddFriend()
-            // let res = this.TIMFriendshipHandleFriendAddRequest()
-            // let res = this.TIMFriendshipModifyFriendProfile()
-            // let res = this.TIMFriendshipDeleteFriend()
-            // let res = this.TIMFriendshipCheckFriendType()
-            // let res = this.TIMFriendshipCreateFriendGroup()
-            // let res = this.TIMFriendshipGetFriendGroupList()
-            // let res = this.TIMFriendshipModifyFriendGroup()
-            // let res = this.TIMFriendshipDeleteFriendGroup()
-            // let res = this.TIMFriendshipAddToBlackList()
-            // let res = this.TIMFriendshipGetBlackList()
-            // let res = this.TIMFriendshipDeleteFromBlackList()
-            // let res = this.TIMFriendshipGetPendencyList()
-            // let res = this.TIMFriendshipDeletePendency()
-            // let res = this.TIMFriendshipReportPendencyReaded()
-            // let res = this.TIMFriendshipSearchFriends()
-            // let res = this.TIMFriendshipGetFriendsInfo()
-            // let res = this.TIMMsgSendMessage()
-            // let res = this.TIMMsgCancelSend()
-            // let res = this.TIMMsgFindMessages()
-            // let res = this.TIMMsgReportReaded()
-            // let res = this.TIMMsgRevoke()
-            // let res = this.TIMMsgFindByMsgLocatorList()
-            // let res = this.TIMMsgImportMsgList()
-            // let res = this.TIMMsgSaveMsg()
-            // let res = this.TIMMsgGetMsgList()
-            // let res = this.TIMMsgDelete()
-            // let res = this.TIMMsgListDelete()
-            // let res = this.TIMMsgClearHistoryMessage()
-            // let res = this.TIMMsgSetC2CReceiveMessageOpt()
-            // let res = this.TIMMsgGetC2CReceiveMessageOpt()
-            // let res = this.TIMMsgSetGroupReceiveMessageOpt()
-            // let res = this.TIMMsgDownloadElemToPath()
-            // let res = this.TIMMsgDownloadMergerMessage()
-            // let res = this.TIMMsgBatchSend()
-            // let res = this.TIMMsgSearchLocalMessages()
+            // let res = await this.TIMFriendshipGetFriendProfileList()
+            // let res = await this.TIMFriendshipAddFriend()
+            // let res = await this.TIMFriendshipHandleFriendAddRequest()
+            // let res = await this.TIMFriendshipModifyFriendProfile()
+            // let res = await this.TIMFriendshipDeleteFriend()
+            let res = await this.TIMFriendshipCheckFriendType()
+            // let res = await this.TIMFriendshipCreateFriendGroup()
+            // let res = await this.TIMFriendshipGetFriendGroupList()
+            // let res = await this.TIMFriendshipModifyFriendGroup()
+            // let res = await this.TIMFriendshipDeleteFriendGroup()
+            // let res = await this.TIMFriendshipAddToBlackList()
+            // let res = await this.TIMFriendshipGetBlackList()
+            // let res = await this.TIMFriendshipDeleteFromBlackList()
+            // let res = await this.TIMFriendshipGetPendencyList()
+            // let res = await this.TIMFriendshipDeletePendency()
+            // let res = await this.TIMFriendshipReportPendencyReaded()
+            // let res = await this.TIMFriendshipSearchFriends()
+            // let res = await this.TIMFriendshipGetFriendsInfo()
+            // let res = await this.TIMMsgSendMessage()
+            // let res = await this.TIMMsgCancelSend()
+            // let res = await this.TIMMsgFindMessages()
+            // let res = await this.TIMMsgReportReaded()
+            // let res = await this.TIMMsgRevoke()
+            // let res = await this.TIMMsgFindByMsgLocatorList()
+            // let res = await this.TIMMsgImportMsgList()
+            // let res = await this.TIMMsgSaveMsg()
+            // let res = await this.TIMMsgGetMsgList()
+            // let res = await this.TIMMsgDelete()
+            // let res = await this.TIMMsgListDelete()
+            // let res = await this.TIMMsgClearHistoryMessage()
+            // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
+            // let res = await this.TIMMsgGetC2CReceiveMessageOpt()
+            // let res = await this.TIMMsgSetGroupReceiveMessageOpt()
+            // let res = await this.TIMMsgDownloadElemToPath()
+            // let res = await this.TIMMsgDownloadMergerMessage()
+            // let res = await this.TIMMsgBatchSend()
+            // let res = await this.TIMMsgSearchLocalMessages()
 
-            console.log("==========> 成功了：", res)
+            console.log("==========> 成功了：", JSON.parse(res.json_params))
         } catch(e) {
-            console.log("==========> 出错了：", e.message)
+            console.log("==========> 出错了：", e)
         }
     }
 
@@ -97,7 +97,7 @@ class LexuslinTest {
     }
     TIMFriendshipCheckFriendType() {
         return this.friendshipManager.TIMFriendshipCheckFriendType({
-            friendship_check_friendtype_param_check_type: 1,
+            friendship_check_friendtype_param_check_type: 0,
             friendship_check_friendtype_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
