@@ -4,17 +4,17 @@ function TIMGetServerTime(){
     console.log('TIMGetServerTime res',tim.getTimbaseManager().TIMGetServerTime());
 }
 function TIMGetLoginUserID(){
-    console.log('TIMGetLoginUserID res:',tim.getTimbaseManager().TIMGetLoginUserID({callback:(code, desc, json, data)=>{
-        console.log(code,desc,json,data)
-    },userData:'user_data:TIMGetLoginUserID'}))
+
+    tim.getTimbaseManager().TIMGetLoginUserID({userData:'user_data:TIMGetLoginUserID'}).then(data=>{
+        console.log("TIMGetLoginUserID res",data)
+    })
 }
 function TIMLogout(){
-    console.log("TIMLogout res:",tim.getTimbaseManager().TIMLogout({
-        callback:(code,desc,json,data)=>{
-            console.log(code,desc,json,data)
-        },
+    tim.getTimbaseManager().TIMLogout({
         userData:"user_data:TIMLogout"
-    }));
+    }).then(data=>{
+        console.log('TIMLogout res',data)
+    })
 }
 function  TIMGetLoginStatus(){
     console.log('TIMGetLoginStatus res:',tim.getTimbaseManager().TIMGetLoginStatus())

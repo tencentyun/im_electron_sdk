@@ -54,24 +54,21 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
     console.log('初始化返回',tim.getTimbaseManager().TIMInit())
-    console.log('登录返回',tim.getTimbaseManager().TIMLogin({
+    tim.getTimbaseManager().TIMLogin({
       userID: "lexuslin",
       userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk",
-       callback: (code, desc, json, data) => {
-         console.log('登陆成功', code, desc, json, data);
-         
-        //  test base apis
-        baseManagerTest.testBaseManager(tim);
-        //  test conversation apis
-        conversationManagerTest.testConversation(tim);
-        // test group apis
-        groupManagerTest.testGroupManager(tim);
-
-        // new LexuslinTest(tim).start();
-       },
        userData:"hahah"
-     }))
-
+     }).then(({code, desc, json, data})=>{
+      console.log('登陆成功', code, desc, json, data);
+      //  test base apis
+      baseManagerTest.testBaseManager(tim);
+      //  test conversation apis
+      conversationManagerTest.testConversation(tim);
+      // test group apis
+      groupManagerTest.testGroupManager(tim);
+ 
+      // new LexuslinTest(tim).start();
+     })
   })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
