@@ -20,7 +20,13 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMGetLoginUserID":[ref.types.int,['pointer',ref.types.CString]],
       // timbaseManager end
       // conversationManager start
-      "TIMConvCreate":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
+      // 已废弃
+      // "TIMConvCreate":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
+      "TIMConvGetConvList":[ref.types.int,['pointer',ref.types.CString]],
+      "TIMConvDelete":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
+      "TIMConvSetDraft":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.CString]],
+      "TIMConvCancelDraft":[ref.types.int,[ref.types.CString,ref.types.int]],
+      // "TIMConvGetConvInfo":[ref.types.int,[]],
       // conversationManager end
       // groupManager start
       "TIMGroupCreate": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
