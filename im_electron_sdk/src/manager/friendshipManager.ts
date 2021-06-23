@@ -57,6 +57,23 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
+
+    TIMFriendshipCheckFriendType(json_add_friend_param: Json_add_friend_param, user_data: string) :Promise<any> {
+        const params = this.stringFormator(JSON.stringify(json_add_friend_param));
+        const userData = this.stringFormator(user_data);
+
+        return new Promise((resolve, reject) => {
+            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                if(code === 0) 
+                    resolve({ code, desc, json_params, user_data })
+                else
+                    reject(this.getErrorResponse({ code, desc }))
+            })
+            const code = this._sdkconfig.Imsdklib.TIMFriendshipCheckFriendType(params, callback, userData)
+            
+            code !== 0 && reject(this.getErrorResponse({ code }))
+        })
+    }
     
 }
 export default FriendshipManager;

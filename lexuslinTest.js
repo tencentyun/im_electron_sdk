@@ -97,9 +97,8 @@ class LexuslinTest {
     }
     TIMFriendshipCheckFriendType() {
         return this.friendshipManager.TIMFriendshipCheckFriendType({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            friendship_check_friendtype_param_check_type: 1,
+            friendship_check_friendtype_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
     TIMFriendshipCreateFriendGroup() {
