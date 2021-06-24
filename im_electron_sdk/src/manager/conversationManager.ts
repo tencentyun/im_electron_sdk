@@ -1,6 +1,6 @@
 import { CommonCallbackFun, commonResponse, sdkconfig } from "../interface";
-import { convCreate, convDelete, getConvList, convSetDrat, convCancelDraft, convGetConvInfo, convPinConversation, convGetTotalUnreadMessageCount } from "../interface/conversationInterface";
-import { jsFuncToFFIFun, nodeStrigToCString } from "../utils/utils";
+import { convCreate, convDelete, getConvList, convSetDrat, convCancelDraft, convGetConvInfo, convPinConversation, convGetTotalUnreadMessageCount, setConvEventCallback, convTotalUnreadMessageCountChangedCallback, convTotalUnreadMessageCountChangedCallbackParam } from "../interface/conversationInterface";
+import { jsFuncToFFIConvEventCallback, jsFuncToFFIFun, jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback, nodeStrigToCString } from "../utils/utils";
 
 class ConversationManager {
 
@@ -116,6 +116,16 @@ class ConversationManager {
             const code:number = this._sdkconfig.Imsdklib.TIMConvGetTotalUnreadMessageCount(callback,userData);
             code !== 0 && reject({code});
         })
+    }
+    TIMSetConvEventCallback(param:setConvEventCallback) :void{
+        const callback = jsFuncToFFIConvEventCallback(param.callback);
+        const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("")
+        this._sdkconfig.Imsdklib.TIMSetConvEventCallback(callback,userData);
+    }
+    TIMSetConvTotalUnreadMessageCountChangedCallback(param:convTotalUnreadMessageCountChangedCallbackParam) :void{
+        const callback = jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(param.callback);
+        const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("")
+        this._sdkconfig.Imsdklib.TIMSetConvTotalUnreadMessageCountChangedCallback(callback,userData);
     }
 }
 export default ConversationManager;

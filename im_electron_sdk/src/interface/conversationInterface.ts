@@ -1,4 +1,5 @@
 import { TIMConvType, TIMElemType } from "../enum";
+import { CommonCallbackFun } from "./basicInterface";
 
 interface convCreate {
     convId:string,
@@ -50,6 +51,21 @@ interface convPinConversation {
 interface convGetTotalUnreadMessageCount {
     user_data?:string,
 }
+interface setConvEventCallback {
+    callback:convEventCallback,
+    user_data?:string,
+}
+interface convTotalUnreadMessageCountChangedCallbackParam {
+    callback:convTotalUnreadMessageCountChangedCallback,
+    user_data?:string,
+}
+interface convEventCallback {
+    (conv_event:number,json_conv_array:string,user_data:string):void;
+}
+interface convTotalUnreadMessageCountChangedCallback{
+    (total_unread_count:number,user_data:string):void;
+}
+
 export {
     convCreate,
     getConvList,
@@ -62,5 +78,9 @@ export {
     convGetConvInfo,
     convItem,
     convPinConversation,
-    convGetTotalUnreadMessageCount
+    convGetTotalUnreadMessageCount,
+    setConvEventCallback,
+    convEventCallback,
+    convTotalUnreadMessageCountChangedCallback,
+    convTotalUnreadMessageCountChangedCallbackParam
 }

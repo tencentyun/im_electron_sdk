@@ -7,7 +7,7 @@ const ffiPath = getFFIPath();
 const Imsdklib = ffi.Library(ffiPath,{
       // timbaseManager start
       // 回调
-      // "TIMSetNetworkStatusListenerCallback":[[],['pointer',ref.types.CString]],
+      "TIMSetNetworkStatusListenerCallback":[[],['pointer',ref.types.CString]],
       "TIMGetSDKVersion":[ref.types.CString,[]],
       "TIMInit": [ref.types.int,[ref.types.uint64,ref.types.CString]],
       "TIMLogin":[ref.types.int,[ref.types.CString,ref.types.CString,'pointer',ref.types.CString]],
@@ -28,7 +28,8 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMConvCancelDraft":[ref.types.int,[ref.types.CString,ref.types.int]],
       "TIMConvGetConvInfo":[ref.types.int,[ref.types.CString,'pointer']],
       "TIMConvPinConversation":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.bool,'pointer',ref.types.CString]],
-      // "TIMConvGetConvInfo":[ref.types.int,[]],
+      "TIMSetConvEventCallback":[ref.types.void,['pointer',ref.types.CString]],
+      "TIMSetConvTotalUnreadMessageCountChangedCallback":[ref.types.void,['pointer',ref.types.CString]],
       // conversationManager end
       // groupManager start
       "TIMGroupCreate": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],

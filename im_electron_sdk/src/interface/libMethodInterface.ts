@@ -1,5 +1,6 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
-import { CommonCallbackFun } from "./basicInterface";
+import { CommonCallbackFun, TIMSetKickedOfflineCallback, TIMSetNetworkStatusListenerCallback, TIMSetUserSigExpiredCallback } from "./basicInterface";
+import { convTotalUnreadMessageCountChangedCallback, setConvEventCallback } from "./conversationInterface";
 
 interface TIMInitFun {
     (sdkappid:number,sdkconfig:Buffer): number;
@@ -30,8 +31,17 @@ interface TIMGetServerTimeFun {
 interface TIMGetLoginUserIDFun {
     (callback:CommonCallbackFun,user_data:Buffer):number;
 }
+
+
 interface TIMSetNetworkStatusListenerCallbackFun {
-    (callback:CommonCallbackFun,user_data:Buffer):number;
+    (callback:TIMSetNetworkStatusListenerCallback,user_data:Buffer):number;
+}
+
+interface TIMSetKickedOfflineCallbackFun {
+    (callback:TIMSetKickedOfflineCallback,user_data:Buffer):number;
+}
+interface TIMSetUserSigExpiredCallbackFun {
+    (callback:TIMSetUserSigExpiredCallback,user_data:Buffer):number;
 }
 
 // ==========Interface For Conversation Start===========
@@ -58,6 +68,12 @@ interface TIMConvPinConversationFun{
 }
 interface TIMConvGetTotalUnreadMessageCountFun {
     (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMSetConvEventCallbackFun {
+    (callback:setConvEventCallback,user_data:Buffer):number;
+}
+interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
+    (callback:convTotalUnreadMessageCountChangedCallback,user_data:Buffer):number;
 }
 // ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========
@@ -242,6 +258,8 @@ interface libMethods {
     TIMGetLoginStatus: TIMGetLoginStatusFun,
     TIMGetLoginUserID: TIMGetLoginUserIDFun,
     TIMSetNetworkStatusListenerCallback:TIMSetNetworkStatusListenerCallbackFun,
+    TIMSetKickedOfflineCallback:TIMSetKickedOfflineCallbackFun,
+    TIMSetUserSigExpiredCallback:TIMSetUserSigExpiredCallbackFun,
     // timbase end
 
     // conversation start
@@ -253,6 +271,8 @@ interface libMethods {
     TIMConvGetConvInfo:TIMConvGetConvInfoFun,
     TIMConvPinConversation:TIMConvPinConversationFun,
     TIMConvGetTotalUnreadMessageCount:TIMConvGetTotalUnreadMessageCountFun,
+    TIMSetConvEventCallback:TIMSetConvEventCallbackFun,
+    TIMSetConvTotalUnreadMessageCountChangedCallback:TIMSetConvTotalUnreadMessageCountChangedCallbackFun,
     // converastion end
     // friendship start
     TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,
