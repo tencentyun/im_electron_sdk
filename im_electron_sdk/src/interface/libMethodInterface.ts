@@ -1,5 +1,6 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
 import { CommonCallbackFun } from "./basicInterface";
+import { GroupTipCallBackFun, GroupAttributeCallbackFun } from "./groupInterface";
 
 interface TIMInitFun {
     (sdkappid:number,sdkconfig:Buffer): number;
@@ -114,6 +115,15 @@ interface TIMGroupSetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {
 interface TIMGroupDeleteGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
 
 interface TIMGroupGetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMSetGroupTipsEventCallbackFun {
+    (successCallback: GroupTipCallBackFun, userData?: Buffer): void;
+}
+
+interface TIMSetGroupAttributeChangedCallbackFun {
+    (successCallback: GroupAttributeCallbackFun, userData?: Buffer): void;
+}
+
 // ==========Interface For Group End===========
 // ==========Interface For friendship begin===========
 interface TIMFriendshipGetFriendProfileListFun {
@@ -317,7 +327,9 @@ interface libMethods {
     TIMGroupInitGroupAttributes: TIMGroupInitGroupAttributesFun,
     TIMGroupSetGroupAttributes: TIMGroupSetGroupAttributesFun,
     TIMGroupDeleteGroupAttributes: TIMGroupDeleteGroupAttributesFun,
-    TIMGroupGetGroupAttributes: TIMGroupGetGroupAttributesFun
+    TIMGroupGetGroupAttributes: TIMGroupGetGroupAttributesFun,
+    TIMSetGroupTipsEventCallback: TIMSetGroupTipsEventCallbackFun,
+    TIMSetGroupAttributeChangedCallback: TIMSetGroupAttributeChangedCallbackFun,
     // group end
 }
 

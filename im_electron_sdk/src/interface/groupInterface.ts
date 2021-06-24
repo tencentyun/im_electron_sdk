@@ -146,8 +146,8 @@ interface HandlePendencyParams {
 }
 
 interface GetOnlineMemberCountParams {
-    groupId: string,
-    data?: string,
+    groupId: string;
+    data?: string;
 }
 
 type GroupSearchParams = {
@@ -162,7 +162,7 @@ type MemberSearchParams = {
 }
 
 interface SearchGroupParams {
-    searchParams: Array<GroupSearchParams>,
+    searchParams: Array<GroupSearchParams>;
     data?: string
 }
 
@@ -184,10 +184,28 @@ interface DeleteAttributeParams {
 }
 
 interface ErrorResponse {
-    code?: number,
-    desc?: String,
-    json_params?: String,
+    code?: number;
+    desc?: String;
+    json_params?: String;
     user_data?: String
+}
+
+interface GroupTipsCallbackParams {
+    callback: GroupTipCallBackFun;
+    data?: string;
+}
+
+interface GroupTipCallBackFun {
+    (json_group_tip_array: string, user_data: string ): void;
+}
+
+interface GroupAttributeCallbackParams {
+    callback: GroupAttributeCallbackFun;
+    data?: string;
+}
+
+interface GroupAttributeCallbackFun {
+    (group_id: string, json_group_attibute_array: string, user_data: string ): void;
 }
 
 export {
@@ -212,5 +230,9 @@ export {
     SearchMemberParams,
     InitGroupAttributeParams,
     DeleteAttributeParams,
-    ErrorResponse
+    ErrorResponse,
+    GroupTipsCallbackParams,
+    GroupTipCallBackFun,
+    GroupAttributeCallbackParams,
+    GroupAttributeCallbackFun
 }

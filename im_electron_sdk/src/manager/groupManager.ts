@@ -7,6 +7,7 @@ import {
     JoinGroupParams,
     QuitGroupParams,
     CommonCallbackFun,
+    commonResponse,
     InviteMemberParams,
     GroupMemberInfo,
     Pureobject,
@@ -23,9 +24,11 @@ import {
     SearchMemberParams,
     InitGroupAttributeParams,
     DeleteAttributeParams,
-    ErrorResponse
+    ErrorResponse,
+    GroupTipsCallbackParams,
+    GroupAttributeCallbackParams
 } from "../interface";
-import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
+import { nodeStrigToCString, jsFuncToFFIFun, transformGroupTipFun, transformGroupAttributeFun } from "../utils/utils";
 
 const underLineTransform = (str: string): string => str.replace(/\B([A-Z])/g, '_$1').toLowerCase();
 const addPrefix = (prefix: string, key: string): string => `${prefix}${key}`;
@@ -96,101 +99,101 @@ class GroupManager {
         }
     }
 
-    TIMGroupCreate(createGroupParams: CreateGroupParams): Promise<{}> {
+    TIMGroupCreate(createGroupParams: CreateGroupParams): Promise<commonResponse> {
         const { params, data } = createGroupParams;
         const formatedParams = formateGroupParams(params);
         const paramsForCString = nodeStrigToCString(JSON.stringify(formatedParams));
         const userData = this.stringFormator(data);
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupCreate(paramsForCString, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupDelete(deleteParams: DeleteGroupParams): Promise<{}> {
+    TIMGroupDelete(deleteParams: DeleteGroupParams): Promise<commonResponse> {
         const { groupId, data } = deleteParams;
         const groupID = nodeStrigToCString(groupId);
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupDelete(groupID, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupJoin(joinGroupParams: JoinGroupParams): Promise<{}> {
+    TIMGroupJoin(joinGroupParams: JoinGroupParams): Promise<commonResponse> {
         const { groupId, helloMsg, data } = joinGroupParams;
         const groupID = nodeStrigToCString(groupId);
         const userData = this.stringFormator(data);
         const msg = this.stringFormator(helloMsg);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupJoin(groupID, msg, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupQuit(quitGroupParams: QuitGroupParams): Promise<{}> {
+    TIMGroupQuit(quitGroupParams: QuitGroupParams): Promise<commonResponse> {
         const { groupId, data } = quitGroupParams;
         const groupID = nodeStrigToCString(groupId);
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupQuit(groupID, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupInviteMember(inviteMemberParams: InviteMemberParams): Promise<{}> {
+    TIMGroupInviteMember(inviteMemberParams: InviteMemberParams): Promise<commonResponse> {
         const { params, data } = inviteMemberParams;
         const formatedParams = formatObject(params, 'group_invite_member_param_');
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupInviteMember(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupDeleteMember(deleteMemberParams: DeleteMemberParams): Promise<{}> {
+    TIMGroupDeleteMember(deleteMemberParams: DeleteMemberParams): Promise<commonResponse> {
         const { params, data } = deleteMemberParams;
         const formatedParams = formatObject(params, 'group_delete_member_param_');
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupDeleteMember(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetJoinedGroupList(data?: string): Promise<{}> {
+    TIMGroupGetJoinedGroupList(data?: string): Promise<commonResponse> {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetJoinedGroupList(jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetGroupInfoList(getGroupListParams: GetGroupListParams): Promise<{}> {
+    TIMGroupGetGroupInfoList(getGroupListParams: GetGroupListParams): Promise<commonResponse> {
         const { groupIds, data } = getGroupListParams;
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetGroupInfoList(nodeStrigToCString(JSON.stringify(groupIds)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupModifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
+    TIMGroupModifyGroupInfo(modifyGroupParams: ModifyGroupParams): Promise<commonResponse> {
         const { params, data } = modifyGroupParams;
         let formatParamsWithCustomerInfo = null;
 
@@ -205,13 +208,13 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupModifyGroupInfo(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams) {
+    TIMGroupGetMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams): Promise<commonResponse> {
         const { params, data } = getGroupMemberInfoParams;
         let formatedParamsWithOption = null;
 
@@ -226,13 +229,13 @@ class GroupManager {
         const formatedParams = formatObject(formatedParamsWithOption ?? params, 'group_get_members_info_list_param_');
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetMemberInfoList(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupModifyMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
+    TIMGroupModifyMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams): Promise<commonResponse> {
         const { params, data } = modifyMemberInfoParams;
         let formatParamsWithCustomerInfo = null;
 
@@ -247,19 +250,19 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupModifyMemberInfo(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetPendencyList(getPendencyListParams: GetPendencyListParams) {
+    TIMGroupGetPendencyList(getPendencyListParams: GetPendencyListParams): Promise<commonResponse> {
         const { params, data } = getPendencyListParams;
         const formatedParams = formatObject(params, 'group_pendency_option_');
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetPendencyList(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
@@ -270,13 +273,13 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupReportPendencyReaded(timeStamp, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupHandlePendency(handlePendencyParams: HandlePendencyParams) {
+    TIMGroupHandlePendency(handlePendencyParams: HandlePendencyParams): Promise<commonResponse> {
         const { params, data } = handlePendencyParams;
         let formateParamsWithPendency = {
             ...params,
@@ -288,96 +291,110 @@ class GroupManager {
 
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupHandlePendency(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetOnlineMemberCount(params: GetOnlineMemberCountParams) {
+    TIMGroupGetOnlineMemberCount(params: GetOnlineMemberCountParams): Promise<commonResponse> {
         const { groupId, data } = params;
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetOnlineMemberCount(nodeStrigToCString(groupId), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams) {
+    TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams): Promise<commonResponse> {
         const { searchParams, data } = searchGroupsParams;
         const formatedParams = searchParams.map(member => formatObject(member, 'group_search_params_'));
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupSearchGroups(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
 
     }
 
-    TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams) {
+    TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams): Promise<commonResponse> {
         const { searchParams, data } = searchMemberParams;
         const formatedParams = searchParams.map(member => formatObject(member, 'group_search_member_params_'));
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupSearchGroupMembers(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupInitGroupAttributes(initAttributesParams: InitGroupAttributeParams) {
+    TIMGroupInitGroupAttributes(initAttributesParams: InitGroupAttributeParams): Promise<commonResponse> {
         const { groupId, attributes, data } = initAttributesParams;
         const formatedAttribute = attributes.map(attribute => formatObject(attribute, 'group_atrribute_'));
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupInitGroupAttributes(nodeStrigToCString(groupId), nodeStrigToCString(JSON.stringify(formatedAttribute)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupSetGroupAttributes(params: InitGroupAttributeParams) {
+    TIMGroupSetGroupAttributes(params: InitGroupAttributeParams): Promise<commonResponse> {
         const { groupId, attributes, data } = params;
         const formatedAttribute = attributes.map(attribute => formatObject(attribute, 'group_atrribute_'));
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupSetGroupAttributes(nodeStrigToCString(groupId), nodeStrigToCString(JSON.stringify(formatedAttribute)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupDeleteGroupAttributes(params: DeleteAttributeParams) {
+    TIMGroupDeleteGroupAttributes(params: DeleteAttributeParams): Promise<commonResponse> {
         const { groupId, attributesKey, data } = params;
         const userData = this.stringFormator(data);
         const formatedGroupId = nodeStrigToCString(groupId);
         const formatedAttributesKey = nodeStrigToCString(JSON.stringify(attributesKey));
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupDeleteGroupAttributes(formatedGroupId, formatedAttributesKey, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMGroupGetGroupAttributes(params: DeleteAttributeParams) {
+    TIMGroupGetGroupAttributes(params: DeleteAttributeParams): Promise<commonResponse> {
         const { groupId, attributesKey, data } = params;
         const userData = this.stringFormator(data);
         const formatedGroupId = nodeStrigToCString(groupId);
         const formatedAttributesKey = nodeStrigToCString(JSON.stringify(attributesKey));
 
         return new Promise((resolve, reject) => {
-            const successCallback: CommonCallbackFun = (code, desc, json, data) => code === 0 ? resolve({ code, desc, json, data }) : reject(this.getErrorResponse({ code, desc }));
+            const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupGetGroupAttributes(formatedGroupId, formatedAttributesKey, jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
+    }
+
+    TIMSetGroupTipsEventCallback(params: GroupTipsCallbackParams): void {
+        const { callback, data } =params;
+        const userData = this.stringFormator(data);
+
+        this._imskdLib.TIMSetGroupTipsEventCallback(transformGroupTipFun(callback), userData)
+    }
+
+    TIMSetGroupAttributeChangedCallback(params: GroupAttributeCallbackParams): void {
+        const { callback, data } =params;
+        const userData = this.stringFormator(data);
+
+        this._imskdLib.TIMSetGroupAttributeChangedCallback(transformGroupAttributeFun(callback), userData)
     }
 }
 export default GroupManager;

@@ -1,4 +1,4 @@
-import { CommonCallbackFun, commonResponse } from '../interface'
+import { CommonCallbackFun, commonResponse, GroupTipCallBackFun, GroupAttributeCallbackFun, GroupAttributeCallbackParams } from '../interface'
 const path = require('path');
 const os = require('os');
 const ref = require('ref-napi');
@@ -33,8 +33,28 @@ function jsFuncToFFIFun(fun:CommonCallbackFun){
   return callback;
 }
 
+function transformGroupTipFun(fun: GroupTipCallBackFun) {
+  const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+      function (json_group_tip_array: Buffer, user_data: Buffer) {
+        fun(json_group_tip_array.toString(), user_data.toString());
+      }
+    );
+  return callback;
+}
+
+function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
+  const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString, ref.types.CString],
+      function (group_id: Buffer, json_group_attibute_array: Buffer, user_data: Buffer) {
+        fun(group_id.toString(), json_group_attibute_array.toString(), user_data.toString());
+      }
+    );
+  return callback;
+}
+
 export {
     getFFIPath,
     nodeStrigToCString,
-    jsFuncToFFIFun
+    jsFuncToFFIFun,
+    transformGroupTipFun,
+    transformGroupAttributeFun
 }

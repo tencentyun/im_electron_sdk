@@ -54,6 +54,8 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMGroupSetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupDeleteGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupGetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMSetGroupTipsEventCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetGroupAttributeChangedCallback": [ref.types.void, ['pointer', ref.types.CString]],
       // groupManager end
 
 
