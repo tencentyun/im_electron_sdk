@@ -28,10 +28,10 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipReportPendencyReaded()
             // let res = await this.TIMFriendshipSearchFriends()
             // let res = await this.TIMFriendshipGetFriendsInfo()
-            // let res = await this.TIMMsgSendMessage()
+            let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
             // let res = await this.TIMMsgFindMessages()
-            let res = await this.TIMMsgReportReaded()
+            // let res = await this.TIMMsgReportReaded()
             // let res = await this.TIMMsgRevoke()
             // let res = await this.TIMMsgFindByMsgLocatorList()
             // let res = await this.TIMMsgImportMsgList()
@@ -157,11 +157,16 @@ class LexuslinTest {
     }
     // TODOs
     TIMMsgSendMessage() {
-        return this.advanceMessageManager.TIMMsgSendMessage({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
+            message_elem_array: [{
+                elem_type: 0,
+                text_elem_content: "xxx"
+            }],
+            message_conv_id: "lexuslin3",
+            message_sender: "lexuslin",
+            message_client_time: +new Date,
+            message_server_time: +new Date
+        }, "", "user data")
     }
     TIMMsgCancelSend() {
         return this.advanceMessageManager.TIMMsgCancelSend("lexuslin3", 1, "msg_id", "user data") // TIMConvType: 0无效1个人2群组3系统会话
@@ -172,9 +177,11 @@ class LexuslinTest {
     TIMMsgReportReaded() {
         return this.advanceMessageManager.TIMMsgReportReaded("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
+    // error: package not valid
     TIMMsgRevoke() {
         return this.advanceMessageManager.TIMMsgRevoke("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
+    // TODOs, 先用TIMMsgFindMessages
     TIMMsgFindByMsgLocatorList() {
         return this.advanceMessageManager.TIMMsgFindByMsgLocatorList({
             attr1: "xxxx",
@@ -182,12 +189,13 @@ class LexuslinTest {
             attr1: "xxxx"
         }, "user data")
     }
+
     TIMMsgImportMsgList() {
-        return this.advanceMessageManager.TIMMsgImportMsgList({
+        return this.advanceMessageManager.TIMMsgImportMsgList("lexuslin3", 1, [{
             attr1: "xxxx",
             attr1: "xxxx",
             attr1: "xxxx"
-        }, "user data")
+        }], "user data")
     }
     TIMMsgSaveMsg() {
         return this.advanceMessageManager.TIMMsgSaveMsg({

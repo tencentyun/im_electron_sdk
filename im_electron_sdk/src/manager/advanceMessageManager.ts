@@ -1,4 +1,9 @@
-import { sdkconfig, ErrorResponse, Json_advance_message_param } from "../interface";
+import { 
+    sdkconfig, 
+    ErrorResponse, 
+    Json_advance_message_param,
+    Json_value_msg
+} from "../interface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 
 class AdvanceMessageManage {
@@ -22,9 +27,11 @@ class AdvanceMessageManage {
         this._sdkconfig = config;
     }
 
-    TIMMsgSendMessage(json_advance_message_param: Json_advance_message_param, user_data: string) :Promise<any> {
+    TIMMsgSendMessage(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msg, message_id_buffer: string, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_advance_message_param));
         const userData = this.stringFormator(user_data);
+        const c_conv_id = this.stringFormator(conv_id);
+        const c_message_id_buffer = this.stringFormator(message_id_buffer);
     
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
@@ -33,7 +40,7 @@ class AdvanceMessageManage {
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
-            const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(params, callback, userData)
+            const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(c_conv_id, conv_type, params, undefined, callback, userData)
             
             code !== 0 && reject(this.getErrorResponse({ code }))
         })

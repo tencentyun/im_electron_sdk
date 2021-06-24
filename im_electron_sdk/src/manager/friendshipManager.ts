@@ -9,9 +9,9 @@ import {
     Json_get_pendency_list_param,
     Json_delete_pendency_param,
     Json_search_friends_param,
-    ErrorResponse 
+    ErrorResponse,
+    sdkconfig
 } from "../interface";
-import { sdkconfig } from "../interface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 
 class  FriendshipManager {

@@ -148,7 +148,7 @@ interface TIMFriendshipGetFriendsInfoFun {
     (json_get_friends_info_param?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgSendMessageFun {
-    (json_add_friend_param?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (conv_id?: Buffer, conv_type?: TIMConvType, json_add_friend_param?: Buffer, message_id_buffer?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgCancelSendFun {
     (conv_id?: Buffer, conv_type?: TIMConvType, message_id?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
