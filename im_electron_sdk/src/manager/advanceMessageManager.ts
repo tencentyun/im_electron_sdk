@@ -63,6 +63,7 @@ class AdvanceMessageManage {
     
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                if(json_params === "[]") reject(this.getErrorResponse({ code, desc: "message is not found" }))
                 if(code === 0) 
                     resolve({ code, desc, json_params, user_data })
                 else
@@ -78,18 +79,6 @@ class AdvanceMessageManage {
         const c_user_data = this.stringFormator(user_data);
         const c_conv_id = this.stringFormator(conv_id);
     
-        // return new Promise((resolve, reject) => {
-        //     const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
-        //         if(code === 0) 
-        //             resolve({ code, desc, json_params, user_data })
-        //         else
-        //             reject(this.getErrorResponse({ code, desc }))
-        //     })
-        //     const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(c_conv_id, conv_type, params, callback, userData)
-            
-        //     code !== 0 && reject(this.getErrorResponse({ code }))
-        // })
-
         return this.TIMMsgFindMessages([message_id], user_data).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params

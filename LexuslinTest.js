@@ -169,7 +169,6 @@ class LexuslinTest {
     TIMMsgFindMessages() {
         return this.advanceMessageManager.TIMMsgFindMessages(["144115231469886159-1623751826-4234216750"], "user data")
     }
-    // TODOs: 支持上报单条消息，目前msg_id无效
     TIMMsgReportReaded() {
         return this.advanceMessageManager.TIMMsgReportReaded("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }

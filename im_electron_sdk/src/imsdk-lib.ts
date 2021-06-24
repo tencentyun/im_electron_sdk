@@ -88,8 +88,7 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMMsgDownloadElemToPath": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgDownloadMergerMessage": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgBatchSend": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
-      "TIMMsgSearchLocalMessages": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
-
+      "TIMMsgSearchLocalMessages": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]]
       // friendship end
 });
 
