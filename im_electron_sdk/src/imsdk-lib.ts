@@ -7,7 +7,9 @@ const ffiPath = getFFIPath();
 const Imsdklib = ffi.Library(ffiPath,{
       // timbaseManager start
       // 回调
-      "TIMSetNetworkStatusListenerCallback":[[],['pointer',ref.types.CString]],
+      "TIMSetNetworkStatusListenerCallback":[ref.types.void,['pointer',ref.types.CString]],
+      "TIMSetKickedOfflineCallback":[ref.types.void,['pointer',ref.types.CString]],
+      "TIMSetUserSigExpiredCallback":[ref.types.void,['pointer',ref.types.CString]],
       "TIMGetSDKVersion":[ref.types.CString,[]],
       "TIMInit": [ref.types.int,[ref.types.uint64,ref.types.CString]],
       "TIMLogin":[ref.types.int,[ref.types.CString,ref.types.CString,'pointer',ref.types.CString]],
@@ -55,6 +57,8 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMGroupSetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupDeleteGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMGroupGetGroupAttributes": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMSetGroupTipsEventCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetGroupAttributeChangedCallback": [ref.types.void, ['pointer', ref.types.CString]],
       // groupManager end
 
 

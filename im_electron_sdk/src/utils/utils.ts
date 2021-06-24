@@ -1,4 +1,4 @@
-import { CommonCallbackFun, TIMSetKickedOfflineCallback, TIMSetNetworkStatusListenerCallback, TIMSetUserSigExpiredCallback } from '../interface'
+import { CommonCallbackFun, GroupAttributeCallbackFun, GroupTipCallBackFun, TIMSetKickedOfflineCallback, TIMSetUserSigExpiredCallback, TIMSetNetworkStatusListenerCallback } from '../interface'
 import { convEventCallback, convTotalUnreadMessageCountChangedCallback } from '../interface/conversationInterface';
 const path = require('path');
 const os = require('os');
@@ -69,6 +69,24 @@ function jsFunToFFITIMSetUserSigExpiredCallback(fun:TIMSetUserSigExpiredCallback
   });
   return callback;
 }
+function transformGroupTipFun(fun: GroupTipCallBackFun) {
+  const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+      function (json_group_tip_array: Buffer, user_data: Buffer) {
+        fun(json_group_tip_array.toString(), user_data.toString());
+      }
+    );
+  return callback;
+}
+
+function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
+  const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString, ref.types.CString],
+      function (group_id: Buffer, json_group_attibute_array: Buffer, user_data: Buffer) {
+        fun(group_id.toString(), json_group_attibute_array.toString(), user_data.toString());
+      }
+    );
+  return callback;
+}
+
 export {
     getFFIPath,
     nodeStrigToCString,
@@ -77,5 +95,7 @@ export {
     jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback,
     jsFunToFFITIMSetNetworkStatusListenerCallback,
     jsFunToFFITIMSetKickedOfflineCallback,
-    jsFunToFFITIMSetUserSigExpiredCallback
+    jsFunToFFITIMSetUserSigExpiredCallback,
+    transformGroupTipFun,
+    transformGroupAttributeFun
 }
