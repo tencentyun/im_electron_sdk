@@ -63,7 +63,8 @@ class AdvanceMessageManage {
     
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
-                if(json_params === "[]") reject(this.getErrorResponse({ code, desc: "message is not found" }))
+                if(json_params === "[]") 
+                    reject(this.getErrorResponse({ code, desc: "message is not found" }))
                 if(code === 0) 
                     resolve({ code, desc, json_params, user_data })
                 else
