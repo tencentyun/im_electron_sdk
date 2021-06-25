@@ -10,7 +10,22 @@ class LexuslinTest {
     }
     async start() {
         try {
-            let res = await this.TIMFriendshipGetFriendProfileList()
+            this.TIMAddRecvNewMsgCallback()  
+            // this.TIMRemoveRecvNewMsgCallback()
+            // this.TIMSetMsgReadedReceiptCallback()
+            // this.TIMSetMsgRevokeCallback()
+            // this.TIMSetMsgElemUploadProgressCallback()
+            // this.TIMSetOnAddFriendCallback()
+            // this.TIMSetOnDeleteFriendCallback()
+            // this.TIMSetUpdateFriendProfileCallback()
+            // this.TIMSetFriendAddRequestCallback()
+            // this.TIMSetFriendApplicationListDeletedCallback()
+            // this.TIMSetFriendApplicationListReadCallback()
+            // this.TIMSetFriendBlackListAddedCallback()
+            // this.TIMSetFriendBlackListDeletedCallback()
+            // this.TIMSetMsgUpdateCallback()
+
+            // let res = await this.TIMFriendshipGetFriendProfileList()
             // let res = await this.TIMFriendshipAddFriend()
             // let res = await this.TIMFriendshipHandleFriendAddRequest()
             // let res = await this.TIMFriendshipModifyFriendProfile()
@@ -36,7 +51,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgFindByMsgLocatorList()
             // let res = await this.TIMMsgImportMsgList()
             // let res = await this.TIMMsgSaveMsg()
-            // let res = await this.TIMMsgGetMsgList()
+            let res = await this.TIMMsgGetMsgList()
             // let res = await this.TIMMsgDelete()
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
@@ -48,20 +63,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgBatchSend()
             // let res = await this.TIMMsgSearchLocalMessages()
 
-            this.TIMAddRecvNewMsgCallback()  
-            // this.TIMRemoveRecvNewMsgCallback()
-            // this.TIMSetMsgReadedReceiptCallback()
-            // this.TIMSetMsgRevokeCallback()
-            // this.TIMSetMsgElemUploadProgressCallback()
-            // this.TIMSetOnAddFriendCallback()
-            // this.TIMSetOnDeleteFriendCallback()
-            // this.TIMSetUpdateFriendProfileCallback()
-            // this.TIMSetFriendAddRequestCallback()
-            // this.TIMSetFriendApplicationListDeletedCallback()
-            // this.TIMSetFriendApplicationListReadCallback()
-            // this.TIMSetFriendBlackListAddedCallback()
-            // this.TIMSetFriendBlackListDeletedCallback()
-            // this.TIMSetMsgUpdateCallback()
+            
 
             console.log("==========> 成功了：", res.json_params === "" ? "none" : JSON.parse(res.json_params))
         } catch(e) {
@@ -172,17 +174,16 @@ class LexuslinTest {
     }
     // TODOs：Invalid sender or receiver identifier
     TIMMsgSendMessage() {
-        return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
+        // groupid, 1lexuslin127
+        return this.advanceMessageManager.TIMMsgSendMessage("1lexuslin127", 2, {
             message_elem_array: [{
                 elem_type: 0,
                 text_elem_content: "xxx"
             }],
-            message_conv_id: "lexuslin3",
-            message_sender: "lexuslin",
-            message_client_time: +new Date,
-            message_server_time: +new Date
+            message_sender: "lexuslin"
         }, "", "user data")
     }
+    // 1
     TIMMsgCancelSend() {
         return this.advanceMessageManager.TIMMsgCancelSend("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data") // TIMConvType: 0无效1个人2群组3系统会话
     }
@@ -194,9 +195,9 @@ class LexuslinTest {
     TIMMsgReportReaded() {
         return this.advanceMessageManager.TIMMsgReportReaded("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
-    // error: package not valid
+    // 1
     TIMMsgRevoke() {
-        return this.advanceMessageManager.TIMMsgRevoke("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
+        return this.advanceMessageManager.TIMMsgRevoke("1lexuslin127", 2, "lexuslin-1624606470-2477778201", "user data")
     }
     // TODOs, 先用TIMMsgFindMessages
     TIMMsgFindByMsgLocatorList() {
@@ -206,21 +207,20 @@ class LexuslinTest {
             attr1: "xxxx"
         }, "user data")
     }
-
+    // 1
     TIMMsgImportMsgList() {
-        return this.advanceMessageManager.TIMMsgImportMsgList("lexuslin3", 1, [{
+        return this.advanceMessageManager.TIMMsgImportMsgList("1lexuslin127", 2, [{
             message_elem_array: [{
                 elem_type: 0,
                 text_elem_content: "xxx"
             }],
             // message_conv_id: "lexuslin3",
             message_sender: "lexuslin",
-            message_client_time: +new Date,
-            message_server_time: +new Date
         }], "user data")
     }
+    // 1
     TIMMsgSaveMsg() {
-        return this.advanceMessageManager.TIMMsgSaveMsg({
+        return this.advanceMessageManager.TIMMsgSaveMsg("1lexuslin127", 2, {
             message_elem_array: [{
                 elem_type: 0,
                 text_elem_content: "xxx"
@@ -231,7 +231,7 @@ class LexuslinTest {
     TIMMsgGetMsgList() {
         // 所有参数选填
         return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
-            msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
+            // msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
             msg_getmsglist_param_count: 100,
             msg_getmsglist_param_is_remble: false,
             msg_getmsglist_param_is_forward: true,
@@ -302,7 +302,7 @@ class LexuslinTest {
     // 1
     TIMAddRecvNewMsgCallback() {
         this.advanceMessageManager.TIMAddRecvNewMsgCallback((json_msg_array, user_data) => {
-            console.log(json_msg_array)
+            console.log(1111, json_msg_array)
         }, "user data")
     }
     // TODO:设置无效
