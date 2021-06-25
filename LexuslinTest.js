@@ -299,12 +299,13 @@ class LexuslinTest {
             msg_search_param_page_size: 100,
         }, "user data")
     }
-
+    // 1
     TIMAddRecvNewMsgCallback() {
         this.advanceMessageManager.TIMAddRecvNewMsgCallback((json_msg_array, user_data) => {
             console.log(json_msg_array)
         }, "user data")
     }
+    // TODO:设置无效
     TIMRemoveRecvNewMsgCallback() {
         this.advanceMessageManager.TIMRemoveRecvNewMsgCallback()
     }
