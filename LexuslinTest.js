@@ -48,7 +48,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgBatchSend()
             // let res = await this.TIMMsgSearchLocalMessages()
 
-            this.TIMAddRecvNewMsgCallback()
+            this.TIMAddRecvNewMsgCallback() 
             // this.TIMRemoveRecvNewMsgCallback()
             // this.TIMSetMsgReadedReceiptCallback()
             // this.TIMSetMsgRevokeCallback()
