@@ -61,6 +61,15 @@ interface Json_search_message_param {
     msg_search_param_page_size?: number
 }
 
+interface Json_get_msg_param {
+    msg_getmsglist_param_count?: string
+    msg_getmsglist_param_is_remble?: boolean
+    msg_getmsglist_param_is_forward?: boolean
+    msg_getmsglist_param_last_msg_seq?: number
+    msg_getmsglist_param_time_begin?: number
+    msg_getmsglist_param_time_period?: number
+}
+
 interface TIMRecvNewMsgCallback {
     (json_msg_array: string, user_data: string): void
 }
@@ -87,6 +96,7 @@ export {
     Json_value_msgdelete,
     Json_value_batchsend,
     Json_search_message_param,
+    Json_get_msg_param,
     TIMRecvNewMsgCallback,
     TIMMsgReadedReceiptCallback,
     TIMMsgRevokeCallback,

@@ -177,10 +177,7 @@ class LexuslinTest {
                 elem_type: 0,
                 text_elem_content: "xxx"
             }],
-            message_conv_id: "lexuslin3",
-            message_sender: "lexuslin",
-            message_client_time: +new Date,
-            message_server_time: +new Date
+            message_sender: "lexuslin"
         }, "", "user data")
     }
     TIMMsgCancelSend() {
@@ -231,7 +228,7 @@ class LexuslinTest {
     TIMMsgGetMsgList() {
         // 所有参数选填
         return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
-            msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
+            // msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
             msg_getmsglist_param_count: 100,
             msg_getmsglist_param_is_remble: false,
             msg_getmsglist_param_is_forward: true,
