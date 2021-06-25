@@ -88,7 +88,21 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMMsgDownloadElemToPath": [ref.types.int, [ref.types.CString, ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgDownloadMergerMessage": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
       "TIMMsgBatchSend": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
-      "TIMMsgSearchLocalMessages": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]]
+      "TIMMsgSearchLocalMessages": [ref.types.int, [ref.types.CString, 'pointer', ref.types.CString]],
+      "TIMAddRecvNewMsgCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMRemoveRecvNewMsgCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetMsgReadedReceiptCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetMsgRevokeCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetMsgElemUploadProgressCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetOnAddFriendCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetOnDeleteFriendCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetUpdateFriendProfileCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetFriendAddRequestCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetFriendApplicationListDeletedCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetFriendApplicationListReadCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetFriendBlackListAddedCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetFriendBlackListDeletedCallback": [ref.types.void, ['pointer', ref.types.CString]],
+      "TIMSetMsgUpdateCallback": [ref.types.void, ['pointer', ref.types.CString]],
       // friendship end
 });
 

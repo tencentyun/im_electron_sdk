@@ -10,7 +10,7 @@ class LexuslinTest {
     }
     async start() {
         try {
-            // let res = await this.TIMFriendshipGetFriendProfileList()
+            let res = await this.TIMFriendshipGetFriendProfileList()
             // let res = await this.TIMFriendshipAddFriend()
             // let res = await this.TIMFriendshipHandleFriendAddRequest()
             // let res = await this.TIMFriendshipModifyFriendProfile()
@@ -28,7 +28,7 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipReportPendencyReaded()
             // let res = await this.TIMFriendshipSearchFriends()
             // let res = await this.TIMFriendshipGetFriendsInfo()
-            let res = await this.TIMMsgSendMessage()
+            // let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
             // let res = await this.TIMMsgFindMessages()
             // let res = await this.TIMMsgReportReaded()
@@ -47,6 +47,21 @@ class LexuslinTest {
             // let res = await this.TIMMsgDownloadMergerMessage()
             // let res = await this.TIMMsgBatchSend()
             // let res = await this.TIMMsgSearchLocalMessages()
+
+            this.TIMAddRecvNewMsgCallback()
+            // this.TIMRemoveRecvNewMsgCallback()
+            // this.TIMSetMsgReadedReceiptCallback()
+            // this.TIMSetMsgRevokeCallback()
+            // this.TIMSetMsgElemUploadProgressCallback()
+            // this.TIMSetOnAddFriendCallback()
+            // this.TIMSetOnDeleteFriendCallback()
+            // this.TIMSetUpdateFriendProfileCallback()
+            // this.TIMSetFriendAddRequestCallback()
+            // this.TIMSetFriendApplicationListDeletedCallback()
+            // this.TIMSetFriendApplicationListReadCallback()
+            // this.TIMSetFriendBlackListAddedCallback()
+            // this.TIMSetFriendBlackListDeletedCallback()
+            // this.TIMSetMsgUpdateCallback()
 
             console.log("==========> 成功了：", res.json_params === "" ? "none" : JSON.parse(res.json_params))
         } catch(e) {
@@ -155,7 +170,7 @@ class LexuslinTest {
     TIMFriendshipGetFriendsInfo() {
         return this.friendshipManager.TIMFriendshipGetFriendsInfo(["lexuslin3"], "user data")
     }
-    // TODOs
+    // TODOs：Invalid sender or receiver identifier
     TIMMsgSendMessage() {
         return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
             message_elem_array: [{
@@ -169,11 +184,13 @@ class LexuslinTest {
         }, "", "user data")
     }
     TIMMsgCancelSend() {
-        return this.advanceMessageManager.TIMMsgCancelSend("lexuslin3", 1, "msg_id", "user data") // TIMConvType: 0无效1个人2群组3系统会话
+        return this.advanceMessageManager.TIMMsgCancelSend("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data") // TIMConvType: 0无效1个人2群组3系统会话
     }
+    // 1
     TIMMsgFindMessages() {
         return this.advanceMessageManager.TIMMsgFindMessages(["144115231469886159-1623751826-4234216750"], "user data")
     }
+    // 1
     TIMMsgReportReaded() {
         return this.advanceMessageManager.TIMMsgReportReaded("lexuslin3", 1, "144115231469886159-1623751826-4234216750", "user data")
     }
@@ -192,95 +209,167 @@ class LexuslinTest {
 
     TIMMsgImportMsgList() {
         return this.advanceMessageManager.TIMMsgImportMsgList("lexuslin3", 1, [{
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            message_elem_array: [{
+                elem_type: 0,
+                text_elem_content: "xxx"
+            }],
+            // message_conv_id: "lexuslin3",
+            message_sender: "lexuslin",
+            message_client_time: +new Date,
+            message_server_time: +new Date
         }], "user data")
     }
     TIMMsgSaveMsg() {
         return this.advanceMessageManager.TIMMsgSaveMsg({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            message_elem_array: [{
+                elem_type: 0,
+                text_elem_content: "xxx"
+            }],
+            message_sender: "lexuslin"
         }, "user data")
     }
     TIMMsgGetMsgList() {
-        return this.advanceMessageManager.TIMMsgGetMsgList({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+        // 所有参数选填
+        return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
+            msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
+            msg_getmsglist_param_count: 100,
+            msg_getmsglist_param_is_remble: false,
+            msg_getmsglist_param_is_forward: true,
+            msg_getmsglist_param_last_msg_seq: 466379130,
+            msg_getmsglist_param_time_begin: "x",
+            msg_getmsglist_param_time_period: "x",
         }, "user data")
     }
     TIMMsgDelete() {
         return this.advanceMessageManager.TIMMsgDelete({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            msg_delete_param_msg: "144115231469886159-1623751826-42342167503333333333",
+            msg_delete_param_is_remble: true
         }, "user data")
     }
     TIMMsgListDelete() {
-        return this.advanceMessageManager.TIMMsgListDelete({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgListDelete(["144115231469886159-1623751826-42342167503333333333"], "user data")
     }
     TIMMsgClearHistoryMessage() {
-        return this.advanceMessageManager.TIMMsgClearHistoryMessage({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgClearHistoryMessage("lexuslin3", 1, "user data")
     }
     TIMMsgSetC2CReceiveMessageOpt() {
-        return this.advanceMessageManager.TIMMsgSetC2CReceiveMessageOpt({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        // TIMReceiveMessageOpt
+        return this.advanceMessageManager.TIMMsgSetC2CReceiveMessageOpt(["lexuslin3"], 0, "user data")
     }
     TIMMsgGetC2CReceiveMessageOpt() {
-        return this.advanceMessageManager.TIMMsgGetC2CReceiveMessageOpt({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgGetC2CReceiveMessageOpt(["lexuslin3"], "user data")
     }
     TIMMsgSetGroupReceiveMessageOpt() {
-        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt("ggg1", 1, "user data")
     }
     TIMMsgDownloadElemToPath() {
+        // 参数在消息元素里面取出来
         return this.advanceMessageManager.TIMMsgDownloadElemToPath({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+            msg_download_elem_param_flag: "x",
+            msg_download_elem_param_type: "x",
+            msg_download_elem_param_id: "x",
+            msg_download_elem_param_business_id: "x",
+            msg_download_elem_param_url: "x",
+        }, "/usr/xxx", "user data")
     }
     TIMMsgDownloadMergerMessage() {
-        return this.advanceMessageManager.TIMMsgDownloadMergerMessage({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
-        }, "user data")
+        return this.advanceMessageManager.TIMMsgDownloadMergerMessage("144115231469886159-1623751826-4234216750", "user data")
     }
     TIMMsgBatchSend() {
         return this.advanceMessageManager.TIMMsgBatchSend({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            msg_batch_send_param_identifier_array: ["lexuslin3"],
+            msg_batch_send_param_msg: {
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "xxx"
+                }],
+                message_sender: "lexuslin"
+            }
         }, "user data")
     }
     TIMMsgSearchLocalMessages() {
         return this.advanceMessageManager.TIMMsgSearchLocalMessages({
-            attr1: "xxxx",
-            attr1: "xxxx",
-            attr1: "xxxx"
+            msg_search_param_keyword_array: ["xx"],
+            msg_search_param_message_type_array: [1],
+            msg_search_param_conv_id: "lexuslin3",
+            msg_search_param_conv_type: 1,
+            msg_search_param_search_time_position: 0,
+            msg_search_param_search_time_period: 24*60*60*7,
+            msg_search_param_page_index: 0,
+            msg_search_param_page_size: 100,
         }, "user data")
     }
+
+    TIMAddRecvNewMsgCallback() {
+        this.advanceMessageManager.TIMAddRecvNewMsgCallback((json_msg_array, user_data) => {
+            console.log(json_msg_array)
+        }, "user data")
+    }
+    TIMRemoveRecvNewMsgCallback() {
+        this.advanceMessageManager.TIMRemoveRecvNewMsgCallback((json_msg_array, user_data) => {
+            console.log(json_msg_array)
+        }, "user data")
+    }
+    TIMSetMsgReadedReceiptCallback() {
+        this.advanceMessageManager.TIMSetMsgReadedReceiptCallback((json_msg_readed_receipt_array, user_data) => {
+            console.log(json_msg_readed_receipt_array)
+        }, "user data")
+    }
+    TIMSetMsgRevokeCallback() {
+        this.advanceMessageManager.TIMSetMsgRevokeCallback((json_msg_locator_array, user_data) => {
+            console.log(json_msg_locator_array)
+        }, "user data")
+    }
+    TIMSetMsgElemUploadProgressCallback() {
+        this.advanceMessageManager.TIMSetMsgElemUploadProgressCallback((json_msg, index, cur_size, total_size, user_data) => {
+            console.log(json_msg, index, cur_size, total_size)
+        }, "user data")
+    }
+    TIMSetOnAddFriendCallback() {
+        this.friendshipManager.TIMSetOnAddFriendCallback((json_identifier_array, user_data) => {
+            console.log(json_identifier_array)
+        }, "user data")
+    }
+    TIMSetOnDeleteFriendCallback() {
+        this.friendshipManager.TIMSetOnDeleteFriendCallback((json_identifier_array, user_data) => {
+            console.log(json_identifier_array)
+        }, "user data")
+    }
+    TIMSetUpdateFriendProfileCallback() {
+        this.friendshipManager.TIMSetUpdateFriendProfileCallback((json_friend_profile_update_array, user_data) => {
+            console.log(json_friend_profile_update_array)
+        }, "user data")
+    }
+    TIMSetFriendAddRequestCallback() {
+        this.friendshipManager.TIMSetFriendAddRequestCallback((json_friend_add_request_pendency_array, user_data) => {
+            console.log(json_friend_add_request_pendency_array)
+        }, "user data")
+    }
+    TIMSetFriendApplicationListDeletedCallback() {
+        this.friendshipManager.TIMSetFriendApplicationListDeletedCallback((json_identifier_array, user_data) => {
+            console.log(json_identifier_array)
+        }, "user data")
+    }
+    TIMSetFriendApplicationListReadCallback() {
+        this.friendshipManager.TIMSetFriendApplicationListReadCallback((user_data) => {
+            console.log("TIMSetFriendApplicationListReadCallback")
+        }, "user data")
+    }
+    TIMSetFriendBlackListAddedCallback() {
+        this.friendshipManager.TIMSetFriendBlackListAddedCallback((json_friend_black_added_array, user_data) => {
+            console.log(json_friend_black_added_array)
+        }, "user data")
+    }
+    TIMSetFriendBlackListDeletedCallback() {
+        this.friendshipManager.TIMSetFriendBlackListDeletedCallback((json_identifier_array, user_data) => {
+            console.log(json_identifier_array)
+        }, "user data")
+    }
+    TIMSetMsgUpdateCallback() {
+        this.advanceMessageManager.TIMSetMsgUpdateCallback((json_msg_array, user_data) => {
+            console.log(json_msg_array)
+        }, "user data")
+    } 
 }
 
 module.exports = {

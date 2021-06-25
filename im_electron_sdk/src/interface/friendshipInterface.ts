@@ -79,7 +79,37 @@ interface ErrorResponse {
     user_data?: String
 }
 
-
+interface TIMOnAddFriendCallback {
+    json_identifier_array?: string
+    user_data?: string
+}
+interface TIMOnDeleteFriendCallback {
+    json_identifier_array?: string
+    user_data?: string
+}
+interface TIMUpdateFriendProfileCallback {
+    json_friend_profile_update_array?: string
+    user_data?: string
+}
+interface TIMFriendAddRequestCallback {
+    json_friend_add_request_pendency_array?: string
+    user_data?: string
+}
+interface TIMFriendApplicationListDeletedCallback {
+    json_identifier_array?: string
+    user_data?: string
+}
+interface TIMFriendApplicationListReadCallback {
+    user_data?: string
+}
+interface TIMFriendBlackListAddedCallback {
+    json_friend_black_added_array?: string
+    user_data?: string
+}
+interface TIMFriendBlackListDeletedCallback {
+    json_identifier_array?: string
+    user_data?: string
+}
 
 export {
     ErrorResponse,
@@ -92,6 +122,13 @@ export {
     Json_modify_friend_group_param,
     Json_get_pendency_list_param,
     Json_delete_pendency_param,
-    Json_search_friends_param
-    
+    Json_search_friends_param,
+    TIMOnAddFriendCallback,
+    TIMOnDeleteFriendCallback,
+    TIMUpdateFriendProfileCallback,
+    TIMFriendAddRequestCallback,
+    TIMFriendApplicationListDeletedCallback,
+    TIMFriendApplicationListReadCallback,
+    TIMFriendBlackListAddedCallback,
+    TIMFriendBlackListDeletedCallback  
 }

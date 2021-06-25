@@ -40,11 +40,66 @@ interface Json_value_msg {
     // message_offlie_push_config?: OfflinePushConfig
 }
 
+interface Json_value_msgdelete {
+    msg_delete_param_msg: string
+    msg_delete_param_is_remble?: boolean
+}
+
+interface Json_value_batchsend {
+    msg_batch_send_param_identifier_array?: [string]
+    msg_batch_send_param_msg?: Json_value_msg
+}
+
+interface Json_search_message_param {
+    msg_search_param_keyword_array?: [string]
+    msg_search_param_message_type_array?: [string]
+    msg_search_param_conv_id?: string
+    msg_search_param_conv_type?: number
+    msg_search_param_search_time_position?: number
+    msg_search_param_search_time_period?: number
+    msg_search_param_page_index?: number
+    msg_search_param_page_size?: number
+}
+
+interface TIMRecvNewMsgCallback {
+    json_msg_array?: string
+    user_data?: string
+}
+interface TIMMsgReadedReceiptCallback {
+    json_msg_readed_receipt_array?: string
+    user_data?: string
+}
+interface TIMMsgRevokeCallback {
+    json_msg_locator_array?: string
+    user_data?: string
+}
+interface TIMMsgElemUploadProgressCallback {
+    json_msg?: string,
+    index?: number,
+    cur_size?: number,
+    lotal_size?: number,
+    user_data?: string
+}
+interface TIMMsgUpdateCallback {
+    json_msg_array?: string
+    user_data?: string
+}
+
+
+
 interface Elem {
 
 }
 
 export {
     Json_advance_message_param,
-    Json_value_msg
+    Json_value_msg,
+    Json_value_msgdelete,
+    Json_value_batchsend,
+    Json_search_message_param,
+    TIMRecvNewMsgCallback,
+    TIMMsgReadedReceiptCallback,
+    TIMMsgRevokeCallback,
+    TIMMsgElemUploadProgressCallback,
+    TIMMsgUpdateCallback
 }
