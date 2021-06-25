@@ -222,7 +222,7 @@ class AdvanceMessageManage {
         return this.TIMMsgFindMessages([json_advance_message_param.msg_delete_param_msg], user_data).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params
-                const json_msg_param = JSON.stringify(JSON.parse(json_msg_param_array)[0])
+                const json_msg_param = JSON.parse(json_msg_param_array)[0]
                 const param = {
                     msg_delete_param_msg: json_msg_param,
                     msg_delete_param_is_remble: json_advance_message_param.msg_delete_param_is_remble

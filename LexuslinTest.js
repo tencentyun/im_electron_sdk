@@ -51,8 +51,8 @@ class LexuslinTest {
             // let res = await this.TIMMsgFindByMsgLocatorList()
             // let res = await this.TIMMsgImportMsgList()
             // let res = await this.TIMMsgSaveMsg()
-            let res = await this.TIMMsgGetMsgList()
-            // let res = await this.TIMMsgDelete()
+            // let res = await this.TIMMsgGetMsgList()
+            let res = await this.TIMMsgDelete()
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
             // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
@@ -228,6 +228,7 @@ class LexuslinTest {
             message_sender: "lexuslin"
         }, "user data")
     }
+    // 1
     TIMMsgGetMsgList() {
         // 所有参数选填
         return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
@@ -235,9 +236,9 @@ class LexuslinTest {
             msg_getmsglist_param_count: 100,
             msg_getmsglist_param_is_remble: false,
             msg_getmsglist_param_is_forward: true,
-            msg_getmsglist_param_last_msg_seq: 466379130,
-            msg_getmsglist_param_time_begin: "x",
-            msg_getmsglist_param_time_period: "x",
+            // msg_getmsglist_param_last_msg_seq: 466379130,
+            // msg_getmsglist_param_time_begin: 0,
+            // msg_getmsglist_param_time_period: 100000,
         }, "user data")
     }
     TIMMsgDelete() {
