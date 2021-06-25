@@ -7,12 +7,20 @@ import {
     Json_value_batchsend,
     Json_search_message_param
 } from "../interface";
+import {
+    TIMRecvNewMsgCallback,
+    TIMMsgReadedReceiptCallback,
+    TIMMsgRevokeCallback,
+    TIMMsgElemUploadProgressCallback,
+    TIMMsgUpdateCallback
+} from "../interface/advanceMessageInterface"
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 const ffi = require('ffi-napi');
 const ref = require('ref-napi');
 
 class AdvanceMessageManage {
     private _sdkconfig:sdkconfig;
+    private tIMRecvNewMsgCallback: TIMRecvNewMsgCallback | undefined;
     private stringFormator = (str: string | undefined): Buffer => str ? nodeStrigToCString(str) : Buffer.from("");
 
     getErrorResponse(params: ErrorResponse) {
@@ -393,15 +401,60 @@ class AdvanceMessageManage {
     }
 
     // callback begin
-    TIMAddRecvNewMsgCallback(fun: Function, user_data: string): void {
+    TIMAddRecvNewMsgCallback(tIMRecvNewMsgCallback: TIMRecvNewMsgCallback, user_data: string): void {
         const c_user_data = this.stringFormator(user_data);
-
         const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data:Buffer) {
-                fun(json_msg_array.toString(), user_data.toString());
+                tIMRecvNewMsgCallback(json_msg_array.toString(), user_data.toString());
         });
 
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(callback, c_user_data)
+        this.tIMRecvNewMsgCallback = callback
+    }
+
+    TIMRemoveRecvNewMsgCallback(): void {
+        this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(this.tIMRecvNewMsgCallback)
+        this.tIMRecvNewMsgCallback = undefined
+    }
+
+    TIMSetMsgReadedReceiptCallback(tIMMsgReadedReceiptCallback: TIMMsgReadedReceiptCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg_readed_receipt_array: Buffer, user_data:Buffer) {
+                tIMMsgReadedReceiptCallback(json_msg_readed_receipt_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetMsgReadedReceiptCallback(callback, c_user_data)
+    }
+
+    TIMSetMsgRevokeCallback(tIMMsgRevokeCallback: TIMMsgRevokeCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg_locator_array: Buffer, user_data:Buffer) {
+                tIMMsgRevokeCallback(json_msg_locator_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(callback, c_user_data)
+    }
+
+    TIMSetMsgElemUploadProgressCallback(tIMMsgElemUploadProgressCallback: TIMMsgElemUploadProgressCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg: Buffer, index: number, cur_size: number, local_size: number, user_data:Buffer) {
+                tIMMsgElemUploadProgressCallback(json_msg.toString(), index, cur_size, local_size, user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetMsgElemUploadProgressCallback(callback, c_user_data)
+    }
+
+    TIMSetMsgUpdateCallback(tIMMsgUpdateCallback: TIMMsgUpdateCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg_array: Buffer, user_data:Buffer) {
+                tIMMsgUpdateCallback(json_msg_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(callback, c_user_data)
     }
     // callback end
 }

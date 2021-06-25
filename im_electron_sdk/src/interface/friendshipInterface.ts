@@ -80,35 +80,28 @@ interface ErrorResponse {
 }
 
 interface TIMOnAddFriendCallback {
-    json_identifier_array?: string
-    user_data?: string
+    (json_identifier_array: string, user_data: string): void
 }
 interface TIMOnDeleteFriendCallback {
-    json_identifier_array?: string
-    user_data?: string
+    (json_identifier_array: string, user_data: string): void
 }
 interface TIMUpdateFriendProfileCallback {
-    json_friend_profile_update_array?: string
-    user_data?: string
+    (json_friend_profile_update_array: string, user_data: string): void
 }
 interface TIMFriendAddRequestCallback {
-    json_friend_add_request_pendency_array?: string
-    user_data?: string
+    (json_friend_add_request_pendency_array: string, user_data: string): void
 }
 interface TIMFriendApplicationListDeletedCallback {
-    json_identifier_array?: string
-    user_data?: string
+    (json_identifier_array: string, user_data: string): void
 }
 interface TIMFriendApplicationListReadCallback {
-    user_data?: string
+    (user_data: string): void
 }
 interface TIMFriendBlackListAddedCallback {
-    json_friend_black_added_array?: string
-    user_data?: string
+    (json_friend_black_added_array: string, user_data: string): void
 }
 interface TIMFriendBlackListDeletedCallback {
-    json_identifier_array?: string
-    user_data?: string
+    (json_identifier_array: string, user_data: string): void
 }
 
 export {

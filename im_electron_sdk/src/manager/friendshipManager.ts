@@ -12,7 +12,19 @@ import {
     ErrorResponse,
     sdkconfig
 } from "../interface";
+import {
+    TIMOnAddFriendCallback,
+    TIMOnDeleteFriendCallback,
+    TIMUpdateFriendProfileCallback,
+    TIMFriendAddRequestCallback,
+    TIMFriendApplicationListDeletedCallback,
+    TIMFriendApplicationListReadCallback,
+    TIMFriendBlackListAddedCallback,
+    TIMFriendBlackListDeletedCallback
+} from "../interface/friendshipInterface"
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
+const ffi = require('ffi-napi');
+const ref = require('ref-napi');
 
 class  FriendshipManager {
     private _sdkconfig:sdkconfig;
@@ -321,6 +333,88 @@ class  FriendshipManager {
             
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
-    }    
+    }
+    
+    // callback begin
+    TIMSetOnAddFriendCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg_array: Buffer, user_data:Buffer) {
+                tIMOnAddFriendCallback(json_msg_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetOnAddFriendCallback(callback, c_user_data)
+    }
+
+    TIMSetOnDeleteFriendCallback(tIMOnDeleteFriendCallback: TIMOnDeleteFriendCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_identifier_array: Buffer, user_data:Buffer) {
+                tIMOnDeleteFriendCallback(json_identifier_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetOnDeleteFriendCallback(callback, c_user_data)
+    }
+
+    TIMSetUpdateFriendProfileCallback(tIMUpdateFriendProfileCallback: TIMUpdateFriendProfileCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_friend_profile_update_array: Buffer, user_data:Buffer) {
+                tIMUpdateFriendProfileCallback(json_friend_profile_update_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetUpdateFriendProfileCallback(callback, c_user_data)
+    }
+
+    TIMSetFriendAddRequestCallback(tIMFriendAddRequestCallback: TIMFriendAddRequestCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_friend_add_request_pendency_array: Buffer, user_data:Buffer) {
+                tIMFriendAddRequestCallback(json_friend_add_request_pendency_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetFriendAddRequestCallback(callback, c_user_data)
+    }
+
+    TIMSetFriendApplicationListDeletedCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_msg_array: Buffer, user_data:Buffer) {
+                tIMOnAddFriendCallback(json_msg_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetFriendApplicationListDeletedCallback(callback, c_user_data)
+    }
+
+    TIMSetFriendApplicationListReadCallback(tIMFriendApplicationListReadCallback: TIMFriendApplicationListReadCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (user_data:Buffer) {
+                tIMFriendApplicationListReadCallback(user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetFriendApplicationListReadCallback(callback, c_user_data)
+    }
+
+    TIMSetFriendBlackListAddedCallback(tIMFriendBlackListAddedCallback: TIMFriendBlackListAddedCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_friend_black_added_array: Buffer, user_data:Buffer) {
+                tIMFriendBlackListAddedCallback(json_friend_black_added_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetFriendBlackListAddedCallback(callback, c_user_data)
+    }
+
+    TIMSetFriendBlackListDeletedCallback(tIMFriendBlackListDeletedCallback: TIMFriendBlackListDeletedCallback, user_data: string): void {
+        const c_user_data = this.stringFormator(user_data);
+        const callback = ffi.Callback(ref.types.void, [ref.types.CString, ref.types.CString],
+            function (json_identifier_array: Buffer, user_data:Buffer) {
+                tIMFriendBlackListDeletedCallback(json_identifier_array.toString(), user_data.toString());
+        });
+
+        this._sdkconfig.Imsdklib.TIMSetFriendBlackListDeletedCallback(callback, c_user_data)
+    }
+    // callback end
 }
 export default FriendshipManager;

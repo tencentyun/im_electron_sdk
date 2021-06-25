@@ -62,30 +62,20 @@ interface Json_search_message_param {
 }
 
 interface TIMRecvNewMsgCallback {
-    json_msg_array?: string
-    user_data?: string
+    (json_msg_array: string, user_data: string): void
 }
 interface TIMMsgReadedReceiptCallback {
-    json_msg_readed_receipt_array?: string
-    user_data?: string
+    (json_msg_readed_receipt_array: string, user_data: string): void
 }
 interface TIMMsgRevokeCallback {
-    json_msg_locator_array?: string
-    user_data?: string
+    (json_msg_locator_array: string, user_data: string): void
 }
 interface TIMMsgElemUploadProgressCallback {
-    json_msg?: string,
-    index?: number,
-    cur_size?: number,
-    lotal_size?: number,
-    user_data?: string
+    (json_msg: string, index: number, cur_size: number, local_size: number, user_data: string): void
 }
 interface TIMMsgUpdateCallback {
-    json_msg_array?: string
-    user_data?: string
+    (json_msg_array: string, user_data: string): void
 }
-
-
 
 interface Elem {
 

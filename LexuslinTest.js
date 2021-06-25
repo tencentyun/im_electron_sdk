@@ -306,9 +306,7 @@ class LexuslinTest {
         }, "user data")
     }
     TIMRemoveRecvNewMsgCallback() {
-        this.advanceMessageManager.TIMRemoveRecvNewMsgCallback((json_msg_array, user_data) => {
-            console.log(json_msg_array)
-        }, "user data")
+        this.advanceMessageManager.TIMRemoveRecvNewMsgCallback()
     }
     TIMSetMsgReadedReceiptCallback() {
         this.advanceMessageManager.TIMSetMsgReadedReceiptCallback((json_msg_readed_receipt_array, user_data) => {
