@@ -70,15 +70,15 @@ const formateGroupParams = (groupParams: GroupParams) => {
         }
     };
 
-    if (groupParams.memberArray) {
+    if (groupParams.groupMemberArray) {
         formatParamsWithCustomerInfo = {
             ...groupParams,
             ...formatParamsWithCustomerInfo,
-            memberArray: formateMember(groupParams.memberArray, 'group_member_info_')
+            groupMemberArray: formateMember(groupParams.groupMemberArray, 'group_member_info_')
         }
     }
 
-    return formatObject(formatParamsWithCustomerInfo ?? groupParams, 'create_group_param_group_');
+    return formatObject(formatParamsWithCustomerInfo ?? groupParams, 'create_group_param_');
 }
 
 class GroupManager {
@@ -310,7 +310,7 @@ class GroupManager {
 
     TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams): Promise<commonResponse> {
         const { searchParams, data } = searchGroupsParams;
-        const formatedParams = searchParams.map(member => formatObject(member, 'group_search_params_'));
+        const formatedParams = formatObject(searchParams, 'group_search_params_');
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
@@ -318,12 +318,11 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupSearchGroups(nodeStrigToCString(JSON.stringify(formatedParams)), jsFuncToFFIFun(successCallback), userData);
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
-
     }
 
     TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams): Promise<commonResponse> {
         const { searchParams, data } = searchMemberParams;
-        const formatedParams = searchParams.map(member => formatObject(member, 'group_search_member_params_'));
+        const formatedParams = formatObject(searchParams, 'group_search_member_params_');
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
@@ -337,7 +336,7 @@ class GroupManager {
         const { groupId, attributes, data } = initAttributesParams;
         const formatedAttribute = attributes.map(attribute => formatObject(attribute, 'group_atrribute_'));
         const userData = this.stringFormator(data);
-
+        
         return new Promise((resolve, reject) => {
             const successCallback: CommonCallbackFun = (code, desc, json_param, user_data) => code === 0 ? resolve({ code, desc, json_param, user_data }) : reject(this.getErrorResponse({ code, desc }));
             const code = this._imskdLib.TIMGroupInitGroupAttributes(nodeStrigToCString(groupId), nodeStrigToCString(JSON.stringify(formatedAttribute)), jsFuncToFFIFun(successCallback), userData);

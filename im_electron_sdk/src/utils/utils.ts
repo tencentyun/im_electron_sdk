@@ -23,13 +23,13 @@ function getFFIPath(){
     return res;
 }
 function nodeStrigToCString(str:string) :Buffer{
-    const buffer = Buffer.from(str)
+    const buffer = Buffer.from(str);
     return ref.readCString(buffer, 0);
 }
 function jsFuncToFFIFun(fun:CommonCallbackFun){
   const callback = ffi.Callback(ref.types.void, [ref.types.int32, ref.types.CString,ref.types.CString,ref.types.CString],
       function (code:number, desc:Buffer,json_param:Buffer,user_data:Buffer) {
-        fun(code,desc.toString(),json_param.toString(),user_data.toString());
+        fun(code,desc.toString(),json_param.toString(),user_data?.toString());
     });
   return callback;
 }

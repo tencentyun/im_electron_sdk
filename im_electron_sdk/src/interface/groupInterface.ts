@@ -16,10 +16,10 @@ type GroupMemberInfo = {
 
 
 interface GroupParams {
-    name: string;
-    id?: string;
-    type?: number;
-    memberArray?: Array<GroupMemberInfo>;
+    groupName: string;
+    groupId?: string;
+    groupType?: number;
+    groupMemberArray?: Array<GroupMemberInfo>;
     notification?: string;
     introduction?: string;
     faceUrl?: string;
@@ -162,12 +162,12 @@ type MemberSearchParams = {
 }
 
 interface SearchGroupParams {
-    searchParams: Array<GroupSearchParams>;
+    searchParams: GroupSearchParams;
     data?: string
 }
 
 interface SearchMemberParams {
-    searchParams: Array<MemberSearchParams>;
+    searchParams: MemberSearchParams;
     data?: string;
 }
 
