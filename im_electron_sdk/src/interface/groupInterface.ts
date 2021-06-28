@@ -16,10 +16,10 @@ type GroupMemberInfo = {
 
 
 interface GroupParams {
-    name: string;
-    id?: string;
-    type?: number;
-    memberArray?: Array<GroupMemberInfo>;
+    groupName: string;
+    groupId?: string;
+    groupType?: number;
+    groupMemberArray?: Array<GroupMemberInfo>;
     notification?: string;
     introduction?: string;
     faceUrl?: string;
@@ -146,8 +146,66 @@ interface HandlePendencyParams {
 }
 
 interface GetOnlineMemberCountParams {
-    groupId: string,
-    data?: string,
+    groupId: string;
+    data?: string;
+}
+
+type GroupSearchParams = {
+    keywordList: Array<string>,
+    fieldList: Array<number>,
+}
+
+type MemberSearchParams = {
+    groupidList: Array<string>,
+    keywordList: Array<string>,
+    fieldList: Array<number>,
+}
+
+interface SearchGroupParams {
+    searchParams: GroupSearchParams;
+    data?: string
+}
+
+interface SearchMemberParams {
+    searchParams: MemberSearchParams;
+    data?: string;
+}
+
+interface InitGroupAttributeParams {
+    groupId: string;
+    attributes: Array<Pureobject>;
+    data?: string
+}
+
+interface DeleteAttributeParams {
+    groupId: string;
+    attributesKey: Array<string>;
+    data?: string
+}
+
+interface ErrorResponse {
+    code?: number;
+    desc?: String;
+    json_params?: String;
+    user_data?: String
+}
+
+interface GroupTipsCallbackParams {
+    callback: GroupTipCallBackFun;
+    data?: string;
+}
+
+interface GroupTipCallBackFun {
+    (json_group_tip_array: string, user_data: string ): void;
+}
+
+interface GroupAttributeCallbackParams {
+    callback: GroupAttributeCallbackFun;
+    data?: string;
+}
+
+interface GroupAttributeCallbackFun {
+    (group_id: string, json_group_attibute_array: string, user_data: string ): void;
 }
 
 export {
@@ -167,5 +225,14 @@ export {
     GetPendencyListParams,
     ReportParams,
     HandlePendencyParams,
-    GetOnlineMemberCountParams
+    GetOnlineMemberCountParams,
+    SearchGroupParams,
+    SearchMemberParams,
+    InitGroupAttributeParams,
+    DeleteAttributeParams,
+    ErrorResponse,
+    GroupTipsCallbackParams,
+    GroupTipCallBackFun,
+    GroupAttributeCallbackParams,
+    GroupAttributeCallbackFun
 }
