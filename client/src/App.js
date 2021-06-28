@@ -44,18 +44,9 @@ class App extends Component {
 
   init() {
     // Window.tim.getTimbaseManager().TIMInit();
-    // console.log(Window.tim.getTimbaseManager().TIMInit)
-    console.log(remote.app.timInstance);
-    createGroup(remote.app.timInstance)
     // console.log(Window.tim);
   }
-  login() {
-    // console.log(2)
-    callBaseManager("TIMLogin", {
-      userID: "940928",
-      userSig: "eJwtjEEOgjAURO-StaGfUrCQuDFBE8Ru6AWIfMxXgYYSQ2K8uxWY3bw3mQ8zZRW8cWQZEwGw3dKpwX6ilhacSkiF2oxrnrW11LAslACh2kexWA3Olkb0HECBz0on6v4sETIBpaJt6*jujy99NUhedOjm-MRvcigiw-FYnjlctX3VUBs9PlzsdH5g3x*3bjAK",
-      userData: "hahah"
-    });
+  login(){
   }
   render() {
     return (
