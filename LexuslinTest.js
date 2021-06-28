@@ -43,7 +43,7 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipReportPendencyReaded()
             // let res = await this.TIMFriendshipSearchFriends()
             // let res = await this.TIMFriendshipGetFriendsInfo()
-            // let res = await this.TIMMsgSendMessage()
+            let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
             // let res = await this.TIMMsgFindMessages()
             // let res = await this.TIMMsgReportReaded()
@@ -56,7 +56,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
             // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
-            let res = await this.TIMMsgGetC2CReceiveMessageOpt()
+            // let res = await this.TIMMsgGetC2CReceiveMessageOpt()
             // let res = await this.TIMMsgSetGroupReceiveMessageOpt()
             // let res = await this.TIMMsgDownloadElemToPath()
             // let res = await this.TIMMsgDownloadMergerMessage()
@@ -193,13 +193,24 @@ class LexuslinTest {
     // TODOs：Invalid sender or receiver identifier
     TIMMsgSendMessage() {
         // groupid, 1lexuslin127
-        return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
+        // return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
+        //     message_elem_array: [{
+        //         elem_type: 0,
+        //         text_elem_content: "xxx"
+        //     }],
+        //     message_sender: "lexuslin"
+        // }, "", "user data")
+        
+        return this.advanceMessageManager.TIMMsgSendMessage("1lexuslin127", 2, {
             message_elem_array: [{
-                elem_type: 0,
-                text_elem_content: "xxx"
+                elem_type: 9,
+                video_elem_video_type: "mov",
+                video_elem_video_duration: 15,
+                video_elem_video_path: "./c3b94cee5c318b590b5cff79a712af23.MOV",
+                // video_elem_level: 0
             }],
             message_sender: "lexuslin"
-        }, "", "user data")
+        }, "", "user data") 
     }
     // 1
     TIMMsgCancelSend() {
