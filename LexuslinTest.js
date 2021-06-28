@@ -323,10 +323,11 @@ class LexuslinTest {
             msg_search_param_page_size: 100,
         }, "user data")
     }
+    // callback begin
     // 1
     TIMAddRecvNewMsgCallback() {
         this.advanceMessageManager.TIMAddRecvNewMsgCallback((json_msg_array, user_data) => {
-            console.log(1111, json_msg_array)
+            console.log("TIMAddRecvNewMsgCallback", json_msg_array)
         }, "user data")
     }
     // TODO:设置无效
@@ -335,62 +336,62 @@ class LexuslinTest {
     }
     TIMSetMsgReadedReceiptCallback() {
         this.advanceMessageManager.TIMSetMsgReadedReceiptCallback((json_msg_readed_receipt_array, user_data) => {
-            console.log(json_msg_readed_receipt_array)
+            console.log("TIMSetMsgReadedReceiptCallback", json_msg_readed_receipt_array)
         }, "user data")
     }
     TIMSetMsgRevokeCallback() {
         this.advanceMessageManager.TIMSetMsgRevokeCallback((json_msg_locator_array, user_data) => {
-            console.log(json_msg_locator_array)
+            console.log("TIMSetMsgRevokeCallback", json_msg_locator_array)
         }, "user data")
     }
     TIMSetMsgElemUploadProgressCallback() {
         this.advanceMessageManager.TIMSetMsgElemUploadProgressCallback((json_msg, index, cur_size, total_size, user_data) => {
-            console.log(json_msg, index, cur_size, total_size)
+            console.log("TIMSetMsgElemUploadProgressCallback", json_msg, index, cur_size, total_size)
         }, "user data")
     }
     TIMSetOnAddFriendCallback() {
         this.friendshipManager.TIMSetOnAddFriendCallback((json_identifier_array, user_data) => {
-            console.log(json_identifier_array)
+            console.log("TIMSetOnAddFriendCallback", json_identifier_array)
         }, "user data")
     }
     TIMSetOnDeleteFriendCallback() {
         this.friendshipManager.TIMSetOnDeleteFriendCallback((json_identifier_array, user_data) => {
-            console.log(json_identifier_array)
+            console.log("TIMSetOnDeleteFriendCallback", json_identifier_array)
         }, "user data")
     }
     TIMSetUpdateFriendProfileCallback() {
         this.friendshipManager.TIMSetUpdateFriendProfileCallback((json_friend_profile_update_array, user_data) => {
-            console.log(json_friend_profile_update_array)
+            console.log("TIMSetUpdateFriendProfileCallback", json_friend_profile_update_array)
         }, "user data")
     }
     TIMSetFriendAddRequestCallback() {
         this.friendshipManager.TIMSetFriendAddRequestCallback((json_friend_add_request_pendency_array, user_data) => {
-            console.log(json_friend_add_request_pendency_array)
+            console.log("TIMSetFriendAddRequestCallback", json_friend_add_request_pendency_array)
         }, "user data")
     }
     TIMSetFriendApplicationListDeletedCallback() {
         this.friendshipManager.TIMSetFriendApplicationListDeletedCallback((json_identifier_array, user_data) => {
-            console.log(json_identifier_array)
+            console.log("TIMSetFriendApplicationListDeletedCallback", json_identifier_array)
         }, "user data")
     }
     TIMSetFriendApplicationListReadCallback() {
         this.friendshipManager.TIMSetFriendApplicationListReadCallback((user_data) => {
-            console.log("TIMSetFriendApplicationListReadCallback")
+            console.log("TIMSetFriendApplicationListReadCallback", "TIMSetFriendApplicationListReadCallback")
         }, "user data")
     }
     TIMSetFriendBlackListAddedCallback() {
         this.friendshipManager.TIMSetFriendBlackListAddedCallback((json_friend_black_added_array, user_data) => {
-            console.log(json_friend_black_added_array)
+            console.log("TIMSetFriendBlackListAddedCallback", json_friend_black_added_array)
         }, "user data")
     }
     TIMSetFriendBlackListDeletedCallback() {
         this.friendshipManager.TIMSetFriendBlackListDeletedCallback((json_identifier_array, user_data) => {
-            console.log(json_identifier_array)
+            console.log("TIMSetFriendBlackListDeletedCallback", json_identifier_array)
         }, "user data")
     }
     TIMSetMsgUpdateCallback() {
         this.advanceMessageManager.TIMSetMsgUpdateCallback((json_msg_array, user_data) => {
-            console.log(json_msg_array)
+            console.log("TIMSetMsgUpdateCallback", json_msg_array)
         }, "user data")
     } 
 }
