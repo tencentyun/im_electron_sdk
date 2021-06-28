@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
-
+const { ipcMain } = require('electron');
 const path = require('path')
 
 const TIM = require('./im_electron_sdk')
@@ -8,22 +8,51 @@ const groupManagerTest = require('./groupManagerTest');
 const { LexuslinTest } = require('./LexuslinTest');
 
 const baseManagerTest = require('./baseManaterTest');
-const conversationManagerTest = require('./conversationManagerTest')
+const conversationManagerTest = require('./conversationManagerTest');
 const tim = new TIM({
   sdkappid: 1400187352
 });
 
+let initSDKResolver = null;
+const initPromise = new Promise((resolve) => initSDKResolver = resolve);
 
-// function createGroup() {
-//   const groupManager = tim.getGroupManager();
-//   console.log(groupManager.createGroup);
-//   const res = groupManager.createGroup({
-//     params: { name: "test-name" },
-//     callback: (code, desc, json, data) => {
-//       console.log('登陆成功', code, desc, json, data);
-//     }
-//   });
-// };
+
+const createGroup = async () => {
+  console.log("invoke create group methos");
+  const groupManager = tim.getGroupManager();
+  try {
+      const fakeParams = {
+          name: "test-name",
+          memberArray: [{
+              identifer: "123",
+              customInfo: [
+                  { key: "test1", value: "111" },
+                  { key: "test2", value: "222" }
+              ]
+          }],
+          customInfo: [
+              { key: "group test1", value: "111" },
+              { key: "group test2", value: "222" }
+          ]
+      };
+      const res = await groupManager.TIMGroupCreate({
+          params: fakeParams,
+          data: "{a:1, b:2}"
+      });
+      console.log("=========res", res);
+      return res;
+  } catch (e) {
+      console.log("=========error===", e)
+  }
+};
+
+ipcMain.on('create-group', async (event, arg) => {
+  await initPromise;
+  const res = await createGroup();
+  console.log('==============res==============', res);
+  event.sender.send('create-group-reply', JSON.stringify(res));
+})
+
 
 function createWindow() {
   // Create the browser window.
@@ -51,26 +80,24 @@ function createWindow() {
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show()
-    console.log('初始化返回',tim.getTimbaseManager().TIMInit())
-    console.log('登录返回',tim.getTimbaseManager().TIMLogin({
-      userID: "lexuslin",
-      userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk",
-       callback: (code, desc, json, data) => {
-         console.log('登陆成功', code, desc, json, data);
-         
-        //  test base apis
-        baseManagerTest.testBaseManager(tim);
-        //  test conversation apis
-        conversationManagerTest.testConversation(tim);
-        // test group apis
-        groupManagerTest.testGroupManager(tim);
+  mainWindow.once('ready-to-show', async () => {
+    mainWindow.show();
+    mainWindow.webContents.openDevTools()
+    // console.log('初始化返回',tim.getTimbaseManager().TIMInit())
+    // const res = await tim.getTimbaseManager().TIMLogin({
+    //   userID: "940928",
+    //   userSig:"eJwtjEEOgjAURO-StaGfUrCQuDFBE8Ru6AWIfMxXgYYSQ2K8uxWY3bw3mQ8zZRW8cWQZEwGw3dKpwX6ilhacSkiF2oxrnrW11LAslACh2kexWA3Olkb0HECBz0on6v4sETIBpaJt6*jujy99NUhedOjm-MRvcigiw-FYnjlctX3VUBs9PlzsdH5g3x*3bjAK",
+    //   userData:"hahah"
+    //  });
+    //  initSDKResolver();
 
-        // new LexuslinTest(tim).start();
-       },
-       userData:"hahah"
-     }))
+      // //  test base apis
+      // baseManagerTest.testBaseManager(tim);
+      // // test conversation apis
+      // conversationManagerTest.testConversation(tim);
+      // // test group apis
+      // groupManagerTest.testGroupManager(tim);
+      // new LexuslinTest(tim).start();
 
   })
   // Open the DevTools.

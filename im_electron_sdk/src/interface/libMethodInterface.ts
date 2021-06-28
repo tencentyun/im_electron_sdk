@@ -1,5 +1,7 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
-import { CommonCallbackFun } from "./basicInterface";
+import { CommonCallbackFun, TIMSetKickedOfflineCallback, TIMSetNetworkStatusListenerCallback, TIMSetUserSigExpiredCallback } from "./basicInterface";
+import { convTotalUnreadMessageCountChangedCallback, setConvEventCallback } from "./conversationInterface";
+import { GroupTipCallBackFun, GroupAttributeCallbackFun } from "./groupInterface";
 
 interface TIMInitFun {
     (sdkappid:number,sdkconfig:Buffer): number;
@@ -30,9 +32,20 @@ interface TIMGetServerTimeFun {
 interface TIMGetLoginUserIDFun {
     (callback:CommonCallbackFun,user_data:Buffer):number;
 }
+
+
 interface TIMSetNetworkStatusListenerCallbackFun {
-    (callback:CommonCallbackFun,user_data:Buffer):number;
+    (callback:TIMSetNetworkStatusListenerCallback,user_data:Buffer):number;
 }
+
+interface TIMSetKickedOfflineCallbackFun {
+    (callback:TIMSetKickedOfflineCallback,user_data:Buffer):number;
+}
+interface TIMSetUserSigExpiredCallbackFun {
+    (callback:TIMSetUserSigExpiredCallback,user_data:Buffer):number;
+}
+
+// ==========Interface For Conversation Start===========
 interface TIMConvCreateFun {
     (conv_id:Buffer,conv_type:number,callback:Buffer,user_data:Buffer):number;
 }
@@ -48,6 +61,22 @@ interface TIMConvCancelDraftFun {
 interface TIMConvDeleteFun extends TIMConvCreateFun {
 
 }
+interface TIMConvGetConvInfoFun {
+    (json_get_conv_list_param:Buffer,callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvPinConversationFun{
+    (conv_id:Buffer,conv_type:number,is_pinned:boolean,callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMConvGetTotalUnreadMessageCountFun {
+    (callback:CommonCallbackFun,user_data:Buffer):number;
+}
+interface TIMSetConvEventCallbackFun {
+    (callback:setConvEventCallback,user_data:Buffer):number;
+}
+interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
+    (callback:convTotalUnreadMessageCountChangedCallback,user_data:Buffer):number;
+}
+// ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
     (params: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
@@ -90,6 +119,26 @@ interface TIMGroupHandlePendencyFun  extends TIMGroupCreateFun {}
 interface TIMGroupGetOnlineMemberCountFun extends TIMGroupDeleteFun {}
 
 interface TIMGroupSearchGroupsFun extends TIMGroupCreateFun {}
+
+interface TIMGroupSearchGroupMembersFun extends TIMGroupCreateFun {}
+
+interface TIMGroupInitGroupAttributesFun {
+    (groupId:Buffer, params: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+}
+
+interface TIMGroupSetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMGroupDeleteGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMGroupGetGroupAttributesFun extends TIMGroupInitGroupAttributesFun {}
+
+interface TIMSetGroupTipsEventCallbackFun {
+    (successCallback: GroupTipCallBackFun, userData?: Buffer): void;
+}
+
+interface TIMSetGroupAttributeChangedCallbackFun {
+    (successCallback: GroupAttributeCallbackFun, userData?: Buffer): void;
+}
 
 // ==========Interface For Group End===========
 // ==========Interface For friendship begin===========
@@ -219,6 +268,8 @@ interface libMethods {
     TIMGetLoginStatus: TIMGetLoginStatusFun,
     TIMGetLoginUserID: TIMGetLoginUserIDFun,
     TIMSetNetworkStatusListenerCallback:TIMSetNetworkStatusListenerCallbackFun,
+    TIMSetKickedOfflineCallback:TIMSetKickedOfflineCallbackFun,
+    TIMSetUserSigExpiredCallback:TIMSetUserSigExpiredCallbackFun,
     // timbase end
 
     // conversation start
@@ -227,6 +278,11 @@ interface libMethods {
     TIMConvDelete:TIMConvDeleteFun,
     TIMConvSetDraft:TIMConvSetDraftFun
     TIMConvCancelDraft:TIMConvCancelDraftFun,
+    TIMConvGetConvInfo:TIMConvGetConvInfoFun,
+    TIMConvPinConversation:TIMConvPinConversationFun,
+    TIMConvGetTotalUnreadMessageCount:TIMConvGetTotalUnreadMessageCountFun,
+    TIMSetConvEventCallback:TIMSetConvEventCallbackFun,
+    TIMSetConvTotalUnreadMessageCountChangedCallback:TIMSetConvTotalUnreadMessageCountChangedCallbackFun,
     // converastion end
     // friendship start
     TIMFriendshipGetFriendProfileList: TIMFriendshipGetFriendProfileListFun,
@@ -286,7 +342,14 @@ interface libMethods {
     TIMGroupReportPendencyReaded: TIMGroupReportPendencyReadedFun,
     TIMGroupHandlePendency: TIMGroupHandlePendencyFun,
     TIMGroupGetOnlineMemberCount: TIMGroupGetOnlineMemberCountFun,
-    TIMGroupSearchGroups: TIMGroupSearchGroupsFun
+    TIMGroupSearchGroups: TIMGroupSearchGroupsFun,
+    TIMGroupSearchGroupMembers: TIMGroupSearchGroupMembersFun,
+    TIMGroupInitGroupAttributes: TIMGroupInitGroupAttributesFun,
+    TIMGroupSetGroupAttributes: TIMGroupSetGroupAttributesFun,
+    TIMGroupDeleteGroupAttributes: TIMGroupDeleteGroupAttributesFun,
+    TIMGroupGetGroupAttributes: TIMGroupGetGroupAttributesFun,
+    TIMSetGroupTipsEventCallback: TIMSetGroupTipsEventCallbackFun,
+    TIMSetGroupAttributeChangedCallback: TIMSetGroupAttributeChangedCallbackFun,
     // group end
 }
 
