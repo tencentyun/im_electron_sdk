@@ -21,6 +21,9 @@
     "electron-builder": "^22.11.7"
   },
   "dependencies": {
+    "@babel/plugin-transform-async-to-generator": "^7.14.5",
+    "@babel/plugin-transform-regenerator": "^7.14.5",
+    "@babel/plugin-transform-runtime": "^7.14.5",
     "ffi-napi": "^4.0.3",
     "ref-array-napi": "^1.2.2",
     "ref-napi": "^3.0.3",

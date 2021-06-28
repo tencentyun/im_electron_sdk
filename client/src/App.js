@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ipcRenderer } from "electron";
+import { ipcRenderer, remote } from "electron";
+import { callBaseManager } from '../../im_electron_sdk/dist/render.umd';
 import './App.css';
 
 ipcRenderer.on('create-group-reply', (event, result) => {
@@ -7,16 +8,54 @@ ipcRenderer.on('create-group-reply', (event, result) => {
 })
 
 class App extends Component {
+
   createGroup() {
-    // ipcRenderer.send('create-group');
+
+    const fakeParams = {
+      groupName: "test-avchatRoom",
+      groupType: 4,
+      groupMemberArray: [{
+        identifer: "6666",
+        // customInfo: [
+        //     { key: "test1", value: "111" },
+        //     { key: "test2", value: "222" }
+        // ],
+        nameCard: "member1"
+      }],
+      notification: "Pls add name card",
+      introduction: "use for dev test",
+      face_url: "test face_url",
+      // customInfo: [
+      //     { key: "gourp_custom1", value: "111" },
+      //     { key: "group_custom2", value: "222" }
+      // ]
+    };
+    // callMethod('createGroup', {a:111, b:222})
+    ipcRenderer.send('call-method', {
+      eventName: 'TIMGroupCreate',
+      data: {
+        params: fakeParams,
+        data: "{a:1, b:2}"
+      }
+    });
+
   }
-  init(){
+
+
+  init() {
     // Window.tim.getTimbaseManager().TIMInit();
-    console.log(Window.tim.getTimbaseManager().TIMInit)
+    // console.log(Window.tim.getTimbaseManager().TIMInit)
+    console.log(remote.app.timInstance);
+    createGroup(remote.app.timInstance)
     // console.log(Window.tim);
   }
-  login(){
-    console.log(2)
+  login() {
+    // console.log(2)
+    callBaseManager("TIMLogin", {
+      userID: "940928",
+      userSig: "eJwtjEEOgjAURO-StaGfUrCQuDFBE8Ru6AWIfMxXgYYSQ2K8uxWY3bw3mQ8zZRW8cWQZEwGw3dKpwX6ilhacSkiF2oxrnrW11LAslACh2kexWA3Olkb0HECBz0on6v4sETIBpaJt6*jujy99NUhedOjm-MRvcigiw-FYnjlctX3VUBs9PlzsdH5g3x*3bjAK",
+      userData: "hahah"
+    });
   }
   render() {
     return (
