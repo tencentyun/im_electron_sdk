@@ -39,11 +39,13 @@ const jobs = {
 // 从环境变量获取打包特征
 const mergeConfig = jobs[process.env.FORMAT || 'esm'];
 
-export default [merge(
+export default [
   {
     input: resolve('./src/index.ts'),
     output: {
-      file: 'dist/bundle-a.js',
+      format: 'umd',
+      file: resolve('dist/index.umd.js'),
+      name: 'rem',
       globals: {
         "@babel/runtime/regenerator": "regeneratorRuntime"
       }
@@ -67,6 +69,62 @@ export default [merge(
         ],
       }),
     ],
-  },
-  mergeConfig,
-)]
+  }, {
+    input: resolve('./src/timMain.ts'),
+    output: {
+      format: 'umd',
+      file: resolve('dist/timMain.umd.js'),
+      name: 'rem',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
+    plugins: [
+      nodeResolve({
+        extensions,
+        modulesOnly: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+        extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
+      }),
+    ],
+  },{
+    input: resolve('./src/timRender.ts'),
+    output: {
+      format: 'umd',
+      file: resolve('dist/timRender.umd.js'),
+      name: 'rem',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
+    plugins: [
+      nodeResolve({
+        extensions,
+        modulesOnly: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+        extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
+      }),
+    ],
+  }]

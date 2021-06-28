@@ -1,8 +1,10 @@
 import { TIMIPCLISTENR } from "./const/const";
 import { mainRes } from "./interface/ipcInterface";
+import { ipcRenderer} from "electron-better-ipc";
+
 
 const electron = require('electron')
-class TimRender {
+export class TimRender {
     runtime:Map<Symbol,Function> = new Map();
     constructor() {
         console.log(electron.webContents)
@@ -18,22 +20,39 @@ class TimRender {
         //     }
         // })
     }
-    private call(data:any){
+    private async call(data:any) {
         // ipcRenderer.send(TIMIPCLISTENR, data)
+        const response = await ipcRenderer.callMain(TIMIPCLISTENR, JSON.stringify(data));
+        console.log("response", response);
+        return response;
+    };
+    // login(data:any){
+    //     return new Promise<void>((resolve)=>{
+    //         const callback = Symbol();
+    //         data.callback = callback;
+    //         this.runtime.set(callback,()=>{
+    //             resolve()
+    //         })
+    //         this.call(data);
+    //     })
+    // }
+    init() {
+       return this.call({
+           method: 'TIMInit',
+           manager: 'timBaseManager',
+       }); 
     }
-    login(data:any){
-        return new Promise<void>((resolve)=>{
-            const callback = Symbol();
-            data.callback = callback;
-            this.runtime.set(callback,()=>{
-                resolve()
-            })
-            this.call(data);
-        })
-    }
+
+    public login(data: any) {
+        const callback = Symbol();
+        data.callback = callback;
+        const formatedData = {
+            method: 'TIMLogin',
+            manager: 'timBaseManager',
+            callback,
+            param: data,
+        }
+        return this.call(formatedData);
+    };
 }
-export default TimRender;
-
-const ipc = new TimRender();
-
-ipc.login('da')
+// export default TimRender;

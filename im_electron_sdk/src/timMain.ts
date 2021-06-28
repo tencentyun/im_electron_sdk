@@ -1,17 +1,17 @@
+import { ipcMain } from "electron-better-ipc";
+
 import { TIMIPCLISTENR } from "./const/const";
 import { initConfig } from "./interface";
 import { ipcData } from "./interface/ipcInterface";
 import TIM from "./tim";
-
-const {  ipcMain } = require("electron");
 class TimMain {
     constructor(config:initConfig) {
         const tim = new TIM({
             sdkappid:config.sdkappid
         })
         //建立ipc通信通道
-        ipcMain.on(TIMIPCLISTENR,async (e:any,data:ipcData<any>)=>{
-            const { method,manager,param,callback } = data;
+        ipcMain.answerRenderer(TIMIPCLISTENR, async (data:ipcData<any>)=>{
+            const { method,manager,param,callback } = JSON.parse(data as unknown as string);
             let timManager;
             switch (manager) {
                 case 'timBaseManager':
@@ -32,12 +32,20 @@ class TimMain {
                 default:
                     throw new Error('no such manager,check and try again.')
             }
+            console.log("===================");
             if(timManager){
-                if(timManager.hasOwnProperty(method)){
+                //@ts-ignore
+                if(timManager[method]){
                     // 这里是个promise或者直接是结果
                     //@ts-ignore
-                    const data = await timManager[method](param)
-                    e.reply(TIMIPCLISTENR,{callback,data});
+                    try {
+                    //@ts-ignore
+                        const data = await timManager[method](param);
+                        console.log('============data=============', data);
+                        return JSON.stringify({ callback, data});
+                    }catch(e) {
+                        console.log("error", e)
+                    }
                 }else{
                     throw new Error('no such method , check and try again.')
                 }

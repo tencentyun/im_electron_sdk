@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { ipcRenderer, remote } from "electron";
-import { callBaseManager } from '../../im_electron_sdk/dist/render.umd';
+// import { ipcRenderer, remote } from "electron";
+import { TimRender } from "../../im_electron_sdk/dist/timRender.umd";
+
 import './App.css';
 
-ipcRenderer.on('create-group-reply', (event, result) => {
-  console.log('result', JSON.parse(result));
-})
+const timRenderInstance = new TimRender();
+
+// ipcRenderer.on('create-group-reply', (event, result) => {
+//   console.log('result', JSON.parse(result));
+// })
 
 class App extends Component {
 
@@ -45,8 +48,16 @@ class App extends Component {
   init() {
     // Window.tim.getTimbaseManager().TIMInit();
     // console.log(Window.tim);
+    timRenderInstance.init();
   }
-  login(){
+  async login() {
+    const res = await timRenderInstance.login({
+      userID: "940928",
+      userSig: "eJwtjEEOgjAURO-StaGfUrCQuDFBE8Ru6AWIfMxXgYYSQ2K8uxWY3bw3mQ8zZRW8cWQZEwGw3dKpwX6ilhacSkiF2oxrnrW11LAslACh2kexWA3Olkb0HECBz0on6v4sETIBpaJt6*jujy99NUhedOjm-MRvcigiw-FYnjlctX3VUBs9PlzsdH5g3x*3bjAK",
+      userData: "hahah"
+    });
+
+    console.log(res);
   }
   render() {
     return (
