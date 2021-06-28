@@ -52,7 +52,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgImportMsgList()
             // let res = await this.TIMMsgSaveMsg()
             // let res = await this.TIMMsgGetMsgList()
-            let res = await this.TIMMsgDelete()
+            // let res = await this.TIMMsgDelete()
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
             // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
@@ -70,10 +70,11 @@ class LexuslinTest {
             console.log("==========> 出错了：", e)
         }
     }
-
+    // 1
     TIMFriendshipGetFriendProfileList() {
         return this.friendshipManager.TIMFriendshipGetFriendProfileList("user data")
     }
+    // 1
     TIMFriendshipAddFriend() {
         return this.friendshipManager.TIMFriendshipAddFriend({
             friendship_add_friend_param_identifier: "lexuslin3",
@@ -84,6 +85,7 @@ class LexuslinTest {
             friendship_add_friend_param_add_wording: "xxx",
         }, "user data")
     }
+
     TIMFriendshipHandleFriendAddRequest() {
         return this.friendshipManager.TIMFriendshipHandleFriendAddRequest({
             friend_respone_identifier: "lexuslin3",
@@ -146,6 +148,7 @@ class LexuslinTest {
     TIMFriendshipDeleteFromBlackList() {
         return this.friendshipManager.TIMFriendshipDeleteFromBlackList(["lexuslin3"], "user data")
     }
+    // 1
     TIMFriendshipGetPendencyList() {
         return this.friendshipManager.TIMFriendshipGetPendencyList({
             friendship_get_pendency_list_param_type: 1,
@@ -154,28 +157,31 @@ class LexuslinTest {
             friendship_get_pendency_list_param_limited_size: 10,
         }, "user data")
     }
+    // 1
     TIMFriendshipDeletePendency() {
         return this.friendshipManager.TIMFriendshipDeletePendency({
             friendship_delete_pendency_param_type: 1,
-            friendship_delete_pendency_param_identifier_array: ["lexuslin3"]
+            friendship_delete_pendency_param_identifier_array: ["test1"]
         }, "user data")
     }
     TIMFriendshipReportPendencyReaded() {
         return this.friendshipManager.TIMFriendshipReportPendencyReaded(+new Date, "user data")
     }
+    // 1
     TIMFriendshipSearchFriends() {
         return this.friendshipManager.TIMFriendshipSearchFriends({
             friendship_search_param_keyword_list: ["lexus"],
             friendship_search_param_search_field_list: [1, 2, 4]
         }, "user data")
     }
+    // 1
     TIMFriendshipGetFriendsInfo() {
         return this.friendshipManager.TIMFriendshipGetFriendsInfo(["lexuslin3"], "user data")
     }
     // TODOs：Invalid sender or receiver identifier
     TIMMsgSendMessage() {
         // groupid, 1lexuslin127
-        return this.advanceMessageManager.TIMMsgSendMessage("1lexuslin127", 2, {
+        return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
             message_elem_array: [{
                 elem_type: 0,
                 text_elem_content: "xxx"
@@ -231,7 +237,7 @@ class LexuslinTest {
     // 1
     TIMMsgGetMsgList() {
         // 所有参数选填
-        return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
+        return this.advanceMessageManager.TIMMsgGetMsgList("1lexuslin127", 2, {
             // msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
             msg_getmsglist_param_count: 100,
             msg_getmsglist_param_is_remble: false,
@@ -241,27 +247,32 @@ class LexuslinTest {
             // msg_getmsglist_param_time_period: 100000,
         }, "user data")
     }
+    // 1
     TIMMsgDelete() {
-        return this.advanceMessageManager.TIMMsgDelete({
-            msg_delete_param_msg: "144115231469886159-1623751826-42342167503333333333",
+        return this.advanceMessageManager.TIMMsgDelete("lexuslin3", 1, {
+            msg_delete_param_msg: "144115231469886159-1624848680-2873600283",
             msg_delete_param_is_remble: true
         }, "user data")
     }
+    // 0, error, code -3
     TIMMsgListDelete() {
-        return this.advanceMessageManager.TIMMsgListDelete(["144115231469886159-1623751826-42342167503333333333"], "user data")
+        return this.advanceMessageManager.TIMMsgListDelete("1lexuslin127", 2, ["lexuslin-1624848891-212071158"], "user data")
     }
+    // 1
     TIMMsgClearHistoryMessage() {
         return this.advanceMessageManager.TIMMsgClearHistoryMessage("lexuslin3", 1, "user data")
     }
     TIMMsgSetC2CReceiveMessageOpt() {
         // TIMReceiveMessageOpt
-        return this.advanceMessageManager.TIMMsgSetC2CReceiveMessageOpt(["lexuslin3"], 0, "user data")
+        return this.advanceMessageManager.TIMMsgSetC2CReceiveMessageOpt(["lexuslin3"], 2, "user data")
     }
+    // 1
     TIMMsgGetC2CReceiveMessageOpt() {
         return this.advanceMessageManager.TIMMsgGetC2CReceiveMessageOpt(["lexuslin3"], "user data")
     }
+    // 6017, invalid params
     TIMMsgSetGroupReceiveMessageOpt() {
-        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt("ggg1", 1, "user data")
+        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt("1lexuslin127", 0, "user data")
     }
     TIMMsgDownloadElemToPath() {
         // 参数在消息元素里面取出来
