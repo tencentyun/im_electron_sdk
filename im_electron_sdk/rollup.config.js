@@ -7,7 +7,7 @@ const pkg = require('./package.json');
 
 const extensions = ['.js', '.ts'];
 
-const resolve = function(...args) {
+const resolve = function (...args) {
   return path.resolve(__dirname, ...args);
 };
 
@@ -39,10 +39,15 @@ const jobs = {
 // 从环境变量获取打包特征
 const mergeConfig = jobs[process.env.FORMAT || 'esm'];
 
-module.exports = merge(
+export default [merge(
   {
     input: resolve('./src/index.ts'),
-    output: {},
+    output: {
+      file: 'dist/bundle-a.js',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
     plugins: [
       nodeResolve({
         extensions,
@@ -51,8 +56,17 @@ module.exports = merge(
       babel({
         exclude: 'node_modules/**',
         extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
       }),
     ],
   },
   mergeConfig,
-);
+)]
