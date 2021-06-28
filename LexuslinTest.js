@@ -11,19 +11,19 @@ class LexuslinTest {
     async start() {
         try {
             this.TIMAddRecvNewMsgCallback()  
-            // this.TIMRemoveRecvNewMsgCallback()
-            // this.TIMSetMsgReadedReceiptCallback()
-            // this.TIMSetMsgRevokeCallback()
-            // this.TIMSetMsgElemUploadProgressCallback()
-            // this.TIMSetOnAddFriendCallback()
-            // this.TIMSetOnDeleteFriendCallback()
+            this.TIMRemoveRecvNewMsgCallback()
+            this.TIMSetMsgReadedReceiptCallback()
+            this.TIMSetMsgRevokeCallback()
+            this.TIMSetMsgElemUploadProgressCallback()
+            this.TIMSetOnAddFriendCallback()
+            this.TIMSetOnDeleteFriendCallback()
             // this.TIMSetUpdateFriendProfileCallback()
             // this.TIMSetFriendAddRequestCallback()
             // this.TIMSetFriendApplicationListDeletedCallback()
             // this.TIMSetFriendApplicationListReadCallback()
-            // this.TIMSetFriendBlackListAddedCallback()
-            // this.TIMSetFriendBlackListDeletedCallback()
-            // this.TIMSetMsgUpdateCallback()
+            this.TIMSetFriendBlackListAddedCallback()
+            this.TIMSetFriendBlackListDeletedCallback()
+            this.TIMSetMsgUpdateCallback()
 
             // let res = await this.TIMFriendshipGetFriendProfileList()
             // let res = await this.TIMFriendshipAddFriend()
@@ -35,7 +35,7 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipGetFriendGroupList()
             // let res = await this.TIMFriendshipModifyFriendGroup()
             // let res = await this.TIMFriendshipDeleteFriendGroup()
-            // let res = await this.TIMFriendshipAddToBlackList()
+            let res = await this.TIMFriendshipAddToBlackList()
             // let res = await this.TIMFriendshipGetBlackList()
             // let res = await this.TIMFriendshipDeleteFromBlackList()
             // let res = await this.TIMFriendshipGetPendencyList()
@@ -64,7 +64,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgSearchLocalMessages()
 
             
-
+            // some api reture json_params=""
             console.log("==========> 成功了：", res.json_params === "" ? "none" : JSON.parse(res.json_params))
         } catch(e) {
             console.log("==========> 出错了：", e)
@@ -80,12 +80,12 @@ class LexuslinTest {
             friendship_add_friend_param_identifier: "lexuslin3",
             friendship_add_friend_param_friend_type: 1,
             friendship_add_friend_param_remark: "xxx",
-            friendship_add_friend_param_group_name: "g1",
+            friendship_add_friend_param_group_name: "",
             friendship_add_friend_param_add_source: "Windows",
             friendship_add_friend_param_add_wording: "xxx",
         }, "user data")
     }
-
+    // 1
     TIMFriendshipHandleFriendAddRequest() {
         return this.friendshipManager.TIMFriendshipHandleFriendAddRequest({
             friend_respone_identifier: "lexuslin3",
@@ -94,6 +94,7 @@ class LexuslinTest {
             friend_respone_group_name: "xx",
         }, "user data")
     }
+    // 1
     TIMFriendshipModifyFriendProfile() {
         return this.friendshipManager.TIMFriendshipModifyFriendProfile({
             friendship_modify_friend_profile_param_identifier: "lexuslin3",
@@ -107,46 +108,55 @@ class LexuslinTest {
             }
         }, "user data")
     }
+    // 1
     TIMFriendshipDeleteFriend() {
         return this.friendshipManager.TIMFriendshipDeleteFriend({
             friendship_delete_friend_param_friend_type: 1,
             friendship_delete_friend_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
+    // 1
     TIMFriendshipCheckFriendType() {
         return this.friendshipManager.TIMFriendshipCheckFriendType({
             friendship_check_friendtype_param_check_type: 0,
             friendship_check_friendtype_param_identifier_array: ["lexuslin3"]
         }, "user data")
     }
+    // 1
     TIMFriendshipCreateFriendGroup() {
         return this.friendshipManager.TIMFriendshipCreateFriendGroup({
             friendship_create_friend_group_param_name_array: ["ggg1"],
             friendship_create_friend_group_param_identifier_array: ["lexuslin3"],
         }, "user data")
     }
+    // 1
     TIMFriendshipGetFriendGroupList() {
-        return this.friendshipManager.TIMFriendshipGetFriendGroupList(["ggg1"], "user data")
+        return this.friendshipManager.TIMFriendshipGetFriendGroupList(["ggg2"], "user data")
     }
+    // 1
     TIMFriendshipModifyFriendGroup() {
         return this.friendshipManager.TIMFriendshipModifyFriendGroup({
-            friendship_modify_friend_group_param_name: "ggg1",
-            friendship_modify_friend_group_param_new_name: "ggg2",
+            friendship_modify_friend_group_param_name: "ggg2",
+            // friendship_modify_friend_group_param_new_name: "ggg2",
             friendship_modify_friend_group_param_delete_identifier_array: ["lexuslin3"],
-            friendship_modify_friend_group_param_add_identifier_array: ["lexuslin3"]
+            // friendship_modify_friend_group_param_add_identifier_array: ["lexuslin3"]
         }, "user data")
     }
+    // 1
     TIMFriendshipDeleteFriendGroup() {
-        return this.friendshipManager.TIMFriendshipDeleteFriendGroup(["lexuslin3"], "user data")
+        return this.friendshipManager.TIMFriendshipDeleteFriendGroup(["ggg2"], "user data")
     }
+    // 1
     TIMFriendshipAddToBlackList() {
-        return this.friendshipManager.TIMFriendshipAddToBlackList(["lexuslin3"], "user data")
+        return this.friendshipManager.TIMFriendshipAddToBlackList(["lexuslin2"], "user data")
     }
+    // 1
     TIMFriendshipGetBlackList() {
         return this.friendshipManager.TIMFriendshipGetBlackList("user data")
     }
+    // 1
     TIMFriendshipDeleteFromBlackList() {
-        return this.friendshipManager.TIMFriendshipDeleteFromBlackList(["lexuslin3"], "user data")
+        return this.friendshipManager.TIMFriendshipDeleteFromBlackList(["lexuslin2"], "user data")
     }
     // 1
     TIMFriendshipGetPendencyList() {
@@ -164,8 +174,10 @@ class LexuslinTest {
             friendship_delete_pendency_param_identifier_array: ["test1"]
         }, "user data")
     }
+    // 1
     TIMFriendshipReportPendencyReaded() {
-        return this.friendshipManager.TIMFriendshipReportPendencyReaded(+new Date, "user data")
+        let timestamp =  Math.floor(+new Date/1000)
+        return this.friendshipManager.TIMFriendshipReportPendencyReaded(timestamp, "user data")
     }
     // 1
     TIMFriendshipSearchFriends() {
