@@ -12,11 +12,9 @@ class App extends Component {
   }
   init(){
     // Window.tim.getTimbaseManager().TIMInit();
-    console.log(Window.tim.getTimbaseManager().TIMInit)
     // console.log(Window.tim);
   }
   login(){
-    console.log(2)
   }
   render() {
     return (
