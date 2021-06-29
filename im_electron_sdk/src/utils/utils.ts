@@ -6,7 +6,7 @@ const ref = require('ref-napi');
 const ffi = require('ffi-napi');
 
 const ffipaths:any =  {
-  "linux": path.resolve(__dirname,'../lib/linux/lib/libImSDK.so')
+  "linux": path.resolve(__dirname,'../../lib/linux/lib/libImSDK.so')
 }
 function getFFIPath(){
     let res = ""

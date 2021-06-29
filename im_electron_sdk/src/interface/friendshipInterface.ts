@@ -72,12 +72,12 @@ interface Json_search_friends_param {
     friendship_search_param_search_field_list?: [number]
 }
 
-interface ErrorResponse {
-    code?: number,
-    desc?: String,
-    json_params?: String,
-    user_data?: String
-}
+// interface ErrorResponse {
+//     code?: number,
+//     desc?: String,
+//     json_params?: String,
+//     user_data?: String
+// }
 
 interface TIMOnAddFriendCallback {
     (json_identifier_array: string, user_data: string): void
@@ -105,7 +105,7 @@ interface TIMFriendBlackListDeletedCallback {
 }
 
 export {
-    ErrorResponse,
+    // ErrorResponse,
     Json_add_friend_param,
     Json_delete_friend_param,
     Json_modify_friend_info_param,
