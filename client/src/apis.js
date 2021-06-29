@@ -23,7 +23,68 @@ const APIS =  [
                         callback(err.toString())
                     })
                 }
-            }
+            },
+            {
+                name:"uninit",
+                action:(callback)=>{
+                    TimBaseManager.uninit().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"getServerTime",
+                action:(callback)=>{
+                    TimBaseManager.getServerTime().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"getSDKVersion",
+                action:(callback)=>{
+                    TimBaseManager.getSDKVersion().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"logout",
+                action:(callback)=>{
+                    TimBaseManager.logout().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"getLoginStatus",
+                action:(callback)=>{
+                    TimBaseManager.getLoginStatus().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"getLoginUserID",
+                action:(callback)=>{
+                    TimBaseManager.getLoginUserID().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            
         ]
     },
     {

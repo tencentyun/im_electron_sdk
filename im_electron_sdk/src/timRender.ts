@@ -1,5 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 
@@ -34,13 +34,61 @@ export class TimRender implements ITimRender  {
     //         this.call(data);
     //     })
     // }
+    uninit(){
+        const formatedData = {
+            method: 'TIMUninit',
+            manager: Managers.timBaseManager,
+            // callback,
+        }
+        return this.call(formatedData);
+    }
+    getSDKVersion(){
+        const formatedData = {
+            method: 'TIMGetSDKVersion',
+            manager: Managers.timBaseManager,
+        }
+        return this.call(formatedData)
+    }
+    getServerTime(){
+        const formatedData = {
+            method: 'TIMGetServerTime',
+            manager: Managers.timBaseManager,
+            // callback,
+        }
+        return this.call(formatedData)
+    }
+    logout(param:logoutParam){
+        const formatedData = {
+            method: 'TIMLogout',
+            manager: Managers.timBaseManager,
+            // callback,
+            param: param,
+        }
+        return this.call(formatedData)
+    }
     init() {
        return this.call({
            method: 'TIMInit',
-           manager: 'timBaseManager',
+           manager: Managers.timBaseManager,
        }); 
     }
-
+    getLoginStatus(){
+        const formatedData = {
+            method: 'TIMGetLoginStatus',
+            manager: Managers.timBaseManager,
+            // callback,
+        }
+        return this.call(formatedData)
+    }
+    getLoginUserID(param:getLoginUserIDParam){
+        const formatedData = {
+            method: 'TIMGetLoginUserID',
+            manager: Managers.timBaseManager,
+            // callback,
+            param: param,
+        }
+        return this.call(formatedData)
+    }
     login(data: loginParam) {
         // const callback = Symbol();
         // data.callback = callback;
@@ -50,7 +98,7 @@ export class TimRender implements ITimRender  {
             // callback,
             param: data,
         }
-        return this.call(formatedData);
+         return this.call(formatedData);
     };
 
     createGroup(data: CreateGroupParams) {

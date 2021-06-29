@@ -32,18 +32,7 @@ class App extends Component {
   }
 
 
-  init() {
-    timRenderInstance.init()
-  }
-  async login() {
-    const res = await timRenderInstance.login({
-      userID: "940928",
-      userSig: "eJwtjEEOgjAURO-StaGfUrCQuDFBE8Ru6AWIfMxXgYYSQ2K8uxWY3bw3mQ8zZRW8cWQZEwGw3dKpwX6ilhacSkiF2oxrnrW11LAslACh2kexWA3Olkb0HECBz0on6v4sETIBpaJt6*jujy99NUhedOjm-MRvcigiw-FYnjlctX3VUBs9PlzsdH5g3x*3bjAK",
-      userData: "hahah"
-    });
-
-    console.log(res);
-  }
+  
   showConsole(data){
     const { log } = this.state;
     log.push(data)
