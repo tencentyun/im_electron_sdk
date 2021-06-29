@@ -16,6 +16,7 @@ function getFFIPath(){
     switch(platform){
       case 'linux':
         res = ffipaths[platform];
+        break;
       case 'win32':
         const cpu = os.arch()
         res = ffipaths[cpu]
