@@ -2,9 +2,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-const { TimMain } = require('./im_electron_sdk');
+const { TimMain, Tim } = require('./im_electron_sdk');
 
-// const groupManagerTest = require('./groupManagerTest');
+const groupManagerTest = require('./groupManagerTest');
 // const { LexuslinTest } = require('./LexuslinTest');
 
 // const baseManagerTest = require('./baseManaterTest');
@@ -15,6 +15,10 @@ const { TimMain } = require('./im_electron_sdk');
 const tim = new TimMain({
   sdkappid: 1400187352
 })
+
+// const tim = new Tim({
+//   sdkappid: 1400187352
+// })
 // let initSDKResolver = null;
 // const initPromise = new Promise((resolve) => initSDKResolver = resolve);
 
@@ -89,8 +93,7 @@ function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
-    // console.log('初始化返回',tim.getTimbaseManager().TIMInit())
-
+    // tim.getTimbaseManager().TIMInit();
     // const res = await tim.getTimbaseManager().TIMLogin({
     //   userID: "lexuslin",
     //   userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk", // lexuslin

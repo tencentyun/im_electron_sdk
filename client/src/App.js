@@ -28,7 +28,13 @@ class App extends Component {
       data: "{a:1, b:2}"
     });
 
-    console.log("create group response", res);
+    const { data: { json_param } } = res;
+    const { create_group_result_groupid } = JSON.parse(json_param);
+
+    console.log("Created group id", create_group_result_groupid);
+    this.setState({
+      groupId: create_group_result_groupid
+    });
   }
 
 
