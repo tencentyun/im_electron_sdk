@@ -1,57 +1,60 @@
-import { CreateGroupParams, DeleteMemberParams, InviteMemberParams, ModifyGroupParams } from "../interface"
-
-export const fakeCreateGroupParams: CreateGroupParams = {
-    params: {
-        groupName: 'test group',
-        groupId: '1111',
-        groupType: 0,
-        groupMemberArray: [{
-            identifier: '1111',
-            joinTime: 1000,
-            memberRole: 'test member role',
-            msgFlag: 1,
-            msgSeq: 2,
-            shutupTime: 99933,
-            nameCard: 'test name card',
-            customInfo: [{ key: 'test key 1', value: 'test value1' }]
-        }],
-        notification: 'test notification',
-        introduction: 'use for test group',
-        faceUrl: 'https://xxx',
-        addOption: 1,
-        maxMemberNum: 20,
-        customInfo: [{ key: 'test key', value: 'test value' }]
-    },
-    data: 'test data'
+export const TIMFriendshipGetFriendProfileListParams = {}
+export const TIMFriendshipAddFriendParams = {
+    friendship_add_friend_param_identifier: "lexuslin3",
+    friendship_add_friend_param_friend_type: 1,
+    friendship_add_friend_param_remark: "xxx",
+    friendship_add_friend_param_group_name: "",
+    friendship_add_friend_param_add_source: "Windows",
+    friendship_add_friend_param_add_wording: "xxx",
 }
-
-export const fakeInviteMemberParams: InviteMemberParams = {
-    params: {
-        groupId: '111111',
-        identifierArray: ['99999'],
-        userData: 'hahah' 
-    },
-    data: 'test data'
+export const TIMFriendshipHandleFriendAddRequestParams = {
+    friend_respone_identifier: "lexuslin3",
+    friend_respone_action: 1,
+    friend_respone_remark: "xx",
+    friend_respone_group_name: "xx",
 }
-
-export const fakeModifyGroupInfoParams: ModifyGroupParams = {
-    params: {
-        groupId: '111111',
-        modifyFlag: 0,
-        groupName: 'test name',
-        notification: 'test notification',
-        introduction: 'test introduction',
-        faceUrl: 'xxxx',
-        addOption: 1,
-        maxMemberNum: 20,
-        visible: 1,
-        searchable: 1,
-        isShutupAll: false,
-        owner: '9999',
-        customInfo:[{
-            key: 'test key',
-            value: 'test  value'
+export const TIMFriendshipModifyFriendProfileParams = {
+    friendship_modify_friend_profile_param_identifier: "lexuslin3",
+    friendship_modify_friend_profile_param_item: {
+        friend_profile_item_remark: "xx",
+        friend_profile_item_group_name_array: ["xx"],
+        friend_profile_item_custom_string_array: [{
+            friend_profile_custom_string_info_key: "xx",
+            friend_profile_custom_string_info_value: "xx"
         }]
-    },
-    data: 'test data'
+    }
 }
+export const TIMFriendshipDeleteFriendParams = {
+    friendship_delete_friend_param_friend_type: 1,
+    friendship_delete_friend_param_identifier_array: ["lexuslin3"]
+}
+export const TIMFriendshipCheckFriendTypeParams = {
+    friendship_check_friendtype_param_check_type: 0,
+    friendship_check_friendtype_param_identifier_array: ["lexuslin3"]
+}
+export const TIMFriendshipCreateFriendGroupParams = {
+    friendship_create_friend_group_param_name_array: ["ggg1"],
+    friendship_create_friend_group_param_identifier_array: ["lexuslin3"],
+}
+export const TIMFriendshipGetFriendGroupListParams = ["ggg2"]
+export const TIMFriendshipModifyFriendGroupParams = ["lexuslin2"]
+export const TIMFriendshipDeleteFriendGroupParams = ["ggg2"]
+export const TIMFriendshipAddToBlackListParams = ["lexuslin2"]
+export const TIMFriendshipGetBlackListParams = {}
+export const TIMFriendshipDeleteFromBlackListParams = ["lexuslin2"]
+export const TIMFriendshipGetPendencyListParams = {
+    friendship_get_pendency_list_param_type: 1,
+    friendship_get_pendency_list_param_start_seq: 0,
+    friendship_get_pendency_list_param_start_time: 0,
+    friendship_get_pendency_list_param_limited_size: 10,
+}
+export const TIMFriendshipDeletePendencyParams = {
+    friendship_delete_pendency_param_type: 1,
+    friendship_delete_pendency_param_identifier_array: ["test1"]
+}
+export const TIMFriendshipReportPendencyReadedParams = Math.floor(+new Date/1000)
+export const TIMFriendshipSearchFriendsParams = {
+    friendship_search_param_keyword_list: ["lexus"],
+    friendship_search_param_search_field_list: [1, 2, 4]
+}
+export const TIMFriendshipGetFriendsInfoParams = ["lexuslin3"]

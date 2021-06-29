@@ -15,9 +15,21 @@ interface Json_delete_friend_param {
     friendship_delete_friend_param_identifier_array?: [string]
 }
 
+// interface Json_modify_friend_info_param {
+//     friendship_modify_friend_profile_param_identifier?: string;
+//     friendship_modify_friend_profile_param_item?: FriendProfileItem
+// }
+
 interface Json_modify_friend_info_param {
     friendship_modify_friend_profile_param_identifier?: string;
-    friendship_modify_friend_profile_param_item?: FriendProfileItem
+    friendship_modify_friend_profile_param_item: {
+        friend_profile_item_remark?: string,
+        friend_profile_item_group_name_array?: string[],
+        friend_profile_item_custom_string_array: {
+            friend_profile_custom_string_info_key?: string,
+            friend_profile_custom_string_info_value?: string
+        }[]
+    }
 }
 
 interface Json_check_friend_list_param {
@@ -32,7 +44,7 @@ interface Json_create_friend_group_param {
 
 interface FriendProfileItem {
     friend_profile_item_remark?: string;
-    friend_profile_item_group_name_array?: [];
+    friend_profile_item_group_name_array?: string[];
     friend_profile_item_custom_string_array?: [FriendProfileCustemStringInfo]
 }
 
