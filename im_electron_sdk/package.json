@@ -11,7 +11,7 @@
     "build:umd": "rollup -c --environment FORMAT:umd",
     "build:min": "rollup -c --environment FORMAT:min",
     "build": "rimraf dist/* && run-p build:esm build:umd build:min",
-    "test": "jest "
+    "test": "jest ./src/__tests__"
   },
   "keywords": [],
   "author": "xingchenhe@tencent.com",

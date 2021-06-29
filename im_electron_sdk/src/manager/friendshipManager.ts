@@ -10,7 +10,8 @@ import {
     Json_delete_pendency_param,
     Json_search_friends_param,
     ErrorResponse,
-    sdkconfig
+    sdkconfig,
+    commonResponse
 } from "../interface";
 import {
     TIMOnAddFriendCallback,
@@ -47,13 +48,13 @@ class  FriendshipManager {
         this._sdkconfig = config; 
     }
 
-    TIMFriendshipGetFriendProfileList(user_data: string) :Promise<Object> {
+    TIMFriendshipGetFriendProfileList(user_data: string) :Promise<commonResponse> {
         const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
