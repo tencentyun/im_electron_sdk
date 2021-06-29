@@ -1,4 +1,4 @@
-import { ipcMain } from "electron-better-ipc";
+import { ipcMain } from "electron";
 
 import { TIMIPCLISTENR } from "./const/const";
 import { initConfig } from "./interface";
@@ -10,7 +10,7 @@ class TimMain {
             sdkappid:config.sdkappid
         })
         //建立ipc通信通道
-        ipcMain.answerRenderer(TIMIPCLISTENR, async (data:ipcData<any>)=>{
+        ipcMain.handle(TIMIPCLISTENR, async (event, data:ipcData<any>)=>{
             const { method,manager,param,callback } = JSON.parse(data as unknown as string);
             let timManager;
             switch (manager) {

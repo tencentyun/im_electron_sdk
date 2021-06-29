@@ -1,3 +1,6 @@
+import { commonResponse } from "./basicInterface";
+import { CreateGroupParams } from "./groupInterface";
+import { loginParam } from "./loginInterface";
 
 enum Managers {
     timBaseManager='timBaseManager',
@@ -19,7 +22,16 @@ interface mainRes  {
 interface ipcRenderData {
     
 }
+
+interface ITimRender {
+    init(): Promise<commonResponse>;
+    login(data: loginParam): Promise<commonResponse>;
+    createGroup(data: CreateGroupParams): Promise<commonResponse>;
+}
+
 export { 
     ipcData,
-    mainRes
+    mainRes,
+    Managers,
+    ITimRender
 }

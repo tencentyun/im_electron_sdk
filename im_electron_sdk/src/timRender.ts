@@ -1,10 +1,10 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { mainRes } from "./interface/ipcInterface";
-import { ipcRenderer} from "electron-better-ipc";
-
+import { loginParam, CreateGroupParams, commonResponse } from "./interface";
+import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
+import { ipcRenderer } from "electron";
 
 const electron = require('electron')
-export class TimRender {
+export class TimRender implements ITimRender  {
     runtime:Map<Symbol,Function> = new Map();
     constructor() {
         console.log(electron.webContents)
@@ -20,11 +20,9 @@ export class TimRender {
         //     }
         // })
     }
-    private async call(data:any) {
-        // ipcRenderer.send(TIMIPCLISTENR, data)
-        const response = await ipcRenderer.callMain(TIMIPCLISTENR, JSON.stringify(data));
-        console.log("response", response);
-        return response;
+    private async call(data:any): Promise<commonResponse>  {
+        const response = await ipcRenderer.invoke(TIMIPCLISTENR, JSON.stringify(data));
+        return JSON.parse(response);
     };
     // login(data:any){
     //     return new Promise<void>((resolve)=>{
@@ -43,16 +41,25 @@ export class TimRender {
        }); 
     }
 
-    public login(data: any) {
-        const callback = Symbol();
-        data.callback = callback;
+    login(data: loginParam) {
+        // const callback = Symbol();
+        // data.callback = callback;
         const formatedData = {
             method: 'TIMLogin',
-            manager: 'timBaseManager',
-            callback,
+            manager: Managers.timBaseManager,
+            // callback,
             param: data,
         }
         return this.call(formatedData);
     };
+
+    createGroup(data: CreateGroupParams) {
+        const formatedData: ipcData<CreateGroupParams> = {
+            method: 'TIMGroupCreate',
+            manager: Managers.groupManager,
+            // callback,
+            param: data,
+        }
+        return this.call(formatedData);
+    }
 }
-// export default TimRender;

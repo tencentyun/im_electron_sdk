@@ -1,8 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 
-const { TimMain } = require('./im_electron_sdk')
+const { TimMain } = require('./im_electron_sdk');
 
 // const groupManagerTest = require('./groupManagerTest');
 // const { LexuslinTest } = require('./LexuslinTest');
@@ -12,7 +12,6 @@ const { TimMain } = require('./im_electron_sdk')
 // const tim = new TIM({
 //   sdkappid: 1400187352
 // });
-console.log(TimMain)
 const tim = new TimMain({
   sdkappid: 1400187352
 })
