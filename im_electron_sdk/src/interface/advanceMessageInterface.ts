@@ -62,6 +62,7 @@ interface Json_search_message_param {
 }
 
 interface Json_get_msg_param {
+    msg_getmsglist_param_last_msg?: string
     msg_getmsglist_param_count?: string
     msg_getmsglist_param_is_remble?: boolean
     msg_getmsglist_param_is_forward?: boolean

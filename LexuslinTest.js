@@ -43,7 +43,7 @@ class LexuslinTest {
             // let res = await this.TIMFriendshipReportPendencyReaded()
             // let res = await this.TIMFriendshipSearchFriends()
             // let res = await this.TIMFriendshipGetFriendsInfo()
-            let res = await this.TIMMsgSendMessage()
+            // let res = await this.TIMMsgSendMessage()
             // let res = await this.TIMMsgCancelSend()
             // let res = await this.TIMMsgFindMessages()
             // let res = await this.TIMMsgReportReaded()
@@ -55,8 +55,8 @@ class LexuslinTest {
             // let res = await this.TIMMsgDelete()
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
-            // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
-            // let res = await this.TIMMsgGetC2CReceiveMessageOpt()
+            // await this.TIMMsgSetC2CReceiveMessageOpt()
+            let res = await this.TIMMsgGetC2CReceiveMessageOpt()
             // let res = await this.TIMMsgSetGroupReceiveMessageOpt()
             // let res = await this.TIMMsgDownloadElemToPath()
             // let res = await this.TIMMsgDownloadMergerMessage()
@@ -190,27 +190,27 @@ class LexuslinTest {
     TIMFriendshipGetFriendsInfo() {
         return this.friendshipManager.TIMFriendshipGetFriendsInfo(["lexuslin3"], "user data")
     }
-    // TODOs：Invalid sender or receiver identifier
+    // 1, 需要设置timeout
     TIMMsgSendMessage() {
         // groupid, 1lexuslin127
-        // return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
-        //     message_elem_array: [{
-        //         elem_type: 0,
-        //         text_elem_content: "xxx"
-        //     }],
-        //     message_sender: "lexuslin"
-        // }, "", "user data")
-        
-        return this.advanceMessageManager.TIMMsgSendMessage("1lexuslin127", 2, {
+        return this.advanceMessageManager.TIMMsgSendMessage("lexuslin3", 1, {
             message_elem_array: [{
-                elem_type: 9,
-                video_elem_video_type: "mov",
-                video_elem_video_duration: 15,
-                video_elem_video_path: "./c3b94cee5c318b590b5cff79a712af23.MOV",
-                // video_elem_level: 0
+                elem_type: 0,
+                text_elem_content: "xxx"
             }],
             message_sender: "lexuslin"
-        }, "", "user data") 
+        }, "", "user data")
+        
+        // return this.advanceMessageManager.TIMMsgSendMessage("1lexuslin127", 2, {
+        //     message_elem_array: [{
+        //         elem_type: 9,
+        //         video_elem_video_type: "mov",
+        //         video_elem_video_duration: 15,
+        //         video_elem_video_path: "./c3b94cee5c318b590b5cff79a712af23.MOV",
+        //         // video_elem_level: 0
+        //     }],
+        //     message_sender: "lexuslin"
+        // }, "", "user data") 
     }
     // 1
     TIMMsgCancelSend() {
@@ -260,12 +260,12 @@ class LexuslinTest {
     // 1
     TIMMsgGetMsgList() {
         // 所有参数选填
-        return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin34234234", 2, {
-            // msg_getmsglist_param_last_msg: "144115231469886159-1623751826-4234216750",
+        return this.advanceMessageManager.TIMMsgGetMsgList("lexuslin3", 1, {
+            msg_getmsglist_param_last_msg: "144115225971632901-1624882630-707997467",
             msg_getmsglist_param_count: 100,
-            msg_getmsglist_param_is_remble: false,
-            msg_getmsglist_param_is_forward: true,
-            msg_getmsglist_param_last_msg_seq: 3444972625,
+            // msg_getmsglist_param_is_remble: false,
+            // msg_getmsglist_param_is_forward: true,
+            // msg_getmsglist_param_last_msg_seq: 3444972625,
             // msg_getmsglist_param_time_begin: 0,
             // msg_getmsglist_param_time_period: 100000,
         }, "user data")
@@ -285,7 +285,7 @@ class LexuslinTest {
     TIMMsgClearHistoryMessage() {
         return this.advanceMessageManager.TIMMsgClearHistoryMessage("lexuslin3", 1, "user data")
     }
-    // 0, 设置不生效
+    // 1, 初始化登陆后，还原为0
     TIMMsgSetC2CReceiveMessageOpt() {
         // TIMReceiveMessageOpt
         return this.advanceMessageManager.TIMMsgSetC2CReceiveMessageOpt(["lexuslin3"], 2, "user data")
@@ -296,7 +296,7 @@ class LexuslinTest {
     }
     // 6017, invalid params
     TIMMsgSetGroupReceiveMessageOpt() {
-        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt("1lexuslin127", 0, "user data")
+        return this.advanceMessageManager.TIMMsgSetGroupReceiveMessageOpt("1lexuslin127", 2, "user data")
     }
     // 1, id business等选填字段可以不填
     TIMMsgDownloadElemToPath() {
@@ -315,7 +315,7 @@ class LexuslinTest {
     // 0，20003跟send一样，（注：不能发群）
     TIMMsgBatchSend() {
         return this.advanceMessageManager.TIMMsgBatchSend({
-            msg_batch_send_param_identifier_array: ["lexuslin3"],
+            msg_batch_send_param_identifier_array: ["lexuslin3", "13675"],
             msg_batch_send_param_msg: {
                 message_elem_array: [{
                     elem_type: 0,
@@ -325,17 +325,17 @@ class LexuslinTest {
             }
         }, "user data")
     }
-    // 0，调通，但数据为[]
+    // 1
     TIMMsgSearchLocalMessages() {
         return this.advanceMessageManager.TIMMsgSearchLocalMessages({
             msg_search_param_keyword_array: ["1"],
-            msg_search_param_message_type_array: [1],
+            msg_search_param_message_type_array: [0],
             msg_search_param_conv_id: "lexuslin3",
             msg_search_param_conv_type: 1,
-            msg_search_param_search_time_position: 0,
-            msg_search_param_search_time_period: 24*60*60*7,
-            msg_search_param_page_index: 0,
-            msg_search_param_page_size: 100,
+            // msg_search_param_search_time_position: 0,
+            // msg_search_param_search_time_period: 24*60*60*7,
+            // msg_search_param_page_index: 0,
+            // msg_search_param_page_size: 100,
         }, "user data")
     }
     // callback begin
