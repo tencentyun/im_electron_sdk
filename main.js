@@ -55,8 +55,8 @@ const tim = new TimMain({
 //   event.sender.send('create-group-reply', JSON.stringify(res));
 // })
 
-let initSDKResolver = null;
-const initPromise = new Promise((resolve) => initSDKResolver = resolve);
+// let initSDKResolver = null;
+// const initPromise = new Promise((resolve) => initSDKResolver = resolve);
 
 // subscribe();
 

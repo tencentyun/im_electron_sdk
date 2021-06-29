@@ -13,8 +13,8 @@ class TimbaseManager {
      */
     TIMInit() :number{
         const sdkconfig:string = JSON.stringify({
-            "sdk_config_log_file_path": path.resolve(__dirname,'../sdk-log/'),
-            "sdk_config_config_file_path": path.resolve(__dirname,'../sdk-config/')
+            "sdk_config_log_file_path": path.resolve(__dirname,'../sdk-log'),
+            "sdk_config_config_file_path": path.resolve(__dirname,'../sdk-config')
         });
         console.log(sdkconfig);
        return this._sdkconfig.Imsdklib.TIMInit(this._sdkconfig.sdkappid,nodeStrigToCString(sdkconfig));
