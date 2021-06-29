@@ -28,7 +28,7 @@ class App extends Component {
 
 
   init() {
-    timRenderInstance.init();
+    timRenderInstance.init()
   }
   async login() {
     const res = await timRenderInstance.login({

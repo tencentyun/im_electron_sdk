@@ -1,6 +1,6 @@
 import { ipcMain } from "electron";
 
-import { TIMIPCLISTENR } from "./const/const";
+import { TIMIPCLISTENR,CONSOLETAG } from "./const/const";
 import { initConfig } from "./interface";
 import { ipcData } from "./interface/ipcInterface";
 import TIM from "./tim";
@@ -12,6 +12,7 @@ class TimMain {
         //建立ipc通信通道
         ipcMain.handle(TIMIPCLISTENR, async (event, data:ipcData<any>)=>{
             const { method,manager,param,callback } = JSON.parse(data as unknown as string);
+            const startTime = Date.now();
             let timManager;
             switch (manager) {
                 case 'timBaseManager':
@@ -42,6 +43,7 @@ class TimMain {
                     //@ts-ignore
                         const data = await timManager[method](param);
                         console.log('============data=============', data);
+                        console.log(`${CONSOLETAG}${method} is called . user ${Date.now()-startTime} ms.`,`param：${param}`,`data：${data}`);
                         return JSON.stringify({ callback, data});
                     }catch(e) {
                         console.log("error", e)

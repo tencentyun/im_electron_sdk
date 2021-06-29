@@ -89,14 +89,14 @@ function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
-    console.log('初始化返回',tim.getTimbaseManager().TIMInit())
+    // console.log('初始化返回',tim.getTimbaseManager().TIMInit())
 
-    const res = await tim.getTimbaseManager().TIMLogin({
-      userID: "lexuslin",
-      userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk", // lexuslin
-      // userSig: "eJwtjNEKgjAYhd9l1yH-NreG0IWB1IWIZBh0FzjzR9OlS0bRu2fquTvfdzgfco4zb9Q9CQjzgGzmjoVuLZY440a719Bgy1c5FPXNGCxIQH0AqrZcsMVoZ7DXEwdQMGWhFh9-JpmvpAC*bge8T9-5O2eXSGbVgSsXqS6xo6yT9Bg-96W4VrWj4SlV0Lky3JHvDx6uMp4_", // lexuslin3
-      userData:"hahah"
-     })
+    // const res = await tim.getTimbaseManager().TIMLogin({
+    //   userID: "lexuslin",
+    //   userSig:"eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk", // lexuslin
+    //   // userSig: "eJwtjNEKgjAYhd9l1yH-NreG0IWB1IWIZBh0FzjzR9OlS0bRu2fquTvfdzgfco4zb9Q9CQjzgGzmjoVuLZY440a719Bgy1c5FPXNGCxIQH0AqrZcsMVoZ7DXEwdQMGWhFh9-JpmvpAC*bge8T9-5O2eXSGbVgSsXqS6xo6yT9Bg-96W4VrWj4SlV0Lky3JHvDx6uMp4_", // lexuslin3
+    //   userData:"hahah"
+    //  })
     //  initSDKResolver();
 
       // //  test base apis
@@ -105,9 +105,9 @@ function createWindow() {
       // conversationManagerTest.testConversation(tim);
       // // test group apis
       // groupManagerTest.testGroupManager(tim);
-      setTimeout(() => {
-        new LexuslinTest(tim).start();
-      }, 0)
+      // setTimeout(() => {
+      //   new LexuslinTest(tim).start();
+      // }, 0)
   })
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
