@@ -49,6 +49,7 @@ function jsFuncToFFIConvEventCallback(fun:convEventCallback){
 function jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(fun:convTotalUnreadMessageCountChangedCallback){
   const callback = ffi.Callback(ref.types.void, [ref.types.int, ref.types.CString],
     function (total_unread_count:number,user_data:Buffer) {
+      
       fun(total_unread_count,user_data.toString());
   });
   return callback;

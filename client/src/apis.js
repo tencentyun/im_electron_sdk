@@ -1,3 +1,4 @@
+import ConversationManager from "./manager/conversationManager";
 import TimBaseManager from "./manager/timBaseManager";
 
 const APIS =  [
@@ -84,7 +85,36 @@ const APIS =  [
                     })
                 }
             },
-            
+            {
+                name:"setNetworkStatusListenerCallback",
+                action:(callback)=>{
+                    TimBaseManager.setNetworkStatusListenerCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+        ]
+    },
+    {
+        manager: 'conversationManager',
+        method:[
+            {
+                name:"TIMSetConvEventCallback",
+                action:(callback)=>{
+                    try{
+                        ConversationManager.TIMSetConvEventCallback().then(data=>{
+                            callback(JSON.stringify(data))
+                        }).catch(err=>{
+                            console.log(err)
+                            callback('12312')
+                        })
+                    }catch(err){
+                        console.log(err)
+                    }
+                }
+            },
         ]
     },
     {

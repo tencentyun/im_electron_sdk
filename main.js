@@ -1,10 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
 const path = require('path')
-
 const { TimMain, Tim } = require('./im_electron_sdk');
-
-const groupManagerTest = require('./groupManagerTest');
+// const groupManagerTest = require('./groupManagerTest');
 // const { LexuslinTest } = require('./LexuslinTest');
 
 // const baseManagerTest = require('./baseManaterTest');
@@ -89,7 +87,23 @@ function createWindow() {
   //   })
   // )
   mainWindow.loadURL("http://127.0.0.1:3000")
-
+  mainWindow.webContents.on("render-process-gone",(event)=>{
+    console.log(event)
+    // const choice = dialog.showMessageBoxSync(win, {
+    //   type: 'question',
+    //   buttons: ['Leave', 'Stay'],
+    //   title: 'Do you want to leave this site?',
+    //   message: 'Changes you made may not be saved.',
+    //   defaultId: 0,
+    //   cancelId: 1
+    // })
+    // const leave = (choice === 0)
+    // if (leave) {
+    //   event.preventDefault()
+    // }
+    event.preventDefault()
+  })
+ 
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
@@ -134,6 +148,38 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
+})
+app.on("render-process-gone",(event)=>{
+  console.log(event,'**********************************')
+  // const choice = dialog.showMessageBoxSync(win, {
+  //   type: 'question',
+  //   buttons: ['Leave', 'Stay'],
+  //   title: 'Do you want to leave this site?',
+  //   message: 'Changes you made may not be saved.',
+  //   defaultId: 0,
+  //   cancelId: 1
+  // })
+  // const leave = (choice === 0)
+  // if (leave) {
+  //   event.preventDefault()
+  // }
+  event.preventDefault()
+})
+app.on("child-process-gone",(event)=>{
+  console.log(event,'12312**********************************')
+  // const choice = dialog.showMessageBoxSync(win, {
+  //   type: 'question',
+  //   buttons: ['Leave', 'Stay'],
+  //   title: 'Do you want to leave this site?',
+  //   message: 'Changes you made may not be saved.',
+  //   defaultId: 0,
+  //   cancelId: 1
+  // })
+  // const leave = (choice === 0)
+  // if (leave) {
+  //   event.preventDefault()
+  // }event.preventDefault()
+  event.preventDefault()
 })
 
 // In this file you can include the rest of your app's specific main process

@@ -32,6 +32,14 @@ const TimBaseManager = {
         return timRenderInstance.getLoginUserID({
             userData:"getLoginUserID"
         })
+    },
+    setNetworkStatusListenerCallback:()=>{
+       return timRenderInstance.setNetworkStatusListenerCallback({
+            userData:"setNetworkStatusListenerCallback",
+            callback:(data)=>{
+                console.log(data,'setNetworkStatusListenerCallback');
+            }
+        })
     }
 }
 

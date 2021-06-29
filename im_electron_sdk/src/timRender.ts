@@ -1,45 +1,64 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
+import { setConvEventCallback } from "./interface/conversationInterface";
 
 const electron = require('electron')
 
 const getUniKey = (length: number) => Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
 
 export class TimRender implements ITimRender  {
-    runtime:Map<string,Function> = new Map();
+    static runtime:Map<string,Function> = new Map();
+    static isListened = false
     constructor() {
-        ipcRenderer.on('global-callback-reply',(e:any,res:any)=>{
-            const { callbackKey, responseData } = JSON.parse(res);
-            
-            if(this.runtime.has(callbackKey)){
-                 //@ts-ignore
-                 this.runtime.get(callbackKey)(responseData);
-            }else{
-                throw new Error('no such callback.')
-            }
-        })
+        if(!TimRender.isListened){
+            ipcRenderer.on('global-callback-reply',(e:any,res:any)=>{
+                const { callbackKey, responseData } = JSON.parse(res);
+                console.log(TimRender.runtime,'2233')
+                if(TimRender.runtime.has(callbackKey)){
+                     //@ts-ignore
+                     TimRender.runtime.get(callbackKey)(responseData);
+                }
+            })
+            TimRender.isListened = true
+        }
     }
+    
     private async call(data:any): Promise<commonResponse> {
         const response = await ipcRenderer.invoke(TIMIPCLISTENR, JSON.stringify(data));
         return JSON.parse(response);
     };
-    // login(data:any){
-    //     return new Promise<void>((resolve)=>{
-    //         const callback = Symbol();
-    //         data.callback = callback;
-    //         this.runtime.set(callback,()=>{
-    //             resolve()
-    //         })
-    //         this.call(data);
-    //     })
-    // }
+    setConvEventCallback(param:setConvEventCallback){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetConvEventCallback',
+            manager: Managers.conversationManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    setNetworkStatusListenerCallback(param:TIMSetNetworkStatusListenerCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetNetworkStatusListenerCallback',
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
     uninit(){
         const formatedData = {
             method: 'TIMUninit',
             manager: Managers.timBaseManager,
-            // callback,
         }
         return this.call(formatedData);
     }
@@ -54,7 +73,6 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMGetServerTime',
             manager: Managers.timBaseManager,
-            // callback,
         }
         return this.call(formatedData)
     }
@@ -62,7 +80,6 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMLogout',
             manager: Managers.timBaseManager,
-            // callback,
             param: param,
         }
         return this.call(formatedData)
@@ -77,7 +94,6 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMGetLoginStatus',
             manager: Managers.timBaseManager,
-            // callback,
         }
         return this.call(formatedData)
     }
@@ -85,18 +101,14 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMGetLoginUserID',
             manager: Managers.timBaseManager,
-            // callback,
             param: param,
         }
         return this.call(formatedData)
     }
     login(data: loginParam) {
-        // const callback = Symbol();
-        // data.callback = callback;
         const formatedData = {
             method: 'TIMLogin',
             manager: Managers.timBaseManager,
-            // callback,
             param: data,
         }
          return this.call(formatedData);
@@ -158,7 +170,7 @@ export class TimRender implements ITimRender  {
             param: data
         }
 
-        this.runtime.set(callback, data.callback);
+        TimRender.runtime.set(callback, data.callback);
         return this.call(formatedData);
     }
 
@@ -173,7 +185,7 @@ export class TimRender implements ITimRender  {
             param: data
         }
 
-        this.runtime.set(callback, data.callback);
+        TimRender.runtime.set(callback, data.callback);
         return this.call(formatedData);
     }
 
@@ -186,7 +198,7 @@ export class TimRender implements ITimRender  {
             param: data
         }
 
-        this.runtime.set(callback, data.callback);
+        TimRender.runtime.set(callback, data.callback);
         return this.call(formatedData);
     }
 }

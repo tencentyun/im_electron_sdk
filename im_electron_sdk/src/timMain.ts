@@ -43,24 +43,22 @@ class Callback {
     async getResponse() {
         const startTime = Date.now();
         const { method, param, callback } = this.requestData;
+        console.log('requestData:',this.requestData)
         const manager = this.getManager();
         if (manager && manager[method]) {
             try {
                 if (callback) {
                     console.log("===========add callback successfully==========");
                     //@ts-ignore
-                    param.callback = (group_id, json_group_attibute_array, user_data) => {
-                        console.log("callback-response", group_id, json_group_attibute_array, user_data);
+                    param.callback = (...args) => {
+                        console.log("callback-response");
                         this.ipcEvent.sender.send('global-callback-reply', JSON.stringify({
                             callbackKey: callback,
-                            responseData: {
-                                group_id,
-                                json_group_attibute_array,
-                                user_data
-                            }
+                            responseData: args
                         }));
                     }
                 }
+                
                 const data = await manager[method](param);
                 console.log(`${CONSOLETAG}${method} is called . user ${Date.now()-startTime} ms.`,`param：${param}`,`data：${data}`);
                 return JSON.stringify({ callback, data });
