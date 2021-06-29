@@ -1,4 +1,5 @@
 import TimBaseManager from "./manager/timBaseManager";
+import TimGroupManager from "./manager/timGroupManager";
 
 const APIS =  [
     {
@@ -93,7 +94,77 @@ const APIS =  [
             {
                 name:"createGroup",
                 action:(callback)=>{
-                    TimBaseManager.TIMLogin().then(data=>{
+                    TimGroupManager.createGroup().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "deleteGroup",
+                action:(callback)=>{
+                    TimGroupManager.deleteGroup().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getJoinedGroup",
+                action:(callback)=>{
+                    TimGroupManager.getJoinedGroupList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getGroupInfoList",
+                action:(callback)=>{
+                    TimGroupManager.getGroupInfoList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "modifyGroupInfo",
+                action:(callback)=>{
+                    TimGroupManager.modifyGroupInfo().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getGroupMemberInfoList",
+                action:(callback)=>{
+                    TimGroupManager.getGroupMemberInfoList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "modifyGroupMemberInfo",
+                action:(callback)=>{
+                    TimGroupManager.modifyGroupMemberInfo().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getGroupPendencyList",
+                action:(callback)=>{
+                    TimGroupManager.getGroupPendencyList().then(data=>{
                         callback(JSON.stringify(data))
                     }).catch(err=>{
                         callback(err.toString())

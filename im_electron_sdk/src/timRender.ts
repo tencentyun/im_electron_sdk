@@ -1,5 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, DeleteGroupParams, JoinGroupParams, QuitGroupParams, InviteMemberParams, DeleteMemberParams, GetGroupListParams, ModifyGroupParams, GetGroupMemberInfoParams, ModifyMemberInfoParams, GetPendencyListParams, ReportParams, HandlePendencyParams, GetOnlineMemberCountParams, SearchGroupParams, SearchMemberParams } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 
@@ -187,6 +187,166 @@ export class TimRender implements ITimRender  {
         }
 
         this.runtime.set(callback, data.callback);
+        return this.call(formatedData);
+    }
+
+    deleteGroup(data: DeleteGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupDelete',
+            manager: Managers.groupManager,
+            param: data
+        }
+
+        return this.call(formatedData);
+    }
+
+    joinGroup(joinGroupParams: JoinGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupJoin',
+            manager: Managers.groupManager,
+            param: joinGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    quitGroup(quitGroupParams: QuitGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupQuit',
+            manager: Managers.groupManager,
+            param: quitGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    inviteMember(inviteMemberParams: InviteMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupInviteMember',
+            manager: Managers.groupManager,
+            param: inviteMemberParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteMember(deleteMemberParams: DeleteMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupDeleteMember',
+            manager: Managers.groupManager,
+            param: deleteMemberParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    getJoinedGroupList(data?: string) {
+        const formatedData = {
+            method: 'TIMGroupGetJoinedGroupList',
+            manager: Managers.groupManager,
+            param: data
+        }
+
+        return this.call(formatedData);
+    }
+
+    getGroupInfoList(getGroupListParams: GetGroupListParams) {
+        const formatedData = {
+            method: 'TIMGroupGetGroupInfoList',
+            manager: Managers.groupManager,
+            param: getGroupListParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    modifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupModifyGroupInfo',
+            manager: Managers.groupManager,
+            param: modifyGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    getGroupMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams) {
+        const formatedData = {
+            method: 'TIMGroupGetMemberInfoList',
+            manager: Managers.groupManager,
+            param: getGroupMemberInfoParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    modifyGroupMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
+        const formatedData = {
+            method: 'TIMGroupModifyMemberInfo',
+            manager: Managers.groupManager,
+            param: modifyMemberInfoParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    getGroupPendencyList(getPendencyListParams: GetPendencyListParams) {
+        const formatedData = {
+            method: 'TIMGroupGetPendencyList',
+            manager: Managers.groupManager,
+            param: getPendencyListParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    groupReportPendencyReaded(reportParams: ReportParams) {
+        const formatedData = {
+            method: 'TIMGroupReportPendencyReaded',
+            manager: Managers.groupManager,
+            param: reportParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    handleGroupPendency(handlePendencyParams: HandlePendencyParams) {
+        const formatedData = {
+            method: 'TIMGroupHandlePendency',
+            manager: Managers.groupManager,
+            param: handlePendencyParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    getGroupOnlineMemberCount(params: GetOnlineMemberCountParams) {
+        const formatedData = {
+            method: 'TIMGroupGetOnlineMemberCount',
+            manager: Managers.groupManager,
+            param: params
+        }
+
+        return this.call(formatedData); 
+    }
+
+    searchGroups(searchGroupsParams: SearchGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupSearchGroups',
+            manager: Managers.groupManager,
+            param: searchGroupsParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    searchGroupMembers(searchMemberParams: SearchMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupSearchGroupMembers',
+            manager: Managers.groupManager,
+            param: searchMemberParams
+        }
+
         return this.call(formatedData);
     }
 }
