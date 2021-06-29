@@ -198,10 +198,28 @@ class AdvanceMessageManage {
     TIMMsgGetMsgList(conv_id: string, conv_type: number, json_advance_message_param: Json_get_msg_param, user_data: string) :Promise<any> {
         const c_user_data = this.stringFormator(user_data);
         const c_conv_id = this.stringFormator(conv_id);
-        const c_json_advance_message_param = this.stringFormator(JSON.stringify(json_advance_message_param));
         
-        // return this.TIMMsgFindMessages([message_id], user_data).then(res => {
+        if(json_advance_message_param.msg_getmsglist_param_last_msg) {
+            return this.TIMMsgFindMessages([json_advance_message_param.msg_getmsglist_param_last_msg], user_data).then(res => {
+                return new Promise((resolve, reject) => {
+                    const json_msg_param_array = res.json_params;
+                    json_advance_message_param.msg_getmsglist_param_last_msg = JSON.parse(json_msg_param_array)[0]
+                    const c_json_advance_message_param = this.stringFormator(JSON.stringify(json_advance_message_param));
+
+                    const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                        if(code === 0) {
+                            resolve({ code, desc, json_params, user_data })
+                        }
+                        else
+                            reject(this.getErrorResponse({ code, desc }))
+                    }), c_user_data)
+    
+                    code !== 0 && reject(this.getErrorResponse({ code }))
+                })
+            })
+        } else {
             return new Promise((resolve, reject) => {
+                const c_json_advance_message_param = this.stringFormator(JSON.stringify(json_advance_message_param));
                 const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
                     if(code === 0) {
                         resolve({ code, desc, json_params, user_data })
@@ -212,7 +230,8 @@ class AdvanceMessageManage {
 
                 code !== 0 && reject(this.getErrorResponse({ code }))
             })
-        // })
+        }
+        
     }
     
     TIMMsgDelete(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msgdelete, user_data: string) :Promise<any> {

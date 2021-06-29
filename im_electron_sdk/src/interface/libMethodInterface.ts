@@ -241,7 +241,7 @@ interface TIMMsgGetC2CReceiveMessageOptFun {
     (json_identifier_array?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgSetGroupReceiveMessageOptFun {
-    (group_id?: Buffer, opt?: TIMReceiveMessageOpt, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (group_id?: Buffer, opt?: number, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgDownloadElemToPathFun {
     (json_download_elem_param?: Buffer, path?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
