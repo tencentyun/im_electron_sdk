@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { TimRender } from "../../im_electron_sdk/dist/timRender.umd";
-
+import APIS from './apis';
 import './App.css';
 
 const timRenderInstance = new TimRender();
 class App extends Component {
-
+  constructor(){
+    super();
+    this.state = {
+      log:[]
+    }
+  }
   async createGroup() {
     const fakeParams = {
       groupName: "test-avchatRoom",
@@ -39,13 +44,45 @@ class App extends Component {
 
     console.log(res);
   }
-
+  showConsole(data){
+    const { log } = this.state;
+    log.push(data)
+    this.setState({
+      log:log
+    })
+  }
   render() {
+    const { log } = this.state;
     return (
       <div className="App">
-        <button onClick={this.createGroup}>Create Group</button>
-        <button onClick={this.init}>init</button>
-        <button onClick={this.login}>login</button>
+        <div className="btns">
+          {
+            APIS.map((item,index)=>{
+              return (
+                <div className="card" key={index}>
+                  <div className="title">{item.manager}</div>
+                  <div className="btn">
+                    {
+                      item.method.map((met,idx)=>{
+                        return <button key={`${index}${idx}`} onClick={()=>{
+                          met.action(this.showConsole.bind(this));
+                        }}>{met.name}</button>
+                      })
+                    }
+                  </div>
+                </div>
+              )
+            })
+          }
+          
+        </div>
+        <div className="console">
+          {
+            log.map((item,index)=>{
+              return <div className="log-item" key={index}>{item}</div>
+            })  
+          }
+        </div>
       </div>
     );
   }
