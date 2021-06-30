@@ -35,7 +35,7 @@ class  FriendshipManager {
         return {
             code: params.code || -1, 
             desc: params.desc || "error",
-            json_params: params.json_params || "",
+            json_param: params.json_param || "",
             user_data: params.user_data || ""
         }
     }
@@ -64,14 +64,14 @@ class  FriendshipManager {
         })
     }
 
-    TIMFriendshipAddFriend(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipAddFriend(json_friendship_param: Json_add_friend_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -81,14 +81,14 @@ class  FriendshipManager {
         })
     }
 
-    TIMFriendshipHandleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) :Promise<any> {
+    TIMFriendshipHandleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -97,14 +97,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipModifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) :Promise<any> {
+    TIMFriendshipModifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -113,14 +113,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -129,14 +129,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipCheckFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) :Promise<any> {
+    TIMFriendshipCheckFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -145,14 +145,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipCreateFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) :Promise<any> {
+    TIMFriendshipCreateFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -161,14 +161,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendGroupList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendGroupList(json_friendship_param: Array<string>, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -177,14 +177,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipModifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) :Promise<any> {
+    TIMFriendshipModifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -193,14 +193,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFriendGroup(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFriendGroup(json_friendship_param: Array<string>, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -209,14 +209,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipAddToBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
+    TIMFriendshipAddToBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -225,13 +225,13 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetBlackList(user_data: string) :Promise<any> {
+    TIMFriendshipGetBlackList(user_data: string) :Promise<commonResponse> {
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -240,14 +240,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFromBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFromBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -256,14 +256,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) :Promise<any> {
+    TIMFriendshipGetPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -272,14 +272,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) :Promise<any> {
+    TIMFriendshipDeletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -288,13 +288,13 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipReportPendencyReaded(timestamp: number, user_data: string) :Promise<any> {
+    TIMFriendshipReportPendencyReaded(timestamp: number, user_data: string) :Promise<commonResponse> {
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -303,14 +303,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipSearchFriends(json_friendship_param: Json_search_friends_param, user_data: string) :Promise<any> {
+    TIMFriendshipSearchFriends(json_friendship_param: Json_search_friends_param, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -319,14 +319,14 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendsInfo(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendsInfo(json_friendship_param: Array<string>, user_data: string) :Promise<commonResponse> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
