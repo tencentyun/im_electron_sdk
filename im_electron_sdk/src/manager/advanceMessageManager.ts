@@ -28,7 +28,7 @@ class AdvanceMessageManage {
         return {
             code: params.code || -1, 
             desc: params.desc || "error",
-            json_params: params.json_params || "",
+            json_param: params.json_param || "",
             user_data: params.user_data || ""
         }
     }
