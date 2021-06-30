@@ -186,7 +186,7 @@ interface DeleteAttributeParams {
 interface ErrorResponse {
     code?: number;
     desc?: String;
-    json_params?: String;
+    json_param?: String;
     user_data?: String
 }
 
