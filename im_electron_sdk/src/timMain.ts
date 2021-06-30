@@ -14,7 +14,7 @@ class Callback {
         this.tim = timInstance;
         this.ipcEvent = event;
     }
-
+    
     private getManager() {
         const { manager } = this.requestData;
         let timManager;
@@ -71,18 +71,22 @@ class Callback {
 }
 
 class TimMain {
+    static isLisened = false;
     constructor(config: initConfig) {
         const tim = new TIM({
             sdkappid: config.sdkappid
         })
 
         //建立ipc通信通道
-        ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
-            const requestData = JSON.parse(data as unknown as string);
-            const requestInstance = new Callback(requestData, tim, event);
-            const response = await requestInstance.getResponse();
-            return response;
-        })
+        if(!TimMain.isLisened) {
+            ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
+                const requestData = JSON.parse(data as unknown as string);
+                const requestInstance = new Callback(requestData, tim, event);
+                const response = await requestInstance.getResponse();
+                return response;
+            })
+            TimMain.isLisened = true
+        }
     }
 }
 export default TimMain;

@@ -1,8 +1,8 @@
 import TimMain from "./timMain"
 import {TimRender} from "./timRender"
-import Tim from "./tim";
+import TIM from "./tim";
 export {
     TimMain,
     TimRender,
-    Tim
+    TIM
 }

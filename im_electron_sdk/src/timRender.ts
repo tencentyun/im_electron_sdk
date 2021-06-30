@@ -1,8 +1,8 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, TIMSetKickedOfflineCallbackParam, TIMSetUserSigExpiredCallbackParam } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
-import { setConvEventCallback } from "./interface/conversationInterface";
+import { convCancelDraft, convCreate, convDelete, convGetConvInfo, convGetTotalUnreadMessageCount, convPinConversation, convSetDrat, convTotalUnreadMessageCountChangedCallbackParam, getConvList, setConvEventCallback } from "./interface/conversationInterface";
 
 const electron = require('electron')
 
@@ -29,6 +29,84 @@ export class TimRender implements ITimRender  {
         const response = await ipcRenderer.invoke(TIMIPCLISTENR, JSON.stringify(data));
         return JSON.parse(response);
     };
+    TIMConvGetTotalUnreadMessageCount(param:convGetTotalUnreadMessageCount) {
+        const formatedData = {
+            method: 'TIMConvGetTotalUnreadMessageCount',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvPinConversation(param:convPinConversation){
+        const formatedData = {
+            method: 'TIMConvPinConversation',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvGetConvInfo(param:convGetConvInfo){
+        const formatedData = {
+            method: 'TIMConvGetConvInfo',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvCancelDraft(param:convCancelDraft){
+        const formatedData = {
+            method: 'TIMConvCancelDraft',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvSetDraft(param:convSetDrat){
+        const formatedData = {
+            method: 'TIMConvSetDraft',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvGetConvList(param:getConvList){
+        console.log(param)
+        const formatedData = {
+            method: 'TIMConvGetConvList',
+            manager: Managers.conversationManager,
+            param: param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvDelete(param:convDelete){
+        const formatedData = {
+            method: 'TIMConvDelete',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvCreate(param:convCreate){
+        const formatedData = {
+            method: 'TIMConvCreate',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMSetConvTotalUnreadMessageCountChangedCallback(param:convTotalUnreadMessageCountChangedCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetConvTotalUnreadMessageCountChangedCallback',
+            manager: Managers.conversationManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
     setConvEventCallback(param:setConvEventCallback){
         const callback = `${Date.now()}`;
         TimRender.runtime.set(callback,param.callback);
@@ -37,6 +115,32 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMSetConvEventCallback',
             manager: Managers.conversationManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    TIMSetUserSigExpiredCallback(param:TIMSetUserSigExpiredCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetUserSigExpiredCallback',
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    TIMSetKickedOfflineCallback(param:TIMSetKickedOfflineCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetKickedOfflineCallback',
+            manager: Managers.timBaseManager,
             callback: callback,
             param: param
         }

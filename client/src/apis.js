@@ -96,24 +96,140 @@ const APIS =  [
                     })
                 }
             },
+            {
+                name:"setKickedOfflineCallback",
+                action:(callback)=>{
+                    TimBaseManager.TIMSetKickedOfflineCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"setUserSigExpiredCallback",
+                action:(callback)=>{
+                    TimBaseManager.TIMSetUserSigExpiredCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
         ]
     },
     {
         manager: 'conversationManager',
         method:[
             {
+                name:"TIMConvCreate",
+                action:(callback)=>{
+                    ConversationManager.TIMConvCreate().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvDelete",
+                action:(callback)=>{
+                    ConversationManager.TIMConvDelete().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvSetDraft",
+                action:(callback)=>{
+                    ConversationManager.TIMConvSetDraft().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvGetConvList",
+                action:(callback)=>{
+                    ConversationManager.TIMConvGetConvList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvSetDraft",
+                action:(callback)=>{
+                    ConversationManager.TIMConvSetDraft().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvCancelDraft",
+                action:(callback)=>{
+                    ConversationManager.TIMConvCancelDraft().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvGetConvInfo",
+                action:(callback)=>{
+                    ConversationManager.TIMConvGetConvInfo().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvPinConversation",
+                action:(callback)=>{
+                    ConversationManager.TIMConvPinConversation().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMConvGetTotalUnreadMessageCount",
+                action:(callback)=>{
+                    ConversationManager.TIMConvGetTotalUnreadMessageCount().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMSetConvTotalUnreadMessageCountChangedCallback",
+                action:(callback)=>{
+                    ConversationManager.TIMSetConvTotalUnreadMessageCountChangedCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name:"TIMSetConvEventCallback",
                 action:(callback)=>{
-                    try{
-                        ConversationManager.TIMSetConvEventCallback().then(data=>{
-                            callback(JSON.stringify(data))
-                        }).catch(err=>{
-                            console.log(err)
-                            callback('12312')
-                        })
-                    }catch(err){
+                    ConversationManager.TIMSetConvEventCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
                         console.log(err)
-                    }
+                        callback('12312')
+                    })
                 }
             },
         ]

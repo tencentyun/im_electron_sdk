@@ -31,6 +31,7 @@ const Imsdklib = ffi.Library(ffiPath,{
       "TIMConvGetConvInfo":[ref.types.int,[ref.types.CString,'pointer']],
       "TIMConvPinConversation":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.bool,'pointer',ref.types.CString]],
       "TIMSetConvEventCallback":[ref.types.void,['pointer',ref.types.CString]],
+      "TIMConvGetTotalUnreadMessageCount":[ref.types.int,['pointer',ref.types.CString]],
       "TIMSetConvTotalUnreadMessageCountChangedCallback":[ref.types.void,['pointer',ref.types.CString]],
       // conversationManager end
       // groupManager start
