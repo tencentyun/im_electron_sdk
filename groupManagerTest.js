@@ -270,10 +270,26 @@ const TIMGroupGetGroupAttributes = async groupId => {
     }
 }
 
+const groupAttributeChangeCallback = () => {
+    const groupManager = tim.getGroupManager();
+    try {
+        const res = groupManager.TIMSetGroupAttributeChangedCallback({
+            callback: (data) => {
+                console.log("====================callback response", data);
+            },
+            data: 'test data'
+        });
+        console.log("==========get attribute res===========", res);
+    } catch (e) {
+        console.log("=========error===", e)
+    }
+}
+
 const testGroupManager = async data => {
     console.log("============= test group ==========")
     tim = data;
     const groupId =  await createGroup();
+    groupAttributeChangeCallback();
     // await joinGroup();
     // deleteGroup(); // success
     // quitGroup();

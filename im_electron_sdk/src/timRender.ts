@@ -1,56 +1,221 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback, TIMFriendAddRequestCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback, Json_value_msg, Json_advance_message_param, Json_get_msg_param, Json_value_msgdelete, Json_value_batchsend, Json_search_message_param, TIMRecvNewMsgCallback, TIMMsgReadedReceiptCallback, TIMMsgRevokeCallback, TIMMsgElemUploadProgressCallback, TIMMsgUpdateCallback } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
+import { convCancelDraft, convCreate, convDelete, convGetConvInfo, convGetTotalUnreadMessageCount, convPinConversation, convSetDrat, convTotalUnreadMessageCountChangedCallbackParam, getConvList, setConvEventCallback } from "./interface/conversationInterface";
 
 const electron = require('electron')
+
+const getUniKey = (length: number) => Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
+
 export class TimRender implements ITimRender  {
-    runtime:Map<Symbol,Function> = new Map();
+    static runtime:Map<string,Function> = new Map();
+    static isListened = false
     constructor() {
-        console.log(electron.webContents)
-        // ipcRenderer.on(TIMIPCLISTENR,(e:any,res:mainRes)=>{
-        //     console.log(e);
-        //     const { callback,data } = res;
-            
-        //     if(this.runtime.has(callback)){
-        //          //@ts-ignore
-        //          this.runtime.get(callback)(data);
-        //     }else{
-        //         throw new Error('no such callback.')
-        //     }
-        // })
+        if(!TimRender.isListened){
+            ipcRenderer.on('global-callback-reply',(e:any,res:any)=>{
+                const { callbackKey, responseData } = JSON.parse(res);
+                console.log(TimRender.runtime,'2233')
+                if(TimRender.runtime.has(callbackKey)){
+                     //@ts-ignore
+                     TimRender.runtime.get(callbackKey)(responseData);
+                }
+            })
+            TimRender.isListened = true
+        }
     }
-    private async call(data:any): Promise<commonResponse>  {
+    
+    private async call(data:any): Promise<commonResponse> {
         const response = await ipcRenderer.invoke(TIMIPCLISTENR, JSON.stringify(data));
         return JSON.parse(response);
     };
-    // login(data:any){
-    //     return new Promise<void>((resolve)=>{
-    //         const callback = Symbol();
-    //         data.callback = callback;
-    //         this.runtime.set(callback,()=>{
-    //             resolve()
-    //         })
-    //         this.call(data);
-    //     })
-    // }
+    TIMConvGetTotalUnreadMessageCount(param:convGetTotalUnreadMessageCount) {
+        const formatedData = {
+            method: 'TIMConvGetTotalUnreadMessageCount',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvPinConversation(param:convPinConversation){
+        const formatedData = {
+            method: 'TIMConvPinConversation',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvGetConvInfo(param:convGetConvInfo){
+        const formatedData = {
+            method: 'TIMConvGetConvInfo',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvCancelDraft(param:convCancelDraft){
+        const formatedData = {
+            method: 'TIMConvCancelDraft',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvSetDraft(param:convSetDrat){
+        const formatedData = {
+            method: 'TIMConvSetDraft',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvGetConvList(param:getConvList){
+        console.log(param)
+        const formatedData = {
+            method: 'TIMConvGetConvList',
+            manager: Managers.conversationManager,
+            param: param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvDelete(param:convDelete){
+        const formatedData = {
+            method: 'TIMConvDelete',
+            manager: Managers.conversationManager,
+            param:param
+        }
+        return this.call(formatedData)
+    }
+    TIMConvCreate(param:convCreate){
+        const formatedData = {
+            method: 'TIMConvCreate',
+            manager: Managers.conversationManager,
+            param: param
+        }
+        return this.call(formatedData)
+    }
+    TIMSetConvTotalUnreadMessageCountChangedCallback(param:convTotalUnreadMessageCountChangedCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetConvTotalUnreadMessageCountChangedCallback',
+            manager: Managers.conversationManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    setConvEventCallback(param:setConvEventCallback){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetConvEventCallback',
+            manager: Managers.conversationManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    TIMSetUserSigExpiredCallback(param:TIMSetUserSigExpiredCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetUserSigExpiredCallback',
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    TIMSetKickedOfflineCallback(param:TIMSetKickedOfflineCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetKickedOfflineCallback',
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    setNetworkStatusListenerCallback(param:TIMSetNetworkStatusListenerCallbackParam){
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback,param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: 'TIMSetNetworkStatusListenerCallback',
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param
+        }
+        return this.call(formatedData);
+    }
+    uninit(){
+        const formatedData = {
+            method: 'TIMUninit',
+            manager: Managers.timBaseManager,
+        }
+        return this.call(formatedData);
+    }
+    getSDKVersion(){
+        const formatedData = {
+            method: 'TIMGetSDKVersion',
+            manager: Managers.timBaseManager,
+        }
+        return this.call(formatedData)
+    }
+    getServerTime(){
+        const formatedData = {
+            method: 'TIMGetServerTime',
+            manager: Managers.timBaseManager,
+        }
+        return this.call(formatedData)
+    }
+    logout(param:logoutParam){
+        const formatedData = {
+            method: 'TIMLogout',
+            manager: Managers.timBaseManager,
+            param: param,
+        }
+        return this.call(formatedData)
+    }
     init() {
        return this.call({
            method: 'TIMInit',
-           manager: 'timBaseManager',
+           manager: Managers.timBaseManager,
        }); 
     }
-
+    getLoginStatus(){
+        const formatedData = {
+            method: 'TIMGetLoginStatus',
+            manager: Managers.timBaseManager,
+        }
+        return this.call(formatedData)
+    }
+    getLoginUserID(param:getLoginUserIDParam){
+        const formatedData = {
+            method: 'TIMGetLoginUserID',
+            manager: Managers.timBaseManager,
+            param: param,
+        }
+        return this.call(formatedData)
+    }
     login(data: loginParam) {
-        // const callback = Symbol();
-        // data.callback = callback;
         const formatedData = {
             method: 'TIMLogin',
             manager: Managers.timBaseManager,
-            // callback,
             param: data,
         }
-        return this.call(formatedData);
+         return this.call(formatedData);
     };
 
     createGroup(data: CreateGroupParams) {
@@ -61,5 +226,960 @@ export class TimRender implements ITimRender  {
             param: data,
         }
         return this.call(formatedData);
+    };
+
+    initGroupAttribute(initAttributesParams: InitGroupAttributeParams) {
+        const formatedData = {
+            method: 'TIMGroupInitGroupAttributes',
+            manager: Managers.groupManager,
+            param: initAttributesParams
+        }
+        return this.call(formatedData);
     }
+
+    setGroupAttribute(setAttributesParams: InitGroupAttributeParams) {
+        const formatedData = {
+            method: 'TIMGroupSetGroupAttributes',
+            manager: Managers.groupManager,
+            param: setAttributesParams
+        }
+        return this.call(formatedData);
+    }
+
+    deleteGroupAttribute(deleteAttributesParams: DeleteAttributeParams) {
+        const formatedData = {
+            method: 'TIMGroupDeleteGroupAttributes',
+            manager: Managers.groupManager,
+            param: deleteAttributesParams
+        }
+        return this.call(formatedData);
+    }
+
+    getGroupAttribute(getAttributeParams: DeleteAttributeParams) {
+        const formatedData = {
+            method: 'TIMGroupGetGroupAttributes',
+            manager: Managers.groupManager,
+            param: getAttributeParams
+        }
+        return this.call(formatedData);
+    }
+
+    groupAttributeChangedCallback(data: GroupAttributeCallbackParams) {
+        const callback = getUniKey(10);
+        console.log(callback);
+        const formatedData = {
+            method: 'TIMSetGroupAttributeChangedCallback',
+            manager: Managers.groupManager,
+            callback,
+            param: data
+        }
+
+        TimRender.runtime.set(callback, data.callback);
+        return this.call(formatedData);
+    }
+
+    
+    groupTipsChangedCallback(data: GroupTipsCallbackParams) {
+        const callback = getUniKey(10);
+        console.log(callback);
+        const formatedData = {
+            method: 'TIMSetGroupTipsEventCallback',
+            manager: Managers.groupManager,
+            callback,
+            param: data
+        }
+
+        TimRender.runtime.set(callback, data.callback);
+        return this.call(formatedData);
+    }
+
+    deleteGroup(data: DeleteGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupDelete',
+            manager: Managers.groupManager,
+            param: data
+        }
+
+        return this.call(formatedData);
+    }
+
+    joinGroup(joinGroupParams: JoinGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupJoin',
+            manager: Managers.groupManager,
+            param: joinGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    quitGroup(quitGroupParams: QuitGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupQuit',
+            manager: Managers.groupManager,
+            param: quitGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    inviteMember(inviteMemberParams: InviteMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupInviteMember',
+            manager: Managers.groupManager,
+            param: inviteMemberParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteMember(deleteMemberParams: DeleteMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupDeleteMember',
+            manager: Managers.groupManager,
+            param: deleteMemberParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    getJoinedGroupList(data?: string) {
+        const formatedData = {
+            method: 'TIMGroupGetJoinedGroupList',
+            manager: Managers.groupManager,
+            param: data
+        }
+
+        return this.call(formatedData);
+    }
+
+    getGroupInfoList(getGroupListParams: GetGroupListParams) {
+        const formatedData = {
+            method: 'TIMGroupGetGroupInfoList',
+            manager: Managers.groupManager,
+            param: getGroupListParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    modifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupModifyGroupInfo',
+            manager: Managers.groupManager,
+            param: modifyGroupParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    getGroupMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams) {
+        const formatedData = {
+            method: 'TIMGroupGetMemberInfoList',
+            manager: Managers.groupManager,
+            param: getGroupMemberInfoParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    modifyGroupMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
+        const formatedData = {
+            method: 'TIMGroupModifyMemberInfo',
+            manager: Managers.groupManager,
+            param: modifyMemberInfoParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    getGroupPendencyList(getPendencyListParams: GetPendencyListParams) {
+        const formatedData = {
+            method: 'TIMGroupGetPendencyList',
+            manager: Managers.groupManager,
+            param: getPendencyListParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    groupReportPendencyReaded(reportParams: ReportParams) {
+        const formatedData = {
+            method: 'TIMGroupReportPendencyReaded',
+            manager: Managers.groupManager,
+            param: reportParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    handleGroupPendency(handlePendencyParams: HandlePendencyParams) {
+        const formatedData = {
+            method: 'TIMGroupHandlePendency',
+            manager: Managers.groupManager,
+            param: handlePendencyParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    getGroupOnlineMemberCount(params: GetOnlineMemberCountParams) {
+        const formatedData = {
+            method: 'TIMGroupGetOnlineMemberCount',
+            manager: Managers.groupManager,
+            param: params
+        }
+
+        return this.call(formatedData); 
+    }
+
+    searchGroups(searchGroupsParams: SearchGroupParams) {
+        const formatedData = {
+            method: 'TIMGroupSearchGroups',
+            manager: Managers.groupManager,
+            param: searchGroupsParams
+        }
+
+        return this.call(formatedData); 
+    }
+
+    searchGroupMembers(searchMemberParams: SearchMemberParams) {
+        const formatedData = {
+            method: 'TIMGroupSearchGroupMembers',
+            manager: Managers.groupManager,
+            param: searchMemberParams
+        }
+
+        return this.call(formatedData);
+    }
+
+    getFriendshipProfileList(user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendProfileList',
+            manager: Managers.friendshipManager,
+            param: {
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    addFriend(json_friendship_param: Json_add_friend_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipAddFriend',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    handleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipHandleFriendAddRequest',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    modifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipModifyFriendProfile',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFriend',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    checkFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipCheckFriendType',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    createFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipCreateFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getFriendGroupList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendGroupList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+
+    modifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipModifyFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFriendGroup(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    addToBlackList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipAddToBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getBlackList(user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFromBlackList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFromBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetPendencyList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeletePendency',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    reportPendencyReaded(timestamp: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipReportPendencyReaded',
+            manager: Managers.friendshipManager,
+            param: {
+                timestamp,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    searchFriends(json_friendship_param: Json_search_friends_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipSearchFriends',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getFriendsInfo(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendsInfo',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+
+    TIMSetOnAddFriendCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetOnAddFriendCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+
+        return this.call(formatedData);
+    }
+
+
+    TIMSetOnDeleteFriendCallback(tIMOnDeleteFriendCallback: TIMOnDeleteFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetOnDeleteFriendCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnDeleteFriendCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetUpdateFriendProfileCallback(tIMUpdateFriendProfileCallback: TIMUpdateFriendProfileCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetUpdateFriendProfileCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMUpdateFriendProfileCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendAddRequestCallback(tIMFriendAddRequestCallback: TIMFriendAddRequestCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendAddRequestCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendAddRequestCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendApplicationListDeletedCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendApplicationListDeletedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendApplicationListReadCallback(tIMFriendApplicationListReadCallback: TIMFriendApplicationListReadCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendApplicationListReadCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendApplicationListReadCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendBlackListAddedCallback(tIMFriendBlackListAddedCallback: TIMFriendBlackListAddedCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendBlackListAddedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendBlackListAddedCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendBlackListDeletedCallback(tIMFriendBlackListDeletedCallback: TIMFriendBlackListDeletedCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendBlackListDeletedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendBlackListDeletedCallback);
+        return this.call(formatedData);
+    }
+
+    TIMMsgSendMessage(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msg, message_id_buffer: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSendMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                message_id_buffer,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgCancelSend(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgCancelSend',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgFindMessages(json_advance_message_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgFindMessages',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgReportReaded(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgReportReaded',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgRevoke(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgRevoke',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgFindByMsgLocatorList(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgFindByMsgLocatorList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgImportMsgList(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgImportMsgList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgSaveMsg(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSaveMsg',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgGetMsgList(conv_id: string, conv_type: number, json_advance_message_param: Json_get_msg_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgGetMsgList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+
+    TIMMsgDelete(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msgdelete, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDelete',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgListDelete(conv_id: string, conv_type: number, message_id_array: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgListDelete',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id_array,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgClearHistoryMessage(conv_id: string, conv_type: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgClearHistoryMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgSetC2CReceiveMessageOpt(user_id_array: [string], opt: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSetC2CReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                user_id_array,
+                opt,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgGetC2CReceiveMessageOpt(user_id_array: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgGetC2CReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                user_id_array,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgSetGroupReceiveMessageOpt(group_id: string, opt: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSetGroupReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                group_id,
+                opt,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgDownloadElemToPath(json_advance_message_param: Json_advance_message_param, path: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDownloadElemToPath',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                path,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgDownloadMergerMessage(json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDownloadMergerMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgBatchSend(json_advance_message_param: Json_value_batchsend, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgBatchSend',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgSearchLocalMessages(json_advance_message_param: Json_search_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSearchLocalMessages',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMAddRecvNewMsgCallback(tIMRecvNewMsgCallback: TIMRecvNewMsgCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMAddRecvNewMsgCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMRecvNewMsgCallback);
+        return this.call(formatedData);
+    }
+
+    TIMRemoveRecvNewMsgCallback() {
+        const formatedData = {
+            method: 'TIMRemoveRecvNewMsgCallback',
+            manager: Managers.advanceMessageManager,
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgReadedReceiptCallback(tIMMsgReadedReceiptCallback: TIMMsgReadedReceiptCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgReadedReceiptCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgReadedReceiptCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgRevokeCallback(tIMMsgRevokeCallback: TIMMsgRevokeCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgRevokeCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgRevokeCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgElemUploadProgressCallback(tIMMsgElemUploadProgressCallback: TIMMsgElemUploadProgressCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgElemUploadProgressCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgElemUploadProgressCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgUpdateCallback(tIMMsgUpdateCallback: TIMMsgUpdateCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgUpdateCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgUpdateCallback);
+        return this.call(formatedData);
+    }
+
 }

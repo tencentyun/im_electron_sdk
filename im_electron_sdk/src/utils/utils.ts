@@ -6,14 +6,20 @@ const ref = require('ref-napi');
 const ffi = require('ffi-napi');
 
 const ffipaths:any =  {
-  "linux": path.resolve(__dirname,'../../lib/linux/lib/libImSDK.so')
+  'linux': path.resolve(__dirname,'../lib/linux/lib/libImSDK.so'),
+  'x64': path.resolve(__dirname,'../lib/windows/lib/Win64/ImSDK.dll'),
+  'ia32': path.resolve(__dirname,'../lib/windows/lib/Win32/ImSDK.dll'),
 }
 function getFFIPath(){
     let res = ""
-    const platform = os.platform().toLocaleLowerCase();
+    const platform = os.platform().toLowerCase();
     switch(platform){
       case 'linux':
-      res = ffipaths[platform];
+        res = ffipaths[platform];
+        break;
+      case 'win32':
+        const cpu = os.arch()
+        res = ffipaths[cpu]
       break;
     }
     if(!res){
@@ -43,6 +49,7 @@ function jsFuncToFFIConvEventCallback(fun:convEventCallback){
 function jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(fun:convTotalUnreadMessageCountChangedCallback){
   const callback = ffi.Callback(ref.types.void, [ref.types.int, ref.types.CString],
     function (total_unread_count:number,user_data:Buffer) {
+      
       fun(total_unread_count,user_data.toString());
   });
   return callback;

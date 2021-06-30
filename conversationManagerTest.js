@@ -20,10 +20,19 @@ function TIMConvGetConvList(){
         console.log('TIMConvGetConvList res',data)
     })
 }
+function setCallback(){
+    tim.getConversationManager().TIMSetConvEventCallback({
+        callback:(...args)=>{
+            console.log("*****:",args)
+        },
+        user_data:"TIMSetConvEventCallback"
+    })
+}
 const testConversation = data => {
     tim = data;
     // TIMConvCreate();
-    TIMConvGetConvList();
+    // TIMConvGetConvList();
+    // setCallback()
 }
 module.exports = {
     testConversation

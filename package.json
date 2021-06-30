@@ -1,5 +1,5 @@
 {
-  "name": "electron-quick-start",
+  "name": "im-sdk",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main.js",
@@ -18,7 +18,8 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^13.1.2",
-    "electron-builder": "^22.11.7"
+    "electron-builder": "^22.11.7",
+    "electron-devtools-installer": "^3.2.0"
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
