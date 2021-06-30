@@ -59,10 +59,13 @@ const advanceMessageManager = {
     TIMMsgSearchLocalMessages:() => {
         return timRenderInstance.TIMMsgSearchLocalMessages();
     },
-    TIMAddRecvNewMsgCallback:() => {
-        console.log(timRenderInstance)
+    TIMAddRecvNewMsgCallback:(callback) => {
         return timRenderInstance.TIMAddRecvNewMsgCallback((...args)=>{
-            console.log(args)
+            const [[data,user_data]] = args;
+            callback(JSON.stringify({
+                data,user_data
+            }))
+            
         },"TIMAddRecvNewMsgCallback");
     },
     TIMRemoveRecvNewMsgCallback:() => {

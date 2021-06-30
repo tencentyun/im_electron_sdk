@@ -937,7 +937,7 @@ const APIS = [
             {
                 name: 'TIMAddRecvNewMsgCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMAddRecvNewMsgCallback().then(data => {
+                    TimAdvanceMessageManager.TIMAddRecvNewMsgCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
