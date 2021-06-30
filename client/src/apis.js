@@ -218,7 +218,7 @@ const APIS = [
             {
                 name:"TIMSetConvTotalUnreadMessageCountChangedCallback",
                 action:(callback)=>{
-                    ConversationManager.TIMSetConvTotalUnreadMessageCountChangedCallback().then(data=>{
+                    ConversationManager.TIMSetConvTotalUnreadMessageCountChangedCallback(callback).then(data=>{
                         callback(JSON.stringify(data))
                     }).catch(err=>{
                         callback(err.toString())
@@ -228,10 +228,9 @@ const APIS = [
             {
                 name:"TIMSetConvEventCallback",
                 action:(callback)=>{
-                    ConversationManager.TIMSetConvEventCallback().then(data=>{
+                    ConversationManager.TIMSetConvEventCallback(callback).then(data=>{
                         callback(JSON.stringify(data))
                     }).catch(err=>{
-                        console.log(err)
                         callback('12312')
                     })
                 }
@@ -682,7 +681,7 @@ const APIS = [
             {
                 name: 'TIMSetUpdateFriendProfileCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetUpdateFriendProfileCallback().then(data => {
+                    TimFriendshipManager.TIMSetUpdateFriendProfileCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())

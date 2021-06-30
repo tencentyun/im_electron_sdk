@@ -56,19 +56,21 @@ const ConversationManager = {
             user_data:'TIMConvGetTotalUnreadMessageCount', 
         })
     },
-    TIMSetConvTotalUnreadMessageCountChangedCallback(){
+    TIMSetConvTotalUnreadMessageCountChangedCallback(callback){
         return timRenderInstance.TIMSetConvTotalUnreadMessageCountChangedCallback({
             user_data:"TIMSetConvTotalUnreadMessageCountChangedCallback",
-            callback:(data)=>{
-                console.log(data,'TIMSetConvTotalUnreadMessageCountChangedCallback');
+            callback:(...data)=>{
+                console.log(data)
+                callback(JSON.stringify({data}))
             }
         })
     },
-    TIMSetConvEventCallback:()=>{
+    TIMSetConvEventCallback:(callback)=>{
         return timRenderInstance.setConvEventCallback({
             user_data:"TIMSetConvEventCallback",
-            callback:(data)=>{
-                console.log(data,'TIMSetConvEventCallback');
+            callback:(...data)=>{
+                callback(JSON.stringify({data}))
+                // console.log(data,'TIMSetConvEventCallback');
             }
         })
     }

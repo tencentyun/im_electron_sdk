@@ -88,9 +88,9 @@ const friendShipManager = {
             console.log(args)
         })
     }, 
-    TIMSetUpdateFriendProfileCallback: () => {
+    TIMSetUpdateFriendProfileCallback: (callback) => {
         return timRenderInstance.TIMSetUpdateFriendProfileCallback((...args) => {
-            console.log(args)
+            callback(JSON.stringify(args))
         })
     }, 
     TIMSetFriendAddRequestCallback: () => {
