@@ -78,6 +78,46 @@ const friendShipManager = {
     getFriendsInfo: () => {
         return timRenderInstance.getFriendsInfo()
     },
+    TIMSetOnAddFriendCallback: () => {
+        return timRenderInstance.TIMSetOnAddFriendCallback((...args) => {
+            console.log(args)
+        })
+    },
+    TIMSetOnDeleteFriendCallback: () => {
+        return timRenderInstance.TIMSetOnDeleteFriendCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetUpdateFriendProfileCallback: () => {
+        return timRenderInstance.TIMSetUpdateFriendProfileCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetFriendAddRequestCallback: () => {
+        return timRenderInstance.TIMSetFriendAddRequestCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetFriendApplicationListDeletedCallback: () => {
+        return timRenderInstance.TIMSetFriendApplicationListDeletedCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetFriendApplicationListReadCallback: () => {
+        return timRenderInstance.TIMSetFriendApplicationListReadCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetFriendBlackListAddedCallback: () => {
+        return timRenderInstance.TIMSetFriendBlackListAddedCallback((...args) => {
+            console.log(args)
+        })
+    }, 
+    TIMSetFriendBlackListDeletedCallback: () => {
+        return timRenderInstance.TIMSetFriendBlackListDeletedCallback((...args) => {
+            console.log(args)
+        })
+    },
 }
 
 export default friendShipManager;

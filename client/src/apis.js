@@ -476,7 +476,7 @@ const APIS = [
         ]
     },
     {
-        name: 'friendshipManager',
+        manager: 'friendshipManager',
         method: [
             {
                 name: 'getFriendshipProfileList',
@@ -652,6 +652,86 @@ const APIS = [
                 name: 'getFriendsInfo',
                 action: callback => {
                     TimFriendshipManager.getFriendsInfo().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetOnAddFriendCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetOnAddFriendCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetOnDeleteFriendCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetOnDeleteFriendCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetUpdateFriendProfileCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetUpdateFriendProfileCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetFriendAddRequestCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetFriendAddRequestCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetFriendApplicationListDeletedCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetFriendApplicationListDeletedCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetFriendApplicationListReadCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetFriendApplicationListReadCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetFriendBlackListAddedCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetFriendBlackListAddedCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetFriendBlackListDeletedCallback',
+                action: callback => {
+                    TimFriendshipManager.TIMSetFriendBlackListDeletedCallback().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())

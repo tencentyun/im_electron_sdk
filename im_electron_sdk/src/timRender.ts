@@ -1,5 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback, TIMFriendAddRequestCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { convCancelDraft, convCreate, convDelete, convGetConvInfo, convGetTotalUnreadMessageCount, convPinConversation, convSetDrat, convTotalUnreadMessageCountChangedCallbackParam, getConvList, setConvEventCallback } from "./interface/conversationInterface";
@@ -683,6 +683,140 @@ export class TimRender implements ITimRender  {
             }
         }
 
+        return this.call(formatedData);
+    }
+
+
+    TIMSetOnAddFriendCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetOnAddFriendCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+
+        return this.call(formatedData);
+    }
+
+
+    TIMSetOnDeleteFriendCallback(tIMOnDeleteFriendCallback: TIMOnDeleteFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetOnDeleteFriendCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnDeleteFriendCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetUpdateFriendProfileCallback(tIMUpdateFriendProfileCallback: TIMUpdateFriendProfileCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetUpdateFriendProfileCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMUpdateFriendProfileCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendAddRequestCallback(tIMFriendAddRequestCallback: TIMFriendAddRequestCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendAddRequestCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendAddRequestCallback);
+
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendApplicationListDeletedCallback(tIMOnAddFriendCallback: TIMOnAddFriendCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendApplicationListDeletedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendApplicationListReadCallback(tIMFriendApplicationListReadCallback: TIMFriendApplicationListReadCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendApplicationListReadCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendApplicationListReadCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendBlackListAddedCallback(tIMFriendBlackListAddedCallback: TIMFriendBlackListAddedCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendBlackListAddedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendBlackListAddedCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetFriendBlackListDeletedCallback(tIMFriendBlackListDeletedCallback: TIMFriendBlackListDeletedCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetFriendBlackListDeletedCallback',
+            manager: Managers.friendshipManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMFriendBlackListDeletedCallback);
         return this.call(formatedData);
     }
 
