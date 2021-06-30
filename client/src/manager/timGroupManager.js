@@ -121,10 +121,13 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  groupAttributeChangedCallback: () => {
+  groupAttributeChangedCallback: (cbk) => {
     return timRenderInstance.groupAttributeChangedCallback({
-      callback: (data) => {
-        console.log("callback data", data)
+      callback: (...args) => {
+        const [[data,user_data]] = args;
+        cbk(JSON.stringify({
+            data,user_data
+        }))
       },
       data: 'test data'
     })
@@ -185,10 +188,13 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  groupTipsChangedCallback: () => {
+  groupTipsChangedCallback: (cbk) => {
     return timRenderInstance.groupTipsChangedCallback({
-      callback:(res) => {
-        console.log(res);
+      callback:(...args) => {
+        const [[data,user_data]] = args;
+        cbk(JSON.stringify({
+            data,user_data
+        }))
       },
       data: 'test data'
     })
