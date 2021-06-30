@@ -40,6 +40,22 @@ const TimBaseManager = {
                 console.log(data,'setNetworkStatusListenerCallback');
             }
         })
+    },
+    TIMSetKickedOfflineCallback:()=>{
+        return timRenderInstance.TIMSetKickedOfflineCallback({
+            userData:"TIMSetKickedOfflineCallback",
+            callback:(data)=>{
+                console.log(data,'TIMSetKickedOfflineCallback');
+            }
+        })
+    },
+    TIMSetUserSigExpiredCallback:()=>{
+        return timRenderInstance.TIMSetUserSigExpiredCallback({
+            userData:"TIMSetUserSigExpiredCallback",
+            callback:(data)=>{
+                console.log(data,'TIMSetUserSigExpiredCallback');
+            }
+        })
     }
 }
 
