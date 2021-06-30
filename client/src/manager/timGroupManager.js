@@ -5,7 +5,7 @@ const TimBaseManager = {
     return timRenderInstance.createGroup({
       params: {
         groupName: "test-avchatRoom",
-        groupType: 4,
+        groupType: 1,
         groupMemberArray: [{
           identifer: "6666",
           nameCard: "member1"
@@ -67,8 +67,130 @@ const TimBaseManager = {
       params: {
         startTime: 0,
         maxLimited: 0,
+      },
+      data: 'test data'
+    })
+  },
+  groupReportPendencyReaded: () => {
+    return timRenderInstance.groupReportPendencyReaded({
+      timeStamp: 0,
+      data: 'test data'
+    })
+  },
+  handleGroupPendency: () => {
+    return timRenderInstance.handleGroupPendency({
+      params: {
+        startTime: 0,
+        maxLimited: 0,
+      },
+      data: 'test data'
+    })
+  },
+  initGroupAttribute: (groupId) => {
+    console.log(groupId);
+    return timRenderInstance.initGroupAttribute({
+      groupId,
+      attributes: [{
+        key: 'attribute1',
+        value: 'hello'
+      }],
+      data: 'test data'
+    })
+  },
+  setGroupAttribute: (groupId) => {
+    return timRenderInstance.setGroupAttribute({
+      groupId,
+      attributes: [{
+        key: 'attribute2',
+        value: 'hello22'
+      }],
+      data: 'test data'
+    })
+  },
+  deleteGroupAttribute: (groupId) => {
+    return timRenderInstance.deleteGroupAttribute({
+      groupId,
+      attributesKey: ["attribute1"],
+      data: 'test data'
+    })
+  },
+  getGroupAttribute: (groupId) => {
+    return timRenderInstance.getGroupAttribute({
+      groupId,
+      attributesKey: ["attribute1"],
+      data: 'test data'
+    })
+  },
+  groupAttributeChangedCallback: () => {
+    return timRenderInstance.groupAttributeChangedCallback({
+      callback: (data) => {
+        console.log("callback data", data)
+      },
+      data: 'test data'
+    })
+  },
+  joinGroup: () => {
+    return timRenderInstance.joinGroup({
+      groupId: '@TGS#1I2TQ6HHE',
+      helloMsg: 'hello',
+      data: 'test data'
+    })
+  },
+  quitGroup: () => {
+    return timRenderInstance.quitGroup({
+      groupId: '',
+      data: 'test data'
+    })
+  },
+  getGroupOnlineMemberCount: () => {
+    return timRenderInstance.getGroupOnlineMemberCount({
+      groupId: '@TGS#a4LPQ6HHW',
+      data: 'test data'
+    })
+  },
+  searchGroups: () => {
+    return timRenderInstance.searchGroups({
+      searchParams: {
+        keywordList: ['test'],
+        fieldList: [2]
     },
     data: 'test data'
+    })
+  },
+  searchGroupMembers: () => {
+    return timRenderInstance.searchGroupMembers({
+      searchParams: {
+        groupidList: ['@TGS#a5X7C5HH2'],
+        keywordList: ['9999'],
+        fieldList: [1]
+    },
+    data: 'test data'
+    })
+  },
+  inviteMember: () => {
+    return timRenderInstance.inviteMember({
+      params: {
+        groupId: "@TGS#1I2TQ6HHE",
+        identifierArray: ['940928'],
+      },
+      data: 'test data'
+    })
+  },
+  deleteMember: () => {
+    return timRenderInstance.deleteMember({
+      params: {
+        groupId: "@TGS#1I2TQ6HHE",
+        identifierArray: ['940928'],
+      },
+      data: 'test data'
+    })
+  },
+  groupTipsChangedCallback: () => {
+    return timRenderInstance.groupTipsChangedCallback({
+      callback:(res) => {
+        console.log(res);
+      },
+      data: 'test data'
     })
   }
 }
