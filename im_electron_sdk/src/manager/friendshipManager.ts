@@ -161,7 +161,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendGroupList(json_friendship_param: [string], user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendGroupList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -193,7 +193,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFriendGroup(json_friendship_param: [string], user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFriendGroup(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -209,7 +209,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipAddToBlackList(json_friendship_param: [string], user_data: string) :Promise<any> {
+    TIMFriendshipAddToBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -240,7 +240,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipDeleteFromBlackList(json_friendship_param: [string], user_data: string) :Promise<any> {
+    TIMFriendshipDeleteFromBlackList(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     
@@ -319,7 +319,7 @@ class  FriendshipManager {
             code !== 0 && reject(this.getErrorResponse({ code }))
         })
     }
-    TIMFriendshipGetFriendsInfo(json_friendship_param: [string], user_data: string) :Promise<any> {
+    TIMFriendshipGetFriendsInfo(json_friendship_param: Array<string>, user_data: string) :Promise<any> {
         const params = this.stringFormator(JSON.stringify(json_friendship_param));
         const userData = this.stringFormator(user_data);
     

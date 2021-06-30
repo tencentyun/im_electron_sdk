@@ -37,7 +37,12 @@ export const TIMFriendshipCreateFriendGroupParams = {
     friendship_create_friend_group_param_identifier_array: ["lexuslin3"],
 }
 export const TIMFriendshipGetFriendGroupListParams = ["ggg2"]
-export const TIMFriendshipModifyFriendGroupParams = ["lexuslin2"]
+export const TIMFriendshipModifyFriendGroupParams = {
+    friendship_modify_friend_group_param_name: "ggg1",
+    friendship_modify_friend_group_param_new_name: "ggg2",
+    friendship_modify_friend_group_param_delete_identifier_array: ["lexuslin3"],
+    friendship_modify_friend_group_param_add_identifier_array: ["lexuslin3"]
+}
 export const TIMFriendshipDeleteFriendGroupParams = ["ggg2"]
 export const TIMFriendshipAddToBlackListParams = ["lexuslin2"]
 export const TIMFriendshipGetBlackListParams = {}
