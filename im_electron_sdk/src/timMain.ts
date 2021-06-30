@@ -42,11 +42,12 @@ class Callback {
 
     async getResponse() {
         const startTime = Date.now();
-        const { method, param, callback } = this.requestData;
+        const { method, param, callback, manager } = this.requestData;
         console.log('requestData:',this.requestData)
-        const manager = this.getManager();
-        if (manager && manager[method]) {
+        const timManager = this.getManager();
+        if (timManager && timManager[method]) {
             try {
+                let responseData;
                 if (callback) {
                     console.log("===========add callback successfully==========");
                     //@ts-ignore
@@ -58,10 +59,17 @@ class Callback {
                         }));
                     }
                 }
+
+                const isFriendShipOrAdvanceMessageManager = manager === 'friendshipManager' || manager === 'advanceMessageManager';
+
+                if(isFriendShipOrAdvanceMessageManager) {
+                    responseData = await timManager[method](...Object.values(param));
+                } else {
+                    responseData = await timManager[method](param);
+                }
                 
-                const data = await manager[method](param);
-                console.log(`${CONSOLETAG}${method} is called . user ${Date.now()-startTime} ms.`,`param：${param}`,`data：${data}`);
-                return JSON.stringify({ callback, data });
+                console.log(`${CONSOLETAG}${method} is called . user ${Date.now()-startTime} ms.`,`param：${param}`,`data：${responseData}`);
+                return JSON.stringify({ callback, data: responseData });
             } catch (error) {
                 console.log("some errors", error)
             }

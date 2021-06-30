@@ -1,5 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { setConvEventCallback } from "./interface/conversationInterface";
@@ -348,4 +348,238 @@ export class TimRender implements ITimRender  {
 
         return this.call(formatedData);
     }
+
+    getFriendshipProfileList(user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendProfileList',
+            manager: Managers.friendshipManager,
+            param: {
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    addFriend(json_friendship_param: Json_add_friend_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipAddFriend',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    handleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipHandleFriendAddRequest',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    modifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipModifyFriendProfile',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFriend',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    checkFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipCheckFriendType',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    createFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipCreateFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getFriendGroupList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendGroupList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+
+    modifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipModifyFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFriendGroup(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFriendGroup',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    addToBlackList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipAddToBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getBlackList(user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deleteFromBlackList(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeleteFromBlackList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetPendencyList',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    deletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipDeletePendency',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    reportPendencyReaded(timestamp: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipReportPendencyReaded',
+            manager: Managers.friendshipManager,
+            param: {
+                timestamp,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    searchFriends(json_friendship_param: Json_search_friends_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipSearchFriends',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    getFriendsInfo(json_friendship_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMFriendshipGetFriendsInfo',
+            manager: Managers.friendshipManager,
+            param: {
+                json_friendship_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
 }
