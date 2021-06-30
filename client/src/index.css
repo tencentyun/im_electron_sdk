@@ -12,11 +12,13 @@ body {
   width: 250px;
   height: 100vh;
   background-color: black;
+  overflow-y: scroll;
 }
 .btns {
   flex: 1;
   height: 100vh;
   text-align: left;
+  overflow-y: scroll;
 }
 .card {
   margin: 10px;
