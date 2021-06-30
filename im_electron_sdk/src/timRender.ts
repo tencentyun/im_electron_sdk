@@ -189,19 +189,6 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    testCallback(data: GroupAttributeCallbackParams) {
-        const callback = getUniKey(10);
-        const formatedData = {
-            method: 'testCallback',
-            manager: Managers.groupManager,
-            callback,
-            param: data
-        }
-
-        TimRender.runtime.set(callback, data.callback);
-        return this.call(formatedData);
-    }
-
     deleteGroup(data: DeleteGroupParams) {
         const formatedData = {
             method: 'TIMGroupDelete',

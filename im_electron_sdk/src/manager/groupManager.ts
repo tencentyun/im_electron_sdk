@@ -395,13 +395,5 @@ class GroupManager {
 
         this._imskdLib.TIMSetGroupAttributeChangedCallback(transformGroupAttributeFun(callback), userData)
     }
-
-    testCallback(params: GroupAttributeCallbackParams) {
-        const { callback, data } =params;
-        console.log('callback', callback);
-        setInterval(() => {
-            callback('123', '456', '123');
-        }, 5000)
-    }
 }
 export default GroupManager;

@@ -2,6 +2,8 @@ import ConversationManager from "./manager/conversationManager";
 import TimBaseManager from "./manager/timBaseManager";
 import TimGroupManager from "./manager/timGroupManager";
 
+let createdGroupId;
+
 const APIS =  [
     {
         manager:"timBaseManager",
@@ -124,8 +126,11 @@ const APIS =  [
             {
                 name:"createGroup",
                 action:(callback)=>{
-                    TimGroupManager.createGroup().then(data=>{
-                        callback(JSON.stringify(data))
+                    TimGroupManager.createGroup().then(res=>{
+                        const { data: { json_param }} = res
+                        const { create_group_result_groupid } = JSON.parse(json_param);
+                        createdGroupId = create_group_result_groupid;
+                        callback(JSON.stringify(res))
                     }).catch(err=>{
                         callback(err.toString())
                     })
@@ -195,6 +200,156 @@ const APIS =  [
                 name: "getGroupPendencyList",
                 action:(callback)=>{
                     TimGroupManager.getGroupPendencyList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "initGroupAttribute",
+                action:(callback)=>{
+                    TimGroupManager.initGroupAttribute(createdGroupId).then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "setGroupAttribute",
+                action:(callback)=>{
+                    TimGroupManager.setGroupAttribute(createdGroupId).then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "deleteGroupAttribute",
+                action:(callback)=>{
+                    TimGroupManager.deleteGroupAttribute(createdGroupId).then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getGroupAttribute",
+                action:(callback)=>{
+                    TimGroupManager.getGroupAttribute(createdGroupId).then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "groupAttributeChangedCallback",
+                action:(callback)=>{
+                    TimGroupManager.groupAttributeChangedCallback().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "joinGroup",
+                action:(callback)=>{
+                    TimGroupManager.joinGroup().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "quitGroup",
+                action:(callback)=>{
+                    TimGroupManager.quitGroup().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "groupReportPendencyReaded",
+                action:(callback)=>{
+                    TimGroupManager.groupReportPendencyReaded().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "handleGroupPendency",
+                action:(callback)=>{
+                    TimGroupManager.handleGroupPendency().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "getGroupOnlineMemberCount",
+                action:(callback)=>{
+                    TimGroupManager.getGroupOnlineMemberCount().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "searchGroups",
+                action:(callback)=>{
+                    TimGroupManager.searchGroups().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "searchGroupMembers",
+                action:(callback)=>{
+                    TimGroupManager.searchGroupMembers().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "inviteMember",
+                action:(callback)=>{
+                    TimGroupManager.inviteMember().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "deleteMember",
+                action:(callback)=>{
+                    TimGroupManager.deleteMember().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "groupTipsChangedCallback",
+                action:(callback)=>{
+                    TimGroupManager.groupTipsChangedCallback().then(data=>{
                         callback(JSON.stringify(data))
                     }).catch(err=>{
                         callback(err.toString())
