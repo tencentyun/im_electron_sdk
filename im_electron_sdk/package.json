@@ -11,6 +11,7 @@
     "build:umd": "rollup -c --environment FORMAT:umd",
     "build:min": "rollup -c --environment FORMAT:min",
     "build": "rimraf dist/* && run-p build:esm build:umd build:min",
+    "test:friendship": "jest ./src/__tests__/friendshipManager.test.ts",
     "test": "jest ./src/__tests__"
   },
   "keywords": [],

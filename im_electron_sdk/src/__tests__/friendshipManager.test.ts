@@ -42,54 +42,54 @@ describe("Friendship Manager", () => {
         })
     });
 
-    it("TIMFriendshipGetFriendProfileList", async () => {
-        const user_data = "user data"
-        const res = await friendshipManager.TIMFriendshipGetFriendProfileList(user_data)
-        res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
-        expect(res).toMatchObject({
-            code: expect.any(Number),
-            desc: expect.any(String),
-            user_data: user_data,
-            json_param: expect.arrayContaining([expect.objectContaining({
-                "friend_profile_add_source": expect.stringMatching(/^AddSource_Type/),
-                "friend_profile_add_time": expect.any(Number),
-                "friend_profile_add_wording": expect.any(String),
-                "friend_profile_group_name_array": expect.any(Array),
-                "friend_profile_identifier": expect.any(String),
-                "friend_profile_item_custom_string_array": expect.any(String),
-                "friend_profile_remark": expect.any(String),
-                "friend_profile_user_profile": expect.objectContaining({
-                    "user_profile_add_permission": expect.any(Number),
-                    "user_profile_birthday": expect.any(Number),
-                    "user_profile_face_url": expect.any(String),
-                    "user_profile_gender": expect.any(Number),
-                    "user_profile_identifier": expect.any(String),
-                    "user_profile_item_custom_string_array": expect.any(Array),
-                    "user_profile_language": expect.any(Number),
-                    "user_profile_level": expect.any(Number),
-                    "user_profile_location": expect.any(String),
-                    "user_profile_nick_name": expect.any(String),
-                    "user_profile_role": expect.any(Number),
-                    "user_profile_self_signature": expect.any(String)
-                })
-            })])
-        })
-    })
-    // it("TIMFriendshipAddFriend", async () => {
+    // it("TIMFriendshipGetFriendProfileList", async () => {
     //     const user_data = "user data"
-    //     const res = await friendshipManager.TIMFriendshipAddFriend(TIMFriendshipAddFriendParams, user_data)
+    //     const res = await friendshipManager.TIMFriendshipGetFriendProfileList(user_data)
     //     res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
     //     expect(res).toMatchObject({
     //         code: expect.any(Number),
     //         desc: expect.any(String),
     //         user_data: user_data,
-    //         json_param: expect.objectContaining({
-    //             "friend_result_code" : 0,
-    //             "friend_result_desc" : expect.any(String),
-    //             "friend_result_identifier" : expect.any(String)
-    //         })
+    //         json_param: expect.arrayContaining([expect.objectContaining({
+    //             "friend_profile_add_source": expect.stringMatching(/^AddSource_Type/),
+    //             "friend_profile_add_time": expect.any(Number),
+    //             "friend_profile_add_wording": expect.any(String),
+    //             "friend_profile_group_name_array": expect.any(Array),
+    //             "friend_profile_identifier": expect.any(String),
+    //             "friend_profile_custom_string_array": expect.any(Array),
+    //             "friend_profile_remark": expect.any(String),
+    //             "friend_profile_user_profile": expect.objectContaining({
+    //                 "user_profile_add_permission": expect.any(Number),
+    //                 "user_profile_birthday": expect.any(Number),
+    //                 "user_profile_face_url": expect.any(String),
+    //                 "user_profile_gender": expect.any(Number),
+    //                 "user_profile_identifier": expect.any(String),
+    //                 "user_profile_custom_string_array": expect.any(Array),
+    //                 "user_profile_language": expect.any(Number),
+    //                 "user_profile_level": expect.any(Number),
+    //                 "user_profile_location": expect.any(String),
+    //                 "user_profile_nick_name": expect.any(String),
+    //                 "user_profile_role": expect.any(Number),
+    //                 "user_profile_self_signature": expect.any(String)
+    //             })
+    //         })])
     //     })
     // })
+    it("TIMFriendshipAddFriend", async () => {
+        const user_data = "user data"
+        const res = await friendshipManager.TIMFriendshipAddFriend(TIMFriendshipAddFriendParams, user_data)
+        res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
+        expect(res).toMatchObject({
+            code: expect.any(Number),
+            desc: expect.any(String),
+            user_data: user_data,
+            json_param: expect.objectContaining({
+                "friend_result_code" : 0,
+                "friend_result_desc" : expect.any(String),
+                "friend_result_identifier" : expect.any(String)
+            })
+        })
+    })
     // it("TIMFriendshipHandleFriendAddRequest", async () => {
     //     const user_data = "user data"
     //     const res = await friendshipManager.TIMFriendshipHandleFriendAddRequest(TIMFriendshipHandleFriendAddRequestParams, "")
