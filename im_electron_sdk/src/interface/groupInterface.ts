@@ -182,14 +182,6 @@ interface DeleteAttributeParams {
     attributesKey: Array<string>;
     data?: string
 }
-
-interface ErrorResponse {
-    code?: number;
-    desc?: String;
-    json_params?: String;
-    user_data?: String
-}
-
 interface GroupTipsCallbackParams {
     callback: GroupTipCallBackFun;
     data?: string;
@@ -230,7 +222,6 @@ export {
     SearchMemberParams,
     InitGroupAttributeParams,
     DeleteAttributeParams,
-    ErrorResponse,
     GroupTipsCallbackParams,
     GroupTipCallBackFun,
     GroupAttributeCallbackParams,
