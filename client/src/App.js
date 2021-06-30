@@ -11,39 +11,16 @@ class App extends Component {
       log:[]
     }
   }
-  async createGroup() {
-    const fakeParams = {
-      groupName: "test-avchatRoom",
-      groupType: 4,
-      groupMemberArray: [{
-        identifer: "6666",
-        nameCard: "member1"
-      }],
-      notification: "Pls add name card",
-      introduction: "use for dev test",
-      face_url: "test face_url",
-    };
-    const res = await timRenderInstance.createGroup({
-      params: fakeParams,
-      data: "{a:1, b:2}"
-    });
-
-    const { data: { json_param } } = res;
-    const { create_group_result_groupid } = JSON.parse(json_param);
-
-    console.log("Created group id", create_group_result_groupid);
-    this.setState({
-      groupId: create_group_result_groupid
-    });
-  }
-
-
-  
   showConsole(data){
     const { log } = this.state;
     log.push(data)
     this.setState({
       log:log
+    })
+  }
+  clean(){
+    this.setState({
+      log:[]
     })
   }
   render() {
@@ -77,6 +54,9 @@ class App extends Component {
               return <div className="log-item" key={index}>{item}</div>
             })  
           }
+          <button className="clean" onClick={()=>{
+            this.clean.bind(this)()
+          }}>清除</button>
         </div>
       </div>
     );

@@ -37,15 +37,15 @@ const ConversationManager = {
     TIMConvGetConvInfo(){
         return timRenderInstance.TIMConvGetConvInfo({
             json_get_conv_list_param:[{
-                "get_conversation_list_param_conv_id":'test',
-                "get_conversation_list_param_conv_type":'1'
+                "get_conversation_list_param_conv_id":'6789',
+                "get_conversation_list_param_conv_type": 1
             }],
             user_data:'TIMConvGetConvInfo', 
         })
     },
     TIMConvPinConversation(){
         return timRenderInstance.TIMConvPinConversation({
-            convId:'test',
+            convId:'6789',
             convType:1,
             isPinged:true,
             user_data:'TIMConvGetConvInfo', 

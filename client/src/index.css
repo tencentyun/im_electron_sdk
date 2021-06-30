@@ -9,10 +9,16 @@ body {
   width: 100vw;
 }
 .console {
+  position: relative;
   width: 250px;
   height: 100vh;
   background-color: black;
   overflow-y: scroll;
+}
+.clean{
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
 .btns {
   flex: 1;

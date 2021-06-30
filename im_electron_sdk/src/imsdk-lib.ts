@@ -23,12 +23,12 @@ const Imsdklib = ffi.Library(ffiPath,{
       // timbaseManager end
       // conversationManager start
       // 已废弃
-      // "TIMConvCreate":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
+      "TIMConvCreate":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
       "TIMConvGetConvList":[ref.types.int,['pointer',ref.types.CString]],
       "TIMConvDelete":[ref.types.int,[ref.types.CString,ref.types.int,'pointer',ref.types.CString]],
       "TIMConvSetDraft":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.CString]],
       "TIMConvCancelDraft":[ref.types.int,[ref.types.CString,ref.types.int]],
-      "TIMConvGetConvInfo":[ref.types.int,[ref.types.CString,'pointer']],
+      "TIMConvGetConvInfo":[ref.types.int,[ref.types.CString,'pointer',ref.types.CString]],
       "TIMConvPinConversation":[ref.types.int,[ref.types.CString,ref.types.int,ref.types.bool,'pointer',ref.types.CString]],
       "TIMSetConvEventCallback":[ref.types.void,['pointer',ref.types.CString]],
       "TIMConvGetTotalUnreadMessageCount":[ref.types.int,['pointer',ref.types.CString]],

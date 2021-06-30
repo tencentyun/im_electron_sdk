@@ -90,7 +90,7 @@ export class TimRender implements ITimRender  {
         const formatedData = {
             method: 'TIMConvCreate',
             manager: Managers.conversationManager,
-            param:param
+            param: param
         }
         return this.call(formatedData)
     }
