@@ -1,5 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
-import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback, TIMFriendAddRequestCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback } from "./interface";
+import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback, TIMFriendAddRequestCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback, Json_value_msg, Json_advance_message_param, Json_get_msg_param, Json_value_msgdelete, Json_value_batchsend, Json_search_message_param, TIMRecvNewMsgCallback, TIMMsgReadedReceiptCallback, TIMMsgRevokeCallback, TIMMsgElemUploadProgressCallback, TIMMsgUpdateCallback } from "./interface";
 import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { convCancelDraft, convCreate, convDelete, convGetConvInfo, convGetTotalUnreadMessageCount, convPinConversation, convSetDrat, convTotalUnreadMessageCountChangedCallbackParam, getConvList, setConvEventCallback } from "./interface/conversationInterface";
@@ -817,6 +817,368 @@ export class TimRender implements ITimRender  {
         }
 
         TimRender.runtime.set(callback, tIMFriendBlackListDeletedCallback);
+        return this.call(formatedData);
+    }
+
+    TIMMsgSendMessage(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msg, message_id_buffer: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSendMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                message_id_buffer,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgCancelSend(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgCancelSend',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgFindMessages(json_advance_message_param: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgFindMessages',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgReportReaded(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgReportReaded',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgRevoke(conv_id: string, conv_type: number, message_id: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgRevoke',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgFindByMsgLocatorList(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgFindByMsgLocatorList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgImportMsgList(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgImportMsgList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgSaveMsg(conv_id: string, conv_type: number,json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSaveMsg',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgGetMsgList(conv_id: string, conv_type: number, json_advance_message_param: Json_get_msg_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgGetMsgList',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+
+    TIMMsgDelete(conv_id: string, conv_type: number, json_advance_message_param: Json_value_msgdelete, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDelete',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgListDelete(conv_id: string, conv_type: number, message_id_array: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgListDelete',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                message_id_array,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgClearHistoryMessage(conv_id: string, conv_type: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgClearHistoryMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                conv_id,
+                conv_type,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgSetC2CReceiveMessageOpt(user_id_array: [string], opt: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSetC2CReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                user_id_array,
+                opt,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgGetC2CReceiveMessageOpt(user_id_array: [string], user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgGetC2CReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                user_id_array,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgSetGroupReceiveMessageOpt(group_id: string, opt: number, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSetGroupReceiveMessageOpt',
+            manager: Managers.advanceMessageManager,
+            param: {
+                group_id,
+                opt,
+                user_data
+            }
+        }
+
+        return this.call(formatedData); 
+    }
+
+    TIMMsgDownloadElemToPath(json_advance_message_param: Json_advance_message_param, path: string, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDownloadElemToPath',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                path,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgDownloadMergerMessage(json_advance_message_param: Json_advance_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgDownloadMergerMessage',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgBatchSend(json_advance_message_param: Json_value_batchsend, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgBatchSend',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMMsgSearchLocalMessages(json_advance_message_param: Json_search_message_param, user_data: string) {
+        const formatedData = {
+            method: 'TIMMsgSearchLocalMessages',
+            manager: Managers.advanceMessageManager,
+            param: {
+                json_advance_message_param,
+                user_data
+            }
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMAddRecvNewMsgCallback(tIMRecvNewMsgCallback: TIMRecvNewMsgCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMAddRecvNewMsgCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMRecvNewMsgCallback);
+        return this.call(formatedData);
+    }
+
+    TIMRemoveRecvNewMsgCallback() {
+        const formatedData = {
+            method: 'TIMRemoveRecvNewMsgCallback',
+            manager: Managers.advanceMessageManager,
+        }
+
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgReadedReceiptCallback(tIMMsgReadedReceiptCallback: TIMMsgReadedReceiptCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgReadedReceiptCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgReadedReceiptCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgRevokeCallback(tIMMsgRevokeCallback: TIMMsgRevokeCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgRevokeCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgRevokeCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgElemUploadProgressCallback(tIMMsgElemUploadProgressCallback: TIMMsgElemUploadProgressCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgElemUploadProgressCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgElemUploadProgressCallback);
+        return this.call(formatedData);
+    }
+
+    TIMSetMsgUpdateCallback(tIMMsgUpdateCallback: TIMMsgUpdateCallback, user_data: string) {
+        const callback = getUniKey(10);
+        const formatedData = {
+            method: 'TIMSetMsgUpdateCallback',
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: {
+                callback,
+                user_data
+            }
+        }
+
+        TimRender.runtime.set(callback, tIMMsgUpdateCallback);
         return this.call(formatedData);
     }
 

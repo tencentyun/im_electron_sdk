@@ -2,6 +2,7 @@ import ConversationManager from "./manager/conversationManager";
 import TimBaseManager from "./manager/timBaseManager";
 import TimGroupManager from "./manager/timGroupManager";
 import TimFriendshipManager from "./manager/friendshipManager";
+import TimAdvanceMessageManager from "./manager/advanceMessageManager";
 
 let createdGroupId;
 
@@ -732,6 +733,261 @@ const APIS = [
                 name: 'TIMSetFriendBlackListDeletedCallback',
                 action: callback => {
                     TimFriendshipManager.TIMSetFriendBlackListDeletedCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            }
+        ]
+    },
+    {
+        manager: "advanceMessageManager",
+        method: [
+            {
+                name: 'TIMMsgSendMessage',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSendMessage().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgCancelSend',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgCancelSend().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgFindMessages',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgFindMessages().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgReportReaded',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgReportReaded().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgRevoke',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgRevoke().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgFindByMsgLocatorList',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgFindByMsgLocatorList().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgImportMsgList',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgImportMsgList().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgSaveMsg',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSaveMsg().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgGetMsgList',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgGetMsgList().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgDelete',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgDelete().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgListDelete',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgListDelete().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgClearHistoryMessage',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgClearHistoryMessage().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgSetC2CReceiveMessageOpt',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSetC2CReceiveMessageOpt().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgGetC2CReceiveMessageOpt',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgGetC2CReceiveMessageOpt().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgSetGroupReceiveMessageOpt',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSetGroupReceiveMessageOpt().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgDownloadElemToPath',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgDownloadElemToPath().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgDownloadMergerMessage',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgDownloadMergerMessage().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgBatchSend',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgBatchSend().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMMsgSearchLocalMessages',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSearchLocalMessages().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMAddRecvNewMsgCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMAddRecvNewMsgCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMRemoveRecvNewMsgCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMRemoveRecvNewMsgCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetMsgReadedReceiptCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMSetMsgReadedReceiptCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetMsgRevokeCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMSetMsgRevokeCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetMsgElemUploadProgressCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMSetMsgElemUploadProgressCallback().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: 'TIMSetMsgUpdateCallback',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMSetMsgUpdateCallback().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
