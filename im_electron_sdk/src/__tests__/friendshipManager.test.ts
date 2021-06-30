@@ -75,10 +75,11 @@ describe("Friendship Manager", () => {
     //         })])
     //     })
     // })
-    it("TIMFriendshipAddFriend", async () => {
+    it("TIMFriendshipAddFriend", async () => { 
         const user_data = "user data"
         const res = await friendshipManager.TIMFriendshipAddFriend(TIMFriendshipAddFriendParams, user_data)
         res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
+        console.log(res)
         expect(res).toMatchObject({
             code: expect.any(Number),
             desc: expect.any(String),
