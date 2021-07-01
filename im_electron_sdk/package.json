@@ -2,9 +2,8 @@
   "name": "im_electron_sdk",
   "version": "1.0.0",
   "description": "tencent cloud im for electron base c++ apis.",
-  "main": "dist/index.umd.js",
-  "renderer": "dist/renderer.umd.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/main.js",
+  "browser": "dist/renderer.js",
   "scripts": {
     "dev": "rollup -w -c --environment FORMAT:umd",
     "build:esm": "rollup -c --environment FORMAT:esm",
@@ -13,7 +12,13 @@
     "build": "rimraf dist/* && run-p build:esm build:umd build:min",
     "test": "jest "
   },
-  "keywords": [],
+  "files": [
+    "dist",
+    "lib"
+  ],
+  "os": [ "win32", "linux" ],
+  "cpu" : [ "x64", "ia32", "arm"],
+  "keywords": ["im","tencent","IM"],
   "author": "xingchenhe@tencent.com",
   "license": "ISC",
   "devDependencies": {
@@ -25,6 +30,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.52.1",
     "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-ts": "^1.4.0",
     "rollup-plugin-uglify": "^6.0.4",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.4"

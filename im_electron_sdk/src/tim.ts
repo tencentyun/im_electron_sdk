@@ -26,6 +26,7 @@ class TIM {
         this._friendshipManager = new FriendshipManager(this._sdkconfig);
         this._groupManager = new GroupManager(this._sdkconfig);
         this._timbaseManager = new TimbaseManager(this._sdkconfig);
+        
     }
     getTimbaseManager(){
         return this._timbaseManager;
