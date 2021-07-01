@@ -48,9 +48,9 @@ class AdvanceMessageManage {
         const c_message_id_buffer = this.stringFormator(message_id_buffer);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -66,9 +66,9 @@ class AdvanceMessageManage {
         const c_message_id = this.stringFormator(message_id);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -83,11 +83,11 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
     
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
-                if(json_params === "[]") 
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
+                if(json_param === "[]") 
                     reject(this.getErrorResponse({ code, desc: "message is not found" }))
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -103,12 +103,12 @@ class AdvanceMessageManage {
     
         return this.TIMMsgFindMessages([message_id], user_data).then(res => {
             return new Promise((resolve, reject) => {
-                const json_msg_param_array = res.json_params
+                const json_msg_param_array = res.json_param
                 const json_msg_param = JSON.stringify(JSON.parse(json_msg_param_array)[0])
                 const c_json_msg_param = this.stringFormator(json_msg_param)
-                const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                     if(code === 0) {
-                        resolve({ code, desc, json_params, user_data })
+                        resolve({ code, desc, json_param, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
@@ -125,12 +125,12 @@ class AdvanceMessageManage {
 
         return this.TIMMsgFindMessages([message_id], user_data).then(res => {
             return new Promise((resolve, reject) => {
-                const json_msg_param_array = res.json_params
+                const json_msg_param_array = res.json_param
                 const json_msg_param = JSON.stringify(JSON.parse(json_msg_param_array)[0])
                 const c_json_msg_param = this.stringFormator(json_msg_param)
-                const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(c_conv_id, conv_type, c_json_msg_param, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                     if(code === 0) {
-                        resolve({ code, desc, json_params, user_data })
+                        resolve({ code, desc, json_param, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
@@ -147,9 +147,9 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -165,9 +165,9 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -183,9 +183,9 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -202,13 +202,13 @@ class AdvanceMessageManage {
         if(json_advance_message_param.msg_getmsglist_param_last_msg) {
             return this.TIMMsgFindMessages([json_advance_message_param.msg_getmsglist_param_last_msg], user_data).then(res => {
                 return new Promise((resolve, reject) => {
-                    const json_msg_param_array = res.json_params;
+                    const json_msg_param_array = res.json_param;
                     json_advance_message_param.msg_getmsglist_param_last_msg = JSON.parse(json_msg_param_array)[0]
                     const c_json_advance_message_param = this.stringFormator(JSON.stringify(json_advance_message_param));
 
-                    const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                    const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                         if(code === 0) {
-                            resolve({ code, desc, json_params, user_data })
+                            resolve({ code, desc, json_param, user_data })
                         }
                         else
                             reject(this.getErrorResponse({ code, desc }))
@@ -220,9 +220,9 @@ class AdvanceMessageManage {
         } else {
             return new Promise((resolve, reject) => {
                 const c_json_advance_message_param = this.stringFormator(JSON.stringify(json_advance_message_param));
-                const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(c_conv_id, conv_type, c_json_advance_message_param, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                     if(code === 0) {
-                        resolve({ code, desc, json_params, user_data })
+                        resolve({ code, desc, json_param, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
@@ -240,16 +240,16 @@ class AdvanceMessageManage {
         
         return this.TIMMsgFindMessages([json_advance_message_param.msg_delete_param_msg], user_data).then(res => {
             return new Promise((resolve, reject) => {
-                const json_msg_param_array = res.json_params
+                const json_msg_param_array = res.json_param
                 const json_msg_param = JSON.parse(json_msg_param_array)[0]
                 const param = {
                     msg_delete_param_msg: json_msg_param,
                     msg_delete_param_is_remble: json_advance_message_param.msg_delete_param_is_remble
                 }
                 const c_param = this.stringFormator(JSON.stringify(param))
-                const code = this._sdkconfig.Imsdklib.TIMMsgDelete(c_conv_id, conv_type, c_param, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const code = this._sdkconfig.Imsdklib.TIMMsgDelete(c_conv_id, conv_type, c_param, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                     if(code === 0) {
-                        resolve({ code, desc, json_params, user_data })
+                        resolve({ code, desc, json_param, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
@@ -266,11 +266,11 @@ class AdvanceMessageManage {
         
         return this.TIMMsgFindMessages(message_id_array, user_data).then(res => {
             return new Promise((resolve, reject) => {
-                const json_msg_param_array = res.json_params
+                const json_msg_param_array = res.json_param
                 const c_json_msg_param_array = this.stringFormator(JSON.stringify(json_msg_param_array))
-                const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(c_conv_id, conv_type, c_json_msg_param_array, jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(c_conv_id, conv_type, c_json_msg_param_array, jsFuncToFFIFun((code, desc, json_param, user_data) => {
                     if(code === 0) {
-                        resolve({ code, desc, json_params, user_data })
+                        resolve({ code, desc, json_param, user_data })
                     }
                     else
                         reject(this.getErrorResponse({ code, desc }))
@@ -286,9 +286,9 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -303,9 +303,9 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -320,9 +320,9 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -337,9 +337,9 @@ class AdvanceMessageManage {
         const c_group_id = this.stringFormator(group_id);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -355,9 +355,9 @@ class AdvanceMessageManage {
         const c_path = this.stringFormator(path);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -372,9 +372,9 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -389,9 +389,9 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })
@@ -406,9 +406,9 @@ class AdvanceMessageManage {
         const userData = this.stringFormator(user_data);
         
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun((code, desc, json_params, user_data) => {
+            const callback = jsFuncToFFIFun((code, desc, json_param, user_data) => {
                 if(code === 0) 
-                    resolve({ code, desc, json_params, user_data })
+                    resolve({ code, desc, json_param, user_data })
                 else
                     reject(this.getErrorResponse({ code, desc }))
             })

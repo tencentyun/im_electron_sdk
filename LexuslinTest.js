@@ -26,7 +26,7 @@ class LexuslinTest {
             this.TIMSetMsgUpdateCallback()
 
             // let res = await this.TIMFriendshipGetFriendProfileList()
-            let res = await this.TIMFriendshipAddFriend()
+            // let res = await this.TIMFriendshipAddFriend()
             // let res = await this.TIMFriendshipHandleFriendAddRequest()
             // let res = await this.TIMFriendshipModifyFriendProfile()
             // let res = await this.TIMFriendshipDeleteFriend()
@@ -55,7 +55,7 @@ class LexuslinTest {
             // let res = await this.TIMMsgDelete()
             // let res = await this.TIMMsgListDelete()
             // let res = await this.TIMMsgClearHistoryMessage()
-            // await this.TIMMsgSetC2CReceiveMessageOpt()
+            // let res = await this.TIMMsgSetC2CReceiveMessageOpt()
             // let res = await this.TIMMsgGetC2CReceiveMessageOpt()
             // let res = await this.TIMMsgSetGroupReceiveMessageOpt()
             // let res = await this.TIMMsgDownloadElemToPath()
@@ -64,8 +64,9 @@ class LexuslinTest {
             // let res = await this.TIMMsgSearchLocalMessages()
 
             
-            // some api reture json_params=""
-            console.log("==========> 成功了：", res.json_params === "" ? "none" : JSON.parse(res.json_params))
+            // some api reture json_param=""
+
+            // console.log("==========> 成功了：", res.json_param === "" ? "none" : JSON.parse(res.json_param))
         } catch(e) {
             console.log("==========> 出错了：", e)
         }

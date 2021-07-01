@@ -75,37 +75,37 @@ describe("Friendship Manager", () => {
     //         })])
     //     })
     // })
-    it("TIMFriendshipAddFriend", async () => { 
-        const user_data = "user data"
-        const res = await friendshipManager.TIMFriendshipAddFriend(TIMFriendshipAddFriendParams, user_data)
-        res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
-        console.log(res)
-        expect(res).toMatchObject({
-            code: expect.any(Number),
-            desc: expect.any(String),
-            user_data: user_data,
-            json_param: expect.objectContaining({
-                "friend_result_code" : 0,
-                "friend_result_desc" : expect.any(String),
-                "friend_result_identifier" : expect.any(String)
-            })
-        })
-    })
-    // it("TIMFriendshipHandleFriendAddRequest", async () => {
+    // it("TIMFriendshipAddFriend", async () => { 
     //     const user_data = "user data"
-    //     const res = await friendshipManager.TIMFriendshipHandleFriendAddRequest(TIMFriendshipHandleFriendAddRequestParams, "")
+    //     const res = await friendshipManager.TIMFriendshipAddFriend(TIMFriendshipAddFriendParams, user_data)
     //     res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
+
     //     expect(res).toMatchObject({
     //         code: expect.any(Number),
     //         desc: expect.any(String),
     //         user_data: user_data,
     //         json_param: expect.objectContaining({
-    //             "friend_result_code" : 0,
+    //             "friend_result_code" : expect.any(Number),
     //             "friend_result_desc" : expect.any(String),
     //             "friend_result_identifier" : expect.any(String)
     //         })
     //     })
     // })
+    it("TIMFriendshipHandleFriendAddRequest", async () => {
+        const user_data = "user data"
+        const res = await friendshipManager.TIMFriendshipHandleFriendAddRequest(TIMFriendshipHandleFriendAddRequestParams, "")
+        res.json_param = res.json_param === "" ? "" : JSON.parse(res.json_param ?? "{}")
+        expect(res).toMatchObject({
+            code: expect.any(Number),
+            desc: expect.any(String), 
+            user_data: user_data,
+            json_param: expect.objectContaining({
+                "friend_result_code" : expect.any(Number),
+                "friend_result_desc" : expect.any(String),
+                "friend_result_identifier" : expect.any(String)
+            })
+        })
+    })
     // it("TIMFriendshipModifyFriendProfile", async () => {
     //     const user_data = "user data"
     //     const res = await friendshipManager.TIMFriendshipModifyFriendProfile(TIMFriendshipModifyFriendProfileParams, user_data)
