@@ -4,7 +4,8 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "prepare": "husky install"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -19,11 +20,6 @@
       "prettier --write im_electron_sdk/src/",
       "git add"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "author": "xingchenhe@tencent.com",
   "license": "CC0-1.0",
