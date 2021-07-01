@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { TimRender } from "../../im_electron_sdk/dist/timRender.umd";
 import APIS from './apis';
 import './App.css';
 
-const timRenderInstance = new TimRender();
 class App extends Component {
   constructor(){
     super();

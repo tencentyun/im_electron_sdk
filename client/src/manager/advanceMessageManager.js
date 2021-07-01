@@ -1,4 +1,4 @@
-import { TimRender } from "../../../im_electron_sdk/dist/timRender.umd";
+import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 
 const advanceMessageManager = {
@@ -6,25 +6,25 @@ const advanceMessageManager = {
         return timRenderInstance.TIMMsgSendMessage("lexuslin3", 1, {
             message_elem_array: [{
                 elem_type: 0,
-                text_elem_content: "xxx"
+                text_elem_content: "123"
             }],
-            message_sender: "940928"
+            message_sender: "lexuslin3"
         }, "", "user data");
     },
     TIMMsgCancelSend:() => {
-        return timRenderInstance.TIMMsgCancelSend("lexuslin3", 1, "144115224990124941-1625063271-162251704", "user data");
+        return timRenderInstance.TIMMsgCancelSend("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
     },
     TIMMsgFindMessages:() => {
-        return timRenderInstance.TIMMsgFindMessages(["144115224990124941-1625063271-162251704"], "user data");
+        return timRenderInstance.TIMMsgFindMessages(["144115225971632901-1625125460-3998758148"], "user data");
     },
     TIMMsgReportReaded:() => {
-        return timRenderInstance.TIMMsgReportReaded("lexuslin3", 1, "144115224990124941-1625063271-162251704", "user data");
+        return timRenderInstance.TIMMsgReportReaded("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
     },
     TIMMsgRevoke:() => {
-        return timRenderInstance.TIMMsgRevoke("1lexuslin127", 2, "lexuslin-1625063271-162251704", "user data");
+        return timRenderInstance.TIMMsgRevoke("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
     },
     TIMMsgFindByMsgLocatorList:() => {
-        return timRenderInstance.TIMMsgFindByMsgLocatorList("1lexuslin127", 2, [{
+        return timRenderInstance.TIMMsgFindByMsgLocatorList("1lexuslin127", 2, [{ 
             message_elem_array: [{
                 elem_type: 0,
                 text_elem_content: "xxx"
@@ -54,7 +54,7 @@ const advanceMessageManager = {
     },
     TIMMsgGetMsgList:() => {
         return timRenderInstance.TIMMsgGetMsgList("lexuslin3", 1, {
-            msg_getmsglist_param_last_msg: "144115225971632901-1624882630-707997467",
+            msg_getmsglist_param_last_msg: "144115225971632901-1625125460-3998758148",
             msg_getmsglist_param_count: 100,
             // msg_getmsglist_param_is_remble: false,
             // msg_getmsglist_param_is_forward: true,
@@ -65,12 +65,12 @@ const advanceMessageManager = {
     },
     TIMMsgDelete:() => {
         return timRenderInstance.TIMMsgDelete("lexuslin3", 1, {
-            msg_delete_param_msg: "144115231469886159-1624848680-2873600283",
+            msg_delete_param_msg: "144115225971632901-1625125460-3998758148",
             msg_delete_param_is_remble: true
         }, "user data");
     },
     TIMMsgListDelete:() => {
-        return timRenderInstance.TIMMsgListDelete();
+        return timRenderInstance.TIMMsgListDelete("lexuslin3", 2, ["144115225971632901-1625125460-3998758148", "user data"]);
     },
     TIMMsgClearHistoryMessage:() => {
         return timRenderInstance.TIMMsgClearHistoryMessage("lexuslin3", 1, "user data");
@@ -82,7 +82,7 @@ const advanceMessageManager = {
         return timRenderInstance.TIMMsgGetC2CReceiveMessageOpt(["lexuslin3"], "user data");
     },
     TIMMsgSetGroupReceiveMessageOpt:() => {
-        return timRenderInstance.TIMMsgSetGroupReceiveMessageOpt("lexuslin3", 2, "user data");
+        return timRenderInstance.TIMMsgSetGroupReceiveMessageOpt("1lexuslin127", 2, "user data");
     },
     TIMMsgDownloadElemToPath:() => {
         return timRenderInstance.TIMMsgDownloadElemToPath({
@@ -97,7 +97,16 @@ const advanceMessageManager = {
         return timRenderInstance.TIMMsgDownloadMergerMessage("144115231469886159-1623751826-4234216750", "user data");
     },
     TIMMsgBatchSend:() => {
-        return timRenderInstance.TIMMsgBatchSend();
+        return timRenderInstance.TIMMsgBatchSend({
+            msg_batch_send_param_identifier_array: ["lexuslin3", "13675"],
+            msg_batch_send_param_msg: {
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "xxx"
+                }],
+                message_sender: "lexuslin"
+            }
+        }, "user data");
     },
     TIMMsgSearchLocalMessages:() => {
         return timRenderInstance.TIMMsgSearchLocalMessages({

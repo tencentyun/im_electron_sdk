@@ -5,6 +5,11 @@ module.exports = function override(config, env) {
     const overrideConfig = {
         ...config,
         target: 'electron-renderer',
+        node: {
+            global: true,
+            __dirname: true,
+            __filename: true
+        }
     }
 
     return overrideConfig

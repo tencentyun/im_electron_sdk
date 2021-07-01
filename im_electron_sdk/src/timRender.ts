@@ -71,21 +71,18 @@ import {
     setConvEventCallback,
 } from "./interface/conversationInterface";
 
-const electron = require("electron");
-
 const getUniKey = (length: number) =>
     Number(Math.random().toString().substr(3, length) + Date.now()).toString(
         36
     );
 
-export class TimRender {
+export default class TimRender {
     static runtime: Map<string, Function> = new Map();
     static isListened = false;
     constructor() {
         if (!TimRender.isListened) {
             ipcRenderer.on("global-callback-reply", (e: any, res: any) => {
                 const { callbackKey, responseData } = JSON.parse(res);
-                console.log(TimRender.runtime, "2233");
                 if (TimRender.runtime.has(callbackKey)) {
                     //@ts-ignore
                     TimRender.runtime.get(callbackKey)(responseData);

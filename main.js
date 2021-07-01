@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
 const path = require('path')
-const { TimMain } = require('./im_electron_sdk');
+const TimMain = require('./im_electron_sdk');
 
 const tim = new TimMain({
   sdkappid: 1400187352
@@ -11,8 +11,8 @@ const tim = new TimMain({
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     show: false,
     webPreferences: {
       webSecurity: true,
