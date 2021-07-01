@@ -1,8 +1,8 @@
 import { TimRender } from "../../../im_electron_sdk/dist/timRender.umd";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
-  createGroup: () => {
-    return timRenderInstance.createGroup({
+  TIMGroupCreate: () => {
+    return timRenderInstance.TIMGroupCreate({
       params: {
         groupName: "test-avchatRoom",
         groupType: 0,
@@ -17,23 +17,23 @@ const TimBaseManager = {
       data: "ssss"
     });
   },
-  deleteGroup: (groupId) => {
-    return timRenderInstance.deleteGroup({
+  TIMGroupDelete: (groupId) => {
+    return timRenderInstance.TIMGroupDelete({
       groupId,
       data: "ssss"
     });
   },
-  getJoinedGroupList: () => {
-    return timRenderInstance.getJoinedGroupList();
+  TIMGroupGetJoinedGroupList: () => {
+    return timRenderInstance.TIMGroupGetJoinedGroupList();
   },
-  getGroupInfoList: () => {
-    return timRenderInstance.getGroupInfoList({
+  TIMGroupGetGroupInfoList: () => {
+    return timRenderInstance.TIMGroupGetGroupInfoList({
       groupIds: ["@TGS#a5X7C5HH2"],
       data: 'test data'
     })
   },
-  modifyGroupInfo: () => {
-    return timRenderInstance.modifyGroupInfo({
+  TIMGroupModifyGroupInfo: () => {
+    return timRenderInstance.TIMGroupModifyGroupInfo({
       params: {
         groupId: "@TGS#a5X7C5HH2",
         groupName: "modified group name",
@@ -43,16 +43,16 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  getGroupMemberInfoList: (groupId) => {
-    return timRenderInstance.getGroupMemberInfoList({
+  TIMGroupGetMemberInfoList: (groupId) => {
+    return timRenderInstance.TIMGroupGetMemberInfoList({
       params: {
         groupId,
       },
       data: 'test data'
     })
   },
-  modifyGroupMemberInfo: () => {
-    return timRenderInstance.modifyGroupMemberInfo({
+  TIMGroupModifyMemberInfo: () => {
+    return timRenderInstance.TIMGroupModifyMemberInfo({
       params: {
         groupId: "@TGS#a5X7C5HH2",
         identifier: '77778',
@@ -62,8 +62,8 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  getGroupPendencyList: () => {
-    return timRenderInstance.getGroupPendencyList({
+  TIMGroupGetPendencyList: () => {
+    return timRenderInstance.TIMGroupGetPendencyList({
       params: {
         startTime: 0,
         maxLimited: 0,
@@ -71,14 +71,14 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  groupReportPendencyReaded: () => {
-    return timRenderInstance.groupReportPendencyReaded({
+  TIMGroupReportPendencyReaded: () => {
+    return timRenderInstance.TIMGroupReportPendencyReaded({
       timeStamp: 0,
       data: 'test data'
     })
   },
-  handleGroupPendency: () => {
-    return timRenderInstance.handleGroupPendency({
+  TIMGroupHandlePendency: () => {
+    return timRenderInstance.TIMGroupHandlePendency({
       params: {
         startTime: 0,
         maxLimited: 0,
@@ -86,9 +86,9 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  initGroupAttribute: (groupId) => {
+  TIMGroupInitGroupAttributes: (groupId) => {
     console.log(groupId);
-    return timRenderInstance.initGroupAttribute({
+    return timRenderInstance.TIMGroupInitGroupAttributes({
       groupId,
       attributes: [{
         key: 'attribute1',
@@ -97,8 +97,8 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  setGroupAttribute: (groupId) => {
-    return timRenderInstance.setGroupAttribute({
+  TIMGroupSetGroupAttributes: (groupId) => {
+    return timRenderInstance.TIMGroupSetGroupAttributes({
       groupId,
       attributes: [{
         key: 'attribute2',
@@ -107,22 +107,22 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  deleteGroupAttribute: (groupId) => {
-    return timRenderInstance.deleteGroupAttribute({
+  TIMGroupDeleteGroupAttributes: (groupId) => {
+    return timRenderInstance.TIMGroupDeleteGroupAttributes({
       groupId,
       attributesKey: ["attribute1"],
       data: 'test data'
     })
   },
-  getGroupAttribute: (groupId) => {
-    return timRenderInstance.getGroupAttribute({
+  TIMGroupGetGroupAttributes: (groupId) => {
+    return timRenderInstance.TIMGroupGetGroupAttributes({
       groupId,
       attributesKey: ["attribute1"],
       data: 'test data'
     })
   },
-  groupAttributeChangedCallback: (cbk) => {
-    return timRenderInstance.groupAttributeChangedCallback({
+  TIMSetGroupAttributeChangedCallback: (cbk) => {
+    return timRenderInstance.TIMSetGroupAttributeChangedCallback({
       callback: (...args) => {
         const [[data,user_data]] = args;
         cbk(JSON.stringify({
@@ -132,27 +132,27 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  joinGroup: () => {
-    return timRenderInstance.joinGroup({
+  TIMGroupJoin: () => {
+    return timRenderInstance.TIMGroupJoin({
       groupId: '@TGS#2VUXAAIHW',
       helloMsg: 'hello',
       data: 'test data'
     })
   },
-  quitGroup: () => {
-    return timRenderInstance.quitGroup({
+  TIMGroupQuit: () => {
+    return timRenderInstance.TIMGroupQuit({
       groupId: '@TGS#2VUXAAIHW',
       data: 'test data'
     })
   },
-  getGroupOnlineMemberCount: () => {
-    return timRenderInstance.getGroupOnlineMemberCount({
+  TIMGroupGetOnlineMemberCount: () => {
+    return timRenderInstance.TIMGroupGetOnlineMemberCount({
       groupId: '@TGS#a4LPQ6HHW',
       data: 'test data'
     })
   },
-  searchGroups: () => {
-    return timRenderInstance.searchGroups({
+  TIMGroupSearchGroups: () => {
+    return timRenderInstance.TIMGroupSearchGroups({
       searchParams: {
         keywordList: ['test'],
         fieldList: [2]
@@ -160,8 +160,8 @@ const TimBaseManager = {
     data: 'test data'
     })
   },
-  searchGroupMembers: () => {
-    return timRenderInstance.searchGroupMembers({
+  TIMGroupSearchGroupMembers: () => {
+    return timRenderInstance.TIMGroupSearchGroupMembers({
       searchParams: {
         groupidList: ['@TGS#a5X7C5HH2'],
         keywordList: ['9999'],
@@ -170,8 +170,8 @@ const TimBaseManager = {
     data: 'test data'
     })
   },
-  inviteMember: () => {
-    return timRenderInstance.inviteMember({
+  TIMGroupInviteMember: () => {
+    return timRenderInstance.TIMGroupInviteMember({
       params: {
         groupId: "@TGS#1I2TQ6HHE",
         identifierArray: ['940928'],
@@ -179,8 +179,8 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  deleteMember: () => {
-    return timRenderInstance.deleteMember({
+  TIMGroupDeleteMember: () => {
+    return timRenderInstance.TIMGroupDeleteMember({
       params: {
         groupId: "@TGS#1I2TQ6HHE",
         identifierArray: ['940928'],
@@ -188,8 +188,8 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  groupTipsChangedCallback: (cbk) => {
-    return timRenderInstance.groupTipsChangedCallback({
+  TIMSetGroupTipsEventCallback: (cbk) => {
+    return timRenderInstance.TIMSetGroupTipsEventCallback({
       callback:(...args) => {
         const [[data,user_data]] = args;
         cbk(JSON.stringify({

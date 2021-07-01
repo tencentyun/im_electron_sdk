@@ -2,39 +2,39 @@ import { TimRender } from "../../../im_electron_sdk/dist/timRender.umd";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
     TIMInit:()=>{
-        return timRenderInstance.init();
+        return timRenderInstance.TIMInit();
     },
     TIMLogin:()=>{
-        return timRenderInstance.login({
+        return timRenderInstance.TIMLogin({
             userID: "3708",
             userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMzKxNDU3NjGDmpKZDjQ2LKnAz6Q0J9s3LdQsSrvA28kvKinY1LvIOdE9yDk13DEp0SIi2zWtND*53FapFgB-kjCC",
             userData: "xingchenhe-test"
         })
     },
-    uninit:()=>{
-        return timRenderInstance.uninit()
+    TIMUninit:()=>{
+        return timRenderInstance.TIMUninit()
     },
-    getSDKVersion:()=>{
-        return timRenderInstance.getSDKVersion();
+    TIMGetSDKVersion:()=>{
+        return timRenderInstance.TIMGetSDKVersion();
     },
-    getServerTime:()=>{
-        return timRenderInstance.getServerTime();
+    TIMGetServerTime:()=>{
+        return timRenderInstance.TIMGetServerTime();
     },
-    logout:()=>{
-        return timRenderInstance.logout({
+    TIMLogout:()=>{
+        return timRenderInstance.TIMLogout({
             userData:"logout"
         })
     },
-    getLoginStatus:()=>{
-        return timRenderInstance.getLoginStatus()
+    TIMGetLoginStatus:()=>{
+        return timRenderInstance.TIMGetLoginStatus()
     },
-    getLoginUserID:()=>{
-        return timRenderInstance.getLoginUserID({
+    TIMGetLoginUserID:()=>{
+        return timRenderInstance.TIMGetLoginUserID({
             userData:"getLoginUserID"
         })
     },
-    setNetworkStatusListenerCallback:()=>{
-       return timRenderInstance.setNetworkStatusListenerCallback({
+    TIMSetNetworkStatusListenerCallback:()=>{
+       return timRenderInstance.TIMSetNetworkStatusListenerCallback({
             userData:"setNetworkStatusListenerCallback",
             callback:(data)=>{
                 console.log(data,'setNetworkStatusListenerCallback');

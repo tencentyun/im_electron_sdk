@@ -2,11 +2,11 @@ import { TimRender } from "../../../im_electron_sdk/dist/timRender.umd";
 const timRenderInstance = new TimRender();
 
 const friendShipManager = {
-    getFriendshipProfileList: () => {
-        return timRenderInstance.getFriendshipProfileList();
+    TIMFriendshipGetFriendProfileList: () => {
+        return timRenderInstance.TIMFriendshipGetFriendProfileList();
     },
-    addFriend: () => {
-        return timRenderInstance.addFriend({
+    TIMFriendshipAddFriend: () => {
+        return timRenderInstance.TIMFriendshipAddFriend({
             friendship_add_friend_param_identifier: "940928",
             friendship_add_friend_param_friend_type: 1,
             friendship_add_friend_param_remark: "xxx",
@@ -15,16 +15,16 @@ const friendShipManager = {
             friendship_add_friend_param_add_wording: "xxx",
         }, '123');
     },
-    handleFriendAddRequest: () => {
-        return timRenderInstance.handleFriendAddRequest({
+    TIMFriendshipHandleFriendAddRequest: () => {
+        return timRenderInstance.TIMFriendshipHandleFriendAddRequest({
             friend_respone_identifier: "940928",
             friend_respone_action: 1,
             friend_respone_remark: "xx",
             friend_respone_group_name: "xx",
         })
     },
-    modifyFriendProfile: () => {
-        return timRenderInstance.modifyFriendProfile({
+    TIMFriendshipModifyFriendProfile: () => {
+        return timRenderInstance.TIMFriendshipModifyFriendProfile({
             friendship_modify_friend_profile_param_identifier: "940928",
             friendship_modify_friend_profile_param_item: {
                 friend_profile_item_remark: "xx",
@@ -32,71 +32,71 @@ const friendShipManager = {
             }
         })
     },
-    deleteFriend: () => {
-        return timRenderInstance.deleteFriend({
+    TIMFriendshipDeleteFriend: () => {
+        return timRenderInstance.TIMFriendshipDeleteFriend({
             friendship_delete_friend_param_friend_type: 1,
             friendship_delete_friend_param_identifier_array: ["940928"]
         }, "user data")
     },
-    checkFriendType: () => {
-        return timRenderInstance.checkFriendType({
+    TIMFriendshipCheckFriendType: () => {
+        return timRenderInstance.TIMFriendshipCheckFriendType({
             friendship_check_friendtype_param_check_type: 0,
             friendship_check_friendtype_param_identifier_array: ["940928"]
         }, "user data")
     },
-    createFriendGroup: () => {
-        return timRenderInstance.createFriendGroup({
+    TIMFriendshipCreateFriendGroup: () => {
+        return timRenderInstance.TIMFriendshipCreateFriendGroup({
             friendship_create_friend_group_param_name_array: ["ggg1"],
             friendship_create_friend_group_param_identifier_array: ["940928"],
         }, "user data")
     },
-    getFriendGroupList: () => {
-        return timRenderInstance.getFriendGroupList(["ggg1"], "user data")
+    TIMFriendshipGetFriendGroupList: () => {
+        return timRenderInstance.TIMFriendshipGetFriendGroupList(["ggg1"], "user data")
     },
-    modifyFriendGroup: () => {
-        return timRenderInstance.modifyFriendGroup({
+    TIMFriendshipModifyFriendGroup: () => {
+        return timRenderInstance.TIMFriendshipModifyFriendGroup({
             friendship_modify_friend_group_param_name: "ggg1",
             friendship_modify_friend_group_param_delete_identifier_array: ["940928"],
         }, "user data")
     },
-    deleteFriendGroup: () => {
-        return timRenderInstance.deleteFriendGroup(["ggg1"], "user data")
+    TIMFriendshipDeleteFriendGroup: () => {
+        return timRenderInstance.TIMFriendshipDeleteFriendGroup(["ggg1"], "user data")
     },
-    addToBlackList: () => {
-        return timRenderInstance.addToBlackList(["940928"], "user data")
+    TIMFriendshipAddToBlackList: () => {
+        return timRenderInstance.TIMFriendshipAddToBlackList(["940928"], "user data")
     },
-    getBlackList:  () => {
-        return timRenderInstance.getBlackList("user data")
+    TIMFriendshipGetBlackList:  () => {
+        return timRenderInstance.TIMFriendshipGetBlackList("user data")
     },
-    deleteFromBlackList:() => {
-        return timRenderInstance.deleteFromBlackList(["940928"], "user data")
+    TIMFriendshipDeleteFromBlackList:() => {
+        return timRenderInstance.TIMFriendshipDeleteFromBlackList(["940928"], "user data")
     },
-    getPendencyList: () => {
-        return timRenderInstance.getPendencyList({
+    TIMFriendshipGetPendencyList: () => {
+        return timRenderInstance.TIMFriendshipGetPendencyList({
             friendship_get_pendency_list_param_type: 1,
             friendship_get_pendency_list_param_start_seq: 0,
             friendship_get_pendency_list_param_start_time: 0,
             friendship_get_pendency_list_param_limited_size: 10,
         }, "user data")
     },
-    deletePendency: () => {
-        return timRenderInstance.deletePendency({
+    TIMFriendshipDeletePendency: () => {
+        return timRenderInstance.TIMFriendshipDeletePendency({
             friendship_delete_pendency_param_type: 1,
             friendship_delete_pendency_param_identifier_array: ["test1"]
         }, "user data")
     },
-    reportPendencyReaded: () => {
+    TIMFriendshipReportPendencyReaded: () => {
         let timestamp =  Math.floor(+new Date/1000)
-        return timRenderInstance.reportPendencyReaded(timestamp, "user data")
+        return timRenderInstance.TIMFriendshipReportPendencyReaded(timestamp, "user data")
     },
-    searchFriends: () => {
-        return timRenderInstance.searchFriends({
+    TIMFriendshipSearchFriends: () => {
+        return timRenderInstance.TIMFriendshipSearchFriends({
             friendship_search_param_keyword_list: ["940928"],
             friendship_search_param_search_field_list: [1, 2, 4]
         }, "user data")
     },
-    getFriendsInfo: () => {
-        return timRenderInstance.getFriendsInfo(["940928"], "user data")
+    TIMFriendshipGetFriendsInfo: () => {
+        return timRenderInstance.TIMFriendshipGetFriendsInfo(["940928"], "user data")
     },
     TIMSetOnAddFriendCallback: (callback) => {
         return timRenderInstance.TIMSetOnAddFriendCallback((...args) => {

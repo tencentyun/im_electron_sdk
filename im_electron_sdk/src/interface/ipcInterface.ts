@@ -23,15 +23,8 @@ interface ipcRenderData {
     
 }
 
-interface ITimRender {
-    init(): Promise<commonResponse>;
-    login(data: loginParam): Promise<commonResponse>;
-    createGroup(data: CreateGroupParams): Promise<commonResponse>;
-}
-
 export { 
     ipcData,
     mainRes,
     Managers,
-    ITimRender
 }

@@ -11,7 +11,7 @@ const APIS = [
         manager: "timBaseManager",
         method: [
             {
-                name: "init",
+                name: "TIMInit",
                 action: (callback) => {
                     TimBaseManager.TIMInit().then(data => {
                         callback(JSON.stringify(data))
@@ -21,7 +21,7 @@ const APIS = [
                 }
             },
             {
-                name: "login",
+                name: "TIMLogin",
                 action: (callback) => {
                     TimBaseManager.TIMLogin().then(data => {
                         callback(JSON.stringify(data))
@@ -31,9 +31,9 @@ const APIS = [
                 }
             },
             {
-                name: "uninit",
+                name: "TIMUninit",
                 action: (callback) => {
-                    TimBaseManager.uninit().then(data => {
+                    TimBaseManager.TIMUninit().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -41,9 +41,9 @@ const APIS = [
                 }
             },
             {
-                name: "getServerTime",
+                name: "TIMGetServerTime",
                 action: (callback) => {
-                    TimBaseManager.getServerTime().then(data => {
+                    TimBaseManager.TIMGetServerTime().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -51,9 +51,9 @@ const APIS = [
                 }
             },
             {
-                name: "getSDKVersion",
+                name: "TIMGetSDKVersion",
                 action: (callback) => {
-                    TimBaseManager.getSDKVersion().then(data => {
+                    TimBaseManager.TIMGetSDKVersion().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -61,9 +61,9 @@ const APIS = [
                 }
             },
             {
-                name: "logout",
+                name: "TIMLogout",
                 action: (callback) => {
-                    TimBaseManager.logout().then(data => {
+                    TimBaseManager.TIMLogout().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -71,9 +71,9 @@ const APIS = [
                 }
             },
             {
-                name: "getLoginStatus",
+                name: "TIMGetLoginStatus",
                 action: (callback) => {
-                    TimBaseManager.getLoginStatus().then(data => {
+                    TimBaseManager.TIMGetLoginStatus().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -81,9 +81,9 @@ const APIS = [
                 }
             },
             {
-                name: "getLoginUserID",
+                name: "TIMGetLoginUserID",
                 action: (callback) => {
-                    TimBaseManager.getLoginUserID().then(data => {
+                    TimBaseManager.TIMGetLoginUserID().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -91,9 +91,9 @@ const APIS = [
                 }
             },
             {
-                name: "setNetworkStatusListenerCallback",
+                name: "TIMSetNetworkStatusListenerCallback",
                 action: (callback) => {
-                    TimBaseManager.setNetworkStatusListenerCallback().then(data => {
+                    TimBaseManager.TIMSetNetworkStatusListenerCallback().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -101,7 +101,7 @@ const APIS = [
                 }
             },
             {
-                name:"setKickedOfflineCallback",
+                name:"TIMSetKickedOfflineCallback",
                 action:(callback)=>{
                     TimBaseManager.TIMSetKickedOfflineCallback().then(data=>{
                         callback(JSON.stringify(data))
@@ -111,7 +111,7 @@ const APIS = [
                 }
             },
             {
-                name:"setUserSigExpiredCallback",
+                name:"TIMSetUserSigExpiredCallback",
                 action:(callback)=>{
                     TimBaseManager.TIMSetUserSigExpiredCallback().then(data=>{
                         callback(JSON.stringify(data))
@@ -241,9 +241,9 @@ const APIS = [
         manager: "groupManager",
         method: [
             {
-                name: "createGroup",
+                name: "TIMGroupCreate",
                 action: (callback) => {
-                    TimGroupManager.createGroup().then(res => {
+                    TimGroupManager.TIMGroupCreate().then(res => {
                         const { data: { json_param } } = res
                         const { create_group_result_groupid } = JSON.parse(json_param);
                         createdGroupId = create_group_result_groupid;
@@ -254,9 +254,9 @@ const APIS = [
                 }
             },
             {
-                name: "deleteGroup",
+                name: "TIMGroupDelete",
                 action: (callback) => {
-                    TimGroupManager.deleteGroup(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupDelete(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -264,9 +264,9 @@ const APIS = [
                 }
             },
             {
-                name: "getJoinedGroup",
+                name: "TIMGroupGetJoinedGroupList",
                 action: (callback) => {
-                    TimGroupManager.getJoinedGroupList().then(data => {
+                    TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -274,9 +274,9 @@ const APIS = [
                 }
             },
             {
-                name: "getGroupInfoList",
+                name: "TIMGroupGetGroupInfoList",
                 action: (callback) => {
-                    TimGroupManager.getGroupInfoList().then(data => {
+                    TimGroupManager.TIMGroupGetGroupInfoList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -284,9 +284,9 @@ const APIS = [
                 }
             },
             {
-                name: "modifyGroupInfo",
+                name: "TIMGroupModifyGroupInfo",
                 action: (callback) => {
-                    TimGroupManager.modifyGroupInfo().then(data => {
+                    TimGroupManager.TIMGroupModifyGroupInfo().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -294,9 +294,9 @@ const APIS = [
                 }
             },
             {
-                name: "getGroupMemberInfoList",
+                name: "TIMGroupGetMemberInfoList",
                 action: (callback) => {
-                    TimGroupManager.getGroupMemberInfoList(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupGetMemberInfoList(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -304,9 +304,9 @@ const APIS = [
                 }
             },
             {
-                name: "modifyGroupMemberInfo",
+                name: "TIMGroupModifyMemberInfo",
                 action: (callback) => {
-                    TimGroupManager.modifyGroupMemberInfo().then(data => {
+                    TimGroupManager.TIMGroupModifyMemberInfo().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -314,9 +314,9 @@ const APIS = [
                 }
             },
             {
-                name: "getGroupPendencyList",
+                name: "TIMGroupGetPendencyList",
                 action: (callback) => {
-                    TimGroupManager.getGroupPendencyList().then(data => {
+                    TimGroupManager.TIMGroupGetPendencyList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -324,9 +324,9 @@ const APIS = [
                 }
             },
             {
-                name: "initGroupAttribute",
+                name: "TIMGroupInitGroupAttributes",
                 action: (callback) => {
-                    TimGroupManager.initGroupAttribute(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupInitGroupAttributes(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -334,9 +334,9 @@ const APIS = [
                 }
             },
             {
-                name: "setGroupAttribute",
+                name: "TIMGroupSetGroupAttributes",
                 action: (callback) => {
-                    TimGroupManager.setGroupAttribute(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupSetGroupAttributes(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -344,9 +344,9 @@ const APIS = [
                 }
             },
             {
-                name: "deleteGroupAttribute",
+                name: "TIMGroupDeleteGroupAttributes",
                 action: (callback) => {
-                    TimGroupManager.deleteGroupAttribute(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupDeleteGroupAttributes(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -354,9 +354,9 @@ const APIS = [
                 }
             },
             {
-                name: "getGroupAttribute",
+                name: "TIMGroupGetGroupAttributes",
                 action: (callback) => {
-                    TimGroupManager.getGroupAttribute(createdGroupId).then(data => {
+                    TimGroupManager.TIMGroupGetGroupAttributes(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -364,9 +364,9 @@ const APIS = [
                 }
             },
             {
-                name: "groupAttributeChangedCallback",
+                name: "TIMSetGroupAttributeChangedCallback",
                 action: (callback) => {
-                    TimGroupManager.groupAttributeChangedCallback(callback).then(data => {
+                    TimGroupManager.TIMSetGroupAttributeChangedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -374,9 +374,9 @@ const APIS = [
                 }
             },
             {
-                name: "joinGroup",
+                name: "TIMGroupJoin",
                 action: (callback) => {
-                    TimGroupManager.joinGroup().then(data => {
+                    TimGroupManager.TIMGroupJoin().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -384,9 +384,9 @@ const APIS = [
                 }
             },
             {
-                name: "quitGroup",
+                name: "TIMGroupQuit",
                 action: (callback) => {
-                    TimGroupManager.quitGroup().then(data => {
+                    TimGroupManager.TIMGroupQuit().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -394,9 +394,9 @@ const APIS = [
                 }
             },
             {
-                name: "groupReportPendencyReaded",
+                name: "TIMGroupReportPendencyReaded",
                 action: (callback) => {
-                    TimGroupManager.groupReportPendencyReaded().then(data => {
+                    TimGroupManager.TIMGroupReportPendencyReaded().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -404,9 +404,9 @@ const APIS = [
                 }
             },
             {
-                name: "handleGroupPendency",
+                name: "TIMGroupHandlePendency",
                 action: (callback) => {
-                    TimGroupManager.handleGroupPendency().then(data => {
+                    TimGroupManager.TIMGroupHandlePendency().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -414,9 +414,9 @@ const APIS = [
                 }
             },
             {
-                name: "getGroupOnlineMemberCount",
+                name: "TIMGroupGetOnlineMemberCount",
                 action: (callback) => {
-                    TimGroupManager.getGroupOnlineMemberCount().then(data => {
+                    TimGroupManager.TIMGroupGetOnlineMemberCount().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -424,9 +424,9 @@ const APIS = [
                 }
             },
             {
-                name: "searchGroups",
+                name: "TIMGroupSearchGroups",
                 action: (callback) => {
-                    TimGroupManager.searchGroups().then(data => {
+                    TimGroupManager.TIMGroupSearchGroups().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -434,9 +434,9 @@ const APIS = [
                 }
             },
             {
-                name: "searchGroupMembers",
+                name: "TIMGroupSearchGroupMembers",
                 action: (callback) => {
-                    TimGroupManager.searchGroupMembers().then(data => {
+                    TimGroupManager.TIMGroupSearchGroupMembers().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -444,9 +444,9 @@ const APIS = [
                 }
             },
             {
-                name: "inviteMember",
+                name: "TIMGroupInviteMember",
                 action: (callback) => {
-                    TimGroupManager.inviteMember().then(data => {
+                    TimGroupManager.TIMGroupInviteMember().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -454,9 +454,9 @@ const APIS = [
                 }
             },
             {
-                name: "deleteMember",
+                name: "TIMGroupDeleteMember",
                 action: (callback) => {
-                    TimGroupManager.deleteMember().then(data => {
+                    TimGroupManager.TIMGroupDeleteMember().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -464,9 +464,9 @@ const APIS = [
                 }
             },
             {
-                name: "groupTipsChangedCallback",
+                name: "TIMSetGroupTipsEventCallback",
                 action: (callback) => {
-                    TimGroupManager.groupTipsChangedCallback(callback).then(data => {
+                    TimGroupManager.TIMSetGroupTipsEventCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -479,9 +479,9 @@ const APIS = [
         manager: 'friendshipManager',
         method: [
             {
-                name: 'getFriendshipProfileList',
+                name: 'TIMFriendshipGetFriendProfileList',
                 action: callback => {
-                    TimFriendshipManager.getFriendshipProfileList().then(data => {
+                    TimFriendshipManager.TIMFriendshipGetFriendProfileList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -489,9 +489,9 @@ const APIS = [
                 }
             },
             {
-                name: 'addFriend',
+                name: 'TIMFriendshipAddFriend',
                 action: callback => {
-                    TimFriendshipManager.addFriend().then(data => {
+                    TimFriendshipManager.TIMFriendshipAddFriend().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -499,9 +499,9 @@ const APIS = [
                 }
             },
             {
-                name: 'handleFriendAddRequest',
+                name: 'TIMFriendshipHandleFriendAddRequest',
                 action: callback => {
-                    TimFriendshipManager.handleFriendAddRequest().then(data => {
+                    TimFriendshipManager.TIMFriendshipHandleFriendAddRequest().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -509,9 +509,9 @@ const APIS = [
                 }
             },
             {
-                name: 'modifyFriendProfile',
+                name: 'TIMFriendshipModifyFriendProfile',
                 action: callback => {
-                    TimFriendshipManager.modifyFriendProfile().then(data => {
+                    TimFriendshipManager.TIMFriendshipModifyFriendProfile().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -519,9 +519,9 @@ const APIS = [
                 }
             },
             {
-                name: 'deleteFriend',
+                name: 'TIMFriendshipDeleteFriend',
                 action: callback => {
-                    TimFriendshipManager.deleteFriend().then(data => {
+                    TimFriendshipManager.TIMFriendshipDeleteFriend().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -529,9 +529,9 @@ const APIS = [
                 }
             },
             {
-                name: 'checkFriendType',
+                name: 'TIMFriendshipCheckFriendType',
                 action: callback => {
-                    TimFriendshipManager.checkFriendType().then(data => {
+                    TimFriendshipManager.TIMFriendshipCheckFriendType().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -539,9 +539,9 @@ const APIS = [
                 }
             },
             {
-                name: 'createFriendGroup',
+                name: 'TIMFriendshipCreateFriendGroup',
                 action: callback => {
-                    TimFriendshipManager.createFriendGroup().then(data => {
+                    TimFriendshipManager.TIMFriendshipCreateFriendGroup().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -549,9 +549,9 @@ const APIS = [
                 }
             },
             {
-                name: 'getFriendGroupList',
+                name: 'TIMFriendshipGetFriendGroupList',
                 action: callback => {
-                    TimFriendshipManager.getFriendGroupList().then(data => {
+                    TimFriendshipManager.TIMFriendshipGetFriendGroupList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -559,9 +559,9 @@ const APIS = [
                 }
             },
             {
-                name: 'modifyFriendGroup',
+                name: 'TIMFriendshipModifyFriendGroup',
                 action: callback => {
-                    TimFriendshipManager.modifyFriendGroup().then(data => {
+                    TimFriendshipManager.TIMFriendshipModifyFriendGroup().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -569,9 +569,9 @@ const APIS = [
                 }
             },
             {
-                name: 'deleteFriendGroup',
+                name: 'TIMFriendshipDeleteFriendGroup',
                 action: callback => {
-                    TimFriendshipManager.deleteFriendGroup().then(data => {
+                    TimFriendshipManager.TIMFriendshipDeleteFriendGroup().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -579,9 +579,9 @@ const APIS = [
                 }
             },
             {
-                name: 'addToBlackList',
+                name: 'TIMFriendshipAddToBlackList',
                 action: callback => {
-                    TimFriendshipManager.addToBlackList().then(data => {
+                    TimFriendshipManager.TIMFriendshipAddToBlackList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -589,9 +589,9 @@ const APIS = [
                 }
             },
             {
-                name: 'getBlackList',
+                name: 'TIMFriendshipGetBlackList',
                 action: callback => {
-                    TimFriendshipManager.getBlackList().then(data => {
+                    TimFriendshipManager.TIMFriendshipGetBlackList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -599,9 +599,9 @@ const APIS = [
                 }
             },
             {
-                name: 'deleteFromBlackList',
+                name: 'TIMFriendshipDeleteFromBlackList',
                 action: callback => {
-                    TimFriendshipManager.deleteFromBlackList().then(data => {
+                    TimFriendshipManager.TIMFriendshipDeleteFromBlackList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -609,9 +609,9 @@ const APIS = [
                 }
             },
             {
-                name: 'getPendencyList',
+                name: 'TIMFriendshipGetPendencyList',
                 action: callback => {
-                    TimFriendshipManager.getPendencyList().then(data => {
+                    TimFriendshipManager.TIMFriendshipGetPendencyList().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -619,9 +619,9 @@ const APIS = [
                 }
             },
             {
-                name: 'deletePendency',
+                name: 'TIMFriendshipDeletePendency',
                 action: callback => {
-                    TimFriendshipManager.deletePendency().then(data => {
+                    TimFriendshipManager.TIMFriendshipDeletePendency().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -629,9 +629,9 @@ const APIS = [
                 }
             },
             {
-                name: 'reportPendencyReaded',
+                name: 'TIMFriendshipReportPendencyReaded',
                 action: callback => {
-                    TimFriendshipManager.reportPendencyReaded().then(data => {
+                    TimFriendshipManager.TIMFriendshipReportPendencyReaded().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -639,9 +639,9 @@ const APIS = [
                 }
             },
             {
-                name: 'searchFriends',
+                name: 'TIMFriendshipSearchFriends',
                 action: callback => {
-                    TimFriendshipManager.searchFriends().then(data => {
+                    TimFriendshipManager.TIMFriendshipSearchFriends().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -649,9 +649,9 @@ const APIS = [
                 }
             },
             {
-                name: 'getFriendsInfo',
+                name: 'TIMFriendshipGetFriendsInfo',
                 action: callback => {
-                    TimFriendshipManager.getFriendsInfo().then(data => {
+                    TimFriendshipManager.TIMFriendshipGetFriendsInfo().then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())

@@ -66,7 +66,7 @@ const ConversationManager = {
         })
     },
     TIMSetConvEventCallback:(callback)=>{
-        return timRenderInstance.setConvEventCallback({
+        return timRenderInstance.TIMSetConvEventCallback({
             user_data:"TIMSetConvEventCallback",
             callback:(...data)=>{
                 callback(JSON.stringify({data}))

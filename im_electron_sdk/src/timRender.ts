@@ -1,6 +1,6 @@
 import { TIMIPCLISTENR } from "./const/const";
 import { loginParam, CreateGroupParams, commonResponse, logoutParam, getLoginUserIDParam, GroupAttributeCallbackParams, InitGroupAttributeParams, DeleteAttributeParams, GroupTipsCallbackParams, TIMSetNetworkStatusListenerCallbackParam, DeleteGroupParams, DeleteMemberParams, GetGroupListParams, GetGroupMemberInfoParams, GetOnlineMemberCountParams, GetPendencyListParams, HandlePendencyParams, InviteMemberParams, JoinGroupParams, ModifyGroupParams, ModifyMemberInfoParams, QuitGroupParams, ReportParams, SearchGroupParams, SearchMemberParams, Json_add_friend_param, Json_handle_friend_add_param, Json_modify_friend_info_param, Json_delete_friend_param, Json_check_friend_list_param, Json_create_friend_group_param, Json_modify_friend_group_param, Json_get_pendency_list_param, Json_delete_pendency_param, Json_search_friends_param, TIMSetUserSigExpiredCallbackParam, TIMSetKickedOfflineCallbackParam, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback, TIMFriendAddRequestCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback, Json_value_msg, Json_advance_message_param, Json_get_msg_param, Json_value_msgdelete, Json_value_batchsend, Json_search_message_param, TIMRecvNewMsgCallback, TIMMsgReadedReceiptCallback, TIMMsgRevokeCallback, TIMMsgElemUploadProgressCallback, TIMMsgUpdateCallback } from "./interface";
-import { ipcData, Managers, ITimRender } from "./interface/ipcInterface";
+import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { convCancelDraft, convCreate, convDelete, convGetConvInfo, convGetTotalUnreadMessageCount, convPinConversation, convSetDrat, convTotalUnreadMessageCountChangedCallbackParam, getConvList, setConvEventCallback } from "./interface/conversationInterface";
 
@@ -8,7 +8,7 @@ const electron = require('electron')
 
 const getUniKey = (length: number) => Number(Math.random().toString().substr(3,length) + Date.now()).toString(36);
 
-export class TimRender implements ITimRender  {
+export class TimRender {
     static runtime:Map<string,Function> = new Map();
     static isListened = false
     constructor() {
@@ -107,7 +107,7 @@ export class TimRender implements ITimRender  {
         }
         return this.call(formatedData);
     }
-    setConvEventCallback(param:setConvEventCallback){
+    TIMSetConvEventCallback(param:setConvEventCallback){
         const callback = `${Date.now()}`;
         TimRender.runtime.set(callback,param.callback);
         //@ts-ignore
@@ -146,7 +146,7 @@ export class TimRender implements ITimRender  {
         }
         return this.call(formatedData);
     }
-    setNetworkStatusListenerCallback(param:TIMSetNetworkStatusListenerCallbackParam){
+    TIMSetNetworkStatusListenerCallback(param:TIMSetNetworkStatusListenerCallbackParam){
         const callback = `${Date.now()}`;
         TimRender.runtime.set(callback,param.callback);
         //@ts-ignore
@@ -159,28 +159,28 @@ export class TimRender implements ITimRender  {
         }
         return this.call(formatedData);
     }
-    uninit(){
+    TIMUninit(){
         const formatedData = {
             method: 'TIMUninit',
             manager: Managers.timBaseManager,
         }
         return this.call(formatedData);
     }
-    getSDKVersion(){
+    TIMGetSDKVersion(){
         const formatedData = {
             method: 'TIMGetSDKVersion',
             manager: Managers.timBaseManager,
         }
         return this.call(formatedData)
     }
-    getServerTime(){
+    TIMGetServerTime(){
         const formatedData = {
             method: 'TIMGetServerTime',
             manager: Managers.timBaseManager,
         }
         return this.call(formatedData)
     }
-    logout(param:logoutParam){
+    TIMLogout(param:logoutParam){
         const formatedData = {
             method: 'TIMLogout',
             manager: Managers.timBaseManager,
@@ -188,20 +188,20 @@ export class TimRender implements ITimRender  {
         }
         return this.call(formatedData)
     }
-    init() {
+    TIMInit() {
        return this.call({
            method: 'TIMInit',
            manager: Managers.timBaseManager,
        }); 
     }
-    getLoginStatus(){
+    TIMGetLoginStatus(){
         const formatedData = {
             method: 'TIMGetLoginStatus',
             manager: Managers.timBaseManager,
         }
         return this.call(formatedData)
     }
-    getLoginUserID(param:getLoginUserIDParam){
+    TIMGetLoginUserID(param:getLoginUserIDParam){
         const formatedData = {
             method: 'TIMGetLoginUserID',
             manager: Managers.timBaseManager,
@@ -209,7 +209,7 @@ export class TimRender implements ITimRender  {
         }
         return this.call(formatedData)
     }
-    login(data: loginParam) {
+    TIMLogin(data: loginParam) {
         const formatedData = {
             method: 'TIMLogin',
             manager: Managers.timBaseManager,
@@ -218,7 +218,7 @@ export class TimRender implements ITimRender  {
          return this.call(formatedData);
     };
 
-    createGroup(data: CreateGroupParams) {
+    TIMGroupCreate(data: CreateGroupParams) {
         const formatedData: ipcData<CreateGroupParams> = {
             method: 'TIMGroupCreate',
             manager: Managers.groupManager,
@@ -228,7 +228,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     };
 
-    initGroupAttribute(initAttributesParams: InitGroupAttributeParams) {
+    TIMGroupInitGroupAttributes(initAttributesParams: InitGroupAttributeParams) {
         const formatedData = {
             method: 'TIMGroupInitGroupAttributes',
             manager: Managers.groupManager,
@@ -237,7 +237,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    setGroupAttribute(setAttributesParams: InitGroupAttributeParams) {
+    TIMGroupSetGroupAttributes(setAttributesParams: InitGroupAttributeParams) {
         const formatedData = {
             method: 'TIMGroupSetGroupAttributes',
             manager: Managers.groupManager,
@@ -246,7 +246,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteGroupAttribute(deleteAttributesParams: DeleteAttributeParams) {
+    TIMGroupDeleteGroupAttributes(deleteAttributesParams: DeleteAttributeParams) {
         const formatedData = {
             method: 'TIMGroupDeleteGroupAttributes',
             manager: Managers.groupManager,
@@ -255,7 +255,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getGroupAttribute(getAttributeParams: DeleteAttributeParams) {
+    TIMGroupGetGroupAttributes(getAttributeParams: DeleteAttributeParams) {
         const formatedData = {
             method: 'TIMGroupGetGroupAttributes',
             manager: Managers.groupManager,
@@ -264,7 +264,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    groupAttributeChangedCallback(data: GroupAttributeCallbackParams) {
+    TIMSetGroupAttributeChangedCallback(data: GroupAttributeCallbackParams) {
         const callback = getUniKey(10);
         console.log(callback);
         const formatedData = {
@@ -279,7 +279,7 @@ export class TimRender implements ITimRender  {
     }
 
     
-    groupTipsChangedCallback(data: GroupTipsCallbackParams) {
+    TIMSetGroupTipsEventCallback(data: GroupTipsCallbackParams) {
         const callback = getUniKey(10);
         console.log(callback);
         const formatedData = {
@@ -293,7 +293,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteGroup(data: DeleteGroupParams) {
+    TIMGroupDelete(data: DeleteGroupParams) {
         const formatedData = {
             method: 'TIMGroupDelete',
             manager: Managers.groupManager,
@@ -303,7 +303,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    joinGroup(joinGroupParams: JoinGroupParams) {
+    TIMGroupJoin(joinGroupParams: JoinGroupParams) {
         const formatedData = {
             method: 'TIMGroupJoin',
             manager: Managers.groupManager,
@@ -313,7 +313,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    quitGroup(quitGroupParams: QuitGroupParams) {
+    TIMGroupQuit(quitGroupParams: QuitGroupParams) {
         const formatedData = {
             method: 'TIMGroupQuit',
             manager: Managers.groupManager,
@@ -323,7 +323,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    inviteMember(inviteMemberParams: InviteMemberParams) {
+    TIMGroupInviteMember(inviteMemberParams: InviteMemberParams) {
         const formatedData = {
             method: 'TIMGroupInviteMember',
             manager: Managers.groupManager,
@@ -333,7 +333,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteMember(deleteMemberParams: DeleteMemberParams) {
+    TIMGroupDeleteMember(deleteMemberParams: DeleteMemberParams) {
         const formatedData = {
             method: 'TIMGroupDeleteMember',
             manager: Managers.groupManager,
@@ -343,7 +343,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getJoinedGroupList(data?: string) {
+    TIMGroupGetJoinedGroupList(data?: string) {
         const formatedData = {
             method: 'TIMGroupGetJoinedGroupList',
             manager: Managers.groupManager,
@@ -353,7 +353,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getGroupInfoList(getGroupListParams: GetGroupListParams) {
+    TIMGroupGetGroupInfoList(getGroupListParams: GetGroupListParams) {
         const formatedData = {
             method: 'TIMGroupGetGroupInfoList',
             manager: Managers.groupManager,
@@ -363,7 +363,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    modifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
+    TIMGroupModifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
         const formatedData = {
             method: 'TIMGroupModifyGroupInfo',
             manager: Managers.groupManager,
@@ -373,7 +373,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getGroupMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams) {
+    TIMGroupGetMemberInfoList(getGroupMemberInfoParams: GetGroupMemberInfoParams) {
         const formatedData = {
             method: 'TIMGroupGetMemberInfoList',
             manager: Managers.groupManager,
@@ -383,7 +383,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    modifyGroupMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
+    TIMGroupModifyMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
         const formatedData = {
             method: 'TIMGroupModifyMemberInfo',
             manager: Managers.groupManager,
@@ -393,7 +393,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    getGroupPendencyList(getPendencyListParams: GetPendencyListParams) {
+    TIMGroupGetPendencyList(getPendencyListParams: GetPendencyListParams) {
         const formatedData = {
             method: 'TIMGroupGetPendencyList',
             manager: Managers.groupManager,
@@ -403,7 +403,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    groupReportPendencyReaded(reportParams: ReportParams) {
+    TIMGroupReportPendencyReaded(reportParams: ReportParams) {
         const formatedData = {
             method: 'TIMGroupReportPendencyReaded',
             manager: Managers.groupManager,
@@ -413,7 +413,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    handleGroupPendency(handlePendencyParams: HandlePendencyParams) {
+    TIMGroupHandlePendency(handlePendencyParams: HandlePendencyParams) {
         const formatedData = {
             method: 'TIMGroupHandlePendency',
             manager: Managers.groupManager,
@@ -423,7 +423,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    getGroupOnlineMemberCount(params: GetOnlineMemberCountParams) {
+    TIMGroupGetOnlineMemberCount(params: GetOnlineMemberCountParams) {
         const formatedData = {
             method: 'TIMGroupGetOnlineMemberCount',
             manager: Managers.groupManager,
@@ -433,7 +433,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    searchGroups(searchGroupsParams: SearchGroupParams) {
+    TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams) {
         const formatedData = {
             method: 'TIMGroupSearchGroups',
             manager: Managers.groupManager,
@@ -443,7 +443,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData); 
     }
 
-    searchGroupMembers(searchMemberParams: SearchMemberParams) {
+    TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams) {
         const formatedData = {
             method: 'TIMGroupSearchGroupMembers',
             manager: Managers.groupManager,
@@ -453,7 +453,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getFriendshipProfileList(user_data: string) {
+    TIMFriendshipGetFriendProfileList(user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipGetFriendProfileList',
             manager: Managers.friendshipManager,
@@ -465,7 +465,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    addFriend(json_friendship_param: Json_add_friend_param, user_data: string) {
+    TIMFriendshipAddFriend(json_friendship_param: Json_add_friend_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipAddFriend',
             manager: Managers.friendshipManager,
@@ -478,7 +478,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    handleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) {
+    TIMFriendshipHandleFriendAddRequest(json_friendship_param: Json_handle_friend_add_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipHandleFriendAddRequest',
             manager: Managers.friendshipManager,
@@ -491,7 +491,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    modifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) {
+    TIMFriendshipModifyFriendProfile(json_friendship_param: Json_modify_friend_info_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipModifyFriendProfile',
             manager: Managers.friendshipManager,
@@ -504,7 +504,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) {
+    TIMFriendshipDeleteFriend(json_friendship_param: Json_delete_friend_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipDeleteFriend',
             manager: Managers.friendshipManager,
@@ -517,7 +517,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    checkFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) {
+    TIMFriendshipCheckFriendType(json_friendship_param: Json_check_friend_list_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipCheckFriendType',
             manager: Managers.friendshipManager,
@@ -530,7 +530,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    createFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) {
+    TIMFriendshipCreateFriendGroup(json_friendship_param: Json_create_friend_group_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipCreateFriendGroup',
             manager: Managers.friendshipManager,
@@ -543,7 +543,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getFriendGroupList(json_friendship_param: [string], user_data: string) {
+    TIMFriendshipGetFriendGroupList(json_friendship_param: [string], user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipGetFriendGroupList',
             manager: Managers.friendshipManager,
@@ -557,7 +557,7 @@ export class TimRender implements ITimRender  {
     }
 
 
-    modifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) {
+    TIMFriendshipModifyFriendGroup(json_friendship_param: Json_modify_friend_group_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipModifyFriendGroup',
             manager: Managers.friendshipManager,
@@ -570,7 +570,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteFriendGroup(json_friendship_param: [string], user_data: string) {
+    TIMFriendshipDeleteFriendGroup(json_friendship_param: [string], user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipDeleteFriendGroup',
             manager: Managers.friendshipManager,
@@ -583,7 +583,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    addToBlackList(json_friendship_param: [string], user_data: string) {
+    TIMFriendshipAddToBlackList(json_friendship_param: [string], user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipAddToBlackList',
             manager: Managers.friendshipManager,
@@ -596,7 +596,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getBlackList(user_data: string) {
+    TIMFriendshipGetBlackList(user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipGetBlackList',
             manager: Managers.friendshipManager,
@@ -608,7 +608,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deleteFromBlackList(json_friendship_param: [string], user_data: string) {
+    TIMFriendshipDeleteFromBlackList(json_friendship_param: [string], user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipDeleteFromBlackList',
             manager: Managers.friendshipManager,
@@ -621,7 +621,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) {
+    TIMFriendshipGetPendencyList(json_friendship_param: Json_get_pendency_list_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipGetPendencyList',
             manager: Managers.friendshipManager,
@@ -634,7 +634,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    deletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) {
+    TIMFriendshipDeletePendency(json_friendship_param: Json_delete_pendency_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipDeletePendency',
             manager: Managers.friendshipManager,
@@ -647,7 +647,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    reportPendencyReaded(timestamp: number, user_data: string) {
+    TIMFriendshipReportPendencyReaded(timestamp: number, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipReportPendencyReaded',
             manager: Managers.friendshipManager,
@@ -660,7 +660,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    searchFriends(json_friendship_param: Json_search_friends_param, user_data: string) {
+    TIMFriendshipSearchFriends(json_friendship_param: Json_search_friends_param, user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipSearchFriends',
             manager: Managers.friendshipManager,
@@ -673,7 +673,7 @@ export class TimRender implements ITimRender  {
         return this.call(formatedData);
     }
 
-    getFriendsInfo(json_friendship_param: [string], user_data: string) {
+    TIMFriendshipGetFriendsInfo(json_friendship_param: [string], user_data: string) {
         const formatedData = {
             method: 'TIMFriendshipGetFriendsInfo',
             manager: Managers.friendshipManager,
