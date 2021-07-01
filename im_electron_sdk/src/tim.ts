@@ -8,7 +8,7 @@ import GroupManager from "./manager/groupManager";
 import TimbaseManager from "./manager/timbaseManager";
 
 class TIM {
-    private _sdkconfig: sdkconfig = {
+    private _sdkconfig: sdkconfig =  {
         sdkappid: 0,
         consoleTag: CONSOLETAG,
         Imsdklib: Imsdklib,
