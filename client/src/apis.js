@@ -256,7 +256,7 @@ const APIS = [
             {
                 name: "deleteGroup",
                 action: (callback) => {
-                    TimGroupManager.deleteGroup().then(data => {
+                    TimGroupManager.deleteGroup(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -296,7 +296,7 @@ const APIS = [
             {
                 name: "getGroupMemberInfoList",
                 action: (callback) => {
-                    TimGroupManager.getGroupMemberInfoList().then(data => {
+                    TimGroupManager.getGroupMemberInfoList(createdGroupId).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
