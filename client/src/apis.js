@@ -366,7 +366,7 @@ const APIS = [
             {
                 name: "groupAttributeChangedCallback",
                 action: (callback) => {
-                    TimGroupManager.groupAttributeChangedCallback().then(data => {
+                    TimGroupManager.groupAttributeChangedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -466,7 +466,7 @@ const APIS = [
             {
                 name: "groupTipsChangedCallback",
                 action: (callback) => {
-                    TimGroupManager.groupTipsChangedCallback().then(data => {
+                    TimGroupManager.groupTipsChangedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -661,7 +661,7 @@ const APIS = [
             {
                 name: 'TIMSetOnAddFriendCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetOnAddFriendCallback().then(data => {
+                    TimFriendshipManager.TIMSetOnAddFriendCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -671,7 +671,7 @@ const APIS = [
             {
                 name: 'TIMSetOnDeleteFriendCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetOnDeleteFriendCallback().then(data => {
+                    TimFriendshipManager.TIMSetOnDeleteFriendCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -691,7 +691,7 @@ const APIS = [
             {
                 name: 'TIMSetFriendAddRequestCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetFriendAddRequestCallback().then(data => {
+                    TimFriendshipManager.TIMSetFriendAddRequestCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -701,7 +701,7 @@ const APIS = [
             {
                 name: 'TIMSetFriendApplicationListDeletedCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetFriendApplicationListDeletedCallback().then(data => {
+                    TimFriendshipManager.TIMSetFriendApplicationListDeletedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -711,7 +711,7 @@ const APIS = [
             {
                 name: 'TIMSetFriendApplicationListReadCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetFriendApplicationListReadCallback().then(data => {
+                    TimFriendshipManager.TIMSetFriendApplicationListReadCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -721,7 +721,7 @@ const APIS = [
             {
                 name: 'TIMSetFriendBlackListAddedCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetFriendBlackListAddedCallback().then(data => {
+                    TimFriendshipManager.TIMSetFriendBlackListAddedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -731,7 +731,7 @@ const APIS = [
             {
                 name: 'TIMSetFriendBlackListDeletedCallback',
                 action: callback => {
-                    TimFriendshipManager.TIMSetFriendBlackListDeletedCallback().then(data => {
+                    TimFriendshipManager.TIMSetFriendBlackListDeletedCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -946,7 +946,7 @@ const APIS = [
             {
                 name: 'TIMRemoveRecvNewMsgCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMRemoveRecvNewMsgCallback().then(data => {
+                    TimAdvanceMessageManager.TIMRemoveRecvNewMsgCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -956,7 +956,7 @@ const APIS = [
             {
                 name: 'TIMSetMsgReadedReceiptCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMSetMsgReadedReceiptCallback().then(data => {
+                    TimAdvanceMessageManager.TIMSetMsgReadedReceiptCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -966,7 +966,7 @@ const APIS = [
             {
                 name: 'TIMSetMsgRevokeCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMSetMsgRevokeCallback().then(data => {
+                    TimAdvanceMessageManager.TIMSetMsgRevokeCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -976,7 +976,7 @@ const APIS = [
             {
                 name: 'TIMSetMsgElemUploadProgressCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMSetMsgElemUploadProgressCallback().then(data => {
+                    TimAdvanceMessageManager.TIMSetMsgElemUploadProgressCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -986,7 +986,7 @@ const APIS = [
             {
                 name: 'TIMSetMsgUpdateCallback',
                 action: (callback) => {
-                    TimAdvanceMessageManager.TIMSetMsgUpdateCallback().then(data => {
+                    TimAdvanceMessageManager.TIMSetMsgUpdateCallback(callback).then(data => {
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
