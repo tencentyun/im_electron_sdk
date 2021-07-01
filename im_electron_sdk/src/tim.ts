@@ -7,7 +7,7 @@ import FriendshipManager from "./manager/friendshipManager";
 import GroupManager from "./manager/groupManager";
 import TimbaseManager from "./manager/timbaseManager";
 
-class TIM {
+class TIM   {
     private _sdkconfig: sdkconfig =  {
         sdkappid: 0,
         consoleTag: CONSOLETAG,

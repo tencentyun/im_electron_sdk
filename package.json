@@ -15,8 +15,8 @@
     "demo"
   ],
   "lint-staged": {
-    "im_electron_sdk/src/**/*.{ts}": [
-      "prettier --write .",
+    "im_electron_sdk/src/**/*.ts": [
+      "prettier --write im_electron_sdk/src/",
       "git add"
     ]
   },
