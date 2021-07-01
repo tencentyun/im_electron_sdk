@@ -14,12 +14,26 @@
     "tutorial",
     "demo"
   ],
+  "lint-staged": {
+    "im_electron_sdk/src/**/*.{ts}": [
+      "prettier --write .",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "author": "xingchenhe@tencent.com",
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^13.1.2",
     "electron-builder": "^22.11.7",
-    "electron-devtools-installer": "^3.2.0"
+    "electron-devtools-installer": "^3.2.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",

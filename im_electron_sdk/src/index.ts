@@ -1,8 +1,4 @@
-import TimMain from "./timMain"
-import {TimRender} from "./timRender"
+import TimMain from "./timMain";
+import { TimRender } from "./timRender";
 import TIM from "./tim";
-export {
-    TimMain,
-    TimRender,
-    TIM
-}
+export { TimMain, TimRender, TIM };

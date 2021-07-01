@@ -8,38 +8,38 @@ import GroupManager from "./manager/groupManager";
 import TimbaseManager from "./manager/timbaseManager";
 
 class TIM {
-    private _sdkconfig:sdkconfig = {
-        sdkappid:0,
-        consoleTag:CONSOLETAG,
-        Imsdklib:Imsdklib,
-    }
-    private _advanceMessageManager:AdvanceMessageManage;
-    private _conversationManager:ConversationManager;
-    private _friendshipManager:FriendshipManager;
-    private _groupManager:GroupManager;
-    private _timbaseManager:TimbaseManager;
+    private _sdkconfig: sdkconfig = {
+        sdkappid: 0,
+        consoleTag: CONSOLETAG,
+        Imsdklib: Imsdklib,
+    };
+    private _advanceMessageManager: AdvanceMessageManage;
+    private _conversationManager: ConversationManager;
+    private _friendshipManager: FriendshipManager;
+    private _groupManager: GroupManager;
+    private _timbaseManager: TimbaseManager;
 
-    constructor(config:initConfig) {
+    constructor(config: initConfig) {
         this._sdkconfig.sdkappid = config.sdkappid;
         this._advanceMessageManager = new AdvanceMessageManage(this._sdkconfig);
-        this._conversationManager = new  ConversationManager(this._sdkconfig);
+        this._conversationManager = new ConversationManager(this._sdkconfig);
         this._friendshipManager = new FriendshipManager(this._sdkconfig);
         this._groupManager = new GroupManager(this._sdkconfig);
         this._timbaseManager = new TimbaseManager(this._sdkconfig);
     }
-    getTimbaseManager(){
+    getTimbaseManager() {
         return this._timbaseManager;
     }
-    getAdvanceMessageManager(){
+    getAdvanceMessageManager() {
         return this._advanceMessageManager;
     }
-    getConversationManager(){
+    getConversationManager() {
         return this._conversationManager;
     }
-    getFriendshipManager(){
+    getFriendshipManager() {
         return this._friendshipManager;
     }
-    getGroupManager(){
+    getGroupManager() {
         return this._groupManager;
     }
 }
