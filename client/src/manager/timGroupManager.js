@@ -5,7 +5,7 @@ const TimBaseManager = {
     return timRenderInstance.createGroup({
       params: {
         groupName: "test-avchatRoom",
-        groupType: 1,
+        groupType: 0,
         groupMemberArray: [{
           identifer: "6666",
           nameCard: "member1"
@@ -17,9 +17,9 @@ const TimBaseManager = {
       data: "ssss"
     });
   },
-  deleteGroup: () => {
+  deleteGroup: (groupId) => {
     return timRenderInstance.deleteGroup({
-      groupId: "@TGS#aL5QC5HHJ",
+      groupId,
       data: "ssss"
     });
   },
@@ -43,10 +43,10 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  getGroupMemberInfoList: () => {
+  getGroupMemberInfoList: (groupId) => {
     return timRenderInstance.getGroupMemberInfoList({
       params: {
-        groupId: "@TGS#a5X7C5HH2",
+        groupId,
       },
       data: 'test data'
     })
@@ -134,14 +134,14 @@ const TimBaseManager = {
   },
   joinGroup: () => {
     return timRenderInstance.joinGroup({
-      groupId: '@TGS#1I2TQ6HHE',
+      groupId: '@TGS#2VUXAAIHW',
       helloMsg: 'hello',
       data: 'test data'
     })
   },
   quitGroup: () => {
     return timRenderInstance.quitGroup({
-      groupId: '',
+      groupId: '@TGS#2VUXAAIHW',
       data: 'test data'
     })
   },
