@@ -716,7 +716,7 @@ export enum TIMFriendChangeType {
 
 /// 消息接收选项
 export enum TIMReceiveMessageOpt {
-    kTIMRecvMsgOpt_Receive = 0,  // 在线正常接收消息，离线时会进行 APNs 推送
+    kTIMRecvMsgOpt_Receive,  // 在线正常接收消息，离线时会进行 APNs 推送
     kTIMRecvMsgOpt_Not_Receive,  // 不会接收到消息，离线不会有推送通知
     kTIMRecvMsgOpt_Not_Notify,   // 在线正常接收消息，离线不会有推送通知
 };

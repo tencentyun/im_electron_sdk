@@ -1,4 +1,6 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
+import { TIMMsgElemUploadProgressCallback, TIMMsgReadedReceiptCallback, TIMMsgRevokeCallback, TIMMsgUpdateCallback, TIMRecvNewMsgCallback } from "./advanceMessageInterface";
+import { TIMFriendAddRequestCallback, TIMFriendApplicationListDeletedCallback, TIMFriendApplicationListReadCallback, TIMFriendBlackListAddedCallback, TIMFriendBlackListDeletedCallback, TIMOnAddFriendCallback, TIMOnDeleteFriendCallback, TIMUpdateFriendProfileCallback } from "./friendshipInterface";
 import { CommonCallbackFun, TIMSetKickedOfflineCallback, TIMSetNetworkStatusListenerCallback, TIMSetUserSigExpiredCallback } from "./basicInterface";
 import { convTotalUnreadMessageCountChangedCallback, setConvEventCallback } from "./conversationInterface";
 import { GroupTipCallBackFun, GroupAttributeCallbackFun } from "./groupInterface";
@@ -197,7 +199,7 @@ interface TIMFriendshipGetFriendsInfoFun {
     (json_get_friends_info_param?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgSendMessageFun {
-    (json_add_friend_param?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (conv_id?: Buffer, conv_type?: TIMConvType, json_add_friend_param?: Buffer, message_id_buffer?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgCancelSendFun {
     (conv_id?: Buffer, conv_type?: TIMConvType, message_id?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
@@ -239,7 +241,7 @@ interface TIMMsgGetC2CReceiveMessageOptFun {
     (json_identifier_array?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgSetGroupReceiveMessageOptFun {
-    (group_id?: Buffer, opt?: TIMReceiveMessageOpt, successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (group_id?: Buffer, opt?: number, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
 interface TIMMsgDownloadElemToPathFun {
     (json_download_elem_param?: Buffer, path?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
@@ -253,7 +255,48 @@ interface TIMMsgBatchSendFun {
 interface TIMMsgSearchLocalMessagesFun {
     (json_search_message_param?: Buffer, successCallback?: CommonCallbackFun, userData?: Buffer): number;
 }
-
+interface TIMAddRecvNewMsgCallbackFun {
+    (successCallback?: TIMRecvNewMsgCallback, userData?: Buffer): void;
+}
+interface TIMRemoveRecvNewMsgCallbackFun {
+    (successCallback?: TIMRecvNewMsgCallback, userData?: Buffer): void;
+}
+interface TIMSetMsgReadedReceiptCallbackFun {
+    (successCallback?: TIMMsgReadedReceiptCallback, userData?: Buffer): void;
+}
+interface TIMSetMsgRevokeCallbackFun {
+    (successCallback?: TIMMsgRevokeCallback, userData?: Buffer): void;
+}
+interface TIMSetMsgElemUploadProgressCallbackFun {
+    (successCallback?: TIMMsgElemUploadProgressCallback, userData?: Buffer): void;
+}
+interface TIMSetOnAddFriendCallbackFun {
+    (successCallback?: TIMOnAddFriendCallback, userData?: Buffer): void;
+}
+interface TIMSetOnDeleteFriendCallbackFun {
+    (successCallback?: TIMOnDeleteFriendCallback, userData?: Buffer): void;
+}
+interface TIMSetUpdateFriendProfileCallbackFun {
+    (successCallback?: TIMUpdateFriendProfileCallback, userData?: Buffer): void;
+}
+interface TIMSetFriendAddRequestCallbackFun {
+    (successCallback?: TIMFriendAddRequestCallback, userData?: Buffer): void;
+}
+interface TIMSetFriendApplicationListDeletedCallbackFun {
+    (successCallback?: TIMFriendApplicationListDeletedCallback, userData?: Buffer): void;
+}
+interface TIMSetFriendApplicationListReadCallbackFun {
+    (successCallback?: TIMFriendApplicationListReadCallback, userData?: Buffer): void;
+}
+interface TIMSetFriendBlackListAddedCallbackFun {
+    (successCallback?: TIMFriendBlackListAddedCallback, userData?: Buffer): void;
+}
+interface TIMSetFriendBlackListDeletedCallbackFun {
+    (successCallback?: TIMFriendBlackListDeletedCallback, userData?: Buffer): void;
+}
+interface TIMSetMsgUpdateCallbackFun {
+    (successCallback?: TIMMsgUpdateCallback, userData?: Buffer): void;
+}
 // ==========Interface For friendship End===========
 
 
@@ -322,7 +365,20 @@ interface libMethods {
     TIMMsgDownloadMergerMessage: TIMMsgDownloadMergerMessageFun,
     TIMMsgBatchSend: TIMMsgBatchSendFun,
     TIMMsgSearchLocalMessages: TIMMsgSearchLocalMessagesFun,
-
+    TIMAddRecvNewMsgCallback: TIMAddRecvNewMsgCallbackFun,
+    TIMRemoveRecvNewMsgCallback: TIMRemoveRecvNewMsgCallbackFun,
+    TIMSetMsgReadedReceiptCallback: TIMSetMsgReadedReceiptCallbackFun,
+    TIMSetMsgRevokeCallback: TIMSetMsgRevokeCallbackFun,
+    TIMSetMsgElemUploadProgressCallback: TIMSetMsgElemUploadProgressCallbackFun,
+    TIMSetOnAddFriendCallback: TIMSetOnAddFriendCallbackFun,
+    TIMSetOnDeleteFriendCallback: TIMSetOnDeleteFriendCallbackFun,
+    TIMSetUpdateFriendProfileCallback: TIMSetUpdateFriendProfileCallbackFun,
+    TIMSetFriendAddRequestCallback: TIMSetFriendAddRequestCallbackFun,
+    TIMSetFriendApplicationListDeletedCallback: TIMSetFriendApplicationListDeletedCallbackFun,
+    TIMSetFriendApplicationListReadCallback: TIMSetFriendApplicationListReadCallbackFun,
+    TIMSetFriendBlackListAddedCallback: TIMSetFriendBlackListAddedCallbackFun,
+    TIMSetFriendBlackListDeletedCallback: TIMSetFriendBlackListDeletedCallbackFun,
+    TIMSetMsgUpdateCallback: TIMSetMsgUpdateCallbackFun,
     // friendship end
 
 

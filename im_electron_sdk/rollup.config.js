@@ -7,7 +7,7 @@ const pkg = require('./package.json');
 
 const extensions = ['.js', '.ts'];
 
-const resolve = function(...args) {
+const resolve = function (...args) {
   return path.resolve(__dirname, ...args);
 };
 
@@ -39,10 +39,17 @@ const jobs = {
 // 从环境变量获取打包特征
 const mergeConfig = jobs[process.env.FORMAT || 'esm'];
 
-module.exports = merge(
+export default [
   {
     input: resolve('./src/index.ts'),
-    output: {},
+    output: {
+      format: 'umd',
+      file: resolve('dist/index.umd.js'),
+      name: 'rem',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
     plugins: [
       nodeResolve({
         extensions,
@@ -51,8 +58,73 @@ module.exports = merge(
       babel({
         exclude: 'node_modules/**',
         extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
       }),
     ],
-  },
-  mergeConfig,
-);
+  }, {
+    input: resolve('./src/timMain.ts'),
+    output: {
+      format: 'umd',
+      file: resolve('dist/timMain.umd.js'),
+      name: 'rem',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
+    plugins: [
+      nodeResolve({
+        extensions,
+        modulesOnly: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+        extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
+      }),
+    ],
+  },{
+    input: resolve('./src/timRender.ts'),
+    output: {
+      format: 'umd',
+      file: resolve('dist/timRender.umd.js'),
+      name: 'rem',
+      globals: {
+        "@babel/runtime/regenerator": "regeneratorRuntime"
+      }
+    },
+    plugins: [
+      nodeResolve({
+        extensions,
+        modulesOnly: true,
+      }),
+      babel({
+        exclude: 'node_modules/**',
+        extensions,
+        runtimeHelpers: true,
+        plugins: [
+          "@babel/plugin-transform-async-to-generator",
+          "@babel/plugin-transform-regenerator",
+          ["@babel/plugin-transform-runtime", {
+            "helpers": true,
+            "regenerator": true
+          }]
+        ],
+      }),
+    ],
+  }]

@@ -1,29 +1,63 @@
 import React, { Component } from 'react';
-import { ipcRenderer } from "electron";
+import { TimRender } from "../../im_electron_sdk/dist/timRender.umd";
+import APIS from './apis';
 import './App.css';
 
-ipcRenderer.on('create-group-reply', (event, result) => {
-  console.log('result', JSON.parse(result));
-})
-
+const timRenderInstance = new TimRender();
 class App extends Component {
-  createGroup() {
-    // ipcRenderer.send('create-group');
+  constructor(){
+    super();
+    this.state = {
+      log:[]
+    }
   }
-  init(){
-    // Window.tim.getTimbaseManager().TIMInit();
-    console.log(Window.tim.getTimbaseManager().TIMInit)
-    // console.log(Window.tim);
+  showConsole(data){
+    const { log } = this.state;
+    log.push(data)
+    this.setState({
+      log:log
+    })
   }
-  login(){
-    console.log(2)
+  clean(){
+    this.setState({
+      log:[]
+    })
   }
   render() {
+    const { log } = this.state;
     return (
       <div className="App">
-        <button onClick={this.createGroup}>Create Group</button>
-        <button onClick={this.init}>init</button>
-        <button onClick={this.login}>login</button>
+        <div className="btns">
+          {
+            APIS.map((item,index)=>{
+              return (
+                <div className="card" key={index}>
+                  <div className="title">{item.manager}</div>
+                  <div className="btn">
+                    {
+                      item.method.map((met,idx)=>{
+                        return <button key={`${index}${idx}`} onClick={()=>{
+                          met.action(this.showConsole.bind(this));
+                        }}>{met.name}</button>
+                      })
+                    }
+                  </div>
+                </div>
+              )
+            })
+          }
+          
+        </div>
+        <div className="console">
+          {
+            log.map((item,index)=>{
+              return <div className="log-item" key={index}>{item}</div>
+            })  
+          }
+          <button className="clean" onClick={()=>{
+            this.clean.bind(this)()
+          }}>清除</button>
+        </div>
       </div>
     );
   }

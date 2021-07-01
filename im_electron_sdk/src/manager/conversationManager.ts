@@ -71,6 +71,7 @@ class ConversationManager {
     TIMConvGetConvInfo(param:convGetConvInfo) :Promise<commonResponse>{
         const convList = nodeStrigToCString(JSON.stringify(param.json_get_conv_list_param));
         const userData = param.user_data?nodeStrigToCString(param.user_data):Buffer.from("");
+        
         return new Promise((resolve,reject)=>{
             const cb:CommonCallbackFun = (code,desc,json_param,user_data)=>{
                 if(code===0){
