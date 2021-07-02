@@ -71,7 +71,7 @@ class Callback {
 
                 if (isFriendShipOrAdvanceMessageManager) {
                     responseData = await timManager[method](
-                        ...Object.values(param)
+                        ...Object.values(param || {})
                     );
                 } else {
                     responseData = await timManager[method](param);

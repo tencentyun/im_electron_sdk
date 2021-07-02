@@ -372,10 +372,7 @@ const Imsdklib = ffi.Library(ffiPath, {
         [ref.types.CString, "pointer", ref.types.CString],
     ],
     TIMAddRecvNewMsgCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMRemoveRecvNewMsgCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
+    TIMRemoveRecvNewMsgCallback: [ref.types.void, ["pointer"]],
     TIMSetMsgReadedReceiptCallback: [
         ref.types.void,
         ["pointer", ref.types.CString],
