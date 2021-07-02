@@ -69,12 +69,16 @@ class Callback {
                     manager === "friendshipManager" ||
                     manager === "advanceMessageManager";
 
-                if (isFriendShipOrAdvanceMessageManager) {
-                    responseData = await timManager[method](
-                        ...Object.values(param || {})
-                    );
-                } else {
-                    responseData = await timManager[method](param);
+                try {
+                    if (isFriendShipOrAdvanceMessageManager) {
+                        responseData = await timManager[method](
+                            ...Object.values(param || {})
+                        );
+                    } else {
+                        responseData = await timManager[method](param);
+                    }
+                }catch(err){
+                    responseData = err
                 }
 
                 console.log(
