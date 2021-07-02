@@ -78,7 +78,7 @@ class Callback {
                 }
 
                 console.log(
-                    `${CONSOLETAG}${method} is called . user ${
+                    `${CONSOLETAG}${method} is called . use ${
                         Date.now() - startTime
                     } ms.`,
                     `param：${param}`,

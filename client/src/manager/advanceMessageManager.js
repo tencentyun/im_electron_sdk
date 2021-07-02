@@ -131,11 +131,11 @@ const advanceMessageManager = {
     },
     TIMRemoveRecvNewMsgCallback:(callback) => {
         return timRenderInstance.TIMRemoveRecvNewMsgCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
+            // const [[data,user_data]] = args;
+            // callback(JSON.stringify({
+            //     data,user_data
+            // }))
+            console.log(args)
         },"TIMRemoveRecvNewMsgCallback");
     },
     TIMSetMsgReadedReceiptCallback:(callback) => {

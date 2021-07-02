@@ -18,6 +18,14 @@ const Imsdklib = ffi.Library(ffiPath, {
         ref.types.void,
         ["pointer", ref.types.CString],
     ],
+    TIMSetLogCallback: [
+      ref.types.void,
+      ["pointer", ref.types.CString],
+    ],
+    TIMSetConfig: [
+        ref.types.int,
+        [ref.types.CString, "pointer", ref.types.CString],
+    ],
     TIMGetSDKVersion: [ref.types.CString, []],
     TIMInit: [ref.types.int, [ref.types.uint64, ref.types.CString]],
     TIMLogin: [
