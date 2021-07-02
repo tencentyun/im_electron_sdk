@@ -5,6 +5,7 @@ import {
     TIMSetKickedOfflineCallback,
     TIMSetUserSigExpiredCallback,
     TIMSetNetworkStatusListenerCallback,
+    TIMLogCallbackFun,
 } from "../interface";
 import {
     convEventCallback,
@@ -164,7 +165,24 @@ function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
     );
     return callback;
 }
-
+function transferTIMLogCallbackFun(fun:TIMLogCallbackFun){
+    const callback = ffi.Callback(
+        ref.types.void,
+        [ref.types.int, ref.types.CString, ref.types.CString],
+        function (
+            level: number,
+            log: Buffer,
+            user_data: Buffer
+        ) {
+            fun(
+                level,
+                log.toString(),
+                user_data.toString()
+            );
+        }
+    );
+    return callback;
+}
 export {
     getFFIPath,
     nodeStrigToCString,
@@ -176,4 +194,5 @@ export {
     jsFunToFFITIMSetUserSigExpiredCallback,
     transformGroupTipFun,
     transformGroupAttributeFun,
+    transferTIMLogCallbackFun
 };

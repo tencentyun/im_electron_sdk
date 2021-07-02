@@ -548,6 +548,12 @@ interface TIMSetFriendBlackListDeletedCallbackFun {
 interface TIMSetMsgUpdateCallbackFun {
     (successCallback?: TIMMsgUpdateCallback, userData?: Buffer): void;
 }
+interface TIMSetLogCallbackLibFun {
+    (callback: Buffer, userData?: Buffer): void;
+}
+interface TIMSetConfigLibFun {
+    (json_config: Buffer, callback: Buffer,user_data: Buffer): number;
+}
 // ==========Interface For friendship End===========
 
 interface libMethods {
@@ -563,6 +569,8 @@ interface libMethods {
     TIMSetNetworkStatusListenerCallback: TIMSetNetworkStatusListenerCallbackFun;
     TIMSetKickedOfflineCallback: TIMSetKickedOfflineCallbackFun;
     TIMSetUserSigExpiredCallback: TIMSetUserSigExpiredCallbackFun;
+    TIMSetLogCallback:TIMSetLogCallbackLibFun,
+    TIMSetConfig: TIMSetConfigLibFun
     // timbase end
 
     // conversation start
