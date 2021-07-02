@@ -16,9 +16,20 @@
     "dist",
     "lib"
   ],
-  "os": [ "win32", "linux" ],
-  "cpu" : [ "x64", "ia32", "arm"],
-  "keywords": ["im","tencent","IM"],
+  "os": [
+    "win32",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "ia32",
+    "arm"
+  ],
+  "keywords": [
+    "im",
+    "tencent",
+    "IM"
+  ],
   "author": "xingchenhe@tencent.com",
   "license": "ISC",
   "devDependencies": {
