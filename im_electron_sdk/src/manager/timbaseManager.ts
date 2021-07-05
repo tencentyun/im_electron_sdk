@@ -168,24 +168,23 @@ class TimbaseManager {
             userData
         );
     }
-    TIMSetLogCallback(param:TIMSetLogCallbackParam) {
+    TIMSetLogCallback(param: TIMSetLogCallbackParam) {
         const callback = transferTIMLogCallbackFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
 
-        this._sdkconfig.Imsdklib.TIMSetLogCallback(
-            callback,
-            user_data
-        );
+        this._sdkconfig.Imsdklib.TIMSetLogCallback(callback, user_data);
     }
-    TIMSetConfig(param:TIMSetConfigParam) {
+    TIMSetConfig(param: TIMSetConfigParam) {
         const callback = jsFuncToFFIFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
-        const json_config = nodeStrigToCString(JSON.stringify(param.json_config))
-        this._sdkconfig.Imsdklib.TIMSetConfig(json_config,callback,user_data)
+        const json_config = nodeStrigToCString(
+            JSON.stringify(param.json_config)
+        );
+        this._sdkconfig.Imsdklib.TIMSetConfig(json_config, callback, user_data);
     }
 }
 export default TimbaseManager;
