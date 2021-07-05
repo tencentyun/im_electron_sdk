@@ -8,7 +8,7 @@ const friendShipManager = {
         });
     },
     TIMFriendshipAddFriend: () => {
-        return timRenderInstance.TIMFriendshipAddFriend({
+        return timRenderInstance.TIMFriendshipAddFriend({ 
             params: {
                 friendship_add_friend_param_identifier: "940928",
                 friendship_add_friend_param_friend_type: 1,
@@ -17,7 +17,7 @@ const friendShipManager = {
                 friendship_add_friend_param_add_source: "Windows",
                 friendship_add_friend_param_add_wording: "xxx",
             },
-            user_data: "123"
+            user_data: "1234"
         });
     },
     TIMFriendshipHandleFriendAddRequest: () => {
