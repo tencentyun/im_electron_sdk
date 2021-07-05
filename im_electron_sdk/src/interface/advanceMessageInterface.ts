@@ -12,17 +12,17 @@ interface Json_advance_message_param {
 }
 
 interface Json_value_msg {
-    message_elem_array?: [Elem]
-    message_conv_id?: string
-    message_conv_type?: number
-    message_sender?: string
-    message_priority?: number
-    message_client_time?: number
-    message_server_time?: number
-    message_is_from_self?: boolean
-    message_platform?: TIMPlatform
-    message_is_read?: boolean
-    message_is_online_msg?: boolean
+    message_elem_array?: [Elem];
+    message_conv_id?: string;
+    message_conv_type?: number;
+    message_sender?: string;
+    message_priority?: number;
+    message_client_time?: number;
+    message_server_time?: number;
+    message_is_from_self?: boolean;
+    message_platform?: TIMPlatform;
+    message_is_read?: boolean;
+    message_is_online_msg?: boolean;
     // message_is_peer_read?: boolean
     // message_status?: TIMMsgStatus
     // message_unique_id?: number
@@ -41,55 +41,59 @@ interface Json_value_msg {
 }
 
 interface Json_value_msgdelete {
-    msg_delete_param_msg: string
-    msg_delete_param_is_remble?: boolean
+    msg_delete_param_msg: string;
+    msg_delete_param_is_remble?: boolean;
 }
 
 interface Json_value_batchsend {
-    msg_batch_send_param_identifier_array?: [string]
-    msg_batch_send_param_msg?: Json_value_msg
+    msg_batch_send_param_identifier_array?: [string];
+    msg_batch_send_param_msg?: Json_value_msg;
 }
 
 interface Json_search_message_param {
-    msg_search_param_keyword_array?: [string]
-    msg_search_param_message_type_array?: [string]
-    msg_search_param_conv_id?: string
-    msg_search_param_conv_type?: number
-    msg_search_param_search_time_position?: number
-    msg_search_param_search_time_period?: number
-    msg_search_param_page_index?: number
-    msg_search_param_page_size?: number
+    msg_search_param_keyword_array?: [string];
+    msg_search_param_message_type_array?: [string];
+    msg_search_param_conv_id?: string;
+    msg_search_param_conv_type?: number;
+    msg_search_param_search_time_position?: number;
+    msg_search_param_search_time_period?: number;
+    msg_search_param_page_index?: number;
+    msg_search_param_page_size?: number;
 }
 
 interface Json_get_msg_param {
-    msg_getmsglist_param_last_msg?: string
-    msg_getmsglist_param_count?: string
-    msg_getmsglist_param_is_remble?: boolean
-    msg_getmsglist_param_is_forward?: boolean
-    msg_getmsglist_param_last_msg_seq?: number
-    msg_getmsglist_param_time_begin?: number
-    msg_getmsglist_param_time_period?: number
+    msg_getmsglist_param_last_msg?: string;
+    msg_getmsglist_param_count?: string;
+    msg_getmsglist_param_is_remble?: boolean;
+    msg_getmsglist_param_is_forward?: boolean;
+    msg_getmsglist_param_last_msg_seq?: number;
+    msg_getmsglist_param_time_begin?: number;
+    msg_getmsglist_param_time_period?: number;
 }
 
 interface TIMRecvNewMsgCallback {
-    (json_msg_array: string, user_data: string): void
+    (json_msg_array: string, user_data: string): void;
 }
 interface TIMMsgReadedReceiptCallback {
-    (json_msg_readed_receipt_array: string, user_data: string): void
+    (json_msg_readed_receipt_array: string, user_data: string): void;
 }
 interface TIMMsgRevokeCallback {
-    (json_msg_locator_array: string, user_data: string): void
+    (json_msg_locator_array: string, user_data: string): void;
 }
 interface TIMMsgElemUploadProgressCallback {
-    (json_msg: string, index: number, cur_size: number, local_size: number, user_data: string): void
+    (
+        json_msg: string,
+        index: number,
+        cur_size: number,
+        local_size: number,
+        user_data: string
+    ): void;
 }
 interface TIMMsgUpdateCallback {
-    (json_msg_array: string, user_data: string): void
+    (json_msg_array: string, user_data: string): void;
 }
 
-interface Elem {
-
-}
+interface Elem {}
 
 export {
     Json_advance_message_param,
@@ -102,5 +106,5 @@ export {
     TIMMsgReadedReceiptCallback,
     TIMMsgRevokeCallback,
     TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback
-}
+    TIMMsgUpdateCallback,
+};

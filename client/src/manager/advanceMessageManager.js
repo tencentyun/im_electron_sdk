@@ -1,4 +1,4 @@
-import { TimRender } from "../../../im_electron_sdk/dist/timRender.umd";
+import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 
 const advanceMessageManager = {
@@ -131,11 +131,11 @@ const advanceMessageManager = {
     },
     TIMRemoveRecvNewMsgCallback:(callback) => {
         return timRenderInstance.TIMRemoveRecvNewMsgCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
+            // const [[data,user_data]] = args;
+            // callback(JSON.stringify({
+            //     data,user_data
+            // }))
+            console.log(args)
         },"TIMRemoveRecvNewMsgCallback");
     },
     TIMSetMsgReadedReceiptCallback:(callback) => {

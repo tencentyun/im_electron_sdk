@@ -10,7 +10,7 @@ Windows、Linux（uos）
 
 ```javascript
 // 主进程
-const { TimMain } = require('im_electron_sdk')
+const TimMain = require('im_electron_sdk')
 
 const sdkappid = 0;// 可以去腾讯云即时通信IM控制台申请
 const tim = new TimMain({
@@ -19,7 +19,7 @@ const tim = new TimMain({
 
 //渲染进程
 
-const { TimRender } = require('im_electron_sdk')
+const TimRender = require('im_electron_sdk')
 const timRender = new TimRender();
 // 初始化
 timRender.TIMInit()

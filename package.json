@@ -1,10 +1,11 @@
 {
   "name": "im-sdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "prepare": "husky install"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -14,15 +15,25 @@
     "tutorial",
     "demo"
   ],
+  "lint-staged": {
+    "im_electron_sdk/src/**/*.ts": [
+      "prettier --write im_electron_sdk/src/",
+      "git add"
+    ]
+  },
   "author": "xingchenhe@tencent.com",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^13.1.2",
+    "electron": "^13.1.4",
     "electron-builder": "^22.11.7",
-    "electron-devtools-installer": "^3.2.0"
+    "electron-devtools-installer": "^3.2.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.2"
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
+    "im_electron_sdk": "file:im_electron_sdk",
     "ref-array-napi": "^1.2.2",
     "ref-napi": "^3.0.3",
     "ref-struct-napi": "^1.1.1"

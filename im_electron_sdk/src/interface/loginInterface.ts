@@ -1,19 +1,15 @@
 import { CommonCallbackFun } from "./basicInterface";
 
 interface loginParam {
-    userID:string,
-    userSig:string,
-    userData?:string
+    userID: string;
+    userSig: string;
+    userData?: string;
 }
 interface logoutParam {
-    userData?:string
+    userData?: string;
 }
 interface getLoginUserIDParam {
-    userData?:string
+    userData?: string;
 }
 
-export {
-    loginParam,
-    logoutParam,
-    getLoginUserIDParam,
-}
+export { loginParam, logoutParam, getLoginUserIDParam };

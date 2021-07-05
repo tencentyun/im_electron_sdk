@@ -3,28 +3,22 @@ import { CreateGroupParams } from "./groupInterface";
 import { loginParam } from "./loginInterface";
 
 enum Managers {
-    timBaseManager='timBaseManager',
-    advanceMessageManager = 'advanceMessageManager',
-    conversationManager = 'conversationManager',
-    friendshipManager = 'friendshipManager',
-    groupManager = 'groupManager'
+    timBaseManager = "timBaseManager",
+    advanceMessageManager = "advanceMessageManager",
+    conversationManager = "conversationManager",
+    friendshipManager = "friendshipManager",
+    groupManager = "groupManager",
 }
 interface ipcData<T> {
-    method:string,
-    param?:T,
-    manager:Managers,
-    callback?:string
+    method: string;
+    param?: T;
+    manager: Managers;
+    callback?: string;
 }
-interface mainRes  {
-    callback:Symbol,
-    data:any,
+interface mainRes {
+    callback: Symbol;
+    data: any;
 }
-interface ipcRenderData {
-    
-}
+interface ipcRenderData {}
 
-export { 
-    ipcData,
-    mainRes,
-    Managers,
-}
+export { ipcData, mainRes, Managers };
