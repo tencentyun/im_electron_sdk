@@ -83,11 +83,13 @@ const APIS = [
             {
                 name: "TIMGetLoginUserID",
                 action: (callback) => {
-                    TimBaseManager.TIMGetLoginUserID().then(data => {
-                        callback(JSON.stringify(data))
-                    }).catch(err => {
-                        callback(err.toString())
-                    })
+                    for(let i = 0;i<10;i++){
+                        TimBaseManager.TIMGetLoginUserID().then(data => {
+                            callback(JSON.stringify(data))
+                        }).catch(err => {
+                            callback(err.toString())
+                        })
+                    }
                 }
             },
             {
