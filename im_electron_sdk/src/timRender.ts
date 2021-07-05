@@ -25,8 +25,8 @@ import {
     ReportParams,
     SearchGroupParams,
     SearchMemberParams,
-    Json_add_friend_param,
-    Json_handle_friend_add_param,
+    GetFriendProfileListParams,
+    AddFriendParams,
     Json_modify_friend_info_param,
     Json_delete_friend_param,
     Json_check_friend_list_param,
@@ -55,6 +55,7 @@ import {
     TIMMsgRevokeCallback,
     TIMMsgElemUploadProgressCallback,
     TIMMsgUpdateCallback,
+    Json_handle_friend_add_param,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -532,29 +533,21 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendProfileList(user_data: string) {
+    TIMFriendshipGetFriendProfileList(getFriendProfileListParams: GetFriendProfileListParams) {
         const formatedData = {
             method: "TIMFriendshipGetFriendProfileList",
             manager: Managers.friendshipManager,
-            param: {
-                user_data,
-            },
+            param: getFriendProfileListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipAddFriend(
-        json_friendship_param: Json_add_friend_param,
-        user_data: string
-    ) {
+    TIMFriendshipAddFriend(addFriendParams: AddFriendParams) {
         const formatedData = {
             method: "TIMFriendshipAddFriend",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: addFriendParams,
         };
 
         return this.call(formatedData);

@@ -1,5 +1,6 @@
 import {
-    Json_add_friend_param,
+    GetFriendProfileListParams,
+    AddFriendParams,
     Json_delete_friend_param,
     Json_modify_friend_info_param,
     Json_handle_friend_add_param,
@@ -48,9 +49,9 @@ class FriendshipManager {
         this._sdkconfig = config;
     }
 
-    TIMFriendshipGetFriendProfileList(user_data: string): Promise<Object> {
-        const userData = this.stringFormator(user_data);
-
+    TIMFriendshipGetFriendProfileList(getFriendProfileListParam: GetFriendProfileListParams): Promise<Object> {
+        const { user_data } = getFriendProfileListParam;
+        const c_user_data = this.stringFormator(user_data);
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
                 (code, desc, json_params, user_data) => {
@@ -62,19 +63,18 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendProfileList(
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-
-    TIMFriendshipAddFriend(
-        json_friendship_param: Json_add_friend_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    
+    TIMFriendshipAddFriend(addFriendParams: AddFriendParams): Promise<any> {
+        const { params, user_data } = addFriendParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
         const userData = this.stringFormator(user_data);
 
@@ -87,9 +87,9 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddFriend(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));

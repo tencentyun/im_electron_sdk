@@ -66,7 +66,6 @@ class Callback {
                 }
 
                 const isFriendShipOrAdvanceMessageManager =
-                    manager === "friendshipManager" ||
                     manager === "advanceMessageManager";
 
                 try {

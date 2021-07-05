@@ -5,13 +5,20 @@ import {
     TIMFriendPendencyType,
 } from "../enum";
 
-interface Json_add_friend_param {
-    friendship_add_friend_param_identifier?: string;
-    friendship_add_friend_param_friend_type?: TIMFriendType;
-    friendship_add_friend_param_remark?: string;
-    friendship_add_friend_param_group_name?: string;
-    friendship_add_friend_param_add_source?: string;
-    friendship_add_friend_param_add_wording?: string;
+
+interface GetFriendProfileListParams {
+    user_data?: string;
+}
+interface AddFriendParams {
+    params: {
+        friendship_add_friend_param_identifier?: string;
+        friendship_add_friend_param_friend_type?: TIMFriendType;
+        friendship_add_friend_param_remark?: string;
+        friendship_add_friend_param_group_name?: string;
+        friendship_add_friend_param_add_source?: string;
+        friendship_add_friend_param_add_wording?: string;
+    },
+    user_data?: string;
 }
 
 interface Json_delete_friend_param {
@@ -110,7 +117,8 @@ interface TIMFriendBlackListDeletedCallback {
 
 export {
     ErrorResponse,
-    Json_add_friend_param,
+    GetFriendProfileListParams,
+    AddFriendParams,
     Json_delete_friend_param,
     Json_modify_friend_info_param,
     Json_handle_friend_add_param,
@@ -120,6 +128,7 @@ export {
     Json_get_pendency_list_param,
     Json_delete_pendency_param,
     Json_search_friends_param,
+
     TIMOnAddFriendCallback,
     TIMOnDeleteFriendCallback,
     TIMUpdateFriendProfileCallback,

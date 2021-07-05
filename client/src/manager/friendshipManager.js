@@ -3,17 +3,22 @@ const timRenderInstance = new TimRender();
 
 const friendShipManager = {
     TIMFriendshipGetFriendProfileList: () => {
-        return timRenderInstance.TIMFriendshipGetFriendProfileList();
+        return timRenderInstance.TIMFriendshipGetFriendProfileList({
+            user_data: "123"
+        });
     },
     TIMFriendshipAddFriend: () => {
         return timRenderInstance.TIMFriendshipAddFriend({
-            friendship_add_friend_param_identifier: "940928",
-            friendship_add_friend_param_friend_type: 1,
-            friendship_add_friend_param_remark: "xxx",
-            friendship_add_friend_param_group_name: "",
-            friendship_add_friend_param_add_source: "Windows",
-            friendship_add_friend_param_add_wording: "xxx",
-        }, '123');
+            params: {
+                friendship_add_friend_param_identifier: "940928",
+                friendship_add_friend_param_friend_type: 1,
+                friendship_add_friend_param_remark: "xxx2",
+                friendship_add_friend_param_group_name: "",
+                friendship_add_friend_param_add_source: "Windows",
+                friendship_add_friend_param_add_wording: "xxx",
+            },
+            user_data: "123"
+        });
     },
     TIMFriendshipHandleFriendAddRequest: () => {
         return timRenderInstance.TIMFriendshipHandleFriendAddRequest({
@@ -28,7 +33,7 @@ const friendShipManager = {
             friendship_modify_friend_profile_param_identifier: "940928",
             friendship_modify_friend_profile_param_item: {
                 friend_profile_item_remark: "xx",
-                friend_profile_item_group_name_array: ["xx"],
+                friend_profile_item_group_name_array: ["xx"], 
             }
         })
     },
