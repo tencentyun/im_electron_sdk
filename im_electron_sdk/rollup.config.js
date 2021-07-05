@@ -74,6 +74,37 @@ function getEnvConfigData(format,isUglify){
           ],
         })
       ],
+    },
+    {
+      input: resolve('./src/tim.ts'),
+      output: {
+        format: format,
+        file: resolve('./dist/tim.js'),
+        name: 'rem',
+        globals: {
+          "@babel/runtime/regenerator": "regeneratorRuntime"
+        }
+      },
+      plugins: [
+        isUglify ? uglify() : null,
+        nodeResolve({
+          extensions,
+          modulesOnly: true,
+        }),
+        babel({
+          exclude: 'node_modules/**',
+          extensions,
+          runtimeHelpers: true,
+          plugins: [
+            "@babel/plugin-transform-async-to-generator",
+            "@babel/plugin-transform-regenerator",
+            ["@babel/plugin-transform-runtime", {
+              "helpers": true,
+              "regenerator": true
+            }]
+          ],
+        })
+      ],
     }
   ]
 }

@@ -46,24 +46,14 @@ function nodeStrigToCString(str: string): Buffer {
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
     const callback = ffi.Callback(
         ref.types.void,
-        [
-            ref.types.int32,
-            ref.types.CString,
-            ref.types.CString,
-            ref.types.CString,
-        ],
+        [ref.types.int32, "string", "string", "string"],
         function (
             code: number,
-            desc: Buffer,
-            json_param: Buffer,
-            user_data: Buffer
+            desc: string,
+            json_param: string,
+            user_data: string
         ) {
-            fun(
-                code,
-                desc.toString(),
-                json_param.toString(),
-                user_data?.toString()
-            );
+            fun(code, desc, json_param, user_data);
         }
     );
     return callback;
