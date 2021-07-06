@@ -5,7 +5,6 @@ import {
     TIMFriendPendencyType,
 } from "../enum";
 
-
 interface GetFriendProfileListParams {
     user_data?: string;
 }
@@ -17,23 +16,23 @@ interface AddFriendParams {
         friendship_add_friend_param_group_name?: string;
         friendship_add_friend_param_add_source?: string;
         friendship_add_friend_param_add_wording?: string;
-    },
+    };
     user_data?: string;
 }
 
 interface DeleteFriendParams {
     params: {
         friendship_delete_friend_param_friend_type?: TIMFriendType;
-        friendship_delete_friend_param_identifier_array?: [string]; 
-    },
-    user_data?: string; 
+        friendship_delete_friend_param_identifier_array?: [string];
+    };
+    user_data?: string;
 }
 
 interface ModifyFriendProfileParams {
     params: {
         friendship_modify_friend_profile_param_identifier?: string;
         friendship_modify_friend_profile_param_item?: FriendProfileItem;
-    },
+    };
     user_data?: string;
 }
 
@@ -41,7 +40,7 @@ interface CheckFriendTypeParams {
     params: {
         friendship_check_friendtype_param_check_type?: TIMFriendType;
         friendship_check_friendtype_param_identifier_array?: [string];
-    },
+    };
     user_data?: string;
 }
 
@@ -49,12 +48,12 @@ interface CreateFriendGroupParams {
     params: {
         friendship_create_friend_group_param_name_array?: [string];
         friendship_create_friend_group_param_identifier_array?: [string];
-    },
+    };
     user_data?: string;
 }
 
 interface FriendshipStringArrayParams {
-    params: string[],
+    params: string[];
     user_data?: string;
 }
 
@@ -62,14 +61,13 @@ interface GetBlackListParams {
     user_data?: string;
 }
 
-
 interface HandleFriendAddParams {
     params: {
         friend_respone_identifier?: string;
         friend_respone_action?: TIMFriendResponseAction;
         friend_respone_remark?: string;
         friend_respone_group_name?: string;
-    },
+    };
     user_data?: string;
 }
 
@@ -79,7 +77,7 @@ interface ModifyFriendGroupParams {
         friendship_modify_friend_group_param_new_name?: string;
         friendship_modify_friend_group_param_delete_identifier_array?: [string];
         friendship_modify_friend_group_param_add_identifier_array?: [string];
-    },
+    };
     user_data?: string;
 }
 
@@ -89,7 +87,7 @@ interface FriendshipGetPendencyListParams {
         friendship_get_pendency_list_param_start_seq?: number;
         friendship_get_pendency_list_param_start_time?: number;
         friendship_get_pendency_list_param_limited_size?: number;
-    },
+    };
     user_data?: string;
 }
 
@@ -97,12 +95,12 @@ interface DeletePendencyParams {
     params: {
         friendship_delete_pendency_param_type?: TIMFriendPendencyType;
         friendship_delete_pendency_param_identifier_array?: [string];
-    },
+    };
     user_data?: string;
 }
 
 interface ReportPendencyReadedParams {
-    timestamp?: number,
+    timestamp?: number;
     user_data?: string;
 }
 
@@ -110,8 +108,8 @@ interface SearchFriendsParams {
     params: {
         friendship_search_param_keyword_list?: [string];
         friendship_search_param_search_field_list?: [number];
-    },
-    user_data?: string;  
+    };
+    user_data?: string;
 }
 
 interface ErrorResponse {

@@ -67,8 +67,8 @@ class Callback {
 
                 try {
                     responseData = await timManager[method](param);
-                }catch(err){
-                    responseData = err
+                } catch (err) {
+                    responseData = err;
                 }
 
                 console.log(

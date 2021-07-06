@@ -2,7 +2,6 @@ import { CommonCallbackFun } from "./basicInterface";
 import { GroupMemberInfo } from "./groupInterface";
 import { TIMFriendType, TIMPlatform, TIMMsgStatus } from "../enum";
 
-
 interface MsgSendMessageParams {
     conv_id: string;
     conv_type: number;
@@ -97,8 +96,8 @@ interface MsgDownloadMergerMessageParams {
 }
 interface MsgBatchSendParams {
     params: {
-        msg_batch_send_param_identifier_array: string[],
-        msg_batch_send_param_msg: Json_value_msg
+        msg_batch_send_param_identifier_array: string[];
+        msg_batch_send_param_msg: Json_value_msg;
     };
     user_data?: string;
 }
@@ -106,9 +105,6 @@ interface MsgSearchLocalMessagesParams {
     params: Json_search_message_param;
     user_data?: string;
 }
-
-
-
 
 interface Json_value_msg {
     message_elem_array?: [Elem];
@@ -122,21 +118,21 @@ interface Json_value_msg {
     message_platform?: TIMPlatform;
     message_is_read?: boolean;
     message_is_online_msg?: boolean;
-    message_is_peer_read?: boolean
-    message_status?: TIMMsgStatus
-    message_unique_id?: number
-    message_msg_id?: string
-    message_rand?: number
-    message_seq?: number
-    message_custom_int?: number
-    message_custom_str?: string
-    message_cloud_custom_str?: string
-    message_is_excluded_from_unread_count?: boolean
-    message_group_at_user_array?: string
-    message_is_forward_message?: boolean
-    message_sender_profile?: Object
-    message_sender_group_member_info?: GroupMemberInfo
-    message_offlie_push_config?: Object
+    message_is_peer_read?: boolean;
+    message_status?: TIMMsgStatus;
+    message_unique_id?: number;
+    message_msg_id?: string;
+    message_rand?: number;
+    message_seq?: number;
+    message_custom_int?: number;
+    message_custom_str?: string;
+    message_cloud_custom_str?: string;
+    message_is_excluded_from_unread_count?: boolean;
+    message_group_at_user_array?: string;
+    message_is_forward_message?: boolean;
+    message_sender_profile?: Object;
+    message_sender_group_member_info?: GroupMemberInfo;
+    message_offlie_push_config?: Object;
 }
 
 interface Json_msg_locator {

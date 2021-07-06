@@ -54,12 +54,12 @@ class AdvanceMessageManage {
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
-    TIMMsgSendMessage(msgSendMessageParams: MsgSendMessageParams): Promise<any> {
+    TIMMsgSendMessage(
+        msgSendMessageParams: MsgSendMessageParams
+    ): Promise<any> {
         const { conv_id, conv_type, params, user_data } = msgSendMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -84,7 +84,8 @@ class AdvanceMessageManage {
     }
 
     TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams): Promise<any> {
-        const { conv_id, conv_type, message_id, user_data } = msgCancelSendParams;
+        const { conv_id, conv_type, message_id, user_data } =
+            msgCancelSendParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_message_id = this.stringFormator(message_id);
         const c_user_data = this.stringFormator(user_data);
@@ -109,7 +110,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgFindMessages(msgFindMessagesParams: MsgFindMessagesParams): Promise<any> {
+    TIMMsgFindMessages(
+        msgFindMessagesParams: MsgFindMessagesParams
+    ): Promise<any> {
         const { json_message_id_array, user_data } = msgFindMessagesParams;
         const c_json_message_id_array = this.stringFormator(
             JSON.stringify(json_message_id_array)
@@ -141,14 +144,17 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgReportReaded(msgReportReadedParams: MsgReportReadedParams): Promise<any> {
-        const { conv_id, conv_type, message_id, user_data } = msgReportReadedParams;
+    TIMMsgReportReaded(
+        msgReportReadedParams: MsgReportReadedParams
+    ): Promise<any> {
+        const { conv_id, conv_type, message_id, user_data } =
+            msgReportReadedParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
 
         return this.TIMMsgFindMessages({
             json_message_id_array: [message_id],
-            user_data: user_data
+            user_data: user_data,
         }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
@@ -180,7 +186,7 @@ class AdvanceMessageManage {
 
         return this.TIMMsgFindMessages({
             json_message_id_array: [message_id],
-            user_data: user_data
+            user_data: user_data,
         }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
@@ -205,12 +211,13 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgFindByMsgLocatorList(msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams): Promise<any> {
-        const { conv_id, conv_type, params, user_data } = msgFindByMsgLocatorListParams;
+    TIMMsgFindByMsgLocatorList(
+        msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams
+    ): Promise<any> {
+        const { conv_id, conv_type, params, user_data } =
+            msgFindByMsgLocatorListParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -233,12 +240,13 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgImportMsgList(msgImportMsgListParams: MsgImportMsgListParams): Promise<any> {
-        const { conv_id, conv_type, params, user_data } = msgImportMsgListParams;
+    TIMMsgImportMsgList(
+        msgImportMsgListParams: MsgImportMsgListParams
+    ): Promise<any> {
+        const { conv_id, conv_type, params, user_data } =
+            msgImportMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -264,9 +272,7 @@ class AdvanceMessageManage {
     TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams): Promise<any> {
         const { conv_id, conv_type, params, user_data } = msgSaveMsgParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -292,15 +298,13 @@ class AdvanceMessageManage {
     TIMMsgGetMsgList(msgGetMsgListParams: MsgGetMsgListParams): Promise<any> {
         const { conv_id, conv_type, params, user_data } = msgGetMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         if (params.msg_getmsglist_param_last_msg) {
             return this.TIMMsgFindMessages({
                 json_message_id_array: [params.msg_getmsglist_param_last_msg],
-                user_data: user_data
+                user_data: user_data,
             }).then(res => {
                 return new Promise((resolve, reject) => {
                     const json_msg_param_array = res.json_params;
@@ -328,9 +332,7 @@ class AdvanceMessageManage {
             });
         } else {
             return new Promise((resolve, reject) => {
-                const c_params = this.stringFormator(
-                    JSON.stringify(params)
-                );
+                const c_params = this.stringFormator(JSON.stringify(params));
                 const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
                     c_conv_id,
                     conv_type,
@@ -355,7 +357,7 @@ class AdvanceMessageManage {
 
         return this.TIMMsgFindMessages({
             json_message_id_array: [params.msg_delete_param_msg],
-            user_data: user_data
+            user_data: user_data,
         }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
@@ -390,34 +392,33 @@ class AdvanceMessageManage {
 
         return this.TIMMsgFindMessages({
             json_message_id_array: params,
-            user_data: user_data
-        }).then(
-            res => {
-                return new Promise((resolve, reject) => {
-                    const json_msg_param_array = res.json_params;
-                    const c_json_msg_param_array = this.stringFormator(
-                        JSON.stringify(json_msg_param_array)
-                    );
-                    const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(
-                        c_conv_id,
-                        conv_type,
-                        c_json_msg_param_array,
-                        jsFuncToFFIFun((code, desc, json_params, user_data) => {
-                            if (code === 0) {
-                                resolve({ code, desc, json_params, user_data });
-                            } else
-                                reject(this.getErrorResponse({ code, desc }));
-                        }),
-                        c_user_data
-                    );
+            user_data: user_data,
+        }).then(res => {
+            return new Promise((resolve, reject) => {
+                const json_msg_param_array = res.json_params;
+                const c_json_msg_param_array = this.stringFormator(
+                    JSON.stringify(json_msg_param_array)
+                );
+                const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(
+                    c_conv_id,
+                    conv_type,
+                    c_json_msg_param_array,
+                    jsFuncToFFIFun((code, desc, json_params, user_data) => {
+                        if (code === 0) {
+                            resolve({ code, desc, json_params, user_data });
+                        } else reject(this.getErrorResponse({ code, desc }));
+                    }),
+                    c_user_data
+                );
 
-                    code !== 0 && reject(this.getErrorResponse({ code }));
-                });
-            }
-        );
+                code !== 0 && reject(this.getErrorResponse({ code }));
+            });
+        });
     }
 
-    TIMMsgClearHistoryMessage(msgClearHistoryMessageParams: MsgClearHistoryMessageParams): Promise<any> {
+    TIMMsgClearHistoryMessage(
+        msgClearHistoryMessageParams: MsgClearHistoryMessageParams
+    ): Promise<any> {
         const { conv_id, conv_type, user_data } = msgClearHistoryMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
@@ -441,11 +442,11 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgSetC2CReceiveMessageOpt(msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams): Promise<any> {
+    TIMMsgSetC2CReceiveMessageOpt(
+        msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams
+    ): Promise<any> {
         const { params, opt, user_data } = msgSetC2CReceiveMessageOptParams;
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -467,11 +468,11 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgGetC2CReceiveMessageOpt(msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams): Promise<any> {
+    TIMMsgGetC2CReceiveMessageOpt(
+        msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams
+    ): Promise<any> {
         const { params, user_data } = msgGetC2CReceiveMessageOptParams;
-        const c_params = this.stringFormator(
-            JSON.stringify(params)
-        );
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
@@ -492,7 +493,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgSetGroupReceiveMessageOpt(msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams): Promise<any> {
+    TIMMsgSetGroupReceiveMessageOpt(
+        msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams
+    ): Promise<any> {
         const { group_id, opt, user_data } = msgSetGroupReceiveMessageOptParams;
         const c_group_id = this.stringFormator(group_id);
         const c_user_data = this.stringFormator(user_data);
@@ -517,7 +520,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgDownloadElemToPath(msgDownloadElemToPathParams: MsgDownloadElemToPathParams): Promise<any> {
+    TIMMsgDownloadElemToPath(
+        msgDownloadElemToPathParams: MsgDownloadElemToPathParams
+    ): Promise<any> {
         const { params, path, user_data } = msgDownloadElemToPathParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_path = this.stringFormator(path);
@@ -542,7 +547,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgDownloadMergerMessage(msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams): Promise<any> {
+    TIMMsgDownloadMergerMessage(
+        msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams
+    ): Promise<any> {
         const { params, user_data } = msgDownloadMergerMessageParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -588,7 +595,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgSearchLocalMessages(msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams): Promise<any> {
+    TIMMsgSearchLocalMessages(
+        msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams
+    ): Promise<any> {
         const { params, user_data } = msgSearchLocalMessagesParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
