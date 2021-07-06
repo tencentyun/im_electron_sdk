@@ -3,122 +3,203 @@ const timRenderInstance = new TimRender();
 
 const advanceMessageManager = {
     TIMMsgSendMessage:() => {
-        return timRenderInstance.TIMMsgSendMessage("lexuslin3", 1, {
-            message_elem_array: [{
-                elem_type: 0,
-                text_elem_content: "123"
-            }],
-            message_sender: "lexuslin3"
-        }, "", "user data");
+        return timRenderInstance.TIMMsgSendMessage({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: {
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "123"
+                }],
+                message_sender: "lexuslin3"
+            },
+            user_data: "123"
+        });
     },
     TIMMsgCancelSend:() => {
-        return timRenderInstance.TIMMsgCancelSend("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
+        return timRenderInstance.TIMMsgCancelSend({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            message_id: "144115225971632901-1625125460-3998758148",
+            user_data: "123"
+        });
     },
     TIMMsgFindMessages:() => {
-        return timRenderInstance.TIMMsgFindMessages(["144115225971632901-1625125460-3998758148"], "user data");
+        return timRenderInstance.TIMMsgFindMessages({
+            json_message_id_array: ["144115225971632901-1625125460-3998758148"],
+            user_data: "123"
+        });
     },
     TIMMsgReportReaded:() => {
-        return timRenderInstance.TIMMsgReportReaded("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
+        return timRenderInstance.TIMMsgReportReaded({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            message_id: "144115225971632901-1625125460-3998758148",
+            user_data: "123"
+        });
     },
     TIMMsgRevoke:() => {
-        return timRenderInstance.TIMMsgRevoke("lexuslin3", 1, "144115225971632901-1625125460-3998758148", "user data");
+        return timRenderInstance.TIMMsgRevoke({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            message_id: "144115225971632901-1625125460-3998758148",
+            user_data: "123"
+        });
     },
     TIMMsgFindByMsgLocatorList:() => {
-        return timRenderInstance.TIMMsgFindByMsgLocatorList("1lexuslin127", 2, [{ 
-            message_elem_array: [{
-                elem_type: 0,
-                text_elem_content: "xxx"
-            }],
-            // message_conv_id: "lexuslin3",
-            message_sender: "lexuslin",
-        }], "user data");
+        return timRenderInstance.TIMMsgFindByMsgLocatorList({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: {
+                message_locator_is_revoked: false,
+                message_locator_time: 123,
+                message_locator_seq: 123,
+                message_locator_is_self: true,
+                message_locator_rand: 123,
+                message_locator_unique_id: 123
+            },
+            user_data: "123"
+        });
     },
     TIMMsgImportMsgList:() => {
-        return timRenderInstance.TIMMsgImportMsgList("1lexuslin127", 2, [{
-            message_elem_array: [{
-                elem_type: 0,
-                text_elem_content: "xxx"
+        return timRenderInstance.TIMMsgImportMsgList({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: [{
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "123"
+                }],
+                message_sender: "lexuslin3"
             }],
-            // message_conv_id: "lexuslin3",
-            message_sender: "lexuslin",
-        }], "user data");
+            user_data: "123"
+        });
     },
     TIMMsgSaveMsg:() => {
-        return timRenderInstance.TIMMsgSaveMsg("1lexuslin127", 2, {
-            message_elem_array: [{
-                elem_type: 0,
-                text_elem_content: "xxx"
-            }],
-            message_sender: "lexuslin"
-        }, "user data");
+        return timRenderInstance.TIMMsgSaveMsg({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: {
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "123"
+                }],
+                message_sender: "lexuslin3"
+            },
+            user_data: "123"
+        });
     },
     TIMMsgGetMsgList:() => {
-        return timRenderInstance.TIMMsgGetMsgList("lexuslin3", 1, {
-            msg_getmsglist_param_last_msg: "144115225971632901-1625125460-3998758148",
-            msg_getmsglist_param_count: 100,
-            // msg_getmsglist_param_is_remble: false,
-            // msg_getmsglist_param_is_forward: true,
-            // msg_getmsglist_param_last_msg_seq: 3444972625,
-            // msg_getmsglist_param_time_begin: 0,
-            // msg_getmsglist_param_time_period: 100000,
-        }, "user data");
+        return timRenderInstance.TIMMsgGetMsgList({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: {
+                msg_getmsglist_param_last_msg: "144115225971632901-1625125460-3998758148",
+                msg_getmsglist_param_count: 100
+            },
+            user_data: "123"
+        });
     },
     TIMMsgDelete:() => {
-        return timRenderInstance.TIMMsgDelete("lexuslin3", 1, {
-            msg_delete_param_msg: "144115225971632901-1625125460-3998758148",
-            msg_delete_param_is_remble: true
-        }, "user data");
+        return timRenderInstance.TIMMsgDelete({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: {
+                msg_delete_param_msg: "144115225971632901-1625125460-3998758148",
+                msg_delete_param_is_remble: true
+            },
+            user_data: "123"
+        });
     },
     TIMMsgListDelete:() => {
-        return timRenderInstance.TIMMsgListDelete("lexuslin3", 2, ["144115225971632901-1625125460-3998758148", "user data"]);
+        return timRenderInstance.TIMMsgListDelete({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            params: ["144115225971632901-1625125460-3998758148"],
+            user_data: "123"
+        });
     },
     TIMMsgClearHistoryMessage:() => {
-        return timRenderInstance.TIMMsgClearHistoryMessage("lexuslin3", 1, "user data");
+        return timRenderInstance.TIMMsgClearHistoryMessage({
+            conv_id: "lexuslin3",
+            conv_type: 1,
+            user_data: "123"
+        });
     },
     TIMMsgSetC2CReceiveMessageOpt:() => {
-        return timRenderInstance.TIMMsgSetC2CReceiveMessageOpt(["lexuslin3"], 2, "user data");
+        return timRenderInstance.TIMMsgSetC2CReceiveMessageOpt({
+            params: ["144115225971632901-1625125460-3998758148"],
+            opt: 1,
+            user_data: "123"
+        });
     },
     TIMMsgGetC2CReceiveMessageOpt:() => {
-        return timRenderInstance.TIMMsgGetC2CReceiveMessageOpt(["lexuslin3"], "user data");
+        return timRenderInstance.TIMMsgGetC2CReceiveMessageOpt({
+            params: ["144115225971632901-1625125460-3998758148"],
+            user_data: "123"
+        });
     },
     TIMMsgSetGroupReceiveMessageOpt:() => {
-        return timRenderInstance.TIMMsgSetGroupReceiveMessageOpt("1lexuslin127", 2, "user data");
+        return timRenderInstance.TIMMsgSetGroupReceiveMessageOpt({
+            group_id: "1lexuslin127",
+            opt: 1,
+            user_data: "123"
+        });
     },
     TIMMsgDownloadElemToPath:() => {
         return timRenderInstance.TIMMsgDownloadElemToPath({
-            msg_download_elem_param_flag: 2,
-            msg_download_elem_param_type: 2,
-            // msg_download_elem_param_id: "1400187352_lexuslin3_c3b94cee5c318b590b5cff79a712af23.MOV",
-            // msg_download_elem_param_business_id: 0,
-            msg_download_elem_param_url: "https://cos.ap-shanghai.myqcloud.com/0345-1400187352-1303031839/b310-lexuslin3/c3b94cee5c318b590b5cff79a712af23.MOV",
-        }, "/home/lexuslin/Downloads/111.mov", "user data");
+            params: {
+                msg_download_elem_param_flag: 2,
+                msg_download_elem_param_type: 2,
+                // msg_download_elem_param_id: "1400187352_lexuslin3_c3b94cee5c318b590b5cff79a712af23.MOV",
+                // msg_download_elem_param_business_id: 0,
+                msg_download_elem_param_url: "https://cos.ap-shanghai.myqcloud.com/0345-1400187352-1303031839/b310-lexuslin3/c3b94cee5c318b590b5cff79a712af23.MOV",
+            },
+            path: "/home/lexuslin/Downloads/111.mov",
+            user_data: "123"
+        });
     },
     TIMMsgDownloadMergerMessage:() => {
-        return timRenderInstance.TIMMsgDownloadMergerMessage("144115231469886159-1623751826-4234216750", "user data");
-    },
-    TIMMsgBatchSend:() => {
-        return timRenderInstance.TIMMsgBatchSend({
-            msg_batch_send_param_identifier_array: ["lexuslin3", "13675"],
-            msg_batch_send_param_msg: {
+        return timRenderInstance.TIMMsgDownloadMergerMessage({
+            params: {
                 message_elem_array: [{
                     elem_type: 0,
                     text_elem_content: "xxx"
                 }],
                 message_sender: "lexuslin"
-            }
-        }, "user data");
+            },
+            user_data: "123"
+        });
+    },
+    TIMMsgBatchSend:() => {
+        return timRenderInstance.TIMMsgBatchSend({
+            params: {
+                msg_batch_send_param_identifier_array: ["lexuslin3", "13675"],
+                msg_batch_send_param_msg: {
+                    message_elem_array: [{
+                        elem_type: 0,
+                        text_elem_content: "xxx"
+                    }],
+                    message_sender: "lexuslin"
+                }
+            },
+            user_data: "123"
+        });
     },
     TIMMsgSearchLocalMessages:() => {
         return timRenderInstance.TIMMsgSearchLocalMessages({
-            msg_search_param_keyword_array: ["1"],
-            msg_search_param_message_type_array: [0],
-            msg_search_param_conv_id: "lexuslin3",
-            msg_search_param_conv_type: 1,
-            // msg_search_param_search_time_position: 0,
-            // msg_search_param_search_time_period: 24*60*60*7,
-            // msg_search_param_page_index: 0,
-            // msg_search_param_page_size: 100,
-        }, "user data");
+            params: {
+                msg_search_param_keyword_array: ["1"],
+                msg_search_param_message_type_array: [0],
+                msg_search_param_conv_id: "lexuslin3",
+                msg_search_param_conv_type: 1,
+                // msg_search_param_search_time_position: 0,
+                // msg_search_param_search_time_period: 24*60*60*7,
+                // msg_search_param_page_index: 0,
+                // msg_search_param_page_size: 100,
+            },
+            user_data: "123"
+        });
     },
     TIMAddRecvNewMsgCallback:(callback) => {
         return timRenderInstance.TIMAddRecvNewMsgCallback((...args)=>{
