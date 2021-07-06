@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "typedoc/dist/lib/utils";
 import {
     CommonCallbackFun,
     GroupAttributeCallbackFun,
@@ -19,15 +20,15 @@ const ffi = require("ffi-napi");
 const ffipaths: any = {
     linux: path.resolve(
         process.cwd(),
-        "./im_electron_sdk/lib/linux/lib/libImSDK.so"
+        "./node_modules/im_electron_sdk/lib/linux/lib/libImSDK.so"
     ),
     x64: path.resolve(
         process.cwd(),
-        "./im_electron_sdk/lib/windows/lib/Win64/ImSDK.dll"
+        "./node_modules/im_electron_sdk/lib/windows/lib/Win64/ImSDK.dll"
     ),
     ia32: path.resolve(
         process.cwd(),
-        "./im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
+        "./node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
     ),
 };
 function getFFIPath() {
@@ -42,6 +43,7 @@ function getFFIPath() {
             res = ffipaths[cpu];
             break;
     }
+    console.log("路径", res);
     if (!res) {
         throw new Error(`tencent im sdk not support ${platform} os now.`);
         return;

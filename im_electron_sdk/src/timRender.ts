@@ -71,7 +71,9 @@ import {
     TIMMsgReadedReceiptCallback,
     TIMMsgRevokeCallback,
     TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback
+    TIMMsgUpdateCallback,
+    TIMSetConfigParam,
+    TIMSetLogCallbackParam,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -264,10 +266,31 @@ export default class TimRender {
         };
         return this.call(formatedData);
     }
+    TIMSetLogCallback(param: TIMSetLogCallbackParam) {
+        const callback = `${Date.now()}`;
+        TimRender.runtime.set(callback, param.callback);
+        //@ts-ignore
+        param.callback = callback;
+        const formatedData = {
+            method: "TIMSetLogCallback",
+            manager: Managers.timBaseManager,
+            callback: callback,
+            param: param,
+        };
+        return this.call(formatedData);
+    }
     TIMUninit() {
         const formatedData = {
             method: "TIMUninit",
             manager: Managers.timBaseManager,
+        };
+        return this.call(formatedData);
+    }
+    TIMSetConfig(param: TIMSetConfigParam) {
+        const formatedData = {
+            method: "TIMSetConfig",
+            manager: Managers.timBaseManager,
+            param: param,
         };
         return this.call(formatedData);
     }
@@ -567,7 +590,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendProfileList(getFriendProfileListParams: GetFriendProfileListParams) {
+    TIMFriendshipGetFriendProfileList(
+        getFriendProfileListParams: GetFriendProfileListParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipGetFriendProfileList",
             manager: Managers.friendshipManager,
@@ -587,7 +612,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipHandleFriendAddRequest(handleFriendAddParams: HandleFriendAddParams) {
+    TIMFriendshipHandleFriendAddRequest(
+        handleFriendAddParams: HandleFriendAddParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipHandleFriendAddRequest",
             manager: Managers.friendshipManager,
@@ -597,7 +624,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipModifyFriendProfile(modifyFriendProfileParams: ModifyFriendProfileParams) {
+    TIMFriendshipModifyFriendProfile(
+        modifyFriendProfileParams: ModifyFriendProfileParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipModifyFriendProfile",
             manager: Managers.friendshipManager,
@@ -627,7 +656,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipCreateFriendGroup(createFriendGroupParams: CreateFriendGroupParams) {
+    TIMFriendshipCreateFriendGroup(
+        createFriendGroupParams: CreateFriendGroupParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipCreateFriendGroup",
             manager: Managers.friendshipManager,
@@ -637,7 +668,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendGroupList(friendshipStringArrayParams: FriendshipStringArrayParams) {
+    TIMFriendshipGetFriendGroupList(
+        friendshipStringArrayParams: FriendshipStringArrayParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipGetFriendGroupList",
             manager: Managers.friendshipManager,
@@ -647,7 +680,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipModifyFriendGroup(modifyFriendGroupParams: ModifyFriendGroupParams) {
+    TIMFriendshipModifyFriendGroup(
+        modifyFriendGroupParams: ModifyFriendGroupParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipModifyFriendGroup",
             manager: Managers.friendshipManager,
@@ -657,7 +692,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeleteFriendGroup(friendshipStringArrayParams: FriendshipStringArrayParams) {
+    TIMFriendshipDeleteFriendGroup(
+        friendshipStringArrayParams: FriendshipStringArrayParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipDeleteFriendGroup",
             manager: Managers.friendshipManager,
@@ -667,7 +704,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipAddToBlackList(friendshipStringArrayParams: FriendshipStringArrayParams) {
+    TIMFriendshipAddToBlackList(
+        friendshipStringArrayParams: FriendshipStringArrayParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipAddToBlackList",
             manager: Managers.friendshipManager,
@@ -687,7 +726,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeleteFromBlackList(friendshipStringArrayParams: FriendshipStringArrayParams) {
+    TIMFriendshipDeleteFromBlackList(
+        friendshipStringArrayParams: FriendshipStringArrayParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipDeleteFromBlackList",
             manager: Managers.friendshipManager,
@@ -697,7 +738,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetPendencyList(friendshipGetPendencyListParams: FriendshipGetPendencyListParams) {
+    TIMFriendshipGetPendencyList(
+        friendshipGetPendencyListParams: FriendshipGetPendencyListParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipGetPendencyList",
             manager: Managers.friendshipManager,
@@ -717,7 +760,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipReportPendencyReaded(reportPendencyReadedParams: ReportPendencyReadedParams) {
+    TIMFriendshipReportPendencyReaded(
+        reportPendencyReadedParams: ReportPendencyReadedParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipReportPendencyReaded",
             manager: Managers.friendshipManager,
@@ -737,7 +782,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendsInfo(friendshipStringArrayParams: FriendshipStringArrayParams) {
+    TIMFriendshipGetFriendsInfo(
+        friendshipStringArrayParams: FriendshipStringArrayParams
+    ) {
         const formatedData = {
             method: "TIMFriendshipGetFriendsInfo",
             manager: Managers.friendshipManager,
@@ -953,7 +1000,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgFindByMsgLocatorList(msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams) {
+    TIMMsgFindByMsgLocatorList(
+        msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams
+    ) {
         const formatedData = {
             method: "TIMMsgFindByMsgLocatorList",
             manager: Managers.advanceMessageManager,
@@ -1013,7 +1062,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgClearHistoryMessage(msgClearHistoryMessageParams: MsgClearHistoryMessageParams) {
+    TIMMsgClearHistoryMessage(
+        msgClearHistoryMessageParams: MsgClearHistoryMessageParams
+    ) {
         const formatedData = {
             method: "TIMMsgClearHistoryMessage",
             manager: Managers.advanceMessageManager,
@@ -1023,7 +1074,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgSetC2CReceiveMessageOpt(msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams) {
+    TIMMsgSetC2CReceiveMessageOpt(
+        msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams
+    ) {
         const formatedData = {
             method: "TIMMsgSetC2CReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
@@ -1033,7 +1086,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgGetC2CReceiveMessageOpt(msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams) {
+    TIMMsgGetC2CReceiveMessageOpt(
+        msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams
+    ) {
         const formatedData = {
             method: "TIMMsgGetC2CReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
@@ -1043,7 +1098,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgSetGroupReceiveMessageOpt(msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams) {
+    TIMMsgSetGroupReceiveMessageOpt(
+        msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams
+    ) {
         const formatedData = {
             method: "TIMMsgSetGroupReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
@@ -1053,7 +1110,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgDownloadElemToPath(msgDownloadElemToPathParams: MsgDownloadElemToPathParams) {
+    TIMMsgDownloadElemToPath(
+        msgDownloadElemToPathParams: MsgDownloadElemToPathParams
+    ) {
         const formatedData = {
             method: "TIMMsgDownloadElemToPath",
             manager: Managers.advanceMessageManager,
@@ -1063,7 +1122,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgDownloadMergerMessage(msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams) {
+    TIMMsgDownloadMergerMessage(
+        msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams
+    ) {
         const formatedData = {
             method: "TIMMsgDownloadMergerMessage",
             manager: Managers.advanceMessageManager,
@@ -1083,7 +1144,9 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgSearchLocalMessages(msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams) {
+    TIMMsgSearchLocalMessages(
+        msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams
+    ) {
         const formatedData = {
             method: "TIMMsgSearchLocalMessages",
             manager: Managers.advanceMessageManager,

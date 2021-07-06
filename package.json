@@ -38,8 +38,8 @@
       ],
       "extraFiles": [
         {
-          "from": "./im_electron_sdk/lib/",
-          "to": "./im_electron_sdk/lib/",
+          "from": "./node_modules/im_electron_sdk/lib/",
+          "to": "./node_modules/im_electron_sdk/lib/",
           "filter": [
             "**/*"
           ]
@@ -62,5 +62,6 @@
     "ref-array-napi": "^1.2.2",
     "ref-napi": "^3.0.3",
     "ref-struct-napi": "^1.1.1"
-  }
+  },
+  "types": "dist/tim.d.ts"
 }
