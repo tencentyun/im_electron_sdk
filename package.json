@@ -39,7 +39,7 @@
       "extraFiles": [
         {
           "from": "./im_electron_sdk/lib/",
-          "to": "./resources/im_electron_sdk/lib/",
+          "to": "./im_electron_sdk/lib/",
           "filter": [
             "**/*"
           ]
@@ -54,10 +54,10 @@
     "electron-devtools-installer": "^3.2.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "electron": "^13.1.6"
   },
   "dependencies": {
-    "electron": "^13.1.6",
     "ffi-napi": "^4.0.3",
     "ref-array-napi": "^1.2.2",
     "ref-napi": "^3.0.3",
