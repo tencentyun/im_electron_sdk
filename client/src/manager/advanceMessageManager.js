@@ -128,14 +128,14 @@ const advanceMessageManager = {
     },
     TIMMsgSetC2CReceiveMessageOpt:() => {
         return timRenderInstance.TIMMsgSetC2CReceiveMessageOpt({
-            params: ["144115225971632901-1625125460-3998758148"],
+            params: ["lexuslin3"],
             opt: 1,
             user_data: "123"
         });
     },
     TIMMsgGetC2CReceiveMessageOpt:() => {
         return timRenderInstance.TIMMsgGetC2CReceiveMessageOpt({
-            params: ["144115225971632901-1625125460-3998758148"],
+            params: ["lexuslin3"],
             user_data: "123"
         });
     },
