@@ -18,7 +18,7 @@ import {
     GetPendencyListParams,
     HandlePendencyParams,
     InviteMemberParams,
-    JoinGroupParams,
+    // JoinGroupParams,
     ModifyGroupParams,
     ModifyMemberInfoParams,
     QuitGroupParams,
@@ -93,6 +93,17 @@ const getUniKey = (length: number) =>
         36
     );
 
+interface JoinGroupParams {
+    groupId: string;
+    helloMsg?: string;
+    data?: string;
+}
+
+interface TestInterface {
+    a: string;
+    b: string;
+}
+
 export default class TimRender {
     static runtime: Map<string, Function> = new Map();
     static isListened = false;
@@ -116,6 +127,9 @@ export default class TimRender {
         );
         return JSON.parse(response);
     }
+
+    testDoc(param: TestInterface) {}
+
     TIMConvGetTotalUnreadMessageCount(param: convGetTotalUnreadMessageCount) {
         const formatedData = {
             method: "TIMConvGetTotalUnreadMessageCount",
@@ -308,6 +322,10 @@ export default class TimRender {
         };
         return this.call(formatedData);
     }
+
+    /**
+     * @param data  Comment for parameter ´text´.
+     */
 
     TIMGroupCreate(data: CreateGroupParams) {
         const formatedData: ipcData<CreateGroupParams> = {

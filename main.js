@@ -2,12 +2,13 @@
 const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
 const path = require('path')
 const TimMain = require('./im_electron_sdk');
-
+const TIM = require('./im_electron_sdk/dist/tim')
 const tim = new TimMain({
   sdkappid: 1400187352
 })
-
-
+const t = new TIM({
+  sdkappid: 1400187352
+})
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -32,12 +33,29 @@ function createWindow() {
   //       // slashes: true
   //   })
   // )
-  mainWindow.loadURL("http://127.0.0.1:3000")
+  mainWindow.loadFile(path.resolve(__dirname,'./test.html'))
+  // mainWindow.loadURL('http://localhost:3000')
  
  
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
+    t.getTimbaseManager().TIMInit()
+    t.getTimbaseManager().TIMLogin({
+      userID: "3708",
+      userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMzKxNDU3NjGDmpKZDjQ2LKnAz6Q0J9s3LdQsSrvA28kvKinY1LvIOdE9yDk13DEp0SIi2zWtND*53FapFgB-kjCC",
+      userData: "xingchenhe-test",
+    }).then((data)=>{
+      setTimeout(()=>{
+        for(let i = 0;i<2;i++){
+          t.getConversationManager().TIMConvGetConvList({
+            user_data:'666'
+          }).then(da=>{
+            console.log('++++++++++++++++++++++++++++++',da.code)
+          })
+        }
+      },2000)
+    })
   })
  
 }
