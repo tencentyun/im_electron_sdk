@@ -1,8 +1,7 @@
-import { CommonCallbackFun } from "./basicInterface";
 import { GroupMemberInfo } from "./groupInterface";
-import { TIMFriendType, TIMPlatform, TIMMsgStatus } from "../enum";
+import { TIMPlatform, TIMMsgStatus } from "../enum";
 
-interface MsgSendMessageParams {
+declare interface MsgSendMessageParams {
     conv_id: string;
     conv_type: number;
     params: Json_value_msg;

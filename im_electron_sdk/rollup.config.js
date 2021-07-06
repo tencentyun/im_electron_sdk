@@ -1,6 +1,6 @@
 const path = require('path');
 // const babel = require('rollup-plugin-babel');
-const typescript = require('@rollup/plugin-typescript')
+const typescript = require('rollup-plugin-typescript2')
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const uglify = require('rollup-plugin-uglify').uglify;
 const pkg = require('./package.json');

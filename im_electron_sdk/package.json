@@ -1,6 +1,6 @@
 {
   "name": "im_electron_sdk",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "tencent cloud im for electron base c++ apis.",
   "main": "dist/main.js",
   "browser": "dist/renderer.js",
@@ -44,8 +44,10 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-dts": "^3.0.2",
     "rollup-plugin-ts": "^1.4.0",
+    "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-uglify": "^6.0.4",
-    "typescript": "^4.3.4"
+    "typescript": "^4.3.4",
+    "tslib": "^2.3.0"
   },
   "dependencies": {
     "@babel/core": "^7.14.6",
@@ -58,7 +60,7 @@
     "ffi-napi": "^4.0.3",
     "ref-napi": "^3.0.3",
     "ref-struct-napi": "^1.1.1",
-    "tslib": "^2.3.0",
     "typedoc": "^0.21.2"
-  }
+  },
+  "types": "dist/"
 }
