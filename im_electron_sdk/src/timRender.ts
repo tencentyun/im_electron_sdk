@@ -25,16 +25,20 @@ import {
     ReportParams,
     SearchGroupParams,
     SearchMemberParams,
-    Json_add_friend_param,
-    Json_handle_friend_add_param,
-    Json_modify_friend_info_param,
-    Json_delete_friend_param,
-    Json_check_friend_list_param,
-    Json_create_friend_group_param,
-    Json_modify_friend_group_param,
-    Json_get_pendency_list_param,
-    Json_delete_pendency_param,
-    Json_search_friends_param,
+    GetFriendProfileListParams,
+    AddFriendParams,
+    DeleteFriendParams,
+    ModifyFriendProfileParams,
+    CheckFriendTypeParams,
+    CreateFriendGroupParams,
+    FriendshipStringArrayParams,
+    GetBlackListParams,
+    HandleFriendAddParams,
+    ModifyFriendGroupParams,
+    FriendshipGetPendencyListParams,
+    DeletePendencyParams,
+    ReportPendencyReadedParams,
+    SearchFriendsParams,
     TIMSetUserSigExpiredCallbackParam,
     TIMSetKickedOfflineCallbackParam,
     TIMOnAddFriendCallback,
@@ -44,17 +48,30 @@ import {
     TIMFriendApplicationListReadCallback,
     TIMFriendBlackListAddedCallback,
     TIMFriendBlackListDeletedCallback,
-    Json_value_msg,
-    Json_advance_message_param,
-    Json_get_msg_param,
-    Json_value_msgdelete,
-    Json_value_batchsend,
-    Json_search_message_param,
+    MsgSendMessageParams,
+    MsgCancelSendParams,
+    MsgFindMessagesParams,
+    MsgReportReadedParams,
+    MsgRevokeParams,
+    MsgFindByMsgLocatorListParams,
+    MsgImportMsgListParams,
+    MsgSaveMsgParams,
+    MsgGetMsgListParams,
+    MsgDeleteParams,
+    MsgListDeleteParams,
+    MsgClearHistoryMessageParams,
+    MsgSetC2CReceiveMessageOptParams,
+    MsgGetC2CReceiveMessageOptParams,
+    MsgSetGroupReceiveMessageOptParams,
+    MsgDownloadElemToPathParams,
+    MsgDownloadMergerMessageParams,
+    MsgBatchSendParams,
+    MsgSearchLocalMessagesParams,
     TIMRecvNewMsgCallback,
     TIMMsgReadedReceiptCallback,
     TIMMsgRevokeCallback,
     TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback,
+    TIMMsgUpdateCallback
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -550,278 +567,181 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendProfileList(user_data: string) {
+    TIMFriendshipGetFriendProfileList(getFriendProfileListParams: GetFriendProfileListParams) {
         const formatedData = {
             method: "TIMFriendshipGetFriendProfileList",
             manager: Managers.friendshipManager,
-            param: {
-                user_data,
-            },
+            param: getFriendProfileListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipAddFriend(
-        json_friendship_param: Json_add_friend_param,
-        user_data: string
-    ) {
+    TIMFriendshipAddFriend(addFriendParams: AddFriendParams) {
         const formatedData = {
             method: "TIMFriendshipAddFriend",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: addFriendParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipHandleFriendAddRequest(
-        json_friendship_param: Json_handle_friend_add_param,
-        user_data: string
-    ) {
+    TIMFriendshipHandleFriendAddRequest(handleFriendAddParams: HandleFriendAddParams) {
         const formatedData = {
             method: "TIMFriendshipHandleFriendAddRequest",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: handleFriendAddParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipModifyFriendProfile(
-        json_friendship_param: Json_modify_friend_info_param,
-        user_data: string
-    ) {
+    TIMFriendshipModifyFriendProfile(modifyFriendProfileParams: ModifyFriendProfileParams) {
         const formatedData = {
             method: "TIMFriendshipModifyFriendProfile",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: modifyFriendProfileParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeleteFriend(
-        json_friendship_param: Json_delete_friend_param,
-        user_data: string
-    ) {
+    TIMFriendshipDeleteFriend(deleteFriendParams: DeleteFriendParams) {
         const formatedData = {
             method: "TIMFriendshipDeleteFriend",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: deleteFriendParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipCheckFriendType(
-        json_friendship_param: Json_check_friend_list_param,
-        user_data: string
-    ) {
+    TIMFriendshipCheckFriendType(checkFriendTypeParams: CheckFriendTypeParams) {
         const formatedData = {
             method: "TIMFriendshipCheckFriendType",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: checkFriendTypeParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipCreateFriendGroup(
-        json_friendship_param: Json_create_friend_group_param,
-        user_data: string
-    ) {
+    TIMFriendshipCreateFriendGroup(createFriendGroupParams: CreateFriendGroupParams) {
         const formatedData = {
             method: "TIMFriendshipCreateFriendGroup",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: createFriendGroupParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendGroupList(
-        json_friendship_param: [string],
-        user_data: string
-    ) {
+    TIMFriendshipGetFriendGroupList(friendshipStringArrayParams: FriendshipStringArrayParams) {
         const formatedData = {
             method: "TIMFriendshipGetFriendGroupList",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipStringArrayParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipModifyFriendGroup(
-        json_friendship_param: Json_modify_friend_group_param,
-        user_data: string
-    ) {
+    TIMFriendshipModifyFriendGroup(modifyFriendGroupParams: ModifyFriendGroupParams) {
         const formatedData = {
             method: "TIMFriendshipModifyFriendGroup",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: modifyFriendGroupParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeleteFriendGroup(
-        json_friendship_param: [string],
-        user_data: string
-    ) {
+    TIMFriendshipDeleteFriendGroup(friendshipStringArrayParams: FriendshipStringArrayParams) {
         const formatedData = {
             method: "TIMFriendshipDeleteFriendGroup",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipStringArrayParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipAddToBlackList(
-        json_friendship_param: [string],
-        user_data: string
-    ) {
+    TIMFriendshipAddToBlackList(friendshipStringArrayParams: FriendshipStringArrayParams) {
         const formatedData = {
             method: "TIMFriendshipAddToBlackList",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipStringArrayParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetBlackList(user_data: string) {
+    TIMFriendshipGetBlackList(getBlackListParams: GetBlackListParams) {
         const formatedData = {
             method: "TIMFriendshipGetBlackList",
             manager: Managers.friendshipManager,
-            param: {
-                user_data,
-            },
+            param: getBlackListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeleteFromBlackList(
-        json_friendship_param: [string],
-        user_data: string
-    ) {
+    TIMFriendshipDeleteFromBlackList(friendshipStringArrayParams: FriendshipStringArrayParams) {
         const formatedData = {
             method: "TIMFriendshipDeleteFromBlackList",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipStringArrayParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetPendencyList(
-        json_friendship_param: Json_get_pendency_list_param,
-        user_data: string
-    ) {
+    TIMFriendshipGetPendencyList(friendshipGetPendencyListParams: FriendshipGetPendencyListParams) {
         const formatedData = {
             method: "TIMFriendshipGetPendencyList",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipGetPendencyListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipDeletePendency(
-        json_friendship_param: Json_delete_pendency_param,
-        user_data: string
-    ) {
+    TIMFriendshipDeletePendency(deletePendencyParams: DeletePendencyParams) {
         const formatedData = {
             method: "TIMFriendshipDeletePendency",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: deletePendencyParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipReportPendencyReaded(timestamp: number, user_data: string) {
+    TIMFriendshipReportPendencyReaded(reportPendencyReadedParams: ReportPendencyReadedParams) {
         const formatedData = {
             method: "TIMFriendshipReportPendencyReaded",
             manager: Managers.friendshipManager,
-            param: {
-                timestamp,
-                user_data,
-            },
+            param: reportPendencyReadedParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipSearchFriends(
-        json_friendship_param: Json_search_friends_param,
-        user_data: string
-    ) {
+    TIMFriendshipSearchFriends(searchFriendsParams: SearchFriendsParams) {
         const formatedData = {
             method: "TIMFriendshipSearchFriends",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: searchFriendsParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMFriendshipGetFriendsInfo(
-        json_friendship_param: [string],
-        user_data: string
-    ) {
+    TIMFriendshipGetFriendsInfo(friendshipStringArrayParams: FriendshipStringArrayParams) {
         const formatedData = {
             method: "TIMFriendshipGetFriendsInfo",
             manager: Managers.friendshipManager,
-            param: {
-                json_friendship_param,
-                user_data,
-            },
+            param: friendshipStringArrayParams,
         };
 
         return this.call(formatedData);
@@ -983,352 +903,191 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMMsgSendMessage(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_value_msg,
-        message_id_buffer: string,
-        user_data: string
-    ) {
+    TIMMsgSendMessage(msgSendMessageParams: MsgSendMessageParams) {
         const formatedData = {
             method: "TIMMsgSendMessage",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                message_id_buffer,
-                user_data,
-            },
+            param: msgSendMessageParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgCancelSend(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ) {
+    TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams) {
         const formatedData = {
             method: "TIMMsgCancelSend",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                message_id,
-                user_data,
-            },
+            param: msgCancelSendParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgFindMessages(
-        json_advance_message_param: [string],
-        user_data: string
-    ) {
+    TIMMsgFindMessages(msgFindMessagesParams: MsgFindMessagesParams) {
         const formatedData = {
             method: "TIMMsgFindMessages",
             manager: Managers.advanceMessageManager,
-            param: {
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgFindMessagesParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgReportReaded(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ) {
+    TIMMsgReportReaded(msgReportReadedParams: MsgReportReadedParams) {
         const formatedData = {
             method: "TIMMsgReportReaded",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                message_id,
-                user_data,
-            },
+            param: msgReportReadedParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgRevoke(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ) {
+    TIMMsgRevoke(msgRevokeParams: MsgRevokeParams) {
         const formatedData = {
             method: "TIMMsgRevoke",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                message_id,
-                user_data,
-            },
+            param: msgRevokeParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgFindByMsgLocatorList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ) {
+    TIMMsgFindByMsgLocatorList(msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams) {
         const formatedData = {
             method: "TIMMsgFindByMsgLocatorList",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgFindByMsgLocatorListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgImportMsgList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ) {
+    TIMMsgImportMsgList(msgImportMsgListParams: MsgImportMsgListParams) {
         const formatedData = {
             method: "TIMMsgImportMsgList",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgImportMsgListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgSaveMsg(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ) {
+    TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams) {
         const formatedData = {
             method: "TIMMsgSaveMsg",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgSaveMsgParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgGetMsgList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_get_msg_param,
-        user_data: string
-    ) {
+    TIMMsgGetMsgList(msgGetMsgListParams: MsgGetMsgListParams) {
         const formatedData = {
             method: "TIMMsgGetMsgList",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgGetMsgListParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgDelete(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_value_msgdelete,
-        user_data: string
-    ) {
+    TIMMsgDelete(msgDeleteParams: MsgDeleteParams) {
         const formatedData = {
             method: "TIMMsgDelete",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgDeleteParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgListDelete(
-        conv_id: string,
-        conv_type: number,
-        message_id_array: [string],
-        user_data: string
-    ) {
+    TIMMsgListDelete(msgListDeleteParams: MsgListDeleteParams) {
         const formatedData = {
             method: "TIMMsgListDelete",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                message_id_array,
-                user_data,
-            },
+            param: msgListDeleteParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgClearHistoryMessage(
-        conv_id: string,
-        conv_type: number,
-        user_data: string
-    ) {
+    TIMMsgClearHistoryMessage(msgClearHistoryMessageParams: MsgClearHistoryMessageParams) {
         const formatedData = {
             method: "TIMMsgClearHistoryMessage",
             manager: Managers.advanceMessageManager,
-            param: {
-                conv_id,
-                conv_type,
-                user_data,
-            },
+            param: msgClearHistoryMessageParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgSetC2CReceiveMessageOpt(
-        user_id_array: [string],
-        opt: number,
-        user_data: string
-    ) {
+    TIMMsgSetC2CReceiveMessageOpt(msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams) {
         const formatedData = {
             method: "TIMMsgSetC2CReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
-            param: {
-                user_id_array,
-                opt,
-                user_data,
-            },
+            param: msgSetC2CReceiveMessageOptParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgGetC2CReceiveMessageOpt(user_id_array: [string], user_data: string) {
+    TIMMsgGetC2CReceiveMessageOpt(msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams) {
         const formatedData = {
             method: "TIMMsgGetC2CReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
-            param: {
-                user_id_array,
-                user_data,
-            },
+            param: msgGetC2CReceiveMessageOptParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgSetGroupReceiveMessageOpt(
-        group_id: string,
-        opt: number,
-        user_data: string
-    ) {
+    TIMMsgSetGroupReceiveMessageOpt(msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams) {
         const formatedData = {
             method: "TIMMsgSetGroupReceiveMessageOpt",
             manager: Managers.advanceMessageManager,
-            param: {
-                group_id,
-                opt,
-                user_data,
-            },
+            param: msgSetGroupReceiveMessageOptParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgDownloadElemToPath(
-        json_advance_message_param: Json_advance_message_param,
-        path: string,
-        user_data: string
-    ) {
+    TIMMsgDownloadElemToPath(msgDownloadElemToPathParams: MsgDownloadElemToPathParams) {
         const formatedData = {
             method: "TIMMsgDownloadElemToPath",
             manager: Managers.advanceMessageManager,
-            param: {
-                json_advance_message_param,
-                path,
-                user_data,
-            },
+            param: msgDownloadElemToPathParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgDownloadMergerMessage(
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ) {
+    TIMMsgDownloadMergerMessage(msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams) {
         const formatedData = {
             method: "TIMMsgDownloadMergerMessage",
             manager: Managers.advanceMessageManager,
-            param: {
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgDownloadMergerMessageParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgBatchSend(
-        json_advance_message_param: Json_value_batchsend,
-        user_data: string
-    ) {
+    TIMMsgBatchSend(msgBatchSendParams: MsgBatchSendParams) {
         const formatedData = {
             method: "TIMMsgBatchSend",
             manager: Managers.advanceMessageManager,
-            param: {
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgBatchSendParams,
         };
 
         return this.call(formatedData);
     }
 
-    TIMMsgSearchLocalMessages(
-        json_advance_message_param: Json_search_message_param,
-        user_data: string
-    ) {
+    TIMMsgSearchLocalMessages(msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams) {
         const formatedData = {
             method: "TIMMsgSearchLocalMessages",
             manager: Managers.advanceMessageManager,
-            param: {
-                json_advance_message_param,
-                user_data,
-            },
+            param: msgSearchLocalMessagesParams,
         };
 
         return this.call(formatedData);

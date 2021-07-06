@@ -1,14 +1,18 @@
 import {
-    Json_add_friend_param,
-    Json_delete_friend_param,
-    Json_modify_friend_info_param,
-    Json_handle_friend_add_param,
-    Json_check_friend_list_param,
-    Json_create_friend_group_param,
-    Json_modify_friend_group_param,
-    Json_get_pendency_list_param,
-    Json_delete_pendency_param,
-    Json_search_friends_param,
+    GetFriendProfileListParams,
+    AddFriendParams,
+    DeleteFriendParams,
+    ModifyFriendProfileParams,
+    CheckFriendTypeParams,
+    CreateFriendGroupParams,
+    FriendshipStringArrayParams,
+    GetBlackListParams,
+    HandleFriendAddParams,
+    ModifyFriendGroupParams,
+    FriendshipGetPendencyListParams,
+    DeletePendencyParams,
+    ReportPendencyReadedParams,
+    SearchFriendsParams,
     ErrorResponse,
     sdkconfig,
 } from "../interface";
@@ -48,9 +52,9 @@ class FriendshipManager {
         this._sdkconfig = config;
     }
 
-    TIMFriendshipGetFriendProfileList(user_data: string): Promise<Object> {
-        const userData = this.stringFormator(user_data);
-
+    TIMFriendshipGetFriendProfileList(getFriendProfileListParam: GetFriendProfileListParams): Promise<Object> {
+        const { user_data } = getFriendProfileListParam;
+        const c_user_data = this.stringFormator(user_data);
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
                 (code, desc, json_params, user_data) => {
@@ -62,21 +66,19 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendProfileList(
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-
-    TIMFriendshipAddFriend(
-        json_friendship_param: Json_add_friend_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    
+    TIMFriendshipAddFriend(addFriendParams: AddFriendParams): Promise<any> {
+        const { params, user_data } = addFriendParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -87,23 +89,21 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddFriend(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMFriendshipHandleFriendAddRequest(
-        json_friendship_param: Json_handle_friend_add_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipHandleFriendAddRequest(handleFriendAddParams: HandleFriendAddParams): Promise<any> {
+        const { params, user_data } = handleFriendAddParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -115,22 +115,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipHandleFriendAddRequest(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipModifyFriendProfile(
-        json_friendship_param: Json_modify_friend_info_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipModifyFriendProfile(modifyFriendProfileParams: ModifyFriendProfileParams): Promise<any> {
+        const { params, user_data } = modifyFriendProfileParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -142,22 +140,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendProfile(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipDeleteFriend(
-        json_friendship_param: Json_delete_friend_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipDeleteFriend(deleteFriendParams: DeleteFriendParams): Promise<any> {
+        const { params, user_data } = deleteFriendParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -168,22 +164,20 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriend(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipCheckFriendType(
-        json_friendship_param: Json_check_friend_list_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipCheckFriendType(checkFriendTypeParams: CheckFriendTypeParams): Promise<any> {
+        const { params, user_data } = checkFriendTypeParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -194,22 +188,20 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipCheckFriendType(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipCreateFriendGroup(
-        json_friendship_param: Json_create_friend_group_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipCreateFriendGroup(createFriendGroupParams: CreateFriendGroupParams): Promise<any> {
+        const { params, user_data } = createFriendGroupParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -221,22 +213,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipCreateFriendGroup(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipGetFriendGroupList(
-        json_friendship_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipGetFriendGroupList(friendshipStringArrayParams: FriendshipStringArrayParams): Promise<any> {
+        const { params, user_data } = friendshipStringArrayParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -248,22 +238,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendGroupList(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipModifyFriendGroup(
-        json_friendship_param: Json_modify_friend_group_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipModifyFriendGroup(modifyFriendGroupParams: ModifyFriendGroupParams): Promise<any> {
+        const { params, user_data } = modifyFriendGroupParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -275,22 +263,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendGroup(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipDeleteFriendGroup(
-        json_friendship_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipDeleteFriendGroup(friendshipStringArrayParams: FriendshipStringArrayParams): Promise<any> {
+        const { params, user_data } = friendshipStringArrayParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -302,22 +288,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriendGroup(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipAddToBlackList(
-        json_friendship_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipAddToBlackList(friendshipStringArrayParams: FriendshipStringArrayParams): Promise<any> {
+        const { params, user_data } = friendshipStringArrayParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -328,16 +312,17 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddToBlackList(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipGetBlackList(user_data: string): Promise<any> {
-        const userData = this.stringFormator(user_data);
+    TIMFriendshipGetBlackList(getBlackListParams: GetBlackListParams): Promise<any> {
+        const { user_data } = getBlackListParams;
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -349,20 +334,18 @@ class FriendshipManager {
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetBlackList(
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipDeleteFromBlackList(
-        json_friendship_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipDeleteFromBlackList(friendshipStringArrayParams: FriendshipStringArrayParams): Promise<any> {
+        const { params, user_data } = friendshipStringArrayParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -374,22 +357,20 @@ class FriendshipManager {
             );
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFromBlackList(
-                    params,
+                    c_params,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipGetPendencyList(
-        json_friendship_param: Json_get_pendency_list_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipGetPendencyList(friendshipGetPendencyListParams: FriendshipGetPendencyListParams): Promise<any> {
+        const { params, user_data } = friendshipGetPendencyListParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -400,22 +381,20 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetPendencyList(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipDeletePendency(
-        json_friendship_param: Json_delete_pendency_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipDeletePendency(deletePendencyParams: DeletePendencyParams): Promise<any> {
+        const { params, user_data } = deletePendencyParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -426,19 +405,17 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeletePendency(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipReportPendencyReaded(
-        timestamp: number,
-        user_data: string
-    ): Promise<any> {
-        const userData = this.stringFormator(user_data);
+    TIMFriendshipReportPendencyReaded(reportPendencyReadedParams: ReportPendencyReadedParams): Promise<any> {
+        const { timestamp, user_data } = reportPendencyReadedParams;
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -452,20 +429,18 @@ class FriendshipManager {
                 this._sdkconfig.Imsdklib.TIMFriendshipReportPendencyReaded(
                     timestamp,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipSearchFriends(
-        json_friendship_param: Json_search_friends_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipSearchFriends(searchFriendsParams: SearchFriendsParams): Promise<any> {
+        const { params, user_data } = searchFriendsParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -476,22 +451,20 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipSearchFriends(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-    TIMFriendshipGetFriendsInfo(
-        json_friendship_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_friendship_param)
+    TIMFriendshipGetFriendsInfo(friendshipStringArrayParams: FriendshipStringArrayParams): Promise<any> {
+        const { params, user_data } = friendshipStringArrayParams;
+        const c_user_data = this.stringFormator(user_data);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -502,9 +475,9 @@ class FriendshipManager {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetFriendsInfo(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));

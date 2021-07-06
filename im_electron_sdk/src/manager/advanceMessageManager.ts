@@ -1,12 +1,25 @@
 import {
     sdkconfig,
     ErrorResponse,
-    Json_advance_message_param,
-    Json_value_msg,
-    Json_value_msgdelete,
-    Json_value_batchsend,
-    Json_search_message_param,
-    Json_get_msg_param,
+    MsgSendMessageParams,
+    MsgCancelSendParams,
+    MsgFindMessagesParams,
+    MsgReportReadedParams,
+    MsgRevokeParams,
+    MsgFindByMsgLocatorListParams,
+    MsgImportMsgListParams,
+    MsgSaveMsgParams,
+    MsgGetMsgListParams,
+    MsgDeleteParams,
+    MsgListDeleteParams,
+    MsgClearHistoryMessageParams,
+    MsgSetC2CReceiveMessageOptParams,
+    MsgGetC2CReceiveMessageOptParams,
+    MsgSetGroupReceiveMessageOptParams,
+    MsgDownloadElemToPathParams,
+    MsgDownloadMergerMessageParams,
+    MsgBatchSendParams,
+    MsgSearchLocalMessagesParams,
 } from "../interface";
 import {
     TIMRecvNewMsgCallback,
@@ -41,20 +54,13 @@ class AdvanceMessageManage {
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
-
-    TIMMsgSendMessage(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_value_msg,
-        message_id_buffer: string,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgSendMessage(msgSendMessageParams: MsgSendMessageParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgSendMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
-        const c_message_id_buffer = this.stringFormator(message_id_buffer);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
+        );
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -67,25 +73,21 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(
                 c_conv_id,
                 conv_type,
-                params,
+                c_params,
                 undefined,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgCancelSend(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ): Promise<any> {
-        const userData = this.stringFormator(user_data);
+    TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams): Promise<any> {
+        const { conv_id, conv_type, message_id, user_data } = msgCancelSendParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_message_id = this.stringFormator(message_id);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -100,21 +102,19 @@ class AdvanceMessageManage {
                 conv_type,
                 c_message_id,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgFindMessages(
-        json_advance_message_param: [string],
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
+    TIMMsgFindMessages(msgFindMessagesParams: MsgFindMessagesParams): Promise<any> {
+        const { json_message_id_array, user_data } = msgFindMessagesParams;
+        const c_json_message_id_array = this.stringFormator(
+            JSON.stringify(json_message_id_array)
         );
-        const userData = this.stringFormator(user_data);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -132,25 +132,24 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgFindMessages(
-                params,
+                c_json_message_id_array,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgReportReaded(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ): Promise<any> {
-        const c_user_data = this.stringFormator(user_data);
+    TIMMsgReportReaded(msgReportReadedParams: MsgReportReadedParams): Promise<any> {
+        const { conv_id, conv_type, message_id, user_data } = msgReportReadedParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_user_data = this.stringFormator(user_data);
 
-        return this.TIMMsgFindMessages([message_id], user_data).then(res => {
+        return this.TIMMsgFindMessages({
+            json_message_id_array: [message_id],
+            user_data: user_data
+        }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
                 const json_msg_param = JSON.stringify(
@@ -174,16 +173,15 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgRevoke(
-        conv_id: string,
-        conv_type: number,
-        message_id: string,
-        user_data: string
-    ): Promise<any> {
-        const c_user_data = this.stringFormator(user_data);
+    TIMMsgRevoke(msgRevokeParams: MsgRevokeParams): Promise<any> {
+        const { conv_id, conv_type, message_id, user_data } = msgRevokeParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_user_data = this.stringFormator(user_data);
 
-        return this.TIMMsgFindMessages([message_id], user_data).then(res => {
+        return this.TIMMsgFindMessages({
+            json_message_id_array: [message_id],
+            user_data: user_data
+        }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
                 const json_msg_param = JSON.stringify(
@@ -207,17 +205,13 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgFindByMsgLocatorList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgFindByMsgLocatorList(msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgFindByMsgLocatorListParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
+        );
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -230,26 +224,22 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgFindByMsgLocatorList(
                 c_conv_id,
                 conv_type,
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgImportMsgList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgImportMsgList(msgImportMsgListParams: MsgImportMsgListParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgImportMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
+        );
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -262,26 +252,22 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgImportMsgList(
                 c_conv_id,
                 conv_type,
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgSaveMsg(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgSaveMsgParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
+        );
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -294,41 +280,40 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgSaveMsg(
                 c_conv_id,
                 conv_type,
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgGetMsgList(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_get_msg_param,
-        user_data: string
-    ): Promise<any> {
-        const c_user_data = this.stringFormator(user_data);
+    TIMMsgGetMsgList(msgGetMsgListParams: MsgGetMsgListParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgGetMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
+        );
+        const c_user_data = this.stringFormator(user_data);
 
-        if (json_advance_message_param.msg_getmsglist_param_last_msg) {
-            return this.TIMMsgFindMessages(
-                [json_advance_message_param.msg_getmsglist_param_last_msg],
-                user_data
-            ).then(res => {
+        if (params.msg_getmsglist_param_last_msg) {
+            return this.TIMMsgFindMessages({
+                json_message_id_array: [params.msg_getmsglist_param_last_msg],
+                user_data: user_data
+            }).then(res => {
                 return new Promise((resolve, reject) => {
                     const json_msg_param_array = res.json_params;
-                    json_advance_message_param.msg_getmsglist_param_last_msg =
+                    params.msg_getmsglist_param_last_msg =
                         JSON.parse(json_msg_param_array)[0];
-                    const c_json_advance_message_param = this.stringFormator(
-                        JSON.stringify(json_advance_message_param)
+                    const c_params = this.stringFormator(
+                        JSON.stringify(params)
                     );
 
                     const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
                         c_conv_id,
                         conv_type,
-                        c_json_advance_message_param,
+                        c_params,
                         jsFuncToFFIFun((code, desc, json_params, user_data) => {
                             if (code === 0) {
                                 resolve({ code, desc, json_params, user_data });
@@ -343,13 +328,13 @@ class AdvanceMessageManage {
             });
         } else {
             return new Promise((resolve, reject) => {
-                const c_json_advance_message_param = this.stringFormator(
-                    JSON.stringify(json_advance_message_param)
+                const c_params = this.stringFormator(
+                    JSON.stringify(params)
                 );
                 const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
                     c_conv_id,
                     conv_type,
-                    c_json_advance_message_param,
+                    c_params,
                     jsFuncToFFIFun((code, desc, json_params, user_data) => {
                         if (code === 0) {
                             resolve({ code, desc, json_params, user_data });
@@ -363,26 +348,22 @@ class AdvanceMessageManage {
         }
     }
 
-    TIMMsgDelete(
-        conv_id: string,
-        conv_type: number,
-        json_advance_message_param: Json_value_msgdelete,
-        user_data: string
-    ): Promise<any> {
-        const c_user_data = this.stringFormator(user_data);
+    TIMMsgDelete(msgDeleteParams: MsgDeleteParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgDeleteParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_user_data = this.stringFormator(user_data);
 
-        return this.TIMMsgFindMessages(
-            [json_advance_message_param.msg_delete_param_msg],
-            user_data
-        ).then(res => {
+        return this.TIMMsgFindMessages({
+            json_message_id_array: [params.msg_delete_param_msg],
+            user_data: user_data
+        }).then(res => {
             return new Promise((resolve, reject) => {
                 const json_msg_param_array = res.json_params;
                 const json_msg_param = JSON.parse(json_msg_param_array)[0];
                 const param = {
                     msg_delete_param_msg: json_msg_param,
                     msg_delete_param_is_remble:
-                        json_advance_message_param.msg_delete_param_is_remble,
+                        params.msg_delete_param_is_remble,
                 };
                 const c_param = this.stringFormator(JSON.stringify(param));
                 const code = this._sdkconfig.Imsdklib.TIMMsgDelete(
@@ -402,16 +383,15 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgListDelete(
-        conv_id: string,
-        conv_type: number,
-        message_id_array: [string],
-        user_data: string
-    ): Promise<any> {
-        const c_user_data = this.stringFormator(user_data);
+    TIMMsgListDelete(msgListDeleteParams: MsgListDeleteParams): Promise<any> {
+        const { conv_id, conv_type, params, user_data } = msgListDeleteParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_user_data = this.stringFormator(user_data);
 
-        return this.TIMMsgFindMessages(message_id_array, user_data).then(
+        return this.TIMMsgFindMessages({
+            json_message_id_array: params,
+            user_data: user_data
+        }).then(
             res => {
                 return new Promise((resolve, reject) => {
                     const json_msg_param_array = res.json_params;
@@ -437,13 +417,10 @@ class AdvanceMessageManage {
         );
     }
 
-    TIMMsgClearHistoryMessage(
-        conv_id: string,
-        conv_type: number,
-        user_data: string
-    ): Promise<any> {
-        const userData = this.stringFormator(user_data);
+    TIMMsgClearHistoryMessage(msgClearHistoryMessageParams: MsgClearHistoryMessageParams): Promise<any> {
+        const { conv_id, conv_type, user_data } = msgClearHistoryMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -457,22 +434,19 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgSetC2CReceiveMessageOpt(
-        user_id_array: [string],
-        opt: number,
-        user_data: string
-    ): Promise<any> {
-        const c_user_id_array = this.stringFormator(
-            JSON.stringify(user_id_array)
+    TIMMsgSetC2CReceiveMessageOpt(msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams): Promise<any> {
+        const { params, opt, user_data } = msgSetC2CReceiveMessageOptParams;
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -483,24 +457,22 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgSetC2CReceiveMessageOpt(
-                c_user_id_array,
+                c_params,
                 opt,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgGetC2CReceiveMessageOpt(
-        user_id_array: [string],
-        user_data: string
-    ): Promise<any> {
-        const c_user_id_array = this.stringFormator(
-            JSON.stringify(user_id_array)
+    TIMMsgGetC2CReceiveMessageOpt(msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams): Promise<any> {
+        const { params, user_data } = msgGetC2CReceiveMessageOptParams;
+        const c_params = this.stringFormator(
+            JSON.stringify(params)
         );
-        const userData = this.stringFormator(user_data);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -511,22 +483,19 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgGetC2CReceiveMessageOpt(
-                c_user_id_array,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgSetGroupReceiveMessageOpt(
-        group_id: string,
-        opt: number,
-        user_data: string
-    ): Promise<any> {
-        const userData = this.stringFormator(user_data);
+    TIMMsgSetGroupReceiveMessageOpt(msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams): Promise<any> {
+        const { group_id, opt, user_data } = msgSetGroupReceiveMessageOptParams;
         const c_group_id = this.stringFormator(group_id);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -541,23 +510,18 @@ class AdvanceMessageManage {
                     c_group_id,
                     opt,
                     callback,
-                    userData
+                    c_user_data
                 );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgDownloadElemToPath(
-        json_advance_message_param: Json_advance_message_param,
-        path: string,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgDownloadElemToPath(msgDownloadElemToPathParams: MsgDownloadElemToPathParams): Promise<any> {
+        const { params, path, user_data } = msgDownloadElemToPathParams;
+        const c_params = this.stringFormator(JSON.stringify(params));
         const c_path = this.stringFormator(path);
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -568,24 +532,20 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadElemToPath(
-                params,
+                c_params,
                 c_path,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgDownloadMergerMessage(
-        json_advance_message_param: Json_advance_message_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgDownloadMergerMessage(msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams): Promise<any> {
+        const { params, user_data } = msgDownloadMergerMessageParams;
+        const c_params = this.stringFormator(JSON.stringify(params));
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -596,23 +556,19 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadMergerMessage(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgBatchSend(
-        json_advance_message_param: Json_value_batchsend,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgBatchSend(msgBatchSendParams: MsgBatchSendParams): Promise<any> {
+        const { params, user_data } = msgBatchSendParams;
+        const c_params = this.stringFormator(JSON.stringify(params));
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -623,23 +579,19 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgBatchSend(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
 
-    TIMMsgSearchLocalMessages(
-        json_advance_message_param: Json_search_message_param,
-        user_data: string
-    ): Promise<any> {
-        const params = this.stringFormator(
-            JSON.stringify(json_advance_message_param)
-        );
-        const userData = this.stringFormator(user_data);
+    TIMMsgSearchLocalMessages(msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams): Promise<any> {
+        const { params, user_data } = msgSearchLocalMessagesParams;
+        const c_params = this.stringFormator(JSON.stringify(params));
+        const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -650,9 +602,9 @@ class AdvanceMessageManage {
                 }
             );
             const code = this._sdkconfig.Imsdklib.TIMMsgSearchLocalMessages(
-                params,
+                c_params,
                 callback,
-                userData
+                c_user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
