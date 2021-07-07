@@ -75,6 +75,8 @@ import {
     TIMSetConfigParam,
     TIMSetLogCallbackParam,
     callExperimentalAPIParam,
+    TIMProfileModifySelfUserProfileParam,
+    TIMProfileGetUserProfileListParam,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -354,7 +356,24 @@ export default class TimRender {
         };
         return this.call(formatedData);
     }
-
+    TIMProfileGetUserProfileList(param: TIMProfileGetUserProfileListParam) {
+        const formatedData = {
+            method: "TIMProfileGetUserProfileList",
+            manager: Managers.timBaseManager,
+            param: param,
+        };
+        return this.call(formatedData);
+    }
+    TIMProfileModifySelfUserProfile(
+        param: TIMProfileModifySelfUserProfileParam
+    ) {
+        const formatedData = {
+            method: "TIMProfileModifySelfUserProfile",
+            manager: Managers.timBaseManager,
+            param: param,
+        };
+        return this.call(formatedData);
+    }
     /**
      * @param data  Comment for parameter ´text´.
      */
