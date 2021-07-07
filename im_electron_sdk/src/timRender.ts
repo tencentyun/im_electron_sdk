@@ -41,13 +41,14 @@ import {
     SearchFriendsParams,
     TIMSetUserSigExpiredCallbackParam,
     TIMSetKickedOfflineCallbackParam,
-    TIMOnAddFriendCallback,
-    TIMOnDeleteFriendCallback,
-    TIMUpdateFriendProfileCallback,
-    TIMFriendAddRequestCallback,
-    TIMFriendApplicationListReadCallback,
-    TIMFriendBlackListAddedCallback,
-    TIMFriendBlackListDeletedCallback,
+    TIMOnAddFriendCallbackParams,
+    TIMOnDeleteFriendCallbackParams,
+    TIMUpdateFriendProfileCallbackParams,
+    TIMFriendAddRequestCallbackParams,
+    TIMFriendApplicationListDeletedCallbackParams,
+    TIMFriendApplicationListReadCallbackParams,
+    TIMFriendBlackListAddedCallbackParams,
+    TIMFriendBlackListDeletedCallbackParams,
     MsgSendMessageParams,
     MsgCancelSendParams,
     MsgFindMessagesParams,
@@ -67,11 +68,11 @@ import {
     MsgDownloadMergerMessageParams,
     MsgBatchSendParams,
     MsgSearchLocalMessagesParams,
-    TIMRecvNewMsgCallback,
-    TIMMsgReadedReceiptCallback,
-    TIMMsgRevokeCallback,
-    TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback,
+    TIMRecvNewMsgCallbackParams,
+    TIMMsgReadedReceiptCallbackParams,
+    TIMMsgRevokeCallbackParams,
+    TIMMsgElemUploadProgressCallbackParams,
+    TIMMsgUpdateCallbackParams,
     TIMSetConfigParam,
     TIMSetLogCallbackParam,
     callExperimentalAPIParam,
@@ -823,158 +824,126 @@ export default class TimRender {
     }
 
     TIMSetOnAddFriendCallback(
-        tIMOnAddFriendCallback: TIMOnAddFriendCallback,
-        user_data: string
+        params: TIMOnAddFriendCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetOnAddFriendCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+        TimRender.runtime.set(callback, params.callback);
 
         return this.call(formatedData);
     }
 
     TIMSetOnDeleteFriendCallback(
-        tIMOnDeleteFriendCallback: TIMOnDeleteFriendCallback,
-        user_data: string
+        params: TIMOnDeleteFriendCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetOnDeleteFriendCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMOnDeleteFriendCallback);
+        TimRender.runtime.set(callback, params.callback);
 
         return this.call(formatedData);
     }
 
     TIMSetUpdateFriendProfileCallback(
-        tIMUpdateFriendProfileCallback: TIMUpdateFriendProfileCallback,
-        user_data: string
+        params: TIMUpdateFriendProfileCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetUpdateFriendProfileCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMUpdateFriendProfileCallback);
+        TimRender.runtime.set(callback, params.callback);
 
         return this.call(formatedData);
     }
 
     TIMSetFriendAddRequestCallback(
-        tIMFriendAddRequestCallback: TIMFriendAddRequestCallback,
-        user_data: string
+        params: TIMFriendAddRequestCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendAddRequestCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMFriendAddRequestCallback);
+        TimRender.runtime.set(callback, params.callback);
 
         return this.call(formatedData);
     }
 
     TIMSetFriendApplicationListDeletedCallback(
-        tIMOnAddFriendCallback: TIMOnAddFriendCallback,
-        user_data: string
+        params: TIMFriendApplicationListDeletedCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendApplicationListDeletedCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMOnAddFriendCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetFriendApplicationListReadCallback(
-        tIMFriendApplicationListReadCallback: TIMFriendApplicationListReadCallback,
-        user_data: string
+        params: TIMFriendApplicationListReadCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendApplicationListReadCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMFriendApplicationListReadCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetFriendBlackListAddedCallback(
-        tIMFriendBlackListAddedCallback: TIMFriendBlackListAddedCallback,
-        user_data: string
+        params: TIMFriendBlackListAddedCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendBlackListAddedCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMFriendBlackListAddedCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetFriendBlackListDeletedCallback(
-        tIMFriendBlackListDeletedCallback: TIMFriendBlackListDeletedCallback,
-        user_data: string
+        params: TIMFriendBlackListDeletedCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendBlackListDeletedCallback",
             manager: Managers.friendshipManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMFriendBlackListDeletedCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
@@ -1185,21 +1154,17 @@ export default class TimRender {
     }
 
     TIMAddRecvNewMsgCallback(
-        tIMRecvNewMsgCallback: TIMRecvNewMsgCallback,
-        user_data: string
+        params: TIMRecvNewMsgCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMAddRecvNewMsgCallback",
             manager: Managers.advanceMessageManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMRecvNewMsgCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
@@ -1213,78 +1178,62 @@ export default class TimRender {
     }
 
     TIMSetMsgReadedReceiptCallback(
-        tIMMsgReadedReceiptCallback: TIMMsgReadedReceiptCallback,
-        user_data: string
+        params: TIMMsgReadedReceiptCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgReadedReceiptCallback",
             manager: Managers.advanceMessageManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMMsgReadedReceiptCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetMsgRevokeCallback(
-        tIMMsgRevokeCallback: TIMMsgRevokeCallback,
-        user_data: string
+        params: TIMMsgRevokeCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgRevokeCallback",
             manager: Managers.advanceMessageManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMMsgRevokeCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetMsgElemUploadProgressCallback(
-        tIMMsgElemUploadProgressCallback: TIMMsgElemUploadProgressCallback,
-        user_data: string
+        params: TIMMsgElemUploadProgressCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgElemUploadProgressCallback",
             manager: Managers.advanceMessageManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMMsgElemUploadProgressCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 
     TIMSetMsgUpdateCallback(
-        tIMMsgUpdateCallback: TIMMsgUpdateCallback,
-        user_data: string
+        params: TIMMsgUpdateCallbackParams
     ) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgUpdateCallback",
             manager: Managers.advanceMessageManager,
             callback,
-            param: {
-                callback,
-                user_data,
-            },
+            param: params,
         };
 
-        TimRender.runtime.set(callback, tIMMsgUpdateCallback);
+        TimRender.runtime.set(callback, params.callback);
         return this.call(formatedData);
     }
 }

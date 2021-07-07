@@ -22,11 +22,11 @@ import {
     MsgSearchLocalMessagesParams,
 } from "../interface";
 import {
-    TIMRecvNewMsgCallback,
-    TIMMsgReadedReceiptCallback,
-    TIMMsgRevokeCallback,
-    TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback,
+    TIMRecvNewMsgCallbackParams,
+    TIMMsgReadedReceiptCallbackParams,
+    TIMMsgRevokeCallbackParams,
+    TIMMsgElemUploadProgressCallbackParams,
+    TIMMsgUpdateCallbackParams,
 } from "../interface/advanceMessageInterface";
 import { nodeStrigToCString, jsFuncToFFIFun } from "../utils/utils";
 const ffi = require("ffi-napi");
@@ -34,7 +34,7 @@ const ref = require("ref-napi");
 
 class AdvanceMessageManage {
     private _sdkconfig: sdkconfig;
-    private tIMRecvNewMsgCallback: TIMRecvNewMsgCallback | undefined;
+    private tIMRecvNewMsgCallbackParams: TIMRecvNewMsgCallbackParams | undefined;
     private stringFormator = (str: string | undefined): Buffer =>
         str ? nodeStrigToCString(str) : Buffer.from("");
 
@@ -622,11 +622,11 @@ class AdvanceMessageManage {
 
     // callback begin
     TIMAddRecvNewMsgCallback(
-        tIMRecvNewMsgCallback: TIMRecvNewMsgCallback,
-        user_data: string
+        params: TIMRecvNewMsgCallbackParams
     ): void {
+        const { callback, user_data } = params;
         const c_user_data = this.stringFormator(user_data);
-        const callback = ffi.Callback(
+        const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
@@ -634,37 +634,37 @@ class AdvanceMessageManage {
                     ? json_msg_array.toString()
                     : "";
                 const user_data_safe = user_data ? user_data.toString() : "";
-                tIMRecvNewMsgCallback(json_msg_array_safe, user_data_safe);
+                callback(json_msg_array_safe, user_data_safe);
             }
         );
 
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(
-            callback,
+            c_callback,
             c_user_data
         );
-        this.tIMRecvNewMsgCallback = callback;
+        this.tIMRecvNewMsgCallbackParams = c_callback;
     }
 
     TIMRemoveRecvNewMsgCallback(): void {
         this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(
-            this.tIMRecvNewMsgCallback
+            this.tIMRecvNewMsgCallbackParams
         );
-        this.tIMRecvNewMsgCallback = undefined;
+        this.tIMRecvNewMsgCallbackParams = undefined;
     }
 
     TIMSetMsgReadedReceiptCallback(
-        tIMMsgReadedReceiptCallback: TIMMsgReadedReceiptCallback,
-        user_data: string
+        params: TIMMsgReadedReceiptCallbackParams
     ): void {
+        const { callback, user_data } = params;
         const c_user_data = this.stringFormator(user_data);
-        const callback = ffi.Callback(
+        const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (
                 json_msg_readed_receipt_array: Buffer,
                 user_data: Buffer
             ) {
-                tIMMsgReadedReceiptCallback(
+                callback(
                     json_msg_readed_receipt_array.toString(),
                     user_data.toString()
                 );
@@ -672,36 +672,36 @@ class AdvanceMessageManage {
         );
 
         this._sdkconfig.Imsdklib.TIMSetMsgReadedReceiptCallback(
-            callback,
+            c_callback,
             c_user_data
         );
     }
 
     TIMSetMsgRevokeCallback(
-        tIMMsgRevokeCallback: TIMMsgRevokeCallback,
-        user_data: string
+        params: TIMMsgRevokeCallbackParams
     ): void {
+        const { callback, user_data } = params;
         const c_user_data = this.stringFormator(user_data);
-        const callback = ffi.Callback(
+        const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_locator_array: Buffer, user_data: Buffer) {
-                tIMMsgRevokeCallback(
+                callback(
                     json_msg_locator_array.toString(),
                     user_data.toString()
                 );
             }
         );
 
-        this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(callback, c_user_data);
+        this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(c_callback, c_user_data);
     }
 
     TIMSetMsgElemUploadProgressCallback(
-        tIMMsgElemUploadProgressCallback: TIMMsgElemUploadProgressCallback,
-        user_data: string
+        params: TIMMsgElemUploadProgressCallbackParams
     ): void {
+        const { callback, user_data } = params;
         const c_user_data = this.stringFormator(user_data);
-        const callback = ffi.Callback(
+        const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (
@@ -711,7 +711,7 @@ class AdvanceMessageManage {
                 local_size: number,
                 user_data: Buffer
             ) {
-                tIMMsgElemUploadProgressCallback(
+                callback(
                     json_msg.toString(),
                     index,
                     cur_size,
@@ -722,28 +722,28 @@ class AdvanceMessageManage {
         );
 
         this._sdkconfig.Imsdklib.TIMSetMsgElemUploadProgressCallback(
-            callback,
+            c_callback,
             c_user_data
         );
     }
 
     TIMSetMsgUpdateCallback(
-        tIMMsgUpdateCallback: TIMMsgUpdateCallback,
-        user_data: string
+        params: TIMMsgUpdateCallbackParams
     ): void {
+        const { callback, user_data } = params;
         const c_user_data = this.stringFormator(user_data);
-        const callback = ffi.Callback(
+        const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                tIMMsgUpdateCallback(
+                callback(
                     json_msg_array.toString(),
                     user_data.toString()
                 );
             }
         );
 
-        this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(callback, c_user_data);
+        this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(c_callback, c_user_data);
     }
     // callback end
 }

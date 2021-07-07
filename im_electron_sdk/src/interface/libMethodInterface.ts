@@ -1,20 +1,20 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
 import {
-    TIMMsgElemUploadProgressCallback,
-    TIMMsgReadedReceiptCallback,
-    TIMMsgRevokeCallback,
-    TIMMsgUpdateCallback,
-    TIMRecvNewMsgCallback,
+    TIMMsgElemUploadProgressCallbackParams,
+    TIMMsgReadedReceiptCallbackParams,
+    TIMMsgRevokeCallbackParams,
+    TIMMsgUpdateCallbackParams,
+    TIMRecvNewMsgCallbackParams,
 } from "./advanceMessageInterface";
 import {
-    TIMFriendAddRequestCallback,
-    TIMFriendApplicationListDeletedCallback,
-    TIMFriendApplicationListReadCallback,
-    TIMFriendBlackListAddedCallback,
-    TIMFriendBlackListDeletedCallback,
-    TIMOnAddFriendCallback,
-    TIMOnDeleteFriendCallback,
-    TIMUpdateFriendProfileCallback,
+    TIMFriendAddRequestCallbackParams,
+    TIMFriendApplicationListDeletedCallbackParams,
+    TIMFriendApplicationListReadCallbackParams,
+    TIMFriendBlackListAddedCallbackParams,
+    TIMFriendBlackListDeletedCallbackParams,
+    TIMOnAddFriendCallbackParams,
+    TIMOnDeleteFriendCallbackParams,
+    TIMUpdateFriendProfileCallbackParams,
 } from "./friendshipInterface";
 import {
     CommonCallbackFun,
@@ -492,61 +492,61 @@ interface TIMMsgSearchLocalMessagesFun {
     ): number;
 }
 interface TIMAddRecvNewMsgCallbackFun {
-    (successCallback?: TIMRecvNewMsgCallback, userData?: Buffer): void;
+    (successCallback?: TIMRecvNewMsgCallbackParams, userData?: Buffer): void;
 }
 interface TIMRemoveRecvNewMsgCallbackFun {
-    (successCallback?: TIMRecvNewMsgCallback, userData?: Buffer): void;
+    (successCallback?: TIMRecvNewMsgCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetMsgReadedReceiptCallbackFun {
-    (successCallback?: TIMMsgReadedReceiptCallback, userData?: Buffer): void;
+    (successCallback?: TIMMsgReadedReceiptCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetMsgRevokeCallbackFun {
-    (successCallback?: TIMMsgRevokeCallback, userData?: Buffer): void;
+    (successCallback?: TIMMsgRevokeCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetMsgElemUploadProgressCallbackFun {
     (
-        successCallback?: TIMMsgElemUploadProgressCallback,
+        successCallback?: TIMMsgElemUploadProgressCallbackParams,
         userData?: Buffer
     ): void;
 }
 interface TIMSetOnAddFriendCallbackFun {
-    (successCallback?: TIMOnAddFriendCallback, userData?: Buffer): void;
+    (successCallback?: TIMOnAddFriendCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetOnDeleteFriendCallbackFun {
-    (successCallback?: TIMOnDeleteFriendCallback, userData?: Buffer): void;
+    (successCallback?: TIMOnDeleteFriendCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetUpdateFriendProfileCallbackFun {
-    (successCallback?: TIMUpdateFriendProfileCallback, userData?: Buffer): void;
+    (successCallback?: TIMUpdateFriendProfileCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetFriendAddRequestCallbackFun {
-    (successCallback?: TIMFriendAddRequestCallback, userData?: Buffer): void;
+    (successCallback?: TIMFriendAddRequestCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetFriendApplicationListDeletedCallbackFun {
     (
-        successCallback?: TIMFriendApplicationListDeletedCallback,
+        successCallback?: TIMFriendApplicationListDeletedCallbackParams,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendApplicationListReadCallbackFun {
     (
-        successCallback?: TIMFriendApplicationListReadCallback,
+        successCallback?: TIMFriendApplicationListReadCallbackParams,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendBlackListAddedCallbackFun {
     (
-        successCallback?: TIMFriendBlackListAddedCallback,
+        successCallback?: TIMFriendBlackListAddedCallbackParams,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendBlackListDeletedCallbackFun {
     (
-        successCallback?: TIMFriendBlackListDeletedCallback,
+        successCallback?: TIMFriendBlackListDeletedCallbackParams,
         userData?: Buffer
     ): void;
 }
 interface TIMSetMsgUpdateCallbackFun {
-    (successCallback?: TIMMsgUpdateCallback, userData?: Buffer): void;
+    (successCallback?: TIMMsgUpdateCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetLogCallbackLibFun {
     (callback: Buffer, userData?: Buffer): void;

@@ -150,67 +150,83 @@ const friendShipManager = {
         });
     },
     TIMSetOnAddFriendCallback: (callback) => {
-        return timRenderInstance.TIMSetOnAddFriendCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetOnAddFriendCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     },
     TIMSetOnDeleteFriendCallback: (callback) => {
-        return timRenderInstance.TIMSetOnDeleteFriendCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetOnDeleteFriendCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetUpdateFriendProfileCallback: (callback) => {
-        return timRenderInstance.TIMSetUpdateFriendProfileCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetUpdateFriendProfileCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetFriendAddRequestCallback: (callback) => {
-        return timRenderInstance.TIMSetFriendAddRequestCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetFriendAddRequestCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetFriendApplicationListDeletedCallback: (callback) => {
-        return timRenderInstance.TIMSetFriendApplicationListDeletedCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetFriendApplicationListDeletedCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetFriendApplicationListReadCallback: (callback) => {
-        return timRenderInstance.TIMSetFriendApplicationListReadCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetFriendApplicationListReadCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetFriendBlackListAddedCallback: (callback) => {
-        return timRenderInstance.TIMSetFriendBlackListAddedCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetFriendBlackListAddedCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     }, 
     TIMSetFriendBlackListDeletedCallback: (callback) => {
-        return timRenderInstance.TIMSetFriendBlackListDeletedCallback((...args) => {
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
+        return timRenderInstance.TIMSetFriendBlackListDeletedCallback({
+            callback: (...args) => {
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+            }
         })
     },
 }

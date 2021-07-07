@@ -202,58 +202,76 @@ const advanceMessageManager = {
         });
     },
     TIMAddRecvNewMsgCallback:(callback) => {
-        return timRenderInstance.TIMAddRecvNewMsgCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
-        },"TIMAddRecvNewMsgCallback");
+        return timRenderInstance.TIMAddRecvNewMsgCallback({
+            callback: (...args)=>{
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+                
+            },
+            user_data: "TIMAddRecvNewMsgCallback"
+        });
     },
     TIMRemoveRecvNewMsgCallback:(callback) => {
-        return timRenderInstance.TIMRemoveRecvNewMsgCallback((...args)=>{
-            // const [[data,user_data]] = args;
-            // callback(JSON.stringify({
-            //     data,user_data
-            // }))
-            console.log(args)
-        },"TIMRemoveRecvNewMsgCallback");
+        return timRenderInstance.TIMRemoveRecvNewMsgCallback({
+            callback: (...args)=>{
+                // const [[data,user_data]] = args;
+                // callback(JSON.stringify({
+                //     data,user_data
+                // }))
+                console.log(args)
+            },
+            user_data: "TIMRemoveRecvNewMsgCallback"
+        });
     },
     TIMSetMsgReadedReceiptCallback:(callback) => {
-        return timRenderInstance.TIMSetMsgReadedReceiptCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
-        },"TIMSetMsgReadedReceiptCallback");
+        return timRenderInstance.TIMSetMsgReadedReceiptCallback({
+            callback: (...args)=>{
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+                
+            },
+            user_data: "TIMSetMsgReadedReceiptCallback"
+        });
     },
     TIMSetMsgRevokeCallback:(callback) => {
-        return timRenderInstance.TIMSetMsgRevokeCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
-        },"TIMSetMsgRevokeCallback");
+        return timRenderInstance.TIMSetMsgRevokeCallback({
+            callback: (...args)=>{
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+                
+            },
+            user_data: "TIMSetMsgRevokeCallback"
+        });
     },
     TIMSetMsgElemUploadProgressCallback:(callback) => {
-        return timRenderInstance.TIMSetMsgElemUploadProgressCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
-        },"TIMSetMsgElemUploadProgressCallback");
+        return timRenderInstance.TIMSetMsgElemUploadProgressCallback({
+            callback: (...args)=>{
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+                
+            },
+            user_data: "TIMSetMsgElemUploadProgressCallback"
+        });
     },
     TIMSetMsgUpdateCallback:(callback) => {
-        return timRenderInstance.TIMSetMsgUpdateCallback((...args)=>{
-            const [[data,user_data]] = args;
-            callback(JSON.stringify({
-                data,user_data
-            }))
-            
-        },"TIMSetMsgUpdateCallback");
+        return timRenderInstance.TIMSetMsgUpdateCallback({
+            callback :(...args)=>{
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
+                
+            },
+            user_data: "TIMSetMsgUpdateCallback"
+        });
     }
 }
 
