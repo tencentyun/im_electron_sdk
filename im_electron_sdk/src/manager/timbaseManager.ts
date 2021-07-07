@@ -6,6 +6,7 @@ import {
     loginParam,
     logoutParam,
     sdkconfig,
+    TIMProfileGetUserProfileListParam,
     TIMSetConfigParam,
     TIMSetKickedOfflineCallbackParam,
     TIMSetLogCallbackParam,
@@ -199,5 +200,20 @@ class TimbaseManager {
             user_data
         );
     }
+    TIMProfileGetUserProfileList(param: TIMProfileGetUserProfileListParam) {
+        const callback = jsFuncToFFIFun(param.callback);
+        const user_data = param.user_data
+            ? nodeStrigToCString(param.user_data)
+            : Buffer.from("");
+        const json_param = nodeStrigToCString(
+            JSON.stringify(param.json_get_user_profile_list_param)
+        );
+        this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
+            json_param,
+            callback,
+            user_data
+        );
+    }
+    TIMProfileModifySelfUserProfile() {}
 }
 export default TimbaseManager;

@@ -115,6 +115,15 @@ interface callExperimentalAPIParam {
     callback: CommonCallbackFun;
     user_data: string;
 }
+interface jsonGetUserProfileListParam {
+    friendship_getprofilelist_param_identifier_array: Array<string>;
+    friendship_getprofilelist_param_force_update: boolean;
+}
+interface TIMProfileGetUserProfileListParam {
+    json_get_user_profile_list_param: jsonGetUserProfileListParam;
+    user_data: string;
+    callback: CommonCallbackFun;
+}
 export {
     initConfig,
     sdkconfig,
@@ -130,4 +139,5 @@ export {
     TIMSetLogCallbackParam,
     TIMSetConfigParam,
     callExperimentalAPIParam,
+    TIMProfileGetUserProfileListParam,
 };

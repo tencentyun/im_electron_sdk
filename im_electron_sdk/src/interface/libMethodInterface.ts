@@ -557,6 +557,9 @@ interface TIMSetConfigLibFun {
 interface callExperimentalAPIFun {
     (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
 }
+interface TIMProfileGetUserProfileListFun {
+    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+}
 // ==========Interface For friendship End===========
 
 interface libMethods {
@@ -575,6 +578,7 @@ interface libMethods {
     TIMSetLogCallback: TIMSetLogCallbackLibFun;
     TIMSetConfig: TIMSetConfigLibFun;
     callExperimentalAPI: callExperimentalAPIFun;
+    TIMProfileGetUserProfileList: TIMProfileGetUserProfileListFun;
     // timbase end
 
     // conversation start
