@@ -31,6 +31,10 @@ const Imsdklib = ffi.Library(ffiPath, {
         ref.types.int,
         [ref.types.CString, "pointer", ref.types.CString],
     ],
+    TIMProfileModifySelfUserProfile: [
+        ref.types.int,
+        [ref.types.CString, "pointer", ref.types.CString],
+    ],
     TIMGetSDKVersion: [ref.types.CString, []],
     TIMInit: [ref.types.int, [ref.types.uint64, ref.types.CString]],
     TIMLogin: [

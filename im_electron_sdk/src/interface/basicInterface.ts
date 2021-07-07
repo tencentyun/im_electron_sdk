@@ -1,5 +1,7 @@
+import { TIMProfileAddPermission } from "../../dist/dist/enum/index.d";
 import {
     TIMErrCode,
+    TIMGenderType,
     TIMGroupGetInfoFlag,
     TIMInternalOperation,
     TIMLogLevel,
@@ -124,6 +126,28 @@ interface TIMProfileGetUserProfileListParam {
     user_data: string;
     callback: CommonCallbackFun;
 }
+interface UserProfileCustemStringInfo {
+    user_profile_custom_string_info_key: string;
+    user_profile_custom_string_info_value: string;
+}
+interface UserProfileItem {
+    user_profile_item_nick_name?: string;
+    user_profile_item_gender?: TIMGenderType;
+    user_profile_item_face_url?: string;
+    user_profile_item_self_signature?: string;
+    user_profile_item_add_permission?: TIMProfileAddPermission;
+    user_profile_item_location?: number;
+    user_profile_item_language?: number;
+    user_profile_item_birthday?: number;
+    user_profile_item_level?: number;
+    user_profile_item_role?: number;
+    user_profile_item_custom_string_array?: Array<UserProfileCustemStringInfo>;
+}
+interface TIMProfileModifySelfUserProfileParam {
+    json_modify_self_user_profile_param: UserProfileItem;
+    user_data: string;
+    callback: CommonCallbackFun;
+}
 export {
     initConfig,
     sdkconfig,
@@ -140,4 +164,5 @@ export {
     TIMSetConfigParam,
     callExperimentalAPIParam,
     TIMProfileGetUserProfileListParam,
+    TIMProfileModifySelfUserProfileParam,
 };
