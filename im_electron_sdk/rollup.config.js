@@ -1,10 +1,12 @@
+import dts from "rollup-plugin-dts";
+import multiInput from 'rollup-plugin-multi-input';
 const path = require('path');
 // const babel = require('rollup-plugin-babel');
 const typescript = require('rollup-plugin-typescript2')
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const uglify = require('rollup-plugin-uglify').uglify;
 const pkg = require('./package.json');
-const tds = require('rollup-plugin-dts')
+
 const extensions = ['.js', '.ts'];
 
 const resolve = function (...args) {
@@ -62,6 +64,18 @@ function getEnvConfigData(format,isUglify){
           extensions,
           modulesOnly: true,
         }),
+      ],
+    },
+    {
+      input: ["./dist/*/*.d.ts"],
+      output: {
+        format: "umd",
+        dir: "./dist",
+        name: "types"
+      },
+      plugins: [
+        multiInput(),
+        dts()
       ],
     }
   ]

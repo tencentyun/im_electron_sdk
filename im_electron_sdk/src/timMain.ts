@@ -90,7 +90,7 @@ class Callback {
 class TimMain {
     static isLisened = false;
     constructor(config: initConfig) {
-        const tim = new TIM({
+        const tim: TIM = new TIM({
             sdkappid: config.sdkappid,
         });
 

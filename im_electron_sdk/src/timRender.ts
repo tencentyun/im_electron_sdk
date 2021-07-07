@@ -74,6 +74,7 @@ import {
     TIMMsgUpdateCallback,
     TIMSetConfigParam,
     TIMSetLogCallbackParam,
+    callExperimentalAPIParam,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -332,6 +333,14 @@ export default class TimRender {
     TIMGetLoginUserID(param: getLoginUserIDParam) {
         const formatedData = {
             method: "TIMGetLoginUserID",
+            manager: Managers.timBaseManager,
+            param: param,
+        };
+        return this.call(formatedData);
+    }
+    callExperimentalAPI(param: callExperimentalAPIParam) {
+        const formatedData = {
+            method: "callExperimentalAPI",
             manager: Managers.timBaseManager,
             param: param,
         };

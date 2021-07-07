@@ -1,4 +1,8 @@
-import { TIMGroupGetInfoFlag, TIMLogLevel } from "../enum";
+import {
+    TIMGroupGetInfoFlag,
+    TIMInternalOperation,
+    TIMLogLevel,
+} from "../enum";
 import { libMethods } from "./libMethodInterface";
 
 interface CommonCallbackFun {
@@ -87,8 +91,25 @@ interface JSONCongfig {
     set_config_socks5_proxy_info?: Socks5ProxyInfo;
     set_config_is_only_local_dns_source?: boolean;
 }
+interface ServerAddress {
+    server_address_ip: string;
+    server_address_port: number;
+}
+interface PrivatizationInfo {
+    server_address_array: Array<ServerAddress>;
+    server_public_key: string;
+}
+interface callExperimentalAPIJsonParam {
+    request_internal_operation: TIMInternalOperation;
+    request_set_privatization_info_param: PrivatizationInfo;
+}
 interface TIMSetConfigParam {
     json_config: JSONCongfig;
+    callback: CommonCallbackFun;
+    user_data: string;
+}
+interface callExperimentalAPIParam {
+    json_param: callExperimentalAPIJsonParam;
     callback: CommonCallbackFun;
     user_data: string;
 }
@@ -106,4 +127,5 @@ export {
     TIMLogCallbackFun,
     TIMSetLogCallbackParam,
     TIMSetConfigParam,
+    callExperimentalAPIParam,
 };

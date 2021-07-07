@@ -1,4 +1,5 @@
 import {
+    callExperimentalAPIParam,
     CommonCallbackFun,
     commonResponse,
     getLoginUserIDParam,
@@ -185,6 +186,18 @@ class TimbaseManager {
             JSON.stringify(param.json_config)
         );
         this._sdkconfig.Imsdklib.TIMSetConfig(json_config, callback, user_data);
+    }
+    callExperimentalAPI(param: callExperimentalAPIParam) {
+        const callback = jsFuncToFFIFun(param.callback);
+        const user_data = param.user_data
+            ? nodeStrigToCString(param.user_data)
+            : Buffer.from("");
+        const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
+        this._sdkconfig.Imsdklib.callExperimentalAPI(
+            json_param,
+            callback,
+            user_data
+        );
     }
 }
 export default TimbaseManager;
