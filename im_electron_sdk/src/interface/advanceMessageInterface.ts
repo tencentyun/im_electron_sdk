@@ -181,17 +181,37 @@ interface Json_get_msg_param {
     msg_getmsglist_param_time_begin?: number;
     msg_getmsglist_param_time_period?: number;
 }
+interface TIMRecvNewMsgCallbackParams {
+    callback: TIMRecvNewMsgCallbackFunc;
+    user_data?: string;
+}
+interface TIMMsgReadedReceiptCallbackParams {
+    callback: TIMMsgReadedReceiptCallbackFunc;
+    user_data?: string;
+}
+interface TIMMsgRevokeCallbackParams {
+    callback: TIMMsgRevokeCallbackFunc;
+    user_data?: string;
+}
+interface TIMMsgElemUploadProgressCallbackParams {
+    callback: TIMMsgElemUploadProgressCallbackFunc;
+    user_data?: string;
+}
+interface TIMMsgUpdateCallbackParams {
+    callback: TIMMsgUpdateCallbackFunc;
+    user_data?: string;
+}
 
-interface TIMRecvNewMsgCallback {
+interface TIMRecvNewMsgCallbackFunc {
     (json_msg_array: string, user_data: string): void;
 }
-interface TIMMsgReadedReceiptCallback {
+interface TIMMsgReadedReceiptCallbackFunc {
     (json_msg_readed_receipt_array: string, user_data: string): void;
 }
-interface TIMMsgRevokeCallback {
+interface TIMMsgRevokeCallbackFunc {
     (json_msg_locator_array: string, user_data: string): void;
 }
-interface TIMMsgElemUploadProgressCallback {
+interface TIMMsgElemUploadProgressCallbackFunc {
     (
         json_msg: string,
         index: number,
@@ -200,7 +220,7 @@ interface TIMMsgElemUploadProgressCallback {
         user_data: string
     ): void;
 }
-interface TIMMsgUpdateCallback {
+interface TIMMsgUpdateCallbackFunc {
     (json_msg_array: string, user_data: string): void;
 }
 
@@ -226,9 +246,14 @@ export {
     MsgDownloadMergerMessageParams,
     MsgBatchSendParams,
     MsgSearchLocalMessagesParams,
-    TIMRecvNewMsgCallback,
-    TIMMsgReadedReceiptCallback,
-    TIMMsgRevokeCallback,
-    TIMMsgElemUploadProgressCallback,
-    TIMMsgUpdateCallback,
+    TIMRecvNewMsgCallbackFunc,
+    TIMMsgReadedReceiptCallbackFunc,
+    TIMMsgRevokeCallbackFunc,
+    TIMMsgElemUploadProgressCallbackFunc,
+    TIMMsgUpdateCallbackFunc,
+    TIMRecvNewMsgCallbackParams,
+    TIMMsgReadedReceiptCallbackParams,
+    TIMMsgRevokeCallbackParams,
+    TIMMsgElemUploadProgressCallbackParams,
+    TIMMsgUpdateCallbackParams
 };

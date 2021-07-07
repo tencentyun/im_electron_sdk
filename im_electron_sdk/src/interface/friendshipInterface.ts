@@ -1,4 +1,4 @@
-import { CommonCallbackFun } from "./basicInterface";
+import { CommonCallbackFuncFun } from "./basicInterface";
 import {
     TIMFriendType,
     TIMFriendResponseAction,
@@ -130,29 +130,60 @@ interface FriendProfileCustemStringInfo {
     friend_profile_custom_string_info_key?: string;
     friend_profile_custom_string_info_value?: string;
 }
-
-interface TIMOnAddFriendCallback {
+interface TIMOnAddFriendCallbackParams {
+    callback: TIMOnAddFriendCallbackFunc;
+    user_data?: string;
+}
+interface TIMOnDeleteFriendCallbackParams {
+    callback: TIMOnDeleteFriendCallbackFunc;
+    user_data?: string;
+}
+interface TIMUpdateFriendProfileCallbackParams {
+    callback: TIMUpdateFriendProfileCallbackFunc;
+    user_data?: string;
+}
+interface TIMFriendAddRequestCallbackParams {
+    callback: TIMFriendAddRequestCallbackFunc;
+    user_data?: string;
+}
+interface TIMFriendApplicationListDeletedCallbackParams {
+    callback: TIMFriendApplicationListDeletedCallbackFunc;
+    user_data?: string;
+}
+interface TIMFriendApplicationListReadCallbackParams {
+    callback: TIMFriendApplicationListReadCallbackFunc;
+    user_data?: string;
+}
+interface TIMFriendBlackListAddedCallbackParams {
+    callback: TIMFriendBlackListAddedCallbackFunc;
+    user_data?: string;
+}
+interface TIMFriendBlackListDeletedCallbackParams {
+    callback: TIMFriendBlackListDeletedCallbackFunc;
+    user_data?: string;
+}
+interface TIMOnAddFriendCallbackFunc {
     (json_identifier_array: string, user_data: string): void;
 }
-interface TIMOnDeleteFriendCallback {
+interface TIMOnDeleteFriendCallbackFunc {
     (json_identifier_array: string, user_data: string): void;
 }
-interface TIMUpdateFriendProfileCallback {
+interface TIMUpdateFriendProfileCallbackFunc {
     (json_friend_profile_update_array: string, user_data: string): void;
 }
-interface TIMFriendAddRequestCallback {
+interface TIMFriendAddRequestCallbackFunc {
     (json_friend_add_request_pendency_array: string, user_data: string): void;
 }
-interface TIMFriendApplicationListDeletedCallback {
+interface TIMFriendApplicationListDeletedCallbackFunc {
     (json_identifier_array: string, user_data: string): void;
 }
-interface TIMFriendApplicationListReadCallback {
+interface TIMFriendApplicationListReadCallbackFunc {
     (user_data: string): void;
 }
-interface TIMFriendBlackListAddedCallback {
+interface TIMFriendBlackListAddedCallbackFunc {
     (json_friend_black_added_array: string, user_data: string): void;
 }
-interface TIMFriendBlackListDeletedCallback {
+interface TIMFriendBlackListDeletedCallbackFunc {
     (json_identifier_array: string, user_data: string): void;
 }
 
@@ -172,12 +203,20 @@ export {
     DeletePendencyParams,
     ReportPendencyReadedParams,
     SearchFriendsParams,
-    TIMOnAddFriendCallback,
-    TIMOnDeleteFriendCallback,
-    TIMUpdateFriendProfileCallback,
-    TIMFriendAddRequestCallback,
-    TIMFriendApplicationListDeletedCallback,
-    TIMFriendApplicationListReadCallback,
-    TIMFriendBlackListAddedCallback,
-    TIMFriendBlackListDeletedCallback,
+    TIMOnAddFriendCallbackFunc,
+    TIMOnDeleteFriendCallbackFunc,
+    TIMUpdateFriendProfileCallbackFunc,
+    TIMFriendAddRequestCallbackFunc,
+    TIMFriendApplicationListDeletedCallbackFunc,
+    TIMFriendApplicationListReadCallbackFunc,
+    TIMFriendBlackListAddedCallbackFunc,
+    TIMFriendBlackListDeletedCallbackFunc,
+    TIMOnAddFriendCallbackParams,
+    TIMOnDeleteFriendCallbackParams,
+    TIMUpdateFriendProfileCallbackParams,
+    TIMFriendAddRequestCallbackParams,
+    TIMFriendApplicationListDeletedCallbackParams,
+    TIMFriendApplicationListReadCallbackParams,
+    TIMFriendBlackListAddedCallbackParams,
+    TIMFriendBlackListDeletedCallbackParams
 };
