@@ -18,11 +18,20 @@ const Imsdklib = ffi.Library(ffiPath, {
         ref.types.void,
         ["pointer", ref.types.CString],
     ],
-    TIMSetLogCallback: [
-      ref.types.void,
-      ["pointer", ref.types.CString],
-    ],
+    TIMSetLogCallback: [ref.types.void, ["pointer", ref.types.CString]],
     TIMSetConfig: [
+        ref.types.int,
+        [ref.types.CString, "pointer", ref.types.CString],
+    ],
+    callExperimentalAPI: [
+        ref.types.int,
+        [ref.types.CString, "pointer", ref.types.CString],
+    ],
+    TIMProfileGetUserProfileList: [
+        ref.types.int,
+        [ref.types.CString, "pointer", ref.types.CString],
+    ],
+    TIMProfileModifySelfUserProfile: [
         ref.types.int,
         [ref.types.CString, "pointer", ref.types.CString],
     ],

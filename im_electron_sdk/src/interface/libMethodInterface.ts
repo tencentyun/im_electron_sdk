@@ -552,7 +552,13 @@ interface TIMSetLogCallbackLibFun {
     (callback: Buffer, userData?: Buffer): void;
 }
 interface TIMSetConfigLibFun {
-    (json_config: Buffer, callback: Buffer,user_data: Buffer): number;
+    (json_config: Buffer, callback: Buffer, user_data: Buffer): number;
+}
+interface callExperimentalAPIFun {
+    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+}
+interface TIMProfileGetUserProfileListFun {
+    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
 }
 // ==========Interface For friendship End===========
 
@@ -569,8 +575,10 @@ interface libMethods {
     TIMSetNetworkStatusListenerCallback: TIMSetNetworkStatusListenerCallbackFun;
     TIMSetKickedOfflineCallback: TIMSetKickedOfflineCallbackFun;
     TIMSetUserSigExpiredCallback: TIMSetUserSigExpiredCallbackFun;
-    TIMSetLogCallback:TIMSetLogCallbackLibFun,
-    TIMSetConfig: TIMSetConfigLibFun
+    TIMSetLogCallback: TIMSetLogCallbackLibFun;
+    TIMSetConfig: TIMSetConfigLibFun;
+    callExperimentalAPI: callExperimentalAPIFun;
+    TIMProfileGetUserProfileList: TIMProfileGetUserProfileListFun;
     // timbase end
 
     // conversation start

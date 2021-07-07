@@ -1,10 +1,13 @@
 import {
+    callExperimentalAPIParam,
     CommonCallbackFun,
     commonResponse,
     getLoginUserIDParam,
     loginParam,
     logoutParam,
     sdkconfig,
+    TIMProfileGetUserProfileListParam,
+    TIMProfileModifySelfUserProfileParam,
     TIMSetConfigParam,
     TIMSetKickedOfflineCallbackParam,
     TIMSetLogCallbackParam,
@@ -32,10 +35,10 @@ class TimbaseManager {
      */
     TIMInit(): number {
         const sdkconfig: string = JSON.stringify({
-            sdk_config_log_file_path: path.resolve(__dirname, "../sdk-log"),
+            sdk_config_log_file_path: path.resolve(process.cwd(), "./sdk-log"),
             sdk_config_config_file_path: path.resolve(
-                __dirname,
-                "../sdk-config"
+                process.cwd(),
+                "./sdk-config"
             ),
         });
         return this._sdkconfig.Imsdklib.TIMInit(
@@ -168,24 +171,65 @@ class TimbaseManager {
             userData
         );
     }
-    TIMSetLogCallback(param:TIMSetLogCallbackParam) {
+    TIMSetLogCallback(param: TIMSetLogCallbackParam) {
         const callback = transferTIMLogCallbackFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
 
-        this._sdkconfig.Imsdklib.TIMSetLogCallback(
-            callback,
-            user_data
-        );
+        this._sdkconfig.Imsdklib.TIMSetLogCallback(callback, user_data);
     }
-    TIMSetConfig(param:TIMSetConfigParam) {
+    TIMSetConfig(param: TIMSetConfigParam) {
         const callback = jsFuncToFFIFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
-        const json_config = nodeStrigToCString(JSON.stringify(param.json_config))
-        this._sdkconfig.Imsdklib.TIMSetConfig(json_config,callback,user_data)
+        const json_config = nodeStrigToCString(
+            JSON.stringify(param.json_config)
+        );
+        this._sdkconfig.Imsdklib.TIMSetConfig(json_config, callback, user_data);
+    }
+    callExperimentalAPI(param: callExperimentalAPIParam) {
+        const callback = jsFuncToFFIFun(param.callback);
+        const user_data = param.user_data
+            ? nodeStrigToCString(param.user_data)
+            : Buffer.from("");
+        const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
+        this._sdkconfig.Imsdklib.callExperimentalAPI(
+            json_param,
+            callback,
+            user_data
+        );
+    }
+    TIMProfileGetUserProfileList(param: TIMProfileGetUserProfileListParam) {
+        const callback = jsFuncToFFIFun(param.callback);
+        const user_data = param.user_data
+            ? nodeStrigToCString(param.user_data)
+            : Buffer.from("");
+        const json_param = nodeStrigToCString(
+            JSON.stringify(param.json_get_user_profile_list_param)
+        );
+        this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
+            json_param,
+            callback,
+            user_data
+        );
+    }
+    TIMProfileModifySelfUserProfile(
+        param: TIMProfileModifySelfUserProfileParam
+    ) {
+        const callback = jsFuncToFFIFun(param.callback);
+        const user_data = param.user_data
+            ? nodeStrigToCString(param.user_data)
+            : Buffer.from("");
+        const json_param = nodeStrigToCString(
+            JSON.stringify(param.json_modify_self_user_profile_param)
+        );
+        this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
+            json_param,
+            callback,
+            user_data
+        );
     }
 }
 export default TimbaseManager;

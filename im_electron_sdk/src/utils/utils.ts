@@ -1,3 +1,4 @@
+import { ConsoleLogger } from "typedoc/dist/lib/utils";
 import {
     CommonCallbackFun,
     GroupAttributeCallbackFun,
@@ -17,9 +18,18 @@ const ref = require("ref-napi");
 const ffi = require("ffi-napi");
 
 const ffipaths: any = {
-    linux: path.resolve(__dirname, "../lib/linux/lib/libImSDK.so"),
-    x64: path.resolve(__dirname, "../lib/windows/lib/Win64/ImSDK.dll"),
-    ia32: path.resolve(__dirname, "../lib/windows/lib/Win32/ImSDK.dll"),
+    linux: path.resolve(
+        process.cwd(),
+        "./node_modules/im_electron_sdk/lib/linux/lib/libImSDK.so"
+    ),
+    x64: path.resolve(
+        process.cwd(),
+        "./node_modules/im_electron_sdk/lib/windows/lib/Win64/ImSDK.dll"
+    ),
+    ia32: path.resolve(
+        process.cwd(),
+        "./node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
+    ),
 };
 function getFFIPath() {
     let res = "";
@@ -33,6 +43,7 @@ function getFFIPath() {
             res = ffipaths[cpu];
             break;
     }
+    console.log("路径", res);
     if (!res) {
         throw new Error(`tencent im sdk not support ${platform} os now.`);
         return;
@@ -46,24 +57,14 @@ function nodeStrigToCString(str: string): Buffer {
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
     const callback = ffi.Callback(
         ref.types.void,
-        [
-            ref.types.int32,
-            ref.types.CString,
-            ref.types.CString,
-            ref.types.CString,
-        ],
+        [ref.types.int32, "string", "string", "string"],
         function (
             code: number,
-            desc: Buffer,
-            json_param: Buffer,
-            user_data: Buffer
+            desc: string,
+            json_param: string,
+            user_data: string
         ) {
-            fun(
-                code,
-                desc.toString(),
-                json_param.toString(),
-                user_data?.toString()
-            );
+            fun(code, desc, json_param, user_data);
         }
     );
     return callback;
@@ -165,20 +166,12 @@ function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
     );
     return callback;
 }
-function transferTIMLogCallbackFun(fun:TIMLogCallbackFun){
+function transferTIMLogCallbackFun(fun: TIMLogCallbackFun) {
     const callback = ffi.Callback(
         ref.types.void,
         [ref.types.int, ref.types.CString, ref.types.CString],
-        function (
-            level: number,
-            log: Buffer,
-            user_data: Buffer
-        ) {
-            fun(
-                level,
-                log.toString(),
-                user_data.toString()
-            );
+        function (level: number, log: Buffer, user_data: Buffer) {
+            fun(level, log.toString(), user_data.toString());
         }
     );
     return callback;
@@ -194,5 +187,5 @@ export {
     jsFunToFFITIMSetUserSigExpiredCallback,
     transformGroupTipFun,
     transformGroupAttributeFun,
-    transferTIMLogCallbackFun
+    transferTIMLogCallbackFun,
 };

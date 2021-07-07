@@ -1,5 +1,8 @@
+import dts from "rollup-plugin-dts";
+import multiInput from 'rollup-plugin-multi-input';
 const path = require('path');
-const babel = require('rollup-plugin-babel');
+// const babel = require('rollup-plugin-babel');
+const typescript = require('rollup-plugin-typescript2')
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const uglify = require('rollup-plugin-uglify').uglify;
 const pkg = require('./package.json');
@@ -18,29 +21,14 @@ function getEnvConfigData(format,isUglify){
         format: format,
         file: resolve(pkg.main),
         name: 'rem',
-        globals: {
-          "@babel/runtime/regenerator": "regeneratorRuntime"
-        }
       },
       plugins: [
+        typescript(),
         isUglify ? uglify() : null,
         nodeResolve({
           extensions,
           modulesOnly: true,
         }),
-        babel({
-          exclude: 'node_modules/**',
-          extensions,
-          runtimeHelpers: true,
-          plugins: [
-            "@babel/plugin-transform-async-to-generator",
-            "@babel/plugin-transform-regenerator",
-            ["@babel/plugin-transform-runtime", {
-              "helpers": true,
-              "regenerator": true
-            }]
-          ],
-        })
         
       ],
     },
@@ -50,29 +38,44 @@ function getEnvConfigData(format,isUglify){
         format: format,
         file: resolve(pkg.browser),
         name: 'rem',
-        globals: {
-          "@babel/runtime/regenerator": "regeneratorRuntime"
-        }
+        
       },
       plugins: [
+        typescript(),
         isUglify ? uglify() : null,
         nodeResolve({
           extensions,
           modulesOnly: true,
         }),
-        babel({
-          exclude: 'node_modules/**',
+      ],
+    },
+    {
+      input: resolve('./src/tim.ts'),
+      output: {
+        format: format,
+        file: resolve('./dist/tim.js'),
+        name: 'rem',
+        
+      },
+      plugins: [
+        typescript(),
+        isUglify ? uglify() : null,
+        nodeResolve({
           extensions,
-          runtimeHelpers: true,
-          plugins: [
-            "@babel/plugin-transform-async-to-generator",
-            "@babel/plugin-transform-regenerator",
-            ["@babel/plugin-transform-runtime", {
-              "helpers": true,
-              "regenerator": true
-            }]
-          ],
-        })
+          modulesOnly: true,
+        }),
+      ],
+    },
+    {
+      input: ["./dist/*/*.d.ts"],
+      output: {
+        format: "umd",
+        dir: "./dist",
+        name: "types"
+      },
+      plugins: [
+        multiInput(),
+        dts()
       ],
     }
   ]

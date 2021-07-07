@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build-w": "electron-builder -w",
+    "build-l": "electron-builder --linux",
+    "pack": "electron-builder --dir"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
@@ -21,15 +24,38 @@
       "git add"
     ]
   },
+  "build": {
+    "appId": "electron-sdk",
+    "mac": {},
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "extraFiles": [
+        {
+          "from": "./node_modules/im_electron_sdk/lib/",
+          "to": "./node_modules/im_electron_sdk/lib/",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ]
+    }
+  },
   "author": "xingchenhe@tencent.com",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^13.1.4",
     "electron-builder": "^22.11.7",
     "electron-devtools-installer": "^3.2.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.0.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "electron": "^13.1.6"
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",

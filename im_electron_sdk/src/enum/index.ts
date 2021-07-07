@@ -916,3 +916,13 @@ export enum TIMFriendshipRelationType {
     kTIMFriendshipRelationType_InOtherFriendList = 0x01 << 2, // 单向好友：对方不是我的好友，我是对方的好友
     kTIMFriendshipRelationType_BothFriend = 0x01 << 2, // 双向好友
 }
+
+export enum TIMInternalOperation {
+    kTIMInternalOperationSSOData = "internal_operation_sso_data",
+    kTIMInternalOperationUserId2TinyId = "internal_operation_userid_tinyid",
+    kTIMInternalOperationTinyId2UserId = "internal_operation_tinyid_userid",
+    kTIMInternalOperationSetEnv = "internal_operation_set_env",
+    kTIMInternalOperationSetMaxRetryCount = "internal_operation_set_max_retry_count",
+    kTIMInternalOperationSetPrivatizationInfo = "internal_operation_set_privatization_info",
+    kTIMInternalOperationInitLocalStorage = "internal_operation_init_local_storage",
+}
