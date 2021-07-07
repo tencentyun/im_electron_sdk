@@ -630,10 +630,11 @@ class AdvanceMessageManage {
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                tIMRecvNewMsgCallback(
-                    json_msg_array.toString(),
-                    user_data.toString()
-                );
+                const json_msg_array_safe = json_msg_array
+                    ? json_msg_array.toString()
+                    : "";
+                const user_data_safe = user_data ? user_data.toString() : "";
+                tIMRecvNewMsgCallback(json_msg_array_safe, user_data_safe);
             }
         );
 

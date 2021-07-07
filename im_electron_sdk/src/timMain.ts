@@ -65,8 +65,18 @@ class Callback {
                     };
                 }
 
+                const isFriendShipOrAdvanceMessageManager =
+                    manager === "friendshipManager" ||
+                    manager === "advanceMessageManager";
+
                 try {
-                    responseData = await timManager[method](param);
+                    if (isFriendShipOrAdvanceMessageManager) {
+                        responseData = await timManager[method](
+                            ...Object.values(param || {})
+                        );
+                    } else {
+                        responseData = await timManager[method](param);
+                    }
                 } catch (err) {
                     responseData = err;
                 }
