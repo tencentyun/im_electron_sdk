@@ -1,10 +1,10 @@
-import { TIMProfileAddPermission } from "../../dist/dist/enum/index.d";
 import {
     TIMErrCode,
     TIMGenderType,
     TIMGroupGetInfoFlag,
     TIMInternalOperation,
     TIMLogLevel,
+    TIMProfileAddPermission,
     TIMResult,
 } from "../enum";
 import { libMethods } from "./libMethodInterface";
