@@ -1,5 +1,4 @@
 import { TIMConvType, TIMElemType } from "../enum";
-import { CommonCallbackFun } from "./basicInterface";
 
 interface convCreate {
     convId: string;
