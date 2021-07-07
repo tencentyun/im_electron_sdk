@@ -1,7 +1,9 @@
 import {
+    TIMErrCode,
     TIMGroupGetInfoFlag,
     TIMInternalOperation,
     TIMLogLevel,
+    TIMResult,
 } from "../enum";
 import { libMethods } from "./libMethodInterface";
 
@@ -19,7 +21,7 @@ interface sdkconfig {
     Imsdklib: libMethods;
 }
 interface commonResponse {
-    code: number;
+    code: TIMResult | TIMErrCode;
     desc?: string;
     json_param?: string;
     user_data?: string;
