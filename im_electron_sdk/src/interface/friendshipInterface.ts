@@ -1,4 +1,3 @@
-import { CommonCallbackFuncFun } from "./basicInterface";
 import {
     TIMFriendType,
     TIMFriendResponseAction,

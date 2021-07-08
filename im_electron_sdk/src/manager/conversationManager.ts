@@ -9,7 +9,6 @@ import {
     convPinConversation,
     convGetTotalUnreadMessageCount,
     setConvEventCallback,
-    convTotalUnreadMessageCountChangedCallback,
     convTotalUnreadMessageCountChangedCallbackParam,
 } from "../interface/conversationInterface";
 import {
@@ -82,7 +81,7 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
-    TIMConvGetConvList(param: getConvList): Promise<commonResponse> {
+    async TIMConvGetConvList(param: getConvList): Promise<commonResponse> {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from("");
@@ -214,16 +213,16 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
-    TIMSetConvEventCallback(param: setConvEventCallback): void {
+    async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
         const callback = jsFuncToFFIConvEventCallback(param.callback);
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
         this._sdkconfig.Imsdklib.TIMSetConvEventCallback(callback, userData);
     }
-    TIMSetConvTotalUnreadMessageCountChangedCallback(
+    async TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam
-    ): void {
+    ): Promise<any> {
         const callback =
             jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
                 param.callback
