@@ -582,7 +582,7 @@ class GroupManager {
         });
     }
 
-    TIMSetGroupTipsEventCallback(params: GroupTipsCallbackParams): void {
+    async TIMSetGroupTipsEventCallback(params: GroupTipsCallbackParams) {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
 
@@ -592,9 +592,9 @@ class GroupManager {
         );
     }
 
-    TIMSetGroupAttributeChangedCallback(
+    async TIMSetGroupAttributeChangedCallback(
         params: GroupAttributeCallbackParams
-    ): void {
+    ) {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
 

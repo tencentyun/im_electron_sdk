@@ -5,7 +5,7 @@ const TimBaseManager = {
     return timRenderInstance.TIMGroupCreate({
       params: {
         create_group_param_group_name: "test-avchatRoom",
-        create_group_param_group_type: 0,
+        create_group_param_group_type: 4,
         create_group_param_group_member_array: [{
           identifer: "6666",
           nameCard: "member1"
