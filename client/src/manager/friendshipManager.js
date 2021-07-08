@@ -10,7 +10,7 @@ const friendShipManager = {
     TIMFriendshipAddFriend: () => {
         return timRenderInstance.TIMFriendshipAddFriend({ 
             params: {
-                friendship_add_friend_param_identifier: "940928",
+                friendship_add_friend_param_identifier: "lexuslin3",
                 friendship_add_friend_param_friend_type: 1,
                 friendship_add_friend_param_remark: "xxx2",
                 friendship_add_friend_param_group_name: "",

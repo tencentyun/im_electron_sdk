@@ -255,5 +255,5 @@ export {
     TIMMsgReadedReceiptCallbackParams,
     TIMMsgRevokeCallbackParams,
     TIMMsgElemUploadProgressCallbackParams,
-    TIMMsgUpdateCallbackParams
+    TIMMsgUpdateCallbackParams,
 };

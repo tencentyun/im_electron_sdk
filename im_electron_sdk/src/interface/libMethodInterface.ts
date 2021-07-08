@@ -498,7 +498,10 @@ interface TIMRemoveRecvNewMsgCallbackFun {
     (successCallback?: TIMRecvNewMsgCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetMsgReadedReceiptCallbackFun {
-    (successCallback?: TIMMsgReadedReceiptCallbackParams, userData?: Buffer): void;
+    (
+        successCallback?: TIMMsgReadedReceiptCallbackParams,
+        userData?: Buffer
+    ): void;
 }
 interface TIMSetMsgRevokeCallbackFun {
     (successCallback?: TIMMsgRevokeCallbackParams, userData?: Buffer): void;
@@ -513,13 +516,22 @@ interface TIMSetOnAddFriendCallbackFun {
     (successCallback?: TIMOnAddFriendCallbackParams, userData?: Buffer): void;
 }
 interface TIMSetOnDeleteFriendCallbackFun {
-    (successCallback?: TIMOnDeleteFriendCallbackParams, userData?: Buffer): void;
+    (
+        successCallback?: TIMOnDeleteFriendCallbackParams,
+        userData?: Buffer
+    ): void;
 }
 interface TIMSetUpdateFriendProfileCallbackFun {
-    (successCallback?: TIMUpdateFriendProfileCallbackParams, userData?: Buffer): void;
+    (
+        successCallback?: TIMUpdateFriendProfileCallbackParams,
+        userData?: Buffer
+    ): void;
 }
 interface TIMSetFriendAddRequestCallbackFun {
-    (successCallback?: TIMFriendAddRequestCallbackParams, userData?: Buffer): void;
+    (
+        successCallback?: TIMFriendAddRequestCallbackParams,
+        userData?: Buffer
+    ): void;
 }
 interface TIMSetFriendApplicationListDeletedCallbackFun {
     (

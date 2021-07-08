@@ -823,9 +823,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetOnAddFriendCallback(
-        params: TIMOnAddFriendCallbackParams
-    ) {
+    TIMSetOnAddFriendCallback(params: TIMOnAddFriendCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetOnAddFriendCallback",
@@ -839,9 +837,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetOnDeleteFriendCallback(
-        params: TIMOnDeleteFriendCallbackParams
-    ) {
+    TIMSetOnDeleteFriendCallback(params: TIMOnDeleteFriendCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetOnDeleteFriendCallback",
@@ -871,9 +867,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetFriendAddRequestCallback(
-        params: TIMFriendAddRequestCallbackParams
-    ) {
+    TIMSetFriendAddRequestCallback(params: TIMFriendAddRequestCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetFriendAddRequestCallback",
@@ -1153,9 +1147,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMAddRecvNewMsgCallback(
-        params: TIMRecvNewMsgCallbackParams
-    ) {
+    TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMAddRecvNewMsgCallback",
@@ -1177,9 +1169,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetMsgReadedReceiptCallback(
-        params: TIMMsgReadedReceiptCallbackParams
-    ) {
+    TIMSetMsgReadedReceiptCallback(params: TIMMsgReadedReceiptCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgReadedReceiptCallback",
@@ -1192,9 +1182,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetMsgRevokeCallback(
-        params: TIMMsgRevokeCallbackParams
-    ) {
+    TIMSetMsgRevokeCallback(params: TIMMsgRevokeCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgRevokeCallback",
@@ -1222,9 +1210,7 @@ export default class TimRender {
         return this.call(formatedData);
     }
 
-    TIMSetMsgUpdateCallback(
-        params: TIMMsgUpdateCallbackParams
-    ) {
+    TIMSetMsgUpdateCallback(params: TIMMsgUpdateCallbackParams) {
         const callback = getUniKey(10);
         const formatedData = {
             method: "TIMSetMsgUpdateCallback",
