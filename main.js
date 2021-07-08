@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
 const path = require('path')
+const url = require('url')
 const TimMain = require('./im_electron_sdk/dist/main');
 // const TIM = require('./im_electron_sdk/dist/tim')
 new TimMain({
@@ -16,7 +17,7 @@ function createWindow() {
     height: 768,
     show: false,
     webPreferences: {
-      webSecurity: true,
+      webSecurity: false,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
       enableRemoteModule: true,
@@ -26,15 +27,15 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  // mainWindow.loadURL(
-  //   url.format({
-  //       pathname: path.join(__dirname, './client/build/index.html'),
-  //       protocol: 'file:',
-  //       // slashes: true
-  //   })
-  // )
-  // mainWindow.loadFile(path.resolve(__dirname,'./test.html'))
-  mainWindow.loadURL('http://localhost:3000')
+  mainWindow.loadURL(
+    url.format({
+        pathname: path.join(__dirname, './client/build/index.html'),
+        protocol: 'file:',
+        slashes: true
+    })
+  )
+
+  // mainWindow.loadURL('http://localhost:3000')
  
  
   mainWindow.once('ready-to-show', async () => {
@@ -78,15 +79,6 @@ app.whenReady().then(() => {
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
-})
-
-
-
-crashReporter.start({
-  productName: 'im-sdk',
-  companyName: 'tencent',
-  submitURL: 'http://127.0.0.1:5000/crash',
-  uploadToServer: true
 })
 
 
