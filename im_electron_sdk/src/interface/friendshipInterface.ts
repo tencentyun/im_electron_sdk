@@ -218,5 +218,5 @@ export {
     TIMFriendApplicationListDeletedCallbackParams,
     TIMFriendApplicationListReadCallbackParams,
     TIMFriendBlackListAddedCallbackParams,
-    TIMFriendBlackListDeletedCallbackParams
+    TIMFriendBlackListDeletedCallbackParams,
 };

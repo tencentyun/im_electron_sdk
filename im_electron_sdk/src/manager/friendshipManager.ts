@@ -55,7 +55,7 @@ class FriendshipManager {
     TIMFriendshipGetFriendProfileList(
         getFriendProfileListParam: GetFriendProfileListParams
     ): Promise<Object> {
-        const { user_data } = getFriendProfileListParam;
+        const { user_data = " " } = getFriendProfileListParam;
         const c_user_data = this.stringFormator(user_data);
         return new Promise((resolve, reject) => {
             const callback = jsFuncToFFIFun(
@@ -489,19 +489,14 @@ class FriendshipManager {
     }
 
     // callback begin
-    TIMSetOnAddFriendCallback(
-        params: TIMOnAddFriendCallbackParams
-    ): void {
-        const { callback, user_data } = params;
+    TIMSetOnAddFriendCallback(params: TIMOnAddFriendCallbackParams): void {
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                callback(
-                    json_msg_array.toString(),
-                    user_data.toString()
-                );
+                callback(json_msg_array.toString(), user_data.toString());
             }
         );
 
@@ -514,7 +509,7 @@ class FriendshipManager {
     TIMSetOnDeleteFriendCallback(
         params: TIMOnDeleteFriendCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -536,7 +531,7 @@ class FriendshipManager {
     TIMSetUpdateFriendProfileCallback(
         params: TIMUpdateFriendProfileCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -561,7 +556,8 @@ class FriendshipManager {
     TIMSetFriendAddRequestCallback(
         params: TIMFriendAddRequestCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
+        console.log(11111111111, user_data);
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -586,16 +582,13 @@ class FriendshipManager {
     TIMSetFriendApplicationListDeletedCallback(
         params: TIMFriendApplicationListDeletedCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                callback(
-                    json_msg_array.toString(),
-                    user_data.toString()
-                );
+                callback(json_msg_array.toString(), user_data.toString());
             }
         );
 
@@ -608,7 +601,7 @@ class FriendshipManager {
     TIMSetFriendApplicationListReadCallback(
         params: TIMFriendApplicationListReadCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -627,7 +620,7 @@ class FriendshipManager {
     TIMSetFriendBlackListAddedCallback(
         params: TIMFriendBlackListAddedCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -652,7 +645,7 @@ class FriendshipManager {
     TIMSetFriendBlackListDeletedCallback(
         params: TIMFriendBlackListDeletedCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,

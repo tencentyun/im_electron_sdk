@@ -34,7 +34,9 @@ const ref = require("ref-napi");
 
 class AdvanceMessageManage {
     private _sdkconfig: sdkconfig;
-    private tIMRecvNewMsgCallbackParams: TIMRecvNewMsgCallbackParams | undefined;
+    private tIMRecvNewMsgCallbackParams:
+        | TIMRecvNewMsgCallbackParams
+        | undefined;
     private stringFormator = (str: string | undefined): Buffer =>
         str ? nodeStrigToCString(str) : Buffer.from("");
 
@@ -621,23 +623,17 @@ class AdvanceMessageManage {
     }
 
     // callback begin
-    TIMAddRecvNewMsgCallback(
-        params: TIMRecvNewMsgCallbackParams
-    ): void {
-        const { callback, user_data } = params;
+    TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams): void {
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                const json_msg_array_safe = json_msg_array
-                    ? json_msg_array.toString()
-                    : "";
-                const user_data_safe = user_data ? user_data.toString() : "";
-                callback(json_msg_array_safe, user_data_safe);
+                callback(json_msg_array.toString(), user_data.toString());
             }
         );
-
+        console.log(1111);
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(
             c_callback,
             c_user_data
@@ -655,7 +651,7 @@ class AdvanceMessageManage {
     TIMSetMsgReadedReceiptCallback(
         params: TIMMsgReadedReceiptCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -677,10 +673,8 @@ class AdvanceMessageManage {
         );
     }
 
-    TIMSetMsgRevokeCallback(
-        params: TIMMsgRevokeCallbackParams
-    ): void {
-        const { callback, user_data } = params;
+    TIMSetMsgRevokeCallback(params: TIMMsgRevokeCallbackParams): void {
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -693,13 +687,16 @@ class AdvanceMessageManage {
             }
         );
 
-        this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(c_callback, c_user_data);
+        this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(
+            c_callback,
+            c_user_data
+        );
     }
 
     TIMSetMsgElemUploadProgressCallback(
         params: TIMMsgElemUploadProgressCallbackParams
     ): void {
-        const { callback, user_data } = params;
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -727,23 +724,21 @@ class AdvanceMessageManage {
         );
     }
 
-    TIMSetMsgUpdateCallback(
-        params: TIMMsgUpdateCallbackParams
-    ): void {
-        const { callback, user_data } = params;
+    TIMSetMsgUpdateCallback(params: TIMMsgUpdateCallbackParams): void {
+        const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
             function (json_msg_array: Buffer, user_data: Buffer) {
-                callback(
-                    json_msg_array.toString(),
-                    user_data.toString()
-                );
+                callback(json_msg_array.toString(), user_data.toString());
             }
         );
 
-        this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(c_callback, c_user_data);
+        this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(
+            c_callback,
+            c_user_data
+        );
     }
     // callback end
 }

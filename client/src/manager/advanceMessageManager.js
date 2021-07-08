@@ -94,7 +94,7 @@ const advanceMessageManager = {
             conv_id: "lexuslin3",
             conv_type: 1,
             params: {
-                msg_getmsglist_param_last_msg: "144115225971632901-1625125460-3998758148",
+                msg_getmsglist_param_last_msg: null,
                 msg_getmsglist_param_count: 100
             },
             user_data: "123"
@@ -129,7 +129,7 @@ const advanceMessageManager = {
     TIMMsgSetC2CReceiveMessageOpt:() => {
         return timRenderInstance.TIMMsgSetC2CReceiveMessageOpt({
             params: ["lexuslin3"],
-            opt: 1,
+            opt: 0,
             user_data: "123"
         });
     },
@@ -216,10 +216,10 @@ const advanceMessageManager = {
     TIMRemoveRecvNewMsgCallback:(callback) => {
         return timRenderInstance.TIMRemoveRecvNewMsgCallback({
             callback: (...args)=>{
-                // const [[data,user_data]] = args;
-                // callback(JSON.stringify({
-                //     data,user_data
-                // }))
+                const [[data,user_data]] = args;
+                callback(JSON.stringify({
+                    data,user_data
+                }))
                 console.log(args)
             },
             user_data: "TIMRemoveRecvNewMsgCallback"
