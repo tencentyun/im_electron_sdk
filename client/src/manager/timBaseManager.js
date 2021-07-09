@@ -58,6 +58,22 @@ const TimBaseManager = {
                 console.log(data,'TIMSetUserSigExpiredCallback');
             }
         })
+    },
+    TIMProfileGetUserProfileList: () => {
+        return timRenderInstance.TIMProfileGetUserProfileList({
+            json_get_user_profile_list_param: {
+                friendship_getprofilelist_param_identifier_array: ['3708']
+            },
+            userData:"TIMProfileGetUserProfileList",
+        })
+    },
+    TIMProfileModifySelfUserProfile: () => {
+        return timRenderInstance.TIMProfileModifySelfUserProfile({
+            json_modify_self_user_profile_param: {
+                user_profile_item_nick_name: 'Jingfeng'
+            },
+            userData:"TIMProfileModifySelfUserProfile",
+        })
     }
 }
 
