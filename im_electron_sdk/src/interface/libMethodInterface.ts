@@ -63,18 +63,18 @@ interface TIMGetServerTimeFun {
     (): number;
 }
 interface TIMGetLoginUserIDFun {
-    (callback: CommonCallbackFun, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 
 interface TIMSetNetworkStatusListenerCallbackFun {
-    (callback: TIMSetNetworkStatusListenerCallback, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 
 interface TIMSetKickedOfflineCallbackFun {
-    (callback: TIMSetKickedOfflineCallback, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 interface TIMSetUserSigExpiredCallbackFun {
-    (callback: TIMSetUserSigExpiredCallback, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 
 // ==========Interface For Conversation Start===========
@@ -99,7 +99,7 @@ interface TIMConvDeleteFun extends TIMConvCreateFun {}
 interface TIMConvGetConvInfoFun {
     (
         json_get_conv_list_param: Buffer,
-        callback: CommonCallbackFun,
+        callback: Buffer,
         user_data: Buffer
     ): number;
 }
@@ -108,21 +108,18 @@ interface TIMConvPinConversationFun {
         conv_id: Buffer,
         conv_type: number,
         is_pinned: boolean,
-        callback: CommonCallbackFun,
+        callback: Buffer,
         user_data: Buffer
     ): number;
 }
 interface TIMConvGetTotalUnreadMessageCountFun {
-    (callback: CommonCallbackFun, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 interface TIMSetConvEventCallbackFun {
     (callback: Buffer, user_data: Buffer): number;
 }
 interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
-    (
-        callback: convTotalUnreadMessageCountChangedCallback,
-        user_data: Buffer
-    ): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 // ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========

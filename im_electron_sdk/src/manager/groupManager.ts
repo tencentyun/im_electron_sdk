@@ -599,8 +599,10 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
-        this._callbacks.set("TIMSetGroupAttributeChangedCallback", callback);
-
+        this._callbacks.set(
+            "TIMSetGroupAttributeChangedCallback",
+            transformGroupAttributeFun(callback)
+        );
         this._imskdLib.TIMSetGroupAttributeChangedCallback(
             this._callbacks.get(
                 "TIMSetGroupAttributeChangedCallback"

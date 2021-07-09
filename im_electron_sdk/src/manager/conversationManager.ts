@@ -20,7 +20,7 @@ import {
 
 class ConversationManager {
     private _sdkconfig: sdkconfig;
-    private _callbacks: Map<String, Buffer> = new Map();
+    private _callback: Map<String, Buffer> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -44,10 +44,11 @@ class ConversationManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvCreate", callback);
             const code: number = this._sdkconfig.Imsdklib.TIMConvCreate(
                 convId,
                 convType,
-                callback,
+                this._callback.get("TIMConvCreate") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -73,10 +74,11 @@ class ConversationManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvDelete", callback);
             const code: number = this._sdkconfig.Imsdklib.TIMConvDelete(
                 convId,
                 convType,
-                callback,
+                this._callback.get("TIMConvDelete") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -99,9 +101,11 @@ class ConversationManager {
                     reject({ code, desc, json_param, user_data });
                 }
             };
+
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvGetConvList", callback);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvList(
-                callback,
+                this._callback.get("TIMConvGetConvList") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -144,9 +148,10 @@ class ConversationManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvGetConvInfo", callback);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvInfo(
                 convList,
-                callback,
+                this._callback.get("TIMConvGetConvInfo") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -175,12 +180,13 @@ class ConversationManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvPinConversation", callback);
             const code: number =
                 this._sdkconfig.Imsdklib.TIMConvPinConversation(
                     convId,
                     convType,
                     isPinged,
-                    callback,
+                    this._callback.get("TIMConvPinConversation") as Buffer,
                     userData
                 );
             code !== 0 && reject({ code });
@@ -206,9 +212,12 @@ class ConversationManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMConvGetTotalUnreadMessageCount", callback);
             const code: number =
                 this._sdkconfig.Imsdklib.TIMConvGetTotalUnreadMessageCount(
-                    callback,
+                    this._callback.get(
+                        "TIMConvGetTotalUnreadMessageCount"
+                    ) as Buffer,
                     userData
                 );
             code !== 0 && reject({ code });
@@ -216,12 +225,12 @@ class ConversationManager {
     }
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
         const callback: Buffer = jsFuncToFFIConvEventCallback(param.callback);
-        this._callbacks.set("TIMSetConvEventCallback", callback);
+        this._callback.set("TIMSetConvEventCallback", callback);
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
         this._sdkconfig.Imsdklib.TIMSetConvEventCallback(
-            this._callbacks.get("TIMSetConvEventCallback") as Buffer,
+            this._callback.get("TIMSetConvEventCallback") as Buffer,
             userData
         );
     }
@@ -235,8 +244,14 @@ class ConversationManager {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
+        this._callback.set(
+            "TIMSetConvTotalUnreadMessageCountChangedCallback",
+            callback
+        );
         this._sdkconfig.Imsdklib.TIMSetConvTotalUnreadMessageCountChangedCallback(
-            callback,
+            this._callback.get(
+                "TIMSetConvTotalUnreadMessageCountChangedCallback"
+            ) as Buffer,
             userData
         );
     }

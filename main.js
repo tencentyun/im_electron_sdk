@@ -37,6 +37,7 @@ function createWindow() {
 
   mainWindow.loadURL('http://localhost:3000')
  
+  // mainWindow.loadFile(path.resolve(__dirname,'./test.html'))
  
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();

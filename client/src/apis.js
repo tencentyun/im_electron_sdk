@@ -160,11 +160,14 @@ const APIS = [
             {
                 name:"TIMConvGetConvList",
                 action:(callback)=>{
-                    ConversationManager.TIMConvGetConvList().then(data=>{
-                        callback(JSON.stringify(data))
-                    }).catch(err=>{
-                        callback(err.toString())
-                    })
+                    for(let i = 0;i<1;i++){
+                        ConversationManager.TIMConvGetConvList().then(data=>{
+                            console.log('hahah')
+                            callback(JSON.stringify(data))
+                        }).catch(err=>{
+                            callback(err.toString())
+                        })
+                    }
                 }
             },
             {

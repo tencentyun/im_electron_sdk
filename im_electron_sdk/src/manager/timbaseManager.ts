@@ -27,6 +27,7 @@ import { TIMLoginStatus } from "../enum";
 
 class TimbaseManager {
     private _sdkconfig: sdkconfig;
+    private _callback: Map<String, Buffer> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -75,10 +76,11 @@ class TimbaseManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMLogin", callback);
             const code: number = this._sdkconfig.Imsdklib.TIMLogin(
                 userID,
                 userSig,
-                callback,
+                this._callback.get("TIMLogin") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -102,7 +104,11 @@ class TimbaseManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
-            const code = this._sdkconfig.Imsdklib.TIMLogout(callback, userData);
+            this._callback.set("TIMLogout", callback);
+            const code = this._sdkconfig.Imsdklib.TIMLogout(
+                this._callback.get("TIMLogout") as Buffer,
+                userData
+            );
             code !== 0 && reject({ code });
         });
     }
@@ -127,8 +133,9 @@ class TimbaseManager {
                 }
             };
             const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMGetLoginUserID", callback);
             const code = this._sdkconfig.Imsdklib.TIMGetLoginUserID(
-                callback,
+                this._callback.get("TIMGetLoginUserID") as Buffer,
                 userData
             );
             code !== 0 && reject({ code });
@@ -144,8 +151,9 @@ class TimbaseManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from("");
 
+        this._callback.set("TIMSetNetworkStatusListenerCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetNetworkStatusListenerCallback(
-            callback,
+            this._callback.get("TIMSetNetworkStatusListenerCallback") as Buffer,
             userData
         );
     }
@@ -154,9 +162,9 @@ class TimbaseManager {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from("");
-
+        this._callback.set("TIMSetKickedOfflineCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetKickedOfflineCallback(
-            callback,
+            this._callback.get("TIMSetKickedOfflineCallback") as Buffer,
             userData
         );
     }
@@ -165,9 +173,9 @@ class TimbaseManager {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from("");
-
+        this._callback.set("TIMSetUserSigExpiredCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetUserSigExpiredCallback(
-            callback,
+            this._callback.get("TIMSetUserSigExpiredCallback") as Buffer,
             userData
         );
     }
@@ -176,8 +184,11 @@ class TimbaseManager {
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
-
-        this._sdkconfig.Imsdklib.TIMSetLogCallback(callback, user_data);
+        this._callback.set("TIMSetLogCallback", callback);
+        this._sdkconfig.Imsdklib.TIMSetLogCallback(
+            this._callback.get("TIMSetLogCallback") as Buffer,
+            user_data
+        );
     }
     TIMSetConfig(param: TIMSetConfigParam) {
         const callback = jsFuncToFFIFun(param.callback);
@@ -187,7 +198,12 @@ class TimbaseManager {
         const json_config = nodeStrigToCString(
             JSON.stringify(param.json_config)
         );
-        this._sdkconfig.Imsdklib.TIMSetConfig(json_config, callback, user_data);
+        this._callback.set("TIMSetConfig", callback);
+        this._sdkconfig.Imsdklib.TIMSetConfig(
+            json_config,
+            this._callback.get("TIMSetConfig") as Buffer,
+            user_data
+        );
     }
     callExperimentalAPI(param: callExperimentalAPIParam) {
         const callback = jsFuncToFFIFun(param.callback);
@@ -195,9 +211,10 @@ class TimbaseManager {
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
         const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
+        this._callback.set("callExperimentalAPI", callback);
         this._sdkconfig.Imsdklib.callExperimentalAPI(
             json_param,
-            callback,
+            this._callback.get("callExperimentalAPI") as Buffer,
             user_data
         );
     }
@@ -209,9 +226,10 @@ class TimbaseManager {
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_get_user_profile_list_param)
         );
+        this._callback.set("TIMProfileGetUserProfileList", callback);
         this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
             json_param,
-            callback,
+            this._callback.get("TIMProfileGetUserProfileList") as Buffer,
             user_data
         );
     }
@@ -225,9 +243,10 @@ class TimbaseManager {
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_modify_self_user_profile_param)
         );
+        this._callback.set("TIMProfileModifySelfUserProfile", callback);
         this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
             json_param,
-            callback,
+            this._callback.get("TIMProfileModifySelfUserProfile") as Buffer,
             user_data
         );
     }
