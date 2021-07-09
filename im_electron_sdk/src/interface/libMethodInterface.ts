@@ -116,7 +116,7 @@ interface TIMConvGetTotalUnreadMessageCountFun {
     (callback: CommonCallbackFun, user_data: Buffer): number;
 }
 interface TIMSetConvEventCallbackFun {
-    (callback: setConvEventCallback, user_data: Buffer): number;
+    (callback: Buffer, user_data: Buffer): number;
 }
 interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
     (
@@ -210,7 +210,7 @@ interface TIMSetGroupTipsEventCallbackFun {
 }
 
 interface TIMSetGroupAttributeChangedCallbackFun {
-    (successCallback: GroupAttributeCallbackFun, userData?: Buffer): void;
+    (successCallback: Buffer, userData?: Buffer): void;
 }
 
 // ==========Interface For Group End===========

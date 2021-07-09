@@ -209,7 +209,7 @@ interface GroupTipCallBackFun {
 }
 
 interface GroupAttributeCallbackParams {
-    callback: GroupAttributeCallbackFun;
+    callback: Buffer;
     data?: string;
 }
 

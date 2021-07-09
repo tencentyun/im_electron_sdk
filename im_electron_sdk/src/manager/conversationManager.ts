@@ -20,6 +20,7 @@ import {
 
 class ConversationManager {
     private _sdkconfig: sdkconfig;
+    private _callbacks: Map<String, Buffer> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -214,11 +215,15 @@ class ConversationManager {
         });
     }
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
-        const callback = jsFuncToFFIConvEventCallback(param.callback);
+        const callback: Buffer = jsFuncToFFIConvEventCallback(param.callback);
+        this._callbacks.set("TIMSetConvEventCallback", callback);
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
-        this._sdkconfig.Imsdklib.TIMSetConvEventCallback(callback, userData);
+        this._sdkconfig.Imsdklib.TIMSetConvEventCallback(
+            this._callbacks.get("TIMSetConvEventCallback") as Buffer,
+            userData
+        );
     }
     async TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam

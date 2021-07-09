@@ -34,7 +34,7 @@ import {
 
 class GroupManager {
     private _imskdLib: libMethods;
-
+    private _callbacks: Map<String, Buffer> = new Map();
     constructor(config: sdkconfig) {
         this._imskdLib = config.Imsdklib;
     }
@@ -599,9 +599,12 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
+        this._callbacks.set("TIMSetGroupAttributeChangedCallback", callback);
 
         this._imskdLib.TIMSetGroupAttributeChangedCallback(
-            transformGroupAttributeFun(callback),
+            this._callbacks.get(
+                "TIMSetGroupAttributeChangedCallback"
+            ) as Buffer,
             userData
         );
     }
