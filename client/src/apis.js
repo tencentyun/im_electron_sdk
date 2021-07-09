@@ -122,6 +122,26 @@ const APIS = [
                     })
                 }
             },
+            {
+                name:"TIMProfileGetUserProfileList",
+                action:(callback)=>{
+                    TimBaseManager.TIMProfileGetUserProfileList().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name:"TIMProfileModifySelfUserProfile",
+                action:(callback)=>{
+                    TimBaseManager.TIMProfileModifySelfUserProfile().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
         ]
     },
     {

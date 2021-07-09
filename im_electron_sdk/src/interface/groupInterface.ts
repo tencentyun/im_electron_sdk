@@ -200,7 +200,7 @@ interface DeleteAttributeParams {
     data?: string;
 }
 interface GroupTipsCallbackParams {
-    callback: GroupTipCallBackFun;
+    callback: Buffer;
     data?: string;
 }
 

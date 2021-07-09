@@ -203,7 +203,7 @@ interface TIMGroupGetGroupAttributesFun
     extends TIMGroupInitGroupAttributesFun {}
 
 interface TIMSetGroupTipsEventCallbackFun {
-    (successCallback: GroupTipCallBackFun, userData?: Buffer): void;
+    (successCallback: Buffer, userData?: Buffer): void;
 }
 
 interface TIMSetGroupAttributeChangedCallbackFun {
@@ -569,6 +569,10 @@ interface callExperimentalAPIFun {
 interface TIMProfileGetUserProfileListFun {
     (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
 }
+
+interface TIMProfileModifySelfUserProfileFun {
+    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+}
 // ==========Interface For friendship End===========
 
 interface libMethods {
@@ -588,6 +592,7 @@ interface libMethods {
     TIMSetConfig: TIMSetConfigLibFun;
     callExperimentalAPI: callExperimentalAPIFun;
     TIMProfileGetUserProfileList: TIMProfileGetUserProfileListFun;
+    TIMProfileModifySelfUserProfile: TIMProfileModifySelfUserProfileFun;
     // timbase end
 
     // conversation start

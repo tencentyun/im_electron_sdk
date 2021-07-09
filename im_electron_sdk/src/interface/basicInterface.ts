@@ -124,7 +124,6 @@ interface jsonGetUserProfileListParam {
 interface TIMProfileGetUserProfileListParam {
     json_get_user_profile_list_param: jsonGetUserProfileListParam;
     user_data: string;
-    callback: CommonCallbackFun;
 }
 interface UserProfileCustemStringInfo {
     user_profile_custom_string_info_key: string;
@@ -146,7 +145,6 @@ interface UserProfileItem {
 interface TIMProfileModifySelfUserProfileParam {
     json_modify_self_user_profile_param: UserProfileItem;
     user_data: string;
-    callback: CommonCallbackFun;
 }
 export {
     initConfig,

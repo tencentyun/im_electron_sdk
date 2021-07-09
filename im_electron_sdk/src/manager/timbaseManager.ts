@@ -218,37 +218,76 @@ class TimbaseManager {
             user_data
         );
     }
-    TIMProfileGetUserProfileList(param: TIMProfileGetUserProfileListParam) {
-        const callback = jsFuncToFFIFun(param.callback);
-        const user_data = param.user_data
+    TIMProfileGetUserProfileList(
+        param: TIMProfileGetUserProfileListParam
+    ): Promise<commonResponse> {
+        const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_get_user_profile_list_param)
         );
-        this._callback.set("TIMProfileGetUserProfileList", callback);
-        this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
-            json_param,
-            this._callback.get("TIMProfileGetUserProfileList") as Buffer,
-            user_data
-        );
+
+        return new Promise((resolve, reject) => {
+            const cb: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                if (code === 0) {
+                    resolve({ code, desc, json_param, user_data });
+                } else {
+                    reject({ code, desc, json_param, user_data });
+                }
+            };
+            const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMProfileGetUserProfileList", callback);
+            const code = this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
+                json_param,
+                this._callback.get("TIMProfileGetUserProfileList") as Buffer,
+                userData
+            );
+            code !== 0 && reject({ code });
+        });
     }
     TIMProfileModifySelfUserProfile(
         param: TIMProfileModifySelfUserProfileParam
-    ) {
-        const callback = jsFuncToFFIFun(param.callback);
-        const user_data = param.user_data
+    ): Promise<commonResponse> {
+        const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from("");
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_modify_self_user_profile_param)
         );
-        this._callback.set("TIMProfileModifySelfUserProfile", callback);
-        this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
-            json_param,
-            this._callback.get("TIMProfileModifySelfUserProfile") as Buffer,
-            user_data
-        );
+
+        console.log(json_param);
+
+        return new Promise((resolve, reject) => {
+            const cb: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                if (code === 0) {
+                    resolve({ code, desc, json_param, user_data });
+                } else {
+                    reject({ code, desc, json_param, user_data });
+                }
+            };
+            const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMProfileModifySelfUserProfile", callback);
+            const code =
+                this._sdkconfig.Imsdklib.TIMProfileModifySelfUserProfile(
+                    json_param,
+                    this._callback.get(
+                        "TIMProfileModifySelfUserProfile"
+                    ) as Buffer,
+                    userData
+                );
+            code !== 0 && reject({ code });
+        });
     }
 }
 export default TimbaseManager;

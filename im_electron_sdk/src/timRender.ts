@@ -439,7 +439,7 @@ export default class TimRender {
             param: data,
         };
 
-        TimRender.runtime.set(callback, data.callback);
+        TimRender.runtime.set(callback, data.callback as unknown as Function);
         return this.call(formatedData);
     }
 
@@ -453,7 +453,7 @@ export default class TimRender {
             param: data,
         };
 
-        TimRender.runtime.set(callback, data.callback);
+        TimRender.runtime.set(callback, data.callback as unknown as Function);
         return this.call(formatedData);
     }
 
