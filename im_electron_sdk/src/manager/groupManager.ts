@@ -587,9 +587,10 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
+        this._callbacks.set("TIMSetGroupTipsEventCallback", callback);
 
         this._imskdLib.TIMSetGroupTipsEventCallback(
-            transformGroupTipFun(callback),
+            this._callbacks.get("TIMSetGroupTipsEventCallback") as Buffer,
             userData
         );
     }

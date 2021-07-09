@@ -206,7 +206,7 @@ interface TIMGroupGetGroupAttributesFun
     extends TIMGroupInitGroupAttributesFun {}
 
 interface TIMSetGroupTipsEventCallbackFun {
-    (successCallback: GroupTipCallBackFun, userData?: Buffer): void;
+    (successCallback: Buffer, userData?: Buffer): void;
 }
 
 interface TIMSetGroupAttributeChangedCallbackFun {
