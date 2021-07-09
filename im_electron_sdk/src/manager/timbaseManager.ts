@@ -261,8 +261,6 @@ class TimbaseManager {
             JSON.stringify(param.json_modify_self_user_profile_param)
         );
 
-        console.log(json_param);
-
         return new Promise((resolve, reject) => {
             const cb: CommonCallbackFun = (
                 code,
