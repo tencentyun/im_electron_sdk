@@ -32,6 +32,7 @@ const ref = require("ref-napi");
 
 class FriendshipManager {
     private _sdkconfig: sdkconfig;
+    private _callback: Map<String, Buffer> = new Map();
     private stringFormator = (str: string | undefined): Buffer =>
         str ? nodeStrigToCString(str) : Buffer.from("");
     private _callbacks: Map<String, Buffer> = new Map();
@@ -65,9 +66,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipGetFriendProfileList", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendProfileList(
-                    callback,
+                    this._callback.get("TIMFriendshipGetFriendProfileList") as Buffer,
                     c_user_data
                 );
 
@@ -88,9 +90,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipAddFriend", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddFriend(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipAddFriend") as Buffer,
                 c_user_data
             );
 
@@ -113,10 +116,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipHandleFriendAddRequest", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipHandleFriendAddRequest(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipHandleFriendAddRequest") as Buffer,
                     c_user_data
                 );
 
@@ -138,10 +142,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipModifyFriendProfile", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendProfile(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipModifyFriendProfile") as Buffer,
                     c_user_data
                 );
 
@@ -163,9 +168,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipDeleteFriend", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriend(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipDeleteFriend") as Buffer,
                 c_user_data
             );
 
@@ -187,9 +193,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipCheckFriendType", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipCheckFriendType(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipCheckFriendType") as Buffer,
                 c_user_data
             );
 
@@ -211,10 +218,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipCreateFriendGroup", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipCreateFriendGroup(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipCreateFriendGroup") as Buffer,
                     c_user_data
                 );
 
@@ -236,10 +244,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipGetFriendGroupList", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendGroupList(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipGetFriendGroupList") as Buffer,
                     c_user_data
                 );
 
@@ -261,10 +270,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipModifyFriendGroup", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendGroup(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipModifyFriendGroup") as Buffer,
                     c_user_data
                 );
 
@@ -286,10 +296,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipDeleteFriendGroup", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriendGroup(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipDeleteFriendGroup") as Buffer,
                     c_user_data
                 );
 
@@ -311,9 +322,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipAddToBlackList", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddToBlackList(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipAddToBlackList") as Buffer,
                 c_user_data
             );
 
@@ -334,8 +346,9 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipGetBlackList", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetBlackList(
-                callback,
+                this._callback.get("TIMFriendshipGetBlackList") as Buffer,
                 c_user_data
             );
 
@@ -357,10 +370,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipDeleteFromBlackList", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFromBlackList(
                     c_params,
-                    callback,
+                    this._callback.get("TIMFriendshipDeleteFromBlackList") as Buffer,
                     c_user_data
                 );
 
@@ -382,9 +396,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipGetPendencyList", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetPendencyList(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipGetPendencyList") as Buffer,
                 c_user_data
             );
 
@@ -406,9 +421,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipDeletePendency", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeletePendency(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipDeletePendency") as Buffer,
                 c_user_data
             );
 
@@ -429,10 +445,11 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipReportPendencyReaded", callback);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipReportPendencyReaded(
                     timestamp,
-                    callback,
+                    this._callback.get("TIMFriendshipReportPendencyReaded") as Buffer,
                     c_user_data
                 );
 
@@ -454,9 +471,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipSearchFriends", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipSearchFriends(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipSearchFriends") as Buffer,
                 c_user_data
             );
 
@@ -478,9 +496,10 @@ class FriendshipManager {
                     else reject(this.getErrorResponse({ code, desc }));
                 }
             );
+            this._callback.set("TIMFriendshipGetFriendsInfo", callback);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetFriendsInfo(
                 c_params,
-                callback,
+                this._callback.get("TIMFriendshipGetFriendsInfo") as Buffer,
                 c_user_data
             );
 
@@ -499,9 +518,9 @@ class FriendshipManager {
                 callback(json_msg_array.toString(), user_data.toString());
             }
         );
-
+        this._callback.set("TIMSetOnAddFriendCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetOnAddFriendCallback(
-            c_callback,
+            this._callback.get("TIMSetOnAddFriendCallback") as Buffer,
             c_user_data
         );
     }
@@ -521,9 +540,9 @@ class FriendshipManager {
                 );
             }
         );
-
+        this._callback.set("TIMSetOnDeleteFriendCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetOnDeleteFriendCallback(
-            c_callback,
+            this._callback.get("TIMSetOnDeleteFriendCallback") as Buffer,
             c_user_data
         );
     }
@@ -546,9 +565,9 @@ class FriendshipManager {
                 );
             }
         );
-
+        this._callback.set("TIMSetUpdateFriendProfileCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetUpdateFriendProfileCallback(
-            c_callback,
+            this._callback.get("TIMSetUpdateFriendProfileCallback") as Buffer,
             c_user_data
         );
     }
@@ -557,7 +576,6 @@ class FriendshipManager {
         params: TIMFriendAddRequestCallbackParams
     ): void {
         const { callback, user_data = " " } = params;
-        console.log(11111111111, user_data);
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -572,9 +590,9 @@ class FriendshipManager {
                 );
             }
         );
-
+        this._callback.set("TIMSetFriendAddRequestCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetFriendAddRequestCallback(
-            c_callback,
+            this._callback.get("TIMSetFriendAddRequestCallback") as Buffer,
             c_user_data
         );
     }
@@ -591,9 +609,9 @@ class FriendshipManager {
                 callback(json_msg_array.toString(), user_data.toString());
             }
         );
-
+        this._callback.set("TIMSetFriendApplicationListDeletedCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetFriendApplicationListDeletedCallback(
-            c_callback,
+            this._callback.get("TIMSetFriendApplicationListDeletedCallback") as Buffer,
             c_user_data
         );
     }
@@ -610,9 +628,9 @@ class FriendshipManager {
                 callback(user_data.toString());
             }
         );
-
+        this._callback.set("TIMSetFriendApplicationListReadCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetFriendApplicationListReadCallback(
-            c_callback,
+            this._callback.get("TIMSetFriendApplicationListReadCallback") as Buffer,
             c_user_data
         );
     }
@@ -635,9 +653,9 @@ class FriendshipManager {
                 );
             }
         );
-
+        this._callback.set("TIMSetFriendBlackListAddedCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetFriendBlackListAddedCallback(
-            c_callback,
+            this._callback.get("TIMSetFriendBlackListAddedCallback") as Buffer,
             c_user_data
         );
     }
@@ -657,9 +675,9 @@ class FriendshipManager {
                 );
             }
         );
-
+        this._callback.set("TIMSetFriendBlackListDeletedCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetFriendBlackListDeletedCallback(
-            c_callback,
+            this._callback.get("TIMSetFriendBlackListDeletedCallback") as Buffer,
             c_user_data
         );
     }

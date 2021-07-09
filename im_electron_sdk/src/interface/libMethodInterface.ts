@@ -213,120 +213,120 @@ interface TIMSetGroupAttributeChangedCallbackFun {
 // ==========Interface For Group End===========
 // ==========Interface For friendship begin===========
 interface TIMFriendshipGetFriendProfileListFun {
-    (successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (successCallback?: Buffer, userData?: Buffer): number;
 }
 interface TIMFriendshipAddFriendFun {
     (
         json_add_friend_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipHandleFriendAddRequestFun {
     (
         json_add_friend_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipModifyFriendProfileFun {
     (
         json_modify_friend_info_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipDeleteFriendFun {
     (
         json_delete_friend_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipCheckFriendTypeFun {
     (
         json_check_friend_list_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipCreateFriendGroupFun {
     (
         json_create_friend_group_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipGetFriendGroupListFun {
     (
         json_get_friend_group_list_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipModifyFriendGroupFun {
     (
         json_modify_friend_group_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipDeleteFriendGroupFun {
     (
         json_delete_friend_group_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipAddToBlackListFun {
     (
         json_add_to_blacklist_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipGetBlackListFun {
-    (successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (successCallback?: Buffer, userData?: Buffer): number;
 }
 interface TIMFriendshipDeleteFromBlackListFun {
     (
         json_delete_from_blacklist_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipGetPendencyListFun {
     (
         json_get_pendency_list_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipDeletePendencyFun {
     (
         json_delete_pendency_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipReportPendencyReadedFun {
     (
         time_stamp?: number,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipSearchFriendsFun {
     (
         json_search_friends_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMFriendshipGetFriendsInfoFun {
     (
         json_get_friends_info_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -336,7 +336,7 @@ interface TIMMsgSendMessageFun {
         conv_type?: TIMConvType,
         json_add_friend_param?: Buffer,
         message_id_buffer?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -345,14 +345,14 @@ interface TIMMsgCancelSendFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         message_id?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMMsgFindMessagesFun {
     (
         json_message_id_array?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -361,7 +361,7 @@ interface TIMMsgReportReadedFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -370,7 +370,7 @@ interface TIMMsgRevokeFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -379,7 +379,7 @@ interface TIMMsgFindByMsgLocatorListFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_Locator_array?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -388,7 +388,7 @@ interface TIMMsgImportMsgListFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_array?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -397,7 +397,7 @@ interface TIMMsgSaveMsgFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -406,7 +406,7 @@ interface TIMMsgGetMsgListFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_get_msg_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -415,7 +415,7 @@ interface TIMMsgDeleteFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msgdel_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -424,7 +424,7 @@ interface TIMMsgListDeleteFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_msg_array?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -432,7 +432,7 @@ interface TIMMsgClearHistoryMessageFun {
     (
         conv_id?: Buffer,
         conv_type?: TIMConvType,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -440,14 +440,14 @@ interface TIMMsgSetC2CReceiveMessageOptFun {
     (
         json_identifier_array?: Buffer,
         opt?: TIMReceiveMessageOpt,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMMsgGetC2CReceiveMessageOptFun {
     (
         json_identifier_array?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -455,7 +455,7 @@ interface TIMMsgSetGroupReceiveMessageOptFun {
     (
         group_id?: Buffer,
         opt?: number,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -463,99 +463,99 @@ interface TIMMsgDownloadElemToPathFun {
     (
         json_download_elem_param?: Buffer,
         path?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMMsgDownloadMergerMessageFun {
     (
         json_single_msg?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMMsgBatchSendFun {
     (
         json_batch_send_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMMsgSearchLocalMessagesFun {
     (
         json_search_message_param?: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
 interface TIMAddRecvNewMsgCallbackFun {
-    (successCallback?: TIMRecvNewMsgCallbackParams, userData?: Buffer): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMRemoveRecvNewMsgCallbackFun {
-    (successCallback?: TIMRecvNewMsgCallbackParams, userData?: Buffer): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgReadedReceiptCallbackFun {
     (
-        successCallback?: TIMMsgReadedReceiptCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetMsgRevokeCallbackFun {
-    (successCallback?: TIMMsgRevokeCallbackParams, userData?: Buffer): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgElemUploadProgressCallbackFun {
     (
-        successCallback?: TIMMsgElemUploadProgressCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetOnAddFriendCallbackFun {
-    (successCallback?: TIMOnAddFriendCallbackParams, userData?: Buffer): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetOnDeleteFriendCallbackFun {
     (
-        successCallback?: TIMOnDeleteFriendCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetUpdateFriendProfileCallbackFun {
     (
-        successCallback?: TIMUpdateFriendProfileCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendAddRequestCallbackFun {
     (
-        successCallback?: TIMFriendAddRequestCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendApplicationListDeletedCallbackFun {
     (
-        successCallback?: TIMFriendApplicationListDeletedCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendApplicationListReadCallbackFun {
     (
-        successCallback?: TIMFriendApplicationListReadCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendBlackListAddedCallbackFun {
     (
-        successCallback?: TIMFriendBlackListAddedCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetFriendBlackListDeletedCallbackFun {
     (
-        successCallback?: TIMFriendBlackListDeletedCallbackParams,
+        successCallback?: Buffer,
         userData?: Buffer
     ): void;
 }
 interface TIMSetMsgUpdateCallbackFun {
-    (successCallback?: TIMMsgUpdateCallbackParams, userData?: Buffer): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetLogCallbackLibFun {
     (callback: Buffer, userData?: Buffer): void;
