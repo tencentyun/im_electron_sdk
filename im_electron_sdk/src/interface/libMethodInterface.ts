@@ -310,11 +310,7 @@ interface TIMFriendshipDeletePendencyFun {
     ): number;
 }
 interface TIMFriendshipReportPendencyReadedFun {
-    (
-        time_stamp?: number,
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): number;
+    (time_stamp?: number, successCallback?: Buffer, userData?: Buffer): number;
 }
 interface TIMFriendshipSearchFriendsFun {
     (
@@ -495,64 +491,37 @@ interface TIMRemoveRecvNewMsgCallbackFun {
     (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgReadedReceiptCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgRevokeCallbackFun {
     (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgElemUploadProgressCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetOnAddFriendCallbackFun {
     (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetOnDeleteFriendCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetUpdateFriendProfileCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetFriendAddRequestCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetFriendApplicationListDeletedCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetFriendApplicationListReadCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetFriendBlackListAddedCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetFriendBlackListDeletedCallbackFun {
-    (
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): void;
+    (successCallback?: Buffer, userData?: Buffer): void;
 }
 interface TIMSetMsgUpdateCallbackFun {
     (successCallback?: Buffer, userData?: Buffer): void;
