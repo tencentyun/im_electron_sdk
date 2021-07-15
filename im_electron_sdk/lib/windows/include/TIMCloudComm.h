@@ -93,7 +93,7 @@ typedef unsigned char bool;
 #if defined(TIM_EXPORTS)
 #define TIM_DECL __attribute__ ((visibility ("default")))
 #else 
-#define TIM_DECL __attribute__ ((visibility ("hidden")))
+#define TIM_DECL
 #endif
 
 #endif
