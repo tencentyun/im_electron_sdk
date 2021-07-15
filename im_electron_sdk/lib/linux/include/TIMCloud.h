@@ -477,7 +477,6 @@ TIM_DECL int TIMLogin(const char* user_id, const char* user_sig, TIMCommCallback
 * 如用户主动登出或需要进行用户的切换，则需要调用登出操作
 */
 TIM_DECL int TIMLogout(TIMCommCallback cb, const void* user_data);
-/// @}
 
 /**
 * @brief  3.3 获取登录状态
@@ -488,9 +487,6 @@ TIM_DECL int TIMLogout(TIMCommCallback cb, const void* user_data);
 *  如果用户已经处于已登录和登录中状态，请勿再频繁调用登录接口登录
 */
 TIM_DECL TIMLoginStatus TIMGetLoginStatus();
-/// @}
-
-
 
 /**
 * @brief  3.4 获取登陆用户的 userid
@@ -510,8 +506,6 @@ TIM_DECL TIMLoginStatus TIMGetLoginStatus();
 TIM_DECL int TIMGetLoginUserID(TIMCommCallback cb, const void* user_data);
 /// @}
 
-
-
 /////////////////////////////////////////////////////////////////////////////////
 //
 //                       会话相关接口
@@ -525,47 +519,6 @@ TIM_DECL int TIMGetLoginUserID(TIMCommCallback cb, const void* user_data);
 * > 群会话，表示群聊情况下，群内成员组成的会话，群会话内发送消息群成员都可接收到。
 */
 /// @{
-/**
-* @brief 4.1 创建会话
-*
-* @param conv_id   会话的ID
-* @param conv_type 会话类型，请参考[TIMConvType](TIMCloudDef.h)
-* @param cb 创建会话的回调。回调函数定义和参数解析请参考 [TIMCommCallback](TIMCloudCallback.h)
-* @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
-* @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
-*
-* @example 获取对方UserID为Windows-02的单聊会话示例
-* const void* user_data = nullptr; // 回调函数回传
-* const char* userid = "Windows-02";
-* int ret = TIMConvCreate(userid, kTIMConv_C2C, [](int32_t code, const char* desc, const char* json_param, const void* user_data) {
-*     if (ERR_SUCC != code) {
-*         return;
-*     }
-*     // 回调返回会话的具体信息
-* }, user_data);
-* if (ret != TIM_SUCC) {
-*     // 调用 TIMConvCreate 接口失败
-* }
-* 
-* @example 获取群组ID为Windows-Group-01的群聊会话示例
-* const void* user_data = nullptr; // 回调函数回传
-* const char* userid = "Windows-Group-01";
-* int ret = TIMConvCreate(userid, kTIMConv_Group, [](int32_t code, const char* desc, const char* json_param, const void* user_data) {
-*     if (ERR_SUCC != code) {
-*         return;
-*     }
-*     // 回调返回会话的具体信息
-* }, user_data);
-* if (ret != TIM_SUCC) {
-*     // 调用 TIMConvCreate 接口失败
-* }
-* 
-* @note
-* > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
-* > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
-*/
-TIM_DECL int TIMConvCreate(const char* conv_id, enum TIMConvType conv_type, TIMCommCallback cb, const void* user_data); 
-
 /**
 * @brief 4.2 删除会话
 *
@@ -2628,6 +2581,47 @@ TIM_DECL int callExperimentalAPI(const char* json_param, TIMCommCallback cb, con
 /// @name 废弃接口
 /// @brief 废弃接口
 /// @{
+/**
+* @brief 4.1 创建会话
+*
+* @param conv_id   会话的ID
+* @param conv_type 会话类型，请参考[TIMConvType](TIMCloudDef.h)
+* @param cb 创建会话的回调。回调函数定义和参数解析请参考 [TIMCommCallback](TIMCloudCallback.h)
+* @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
+* @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+*
+* @example 获取对方UserID为Windows-02的单聊会话示例
+* const void* user_data = nullptr; // 回调函数回传
+* const char* userid = "Windows-02";
+* int ret = TIMConvCreate(userid, kTIMConv_C2C, [](int32_t code, const char* desc, const char* json_param, const void* user_data) {
+*     if (ERR_SUCC != code) {
+*         return;
+*     }
+*     // 回调返回会话的具体信息
+* }, user_data);
+* if (ret != TIM_SUCC) {
+*     // 调用 TIMConvCreate 接口失败
+* }
+* 
+* @example 获取群组ID为Windows-Group-01的群聊会话示例
+* const void* user_data = nullptr; // 回调函数回传
+* const char* userid = "Windows-Group-01";
+* int ret = TIMConvCreate(userid, kTIMConv_Group, [](int32_t code, const char* desc, const char* json_param, const void* user_data) {
+*     if (ERR_SUCC != code) {
+*         return;
+*     }
+*     // 回调返回会话的具体信息
+* }, user_data);
+* if (ret != TIM_SUCC) {
+*     // 调用 TIMConvCreate 接口失败
+* }
+* 
+* @note
+* > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
+* > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
+*/
+TIM_DECL int TIMConvCreate(const char* conv_id, enum TIMConvType conv_type, TIMCommCallback cb, const void* user_data);
+
 /**
 * @brief 发送新消息
 *

@@ -849,6 +849,10 @@ static const char* kTIMMsgIsForwardMessage = "message_is_forward_message";      
 static const char* kTIMMsgSenderProfile         = "message_sender_profile";            //object [UserProfile](), 读写(选填), 消息的发送者的用户资料
 static const char* kTIMMsgSenderGroupMemberInfo = "message_sender_group_member_info";  //object [GroupMemberInfo](), 读写(选填), 消息发送者在群里面的信息，只有在群会话有效。目前仅能获取字段 kTIMGroupMemberInfoIdentifier、kTIMGroupMemberInfoNameCard 其他的字段建议通过 TIMGroupGetMemberInfoList 接口获取
 static const char* kTIMMsgOfflinePushConfig     = "message_offlie_push_config";        //object [OfflinePushConfig](), 读写(选填), 消息的离线推送设置
+
+static const char* kTIMMsgExcludedFromLastMessage  = "message_excluded_from_last_message";        // bool 读写 是否作为会话的 lasgMessage，true - 不作为，false - 作为
+
+
 // EndStruct
 
 /**
@@ -1313,17 +1317,30 @@ static const char* kTIMMsgDownloadElemResultTotalSize   = "msg_download_elem_res
 // EndStruct
 
 /**
+* @brief 消息搜索关键字的组合类型
+*/
+// Struct KeywordListMatchType JsonKey
+enum TIMKeywordListMatchType {
+    TIMKeywordListMatchType_Or,
+    TIMKeywordListMatchType_And
+};
+// EndStruct
+
+/**
 * @brief 消息搜索参数
 */
 // Struct MessageSearchParam JsonKey
-static const char* kTIMMsgSearchParamKeywordArray       = "msg_search_param_keyword_array";             // array string, 只写(必填)，搜索关键字列表，最多支持5个。
-static const char* kTIMMsgSearchParamMessageTypeArray   = "msg_search_param_message_type_array";        // array [TIMElemType](), 只写(选填), 指定搜索的消息类型集合，传入空数组，表示搜索支持的全部类型消息（FaceElem 和 GroupTipsElem 暂不支持）取值详见 TIMElemType。
-static const char* kTIMMsgSearchParamConvId             = "msg_search_param_conv_id";                   // string, 只写(选填)，会话 ID
-static const char* kTIMMsgSearchParamConvType           = "msg_search_param_conv_type";                 // uint [TIMConvType](), 只写(选填), 会话类型，如果设置 kTIMConv_Invalid，代表搜索全部会话。否则，代表搜索指定会话。
-static const char* kTIMMsgSearchParamSearchTimePosition = "msg_search_param_search_time_position";      // uint64, 只写(选填), 搜索的起始时间点。默认为0即代表从现在开始搜索。UTC 时间戳，单位：秒
-static const char* kTIMMsgSearchParamSearchTimePeriod   = "msg_search_param_search_time_period";        // uint64, 只写(选填), 从起始时间点开始的过去时间范围，单位秒。默认为0即代表不限制时间范围，传24x60x60代表过去一天。
-static const char* kTIMMsgSearchParamPageIndex          = "msg_search_param_page_index";                // uint, 只写(选填), 分页的页号：用于分页展示查找结果，从零开始起步。首次调用：通过参数 pageSize = 10, pageIndex = 0 调用 searchLocalMessage，从结果回调中的 totalCount 可以获知总共有多少条结果。计算页数：可以获知总页数：totalPage = (totalCount % loadCount == 0) ? (totalCount / pageIndex) : (totalCount / pageIndex + 1) 。再次调用：可以通过指定参数 pageIndex （pageIndex < totalPage）返回后续页号的结果。
+static const char* kTIMMsgSearchParamKeywordArray       = "msg_search_param_keyword_array";               // array string, 只写(必填)，搜索关键字列表，最多支持5个。
+static const char* kTIMMsgSearchParamMessageTypeArray   = "msg_search_param_message_type_array";          // array [TIMElemType](), 只写(选填), 指定搜索的消息类型集合，传入空数组，表示搜索支持的全部类型消息（FaceElem 和 GroupTipsElem 暂不支持）取值详见 TIMElemType。
+static const char* kTIMMsgSearchParamConvId             = "msg_search_param_conv_id";                     // string, 只写(选填)，会话 ID
+static const char* kTIMMsgSearchParamConvType           = "msg_search_param_conv_type";                   // uint [TIMConvType](), 只写(选填), 会话类型，如果设置 kTIMConv_Invalid，代表搜索全部会话。否则，代表搜索指定会话。
+static const char* kTIMMsgSearchParamSearchTimePosition = "msg_search_param_search_time_position";        // uint64, 只写(选填), 搜索的起始时间点。默认为0即代表从现在开始搜索。UTC 时间戳，单位：秒
+static const char* kTIMMsgSearchParamSearchTimePeriod   = "msg_search_param_search_time_period";          // uint64, 只写(选填), 从起始时间点开始的过去时间范围，单位秒。默认为0即代表不限制时间范围，传24x60x60代表过去一天。
+static const char* kTIMMsgSearchParamPageIndex          = "msg_search_param_page_index";                  // uint, 只写(选填), 分页的页号：用于分页展示查找结果，从零开始起步。首次调用：通过参数 pageSize = 10, pageIndex = 0 调用 searchLocalMessage，从结果回调中的 totalCount 可以获知总共有多少条结果。计算页数：可以获知总页数：totalPage = (totalCount % loadCount == 0) ? (totalCount / pageIndex) : (totalCount / pageIndex + 1) 。再次调用：可以通过指定参数 pageIndex （pageIndex < totalPage）返回后续页号的结果。
 static const char* kTIMMsgSearchParamPageSize           = "msg_search_param_page_size";                 // uint, 只写(选填), 每页结果数量：用于分页展示查找结果，如不希望分页可将其设置成 0，但如果结果太多，可能会带来性能问题。
+static const char* kTIMMsgSearchParamKeywordListMatchType   = "msg_search_param_keyword_list_match_type";                  // uint [TIMKeywordListMatchType], 关键字进行 Or 或者 And 进行搜索
+static const char* kTIMMsgSearchParamSenderIdentifierArray   = "msg_search_param_send_indentifier_array";  // array string, 按照发送者的 userid 进行搜索
+
 // EndStruct
 
 
@@ -1392,6 +1409,8 @@ static const char* kTIMConvDraft            = "conv_draft";                 // o
 static const char* kTIMConvRecvOpt          = "conv_recv_opt";              // uint [TIMReceiveMessageOpt](), 只读(选填), 消息接收选项
 static const char* kTIMConvGroupAtInfoArray = "conv_group_at_info_array";   // array [GroupAtInfo](), 只读(选填),  群会话 @ 信息列表，用于展示 “有人@我” 或 “@所有人” 这两种提醒状态
 static const char* kTIMConvIsPinned         = "conv_is_pinned";              // bool, 只读,是否置顶
+static const char* kTIMConvShowName         = "conv_show_name";              //string , 只读, 获取会话展示名称，其展示优先级如下：1、群组，群名称 C2C; 2、对方好友备注->对方昵称->对方的 userID
+
 // EndStruct
 /// @}
 
@@ -1460,6 +1479,7 @@ static const char* kTIMGroupMemberInfoCustemStringInfoValue = "group_member_info
 */
 // Struct GroupMemberInfo JsonKey
 static const char* kTIMGroupMemberInfoIdentifier = "group_member_info_identifier";   // string, 读写(必填), 群组成员ID
+static const char* kTIMGroupMemberInfoGroupId = "group_member_info_group_id";   // string, 只读, 群组 ID
 static const char* kTIMGroupMemberInfoJoinTime   = "group_member_info_join_time";    // uint,  只读, 群组成员加入时间
 static const char* kTIMGroupMemberInfoMemberRole = "group_member_info_member_role";  // uint [TIMGroupMemberRole](), 读写(选填), 群组成员角色
 static const char* kTIMGroupMemberInfoMsgFlag    = "group_member_info_msg_flag";     // uint, [TIMReceiveMessageOpt] 只读, 成员接收消息的选项

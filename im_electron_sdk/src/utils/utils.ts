@@ -72,13 +72,13 @@ function jsFuncToFFIFun(fun: CommonCallbackFun) {
 function jsFuncToFFIConvEventCallback(fun: convEventCallback) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString, ref.types.CString],
+        [ref.types.int, "string", "string"],
         function (
             conv_event: number,
-            json_conv_array: Buffer,
-            user_data: Buffer
+            json_conv_array: string,
+            user_data: string
         ) {
-            fun(conv_event, json_conv_array.toString(), user_data.toString());
+            fun(conv_event, json_conv_array, user_data);
         }
     );
     return callback;
@@ -88,9 +88,9 @@ function jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
 ) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString],
-        function (total_unread_count: number, user_data: Buffer) {
-            fun(total_unread_count, user_data.toString());
+        [ref.types.int, "string"],
+        function (total_unread_count: number, user_data: string) {
+            fun(total_unread_count, user_data);
         }
     );
     return callback;
@@ -100,14 +100,14 @@ function jsFunToFFITIMSetNetworkStatusListenerCallback(
 ) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString],
+        [ref.types.int, ref.types.int, "string", "string"],
         function (
             status: number,
             code: number,
-            desc: Buffer,
-            user_data: Buffer
+            desc: string,
+            user_data: string
         ) {
-            fun(status, code, desc.toString(), user_data.toString());
+            fun(status, code, desc, user_data);
         }
     );
     return callback;
@@ -118,9 +118,9 @@ function jsFunToFFITIMSetKickedOfflineCallback(
 ) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString],
-        function (user_data: Buffer) {
-            fun(user_data.toString());
+        ["string"],
+        function (user_data: string) {
+            fun(user_data);
         }
     );
     return callback;
@@ -130,9 +130,9 @@ function jsFunToFFITIMSetUserSigExpiredCallback(
 ) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString],
-        function (user_data: Buffer) {
-            fun(user_data.toString());
+        ["string"],
+        function (user_data: string) {
+            fun(user_data);
         }
     );
     return callback;
@@ -140,9 +140,9 @@ function jsFunToFFITIMSetUserSigExpiredCallback(
 function transformGroupTipFun(fun: GroupTipCallBackFun) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.CString, ref.types.CString],
-        function (json_group_tip_array: Buffer, user_data: Buffer) {
-            fun(json_group_tip_array.toString(), user_data.toString());
+        ["string", "string"],
+        function (json_group_tip_array: string, user_data: string) {
+            fun(json_group_tip_array, user_data);
         }
     );
     return callback;
@@ -151,17 +151,13 @@ function transformGroupTipFun(fun: GroupTipCallBackFun) {
 function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.CString, ref.types.CString, ref.types.CString],
+        ["string", "string", "string"],
         function (
-            group_id: Buffer,
-            json_group_attibute_array: Buffer,
-            user_data: Buffer
+            group_id: string,
+            json_group_attibute_array: string,
+            user_data: string
         ) {
-            fun(
-                group_id.toString(),
-                json_group_attibute_array.toString(),
-                user_data.toString()
-            );
+            fun(group_id, json_group_attibute_array, user_data);
         }
     );
     return callback;
@@ -169,9 +165,9 @@ function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
 function transferTIMLogCallbackFun(fun: TIMLogCallbackFun) {
     const callback = ffi.Callback(
         ref.types.void,
-        [ref.types.int, ref.types.CString, ref.types.CString],
-        function (level: number, log: Buffer, user_data: Buffer) {
-            fun(level, log.toString(), user_data.toString());
+        [ref.types.int, "string", "string"],
+        function (level: number, log: string, user_data: string) {
+            fun(level, log, user_data);
         }
     );
     return callback;

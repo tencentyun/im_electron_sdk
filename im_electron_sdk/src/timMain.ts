@@ -40,7 +40,7 @@ class Callback {
         return timManager;
     }
 
-    async getResponse() {
+    async getResponse(cb?: Function) {
         const startTime = Date.now();
         const { method, param, callback, manager } = this.requestData;
         console.log("requestData:", this.requestData);
@@ -53,16 +53,7 @@ class Callback {
                         "===========add callback successfully=========="
                     );
                     //@ts-ignore
-                    param.callback = (...args) => {
-                        console.log("callback-response");
-                        this.ipcEvent.sender.send(
-                            "global-callback-reply",
-                            JSON.stringify({
-                                callbackKey: callback,
-                                responseData: args,
-                            })
-                        );
-                    };
+                    param.callback = cb;
                 }
 
                 try {
@@ -89,6 +80,7 @@ class Callback {
 
 class TimMain {
     static isLisened = false;
+    private _callback: Map<string, Function> = new Map();
     constructor(config: initConfig) {
         const tim: TIM = new TIM({
             sdkappid: config.sdkappid,
@@ -98,8 +90,25 @@ class TimMain {
         if (!TimMain.isLisened) {
             ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
                 const requestData = JSON.parse(data as unknown as string);
+                const { callback, method } = requestData;
+                let cb;
+                if (callback) {
+                    cb = (...args: any) => {
+                        console.log("callback-response", method);
+                        event.sender.send(
+                            "global-callback-reply",
+                            JSON.stringify({
+                                callbackKey: callback,
+                                responseData: args,
+                            })
+                        );
+                    };
+                    this._callback.set(callback, cb);
+                }
                 const requestInstance = new Callback(requestData, tim, event);
-                const response = await requestInstance.getResponse();
+                const response = await requestInstance.getResponse(
+                    callback ? this._callback.get(callback) : () => {}
+                );
                 return response;
             });
             TimMain.isLisened = true;

@@ -39,7 +39,7 @@ class AdvanceMessageManage {
         | TIMRecvNewMsgCallbackParams
         | undefined;
     private stringFormator = (str: string | undefined): Buffer =>
-        str ? nodeStrigToCString(str) : Buffer.from("");
+        str ? nodeStrigToCString(str) : Buffer.from(" ");
 
     getErrorResponse(params: ErrorResponse) {
         return {

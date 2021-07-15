@@ -61,7 +61,7 @@ class TimbaseManager {
         const userSig = nodeStrigToCString(param.userSig);
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
         return new Promise((resolve, reject) => {
             const cb: CommonCallbackFun = (
                 code,
@@ -89,7 +89,7 @@ class TimbaseManager {
     TIMLogout(param: logoutParam): Promise<commonResponse> {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
         return new Promise((resolve, reject) => {
             const cb: CommonCallbackFun = (
                 code,
@@ -118,7 +118,7 @@ class TimbaseManager {
     TIMGetLoginUserID(param: getLoginUserIDParam): Promise<commonResponse> {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
         return new Promise((resolve, reject) => {
             const cb: CommonCallbackFun = (
                 code,
@@ -149,7 +149,7 @@ class TimbaseManager {
         );
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
 
         this._callback.set("TIMSetNetworkStatusListenerCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetNetworkStatusListenerCallback(
@@ -161,7 +161,7 @@ class TimbaseManager {
         const callback = jsFunToFFITIMSetKickedOfflineCallback(param.callback);
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
         this._callback.set("TIMSetKickedOfflineCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetKickedOfflineCallback(
             this._callback.get("TIMSetKickedOfflineCallback") as Buffer,
@@ -172,7 +172,7 @@ class TimbaseManager {
         const callback = jsFunToFFITIMSetUserSigExpiredCallback(param.callback);
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from("");
+            : Buffer.from(" ");
         this._callback.set("TIMSetUserSigExpiredCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetUserSigExpiredCallback(
             this._callback.get("TIMSetUserSigExpiredCallback") as Buffer,
@@ -183,7 +183,7 @@ class TimbaseManager {
         const callback = transferTIMLogCallbackFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from("");
+            : Buffer.from(" ");
         this._callback.set("TIMSetLogCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetLogCallback(
             this._callback.get("TIMSetLogCallback") as Buffer,
@@ -194,7 +194,7 @@ class TimbaseManager {
         const callback = jsFuncToFFIFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from("");
+            : Buffer.from(" ");
         const json_config = nodeStrigToCString(
             JSON.stringify(param.json_config)
         );
@@ -209,7 +209,7 @@ class TimbaseManager {
         const callback = jsFuncToFFIFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from("");
+            : Buffer.from(" ");
         const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
         this._callback.set("callExperimentalAPI", callback);
         this._sdkconfig.Imsdklib.callExperimentalAPI(
@@ -223,7 +223,7 @@ class TimbaseManager {
     ): Promise<commonResponse> {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from("");
+            : Buffer.from(" ");
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_get_user_profile_list_param)
         );
@@ -256,7 +256,7 @@ class TimbaseManager {
     ): Promise<commonResponse> {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from("");
+            : Buffer.from(" ");
         const json_param = nodeStrigToCString(
             JSON.stringify(param.json_modify_self_user_profile_param)
         );
