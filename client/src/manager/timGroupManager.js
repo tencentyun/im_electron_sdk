@@ -43,10 +43,10 @@ const TimBaseManager = {
       data: 'test data'
     })
   },
-  TIMGroupGetMemberInfoList: (groupId) => {
+  TIMGroupGetMemberInfoList: () => {
     return timRenderInstance.TIMGroupGetMemberInfoList({
       params: {
-        group_get_members_info_list_param_group_id: groupId,
+        group_get_members_info_list_param_group_id: "1lexuslin127",
       },
       data: 'test data'
     })
