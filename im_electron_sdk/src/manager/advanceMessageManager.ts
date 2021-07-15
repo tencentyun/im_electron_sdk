@@ -732,7 +732,7 @@ class AdvanceMessageManage {
             c_user_data
         );
     }
-
+    // native 返回的user_data为空，等修复，先兼容
     TIMSetMsgElemUploadProgressCallback(
         params: TIMMsgElemUploadProgressCallbackParams
     ): void {
@@ -748,13 +748,7 @@ class AdvanceMessageManage {
                 local_size: number,
                 user_data: Buffer
             ) {
-                callback(
-                    json_msg.toString(),
-                    index,
-                    cur_size,
-                    local_size,
-                    user_data.toString()
-                );
+                callback(json_msg.toString(), index, cur_size, local_size, "");
             }
         );
         this._callback.set("TIMSetMsgElemUploadProgressCallback", c_callback);

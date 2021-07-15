@@ -8,8 +8,10 @@ const advanceMessageManager = {
             conv_type: 1,
             params: {
                 message_elem_array: [{
-                    elem_type: 0,
-                    text_elem_content: "123"
+                    elem_type: 1,
+                    // text_elem_content: "123"
+                    image_elem_orig_path: "/home/lexuslin/sucai/111.png",
+                    image_elem_level: 0
                 }],
                 message_sender: "lexuslin3"
             },

@@ -170,6 +170,8 @@ interface Json_search_message_param {
     msg_search_param_search_time_period?: number;
     msg_search_param_page_index?: number;
     msg_search_param_page_size?: number;
+    msg_search_param_keyword_list_match_type?: number;
+    msg_search_param_send_indentifier_array?: [string];
 }
 
 interface Json_get_msg_param {
