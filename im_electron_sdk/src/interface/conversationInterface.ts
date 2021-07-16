@@ -41,7 +41,7 @@ interface convGetConvInfo {
 interface convPinConversation {
     convId: string;
     convType: TIMConvType;
-    isPinged: boolean;
+    isPinned: boolean;
     user_data?: string;
 }
 interface convGetTotalUnreadMessageCount {
