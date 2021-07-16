@@ -42,6 +42,7 @@ class TimbaseManager {
                 "./sdk-config"
             ),
         });
+        console.log(sdkconfig);
         return this._sdkconfig.Imsdklib.TIMInit(
             this._sdkconfig.sdkappid,
             nodeStrigToCString(sdkconfig)
