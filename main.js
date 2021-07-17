@@ -5,7 +5,7 @@ const url = require('url')
 const TimMain = require('./im_electron_sdk/dist/main');
 // const TIM = require('./im_electron_sdk/dist/tim')
 new TimMain({
-  sdkappid: 1400187352
+  sdkappid: 1400529075
 })
 // const t = new TIM({
 //   sdkappid: 1400187352

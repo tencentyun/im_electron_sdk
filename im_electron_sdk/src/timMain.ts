@@ -55,7 +55,6 @@ class Callback {
                     //@ts-ignore
                     param.callback = cb;
                 }
-
                 try {
                     responseData = await timManager[method](param);
                 } catch (err) {

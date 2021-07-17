@@ -42,7 +42,6 @@ class TimbaseManager {
                 "./sdk-config"
             ),
         });
-        console.log(sdkconfig);
         return this._sdkconfig.Imsdklib.TIMInit(
             this._sdkconfig.sdkappid,
             nodeStrigToCString(sdkconfig)
@@ -192,32 +191,66 @@ class TimbaseManager {
         );
     }
     TIMSetConfig(param: TIMSetConfigParam) {
-        const callback = jsFuncToFFIFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
         const json_config = nodeStrigToCString(
             JSON.stringify(param.json_config)
         );
-        this._callback.set("TIMSetConfig", callback);
-        this._sdkconfig.Imsdklib.TIMSetConfig(
-            json_config,
-            this._callback.get("TIMSetConfig") as Buffer,
-            user_data
-        );
+        return new Promise((resolve, reject) => {
+            const cb: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                if (code === 0) {
+                    resolve({ code, desc, json_param, user_data });
+                } else {
+                    reject({ code, desc, json_param, user_data });
+                }
+            };
+            const callback = jsFuncToFFIFun(cb);
+            this._callback.set("TIMSetConfig", callback);
+            const code = this._sdkconfig.Imsdklib.TIMSetConfig(
+                json_config,
+                this._callback.get("TIMSetConfig") as Buffer,
+                user_data
+            );
+            code !== 0 && reject({ code });
+        });
     }
-    callExperimentalAPI(param: callExperimentalAPIParam) {
-        const callback = jsFuncToFFIFun(param.callback);
+    callExperimentalAPI(
+        param: callExperimentalAPIParam
+    ): Promise<commonResponse> {
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
         const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
-        this._callback.set("callExperimentalAPI", callback);
-        this._sdkconfig.Imsdklib.callExperimentalAPI(
-            json_param,
-            this._callback.get("callExperimentalAPI") as Buffer,
-            user_data
-        );
+
+        return new Promise((resolve, reject) => {
+            const cb: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                if (code === 0) {
+                    resolve({ code, desc, json_param, user_data });
+                } else {
+                    reject({ code, desc, json_param, user_data });
+                }
+            };
+            const callback = jsFuncToFFIFun(cb);
+            this._callback.set("callExperimentalAPI", callback);
+            const code = this._sdkconfig.Imsdklib.callExperimentalAPI(
+                json_param,
+                this._callback.get("callExperimentalAPI") as Buffer,
+                user_data
+            );
+            code !== 0 && reject({ code });
+            code === 0 && resolve({ code });
+        });
     }
     TIMProfileGetUserProfileList(
         param: TIMProfileGetUserProfileListParam

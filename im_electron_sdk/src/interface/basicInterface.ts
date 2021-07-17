@@ -114,7 +114,6 @@ interface TIMSetConfigParam {
 }
 interface callExperimentalAPIParam {
     json_param: callExperimentalAPIJsonParam;
-    callback: CommonCallbackFun;
     user_data: string;
 }
 interface jsonGetUserProfileListParam {

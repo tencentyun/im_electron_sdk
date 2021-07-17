@@ -11,6 +11,16 @@ const APIS = [
         manager: "timBaseManager",
         method: [
             {
+                name: "callExperimentalAPI",
+                action: (callback) => {
+                    TimBaseManager.callExperimentalAPI().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMInit",
                 action: (callback) => {
                     TimBaseManager.TIMInit().then(data => {
