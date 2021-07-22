@@ -20,6 +20,7 @@ import {
     MsgDownloadMergerMessageParams,
     MsgBatchSendParams,
     MsgSearchLocalMessagesParams,
+    commonResponse,
 } from "../interface";
 import {
     TIMRecvNewMsgCallbackParams,
@@ -152,26 +153,56 @@ class AdvanceMessageManage {
 
     TIMMsgReportReaded(
         msgReportReadedParams: MsgReportReadedParams
-    ): Promise<any> {
-        const { conv_id, conv_type, message_id, user_data } =
-            msgReportReadedParams;
+    ): Promise<commonResponse> {
+        const {
+            conv_id,
+            conv_type,
+            message_id = "",
+            user_data,
+        } = msgReportReadedParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
 
-        return this.TIMMsgFindMessages({
-            json_message_id_array: [message_id],
-            user_data: user_data,
-        }).then(res => {
+        if (message_id) {
+            return this.TIMMsgFindMessages({
+                json_message_id_array: [message_id],
+                user_data: user_data,
+            }).then(res => {
+                return new Promise((resolve, reject) => {
+                    const json_msg_param_array = res.json_params;
+                    const json_msg_param = JSON.stringify(
+                        JSON.parse(json_msg_param_array)[0]
+                    );
+                    const c_json_msg_param =
+                        this.stringFormator(json_msg_param);
+                    const callback = jsFuncToFFIFun(
+                        (code, desc, json_param, user_data) => {
+                            if (code === 0) {
+                                resolve({ code, desc, json_param, user_data });
+                            } else
+                                reject(this.getErrorResponse({ code, desc }));
+                        }
+                    );
+                    this._callback.set("TIMMsgReportReaded", callback);
+                    const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(
+                        c_conv_id,
+                        conv_type,
+                        c_json_msg_param,
+                        this._callback.get("TIMMsgReportReaded") as Buffer,
+                        c_user_data
+                    );
+
+                    code !== 0 && reject(this.getErrorResponse({ code }));
+                });
+            });
+        } else {
             return new Promise((resolve, reject) => {
-                const json_msg_param_array = res.json_params;
-                const json_msg_param = JSON.stringify(
-                    JSON.parse(json_msg_param_array)[0]
-                );
+                const json_msg_param = "";
                 const c_json_msg_param = this.stringFormator(json_msg_param);
                 const callback = jsFuncToFFIFun(
-                    (code, desc, json_params, user_data) => {
+                    (code, desc, json_param, user_data) => {
                         if (code === 0) {
-                            resolve({ code, desc, json_params, user_data });
+                            resolve({ code, desc, json_param, user_data });
                         } else reject(this.getErrorResponse({ code, desc }));
                     }
                 );
@@ -186,7 +217,7 @@ class AdvanceMessageManage {
 
                 code !== 0 && reject(this.getErrorResponse({ code }));
             });
-        });
+        }
     }
 
     TIMMsgRevoke(msgRevokeParams: MsgRevokeParams): Promise<any> {
@@ -740,7 +771,13 @@ class AdvanceMessageManage {
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
-            [ref.types.CString, ref.types.int, ref.types.int, ref.types.int, ref.types.CString],
+            [
+                ref.types.CString,
+                ref.types.int,
+                ref.types.int,
+                ref.types.int,
+                ref.types.CString,
+            ],
             function (
                 json_msg: Buffer,
                 index: number,

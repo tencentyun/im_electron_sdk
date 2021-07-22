@@ -1538,7 +1538,7 @@ TIM_DECL int TIMGroupDeleteMember(const char* json_group_delete_param, TIMCommCa
 * > 权限说明：
 * >>   此接口可以获取自己所加入的群列表
 * >>   此接口只能获得加入的部分直播大群的列表。
-* > 此接口用于获取当前用户已加入的群组列表，返回群组的基础信息。具体返回的群组信息字段参考[GroupBaseInfo](TIMCloudDef.h)和[GroupDetailInfo](TIMCloudDef.h)
+* > 此接口用于获取当前用户已加入的群组列表，返回群组的基础信息。具体返回的群组信息字段参考[GroupBaseInfo,GroupDetailInfo](TIMCloudDef.h)和[GroupDetailInfo](TIMCloudDef.h)
 */
 TIM_DECL int TIMGroupGetJoinedGroupList(TIMCommCallback cb, const void* user_data);
 
@@ -1563,7 +1563,7 @@ TIM_DECL int TIMGroupGetJoinedGroupList(TIMCommCallback cb, const void* user_dat
 * [ "third group id", "second group id", "first group id" ]
 *
 * @note
-* 此接口用于获取指定群ID列表的群详细信息。具体返回的群组详细信息字段参考[GroupDetailInfo](TIMCloudDef.h)
+* 此接口用于获取指定群ID列表的群详细信息。具体返回的群组详细信息字段参考[GroupDetailInfo,GroupBaseInfo](TIMCloudDef.h)
 */
 TIM_DECL int TIMGroupGetGroupInfoList(const char* json_group_getinfo_param, TIMCommCallback cb, const void* user_data);
 

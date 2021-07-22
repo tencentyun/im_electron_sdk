@@ -20,7 +20,7 @@ interface MsgFindMessagesParams {
 interface MsgReportReadedParams {
     conv_id: string;
     conv_type: number;
-    message_id: string;
+    message_id?: string;
     user_data?: string;
 }
 interface MsgRevokeParams {

@@ -652,7 +652,7 @@ static const char* kTIMInternalOperationUserId2TinyId    = "internal_operation_u
 static const char* kTIMInternalOperationTinyId2UserId    = "internal_operation_tinyid_userid";
 static const char* kTIMInternalOperationSetEnv           = "internal_operation_set_env";
 static const char* kTIMInternalOperationSetMaxRetryCount = "internal_operation_set_max_retry_count";
-static const char* kTIMInternalOperationSetPrivatizationInfo = "internal_operation_set_privatization_info";
+static const char* kTIMInternalOperationSetCustomServerInfo = "internal_operation_set_custom_server_info";
 static const char* kTIMInternalOperationInitLocalStorage = "internal_operation_init_local_storage";
 // EndStruct
 
@@ -691,7 +691,7 @@ static const char* kTIMRequestUserId2TinyIdParam = "request_userid_tinyid_param"
 static const char* kTIMRequestTinyId2UserIdParam = "request_tinyid_userid_param"; // array uint64, 只写(选填), 请求需要转换成userid的tinyid列表, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationTinyId2UserId 时需要设置
 static const char* kTIMRequestSetEnvParam        = "request_set_env_param";       // bool, 只写(选填), true 表示设置当前环境为测试环境，false表示设置当前环境是正式环境，默认是正式环境, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetEnv 时需要设置
 static const char* kTIMRequestSetMaxRetryCountParam = "request_set_max_retry_count_param"; // uint32, 只写(选填), 设置登录、发消息的重试次数, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetMaxRetryCount 时需要设置
-static const char* kTIMRequestSetPrivatizationInfoParam = "request_set_privatization_info_param"; // object [PrivatizationInfo](), 只写(选填), 私有云配置信息, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetPrivatizationInfo 时需要设置
+static const char* kTIMRequestSetCustomServerInfoParam = "request_set_custom_server_info_param"; // object [CustomServerInfo](), 只写(选填), 自定义服务器信息, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetCustomServerInfo 时需要设置
 static const char* kTIMRequestInitLocalStorageParam = "request_init_local_storage_user_id_param"; // string, 只写(选填), 初始化 Database 的用户 ID, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationInitLocalStorage 时需要设置
 // EndStruct
 
@@ -716,11 +716,12 @@ static const char* kTIMServerAddressPort = "server_address_port";               
 // EndStruct
 
 /**
-* @brief 私有云配置信息
+* @brief 自定义服务器信息
 */
-// Struct PrivatizationInfo JsonKey
-static const char* kTIMPrivatizationInfoServerAddressArray = "server_address_array"; // array [ServerAddress](), 只读, 服务器地址列表
-static const char* kTIMPrivatizationInfoServerPublicKey = "server_public_key";       // string, 只写(必填), 服务器公钥
+// Struct CustomServerInfo JsonKey
+static const char* kTIMCustomServerInfoLongConnectionAddressArray = "longconnection_address_array"; // array [ServerAddress](), 只读, 长连接服务器地址列表
+static const char* kTIMCustomServerInfoShortConnectionAddressArray = "shortconnection_address_array"; // array [ServerAddress](), 只读, 短连接服务器地址列表
+static const char* kTIMCustomServerInfoServerPublicKey = "server_public_key";       // string, 只写(必填), 服务器公钥
 // EndStruct
 
 /// @}
@@ -1486,6 +1487,9 @@ static const char* kTIMGroupMemberInfoMsgFlag    = "group_member_info_msg_flag";
 static const char* kTIMGroupMemberInfoMsgSeq     = "group_member_info_msg_seq";      // uint, 只读, 消息序列号
 static const char* kTIMGroupMemberInfoShutupTime = "group_member_info_shutup_time";  // uint,  只读, 成员禁言时间
 static const char* kTIMGroupMemberInfoNameCard   = "group_member_info_name_card";    // string, 只读, 成员群名片
+static const char* kTIMGroupMemberInfoNickName   = "group_member_info_nick_name";    // string, 只读, 好友昵称
+static const char* kTIMGroupMemberInfoRemark   = "group_member_info_remark";    // string, 只读, 好友备注
+static const char* kTIMGroupMemberInfoFaceUrl   = "group_member_info_face_url";    // string, 只读, 好友头像
 static const char* kTIMGroupMemberInfoCustomInfo = "group_member_info_custom_info";  // array [GroupMemberInfoCustemString](), 只读, 请参考[自定义字段](https://cloud.tencent.com/document/product/269/1502#.E8.87.AA.E5.AE.9A.E4.B9.89.E5.AD.97.E6.AE.B5)
 // EndStruct
 
@@ -1695,8 +1699,6 @@ enum TIMGroupMemberModifyInfoFlag {
     kTIMGroupMemberModifyFlag_NameCard   = 0x01 << 3, // 修改群名片
     kTIMGroupMemberModifyFlag_Custom     = 0x01 << 4, // 修改群成员自定义信息
 };
-
-
 /**
 * @brief 设置群成员信息接口的参数
 */
@@ -1704,7 +1706,7 @@ enum TIMGroupMemberModifyInfoFlag {
 static const char* kTIMGroupModifyMemberInfoParamGroupId     = "group_modify_member_info_group_id";       // string, 只写(必填), 群组ID
 static const char* kTIMGroupModifyMemberInfoParamIdentifier  = "group_modify_member_info_identifier";     // string, 只写(必填), 被设置信息的成员ID
 static const char* kTIMGroupModifyMemberInfoParamModifyFlag  = "group_modify_member_info_modify_flag";    // uint [TIMGroupMemberModifyInfoFlag](), 只写(必填), 修改类型,可设置多个值按位或
-static const char* kTIMGroupModifyMemberInfoParamMsgFlag     = "group_modify_member_info_msg_flag";       // uint,[TIMGroupReceiveMessageOpt]   只写(选填), 修改消息接收选项,                  当 modify_flag 包含 kTIMGroupMemberModifyFlag_MsgFlag 时必填,其他情况不用填
+static const char* kTIMGroupModifyMemberInfoParamMsgFlag     = "group_modify_member_info_msg_flag";       // uint,[TIMReceiveMessageOpt]   只写(选填), 修改消息接收选项,                  当 modify_flag 包含 kTIMGroupMemberModifyFlag_MsgFlag 时必填,其他情况不用填
 static const char* kTIMGroupModifyMemberInfoParamMemberRole  = "group_modify_member_info_member_role";    // uint [TIMGroupMemberRole](), 只写(选填), 修改成员角色, 当 modify_flag 包含 kTIMGroupMemberModifyFlag_MemberRole 时必填,其他情况不用填
 static const char* kTIMGroupModifyMemberInfoParamShutupTime  = "group_modify_member_info_shutup_time";    // uint,   只写(选填), 修改禁言时间,                      当 modify_flag 包含 kTIMGroupMemberModifyFlag_ShutupTime 时必填,其他情况不用填
 static const char* kTIMGroupModifyMemberInfoParamNameCard    = "group_modify_member_info_name_card";      // string, 只写(选填), 修改群名片,                        当 modify_flag 包含 kTIMGroupMemberModifyFlag_NameCard 时必填,其他情况不用填
@@ -2158,10 +2160,10 @@ static const char* kTIMFriendshipSearchParamSearchFieldList  = "friendship_searc
  * @brief 二者之间的关系
  */
 enum TIMFriendshipRelationType {
-    kTIMFriendshipRelationType_None = 0,  // 未知关系
-    kTIMFriendshipRelationType_InMyFriendList = 0x01 << 1,      // 单向好友：对方是我的好友，我不是对方的好友
-    kTIMFriendshipRelationType_InOtherFriendList = 0x01 << 2,      // 单向好友：对方不是我的好友，我是对方的好友
-    kTIMFriendshipRelationType_BothFriend = 0x01 << 2,      // 双向好友
+    kTIMFriendshipRelationType_None,  // 未知关系
+    kTIMFriendshipRelationType_InMyFriendList,    // 单向好友：对方是我的好友，我不是对方的好友
+    kTIMFriendshipRelationType_InOtherFriendList,      // 单向好友：对方不是我的好友，我是对方的好友
+    kTIMFriendshipRelationType_BothFriend,      // 双向好友
 };
 
 /**
@@ -2169,7 +2171,7 @@ enum TIMFriendshipRelationType {
  */
 // Struct FriendInfoGetResult JsonKey
 static const char* kTIMFriendshipFriendInfoGetResultIdentifier = "friendship_friend_info_get_result_identifier"; // string, 只读, 好友 user_id
-static const char* kTIMFriendshipFriendInfoGetResultRelationType  = "friendship_friend_info_get_result_relation_type";   // uint [TIMFriendCheckRelation], 只读， 好友关系
+static const char* kTIMFriendshipFriendInfoGetResultRelationType  = "friendship_friend_info_get_result_relation_type";   // uint [TIMFriendshipRelationType], 只读， 好友关系
 static const char* kTIMFriendshipFriendInfoGetResultErrorCode  = "friendship_friend_info_get_result_error_code";   // uint， 只读，错误码
 static const char* kTIMFriendshipFriendInfoGetResultErrorMessage  = "friendship_friend_info_get_result_error_message";   // string, 只读， 错误描述
 static const char* kTIMFriendshipFriendInfoGetResultFriendInfo  = "friendship_friend_info_get_result_field_info";   // array [FriendProfile], 只读, 好友资料
