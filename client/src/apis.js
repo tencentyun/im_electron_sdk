@@ -11,6 +11,16 @@ const APIS = [
         manager: "timBaseManager",
         method: [
             {
+                name: "callExperimentalAPI",
+                action: (callback) => {
+                    TimBaseManager.callExperimentalAPI().then(data=>{
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMInit",
                 action: (callback) => {
                     TimBaseManager.TIMInit().then(data => {
@@ -180,9 +190,25 @@ const APIS = [
             {
                 name:"TIMConvGetConvList",
                 action:(callback)=>{
-                    for(let i = 0;i<1;i++){
+                    for(let i = 0;i<30;i++){
                         ConversationManager.TIMConvGetConvList().then(data=>{
                             console.log('hahah')
+                            callback(JSON.stringify(data))
+                        }).catch(err=>{
+                            callback(err.toString())
+                        })
+                    }
+                    for(let i = 0;i<30;i++){
+                        TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
+                            console.log('hehehe')
+                            callback(JSON.stringify(data))
+                        }).catch(err => {
+                            callback(err.toString())
+                        })
+                    }
+                    for(let i = 0;i<30;i++){
+                        ConversationManager.TIMConvGetConvInfo().then(data=>{
+                            console.log('asdsa')
                             callback(JSON.stringify(data))
                         }).catch(err=>{
                             callback(err.toString())
@@ -291,11 +317,13 @@ const APIS = [
             {
                 name: "TIMGroupGetJoinedGroupList",
                 action: (callback) => {
-                    TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
-                        callback(JSON.stringify(data))
-                    }).catch(err => {
-                        callback(err.toString())
-                    })
+                    for(let i = 0;i<20;i++){
+                        TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
+                            callback(JSON.stringify(data))
+                        }).catch(err => {
+                            callback(err.toString())
+                        })
+                    }
                 }
             },
             {

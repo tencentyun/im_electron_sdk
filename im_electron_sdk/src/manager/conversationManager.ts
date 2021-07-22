@@ -162,7 +162,7 @@ class ConversationManager {
     ): Promise<commonResponse> {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
-        const isPinged = param.isPinged;
+        const isPinged = param.isPinned;
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
