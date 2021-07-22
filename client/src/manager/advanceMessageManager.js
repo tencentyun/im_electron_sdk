@@ -8,10 +8,13 @@ const advanceMessageManager = {
             conv_type: 1,
             params: {
                 message_elem_array: [{
-                    elem_type: 1,
+                    elem_type: 4,
                     // text_elem_content: "123"
-                    image_elem_orig_path: "/home/lexuslin/sucai/111.png",
-                    image_elem_level: 0
+                    // image_elem_orig_path: "/home/lexuslin/sucai/111.png",
+                    // image_elem_level: 0
+                    file_elem_file_path: "/home/lexuslin/sucai/15.zip",
+                    file_elem_file_name: "xxxx",
+                    file_elem_file_size: 23150412 
                 }],
                 message_sender: "lexuslin3"
             },
@@ -254,6 +257,7 @@ const advanceMessageManager = {
     TIMSetMsgElemUploadProgressCallback:(callback) => {
         return timRenderInstance.TIMSetMsgElemUploadProgressCallback({
             callback: (...args)=>{
+                console.log(1111, args)
                 const [[data,user_data]] = args;
                 callback(JSON.stringify({
                     data,user_data

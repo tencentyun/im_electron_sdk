@@ -740,7 +740,7 @@ class AdvanceMessageManage {
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
-            [ref.types.CString, ref.types.CString],
+            [ref.types.CString, ref.types.int, ref.types.int, ref.types.int, ref.types.CString],
             function (
                 json_msg: Buffer,
                 index: number,
