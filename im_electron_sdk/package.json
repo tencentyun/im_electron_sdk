@@ -1,6 +1,6 @@
 {
   "name": "im_electron_sdk",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "tencent cloud im for electron base c++ apis.",
   "main": "dist/main.js",
   "browser": "dist/renderer.js",
@@ -63,5 +63,5 @@
     "ref-struct-napi": "^1.1.1",
     "typedoc": "^0.21.2"
   },
-  "types": "./dist/basicInterface.d-ce6ca7bb.d.ts"
+  "types": "./dist/basicInterface.d-bfb305b1.d.ts"
 }
