@@ -66,7 +66,7 @@ class AdvanceMessageManage {
     }
     TIMMsgSendMessage(
         msgSendMessageParams: MsgSendMessageParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgSendMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -82,7 +82,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgSendMessage")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgSendMessage", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -93,7 +92,7 @@ class AdvanceMessageManage {
                 conv_type,
                 c_params,
                 undefined,
-                this._callback.get("TIMMsgSendMessage") as Buffer,
+                this._cache.get("TIMMsgSendMessage")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -101,7 +100,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams): Promise<any> {
+    TIMMsgCancelSend(
+        msgCancelSendParams: MsgCancelSendParams
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, message_id, user_data } =
             msgCancelSendParams;
         const c_conv_id = this.stringFormator(conv_id);
@@ -118,7 +119,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgCancelSend")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgCancelSend", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -128,7 +128,7 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 c_message_id,
-                this._callback.get("TIMMsgCancelSend") as Buffer,
+                this._cache.get("TIMMsgCancelSend")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -138,7 +138,7 @@ class AdvanceMessageManage {
 
     TIMMsgFindMessages(
         msgFindMessagesParams: MsgFindMessagesParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { json_message_id_array, user_data } = msgFindMessagesParams;
         const c_json_message_id_array = this.stringFormator(
             JSON.stringify(json_message_id_array)
@@ -162,7 +162,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgFindMessages")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgFindMessages", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -170,7 +169,7 @@ class AdvanceMessageManage {
             this._cache.set("TIMMsgFindMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgFindMessages(
                 c_json_message_id_array,
-                this._callback.get("TIMMsgFindMessages") as Buffer,
+                this._cache.get("TIMMsgFindMessages")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -199,7 +198,9 @@ class AdvanceMessageManage {
                     const now = `${Date.now()}${randomString()}`;
                     const json_msg_param_array = res.json_params;
                     const json_msg_param = JSON.stringify(
-                        JSON.parse(json_msg_param_array)[0]
+                        JSON.parse(
+                            json_msg_param_array || JSON.stringify([])
+                        )[0]
                     );
                     const c_json_msg_param =
                         this.stringFormator(json_msg_param);
@@ -212,7 +213,6 @@ class AdvanceMessageManage {
                             this._cache.get("TIMMsgReportReaded")?.delete(now);
                         }
                     );
-                    this._callback.set("TIMMsgReportReaded", callback);
                     const cacheMap = new Map();
                     cacheMap.set(now, {
                         callback: callback,
@@ -222,7 +222,8 @@ class AdvanceMessageManage {
                         c_conv_id,
                         conv_type,
                         c_json_msg_param,
-                        this._callback.get("TIMMsgReportReaded") as Buffer,
+                        this._cache.get("TIMMsgReportReaded")?.get(now)
+                            ?.callback,
                         c_user_data
                     );
 
@@ -242,7 +243,6 @@ class AdvanceMessageManage {
                         this._cache.get("TIMMsgReportReaded")?.delete(now);
                     }
                 );
-                this._callback.set("TIMMsgReportReaded", callback);
                 const cacheMap = new Map();
                 cacheMap.set(now, {
                     callback: callback,
@@ -252,7 +252,7 @@ class AdvanceMessageManage {
                     c_conv_id,
                     conv_type,
                     c_json_msg_param,
-                    this._callback.get("TIMMsgReportReaded") as Buffer,
+                    this._cache.get("TIMMsgReportReaded")?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -261,7 +261,7 @@ class AdvanceMessageManage {
         }
     }
 
-    TIMMsgRevoke(msgRevokeParams: MsgRevokeParams): Promise<any> {
+    TIMMsgRevoke(msgRevokeParams: MsgRevokeParams): Promise<commonResponse> {
         const { conv_id, conv_type, message_id, user_data } = msgRevokeParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
@@ -274,7 +274,7 @@ class AdvanceMessageManage {
                 const now = `${Date.now()}${randomString()}`;
                 const json_msg_param_array = res.json_params;
                 const json_msg_param = JSON.stringify(
-                    JSON.parse(json_msg_param_array)[0]
+                    JSON.parse(json_msg_param_array || JSON.stringify([]))[0]
                 );
                 const c_json_msg_param = this.stringFormator(json_msg_param);
                 const callback = jsFuncToFFIFun(
@@ -285,7 +285,6 @@ class AdvanceMessageManage {
                         this._cache.get("TIMMsgRevoke")?.delete(now);
                     }
                 );
-                this._callback.set("TIMMsgRevoke", callback);
                 const cacheMap = new Map();
                 cacheMap.set(now, {
                     callback: callback,
@@ -295,7 +294,7 @@ class AdvanceMessageManage {
                     c_conv_id,
                     conv_type,
                     c_json_msg_param,
-                    this._callback.get("TIMMsgRevoke") as Buffer,
+                    this._cache.get("TIMMsgRevoke")?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -306,7 +305,7 @@ class AdvanceMessageManage {
 
     TIMMsgFindByMsgLocatorList(
         msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } =
             msgFindByMsgLocatorListParams;
         const c_conv_id = this.stringFormator(conv_id);
@@ -323,7 +322,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgFindByMsgLocatorList")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgFindByMsgLocatorList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -333,7 +331,8 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 c_params,
-                this._callback.get("TIMMsgFindByMsgLocatorList") as Buffer,
+                this._cache.get("TIMMsgFindByMsgLocatorList")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -343,7 +342,7 @@ class AdvanceMessageManage {
 
     TIMMsgImportMsgList(
         msgImportMsgListParams: MsgImportMsgListParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } =
             msgImportMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
@@ -360,7 +359,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgImportMsgList")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgImportMsgList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -370,7 +368,7 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 c_params,
-                this._callback.get("TIMMsgImportMsgList") as Buffer,
+                this._cache.get("TIMMsgImportMsgList")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -378,7 +376,7 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams): Promise<any> {
+    TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgSaveMsgParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -394,7 +392,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgSaveMsg")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgSaveMsg", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -404,7 +401,7 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 c_params,
-                this._callback.get("TIMMsgSaveMsg") as Buffer,
+                this._cache.get("TIMMsgSaveMsg")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -412,7 +409,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgGetMsgList(msgGetMsgListParams: MsgGetMsgListParams): Promise<any> {
+    TIMMsgGetMsgList(
+        msgGetMsgListParams: MsgGetMsgListParams
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgGetMsgListParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -426,8 +425,9 @@ class AdvanceMessageManage {
                 return new Promise((resolve, reject) => {
                     const now = `${Date.now()}${randomString()}`;
                     const json_msg_param_array = res.json_params;
-                    params.msg_getmsglist_param_last_msg =
-                        JSON.parse(json_msg_param_array)[0];
+                    params.msg_getmsglist_param_last_msg = JSON.parse(
+                        json_msg_param_array || JSON.stringify([])
+                    )[0];
                     const c_params = this.stringFormator(
                         JSON.stringify(params)
                     );
@@ -440,7 +440,6 @@ class AdvanceMessageManage {
                             this._cache.get("TIMMsgGetMsgList")?.delete(now);
                         }
                     );
-                    this._callback.set("TIMMsgGetMsgList", callback);
                     const cacheMap = new Map();
                     cacheMap.set(now, {
                         callback: callback,
@@ -450,7 +449,7 @@ class AdvanceMessageManage {
                         c_conv_id,
                         conv_type,
                         c_params,
-                        this._callback.get("TIMMsgGetMsgList") as Buffer,
+                        this._cache.get("TIMMsgGetMsgList")?.get(now)?.callback,
                         c_user_data
                     );
 
@@ -469,7 +468,6 @@ class AdvanceMessageManage {
                         this._cache.get("TIMMsgGetMsgList")?.delete(now);
                     }
                 );
-                this._callback.set("TIMMsgGetMsgList", callback);
                 const cacheMap = new Map();
                 cacheMap.set(now, {
                     callback: callback,
@@ -479,7 +477,7 @@ class AdvanceMessageManage {
                     c_conv_id,
                     conv_type,
                     c_params,
-                    this._callback.get("TIMMsgGetMsgList") as Buffer,
+                    this._cache.get("TIMMsgGetMsgList")?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -488,7 +486,7 @@ class AdvanceMessageManage {
         }
     }
 
-    TIMMsgDelete(msgDeleteParams: MsgDeleteParams): Promise<any> {
+    TIMMsgDelete(msgDeleteParams: MsgDeleteParams): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgDeleteParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
@@ -500,7 +498,9 @@ class AdvanceMessageManage {
             return new Promise((resolve, reject) => {
                 const now = `${Date.now()}${randomString()}`;
                 const json_msg_param_array = res.json_params;
-                const json_msg_param = JSON.parse(json_msg_param_array)[0];
+                const json_msg_param = JSON.parse(
+                    json_msg_param_array || JSON.stringify([])
+                )[0];
                 const param = {
                     msg_delete_param_msg: json_msg_param,
                     msg_delete_param_is_remble:
@@ -515,7 +515,6 @@ class AdvanceMessageManage {
                         this._cache.get("TIMMsgDelete")?.delete(now);
                     }
                 );
-                this._callback.set("TIMMsgDelete", callback);
                 const cacheMap = new Map();
                 cacheMap.set(now, {
                     callback: callback,
@@ -525,7 +524,7 @@ class AdvanceMessageManage {
                     c_conv_id,
                     conv_type,
                     c_param,
-                    this._callback.get("TIMMsgDelete") as Buffer,
+                    this._cache.get("TIMMsgDelete")?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -534,7 +533,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgListDelete(msgListDeleteParams: MsgListDeleteParams): Promise<any> {
+    TIMMsgListDelete(
+        msgListDeleteParams: MsgListDeleteParams
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgListDeleteParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
@@ -557,7 +558,6 @@ class AdvanceMessageManage {
                         this._cache.get("TIMMsgListDelete")?.delete(now);
                     }
                 );
-                this._callback.set("TIMMsgListDelete", callback);
                 const cacheMap = new Map();
                 cacheMap.set(now, {
                     callback: callback,
@@ -567,7 +567,7 @@ class AdvanceMessageManage {
                     c_conv_id,
                     conv_type,
                     c_json_msg_param_array,
-                    this._callback.get("TIMMsgListDelete") as Buffer,
+                    this._cache.get("TIMMsgListDelete")?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -578,7 +578,7 @@ class AdvanceMessageManage {
 
     TIMMsgClearHistoryMessage(
         msgClearHistoryMessageParams: MsgClearHistoryMessageParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { conv_id, conv_type, user_data } = msgClearHistoryMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_user_data = this.stringFormator(user_data);
@@ -593,7 +593,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgClearHistoryMessage")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgClearHistoryMessage", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -602,7 +601,8 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgClearHistoryMessage(
                 c_conv_id,
                 conv_type,
-                this._callback.get("TIMMsgClearHistoryMessage") as Buffer,
+                this._cache.get("TIMMsgClearHistoryMessage")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -612,7 +612,7 @@ class AdvanceMessageManage {
 
     TIMMsgSetC2CReceiveMessageOpt(
         msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, opt, user_data } = msgSetC2CReceiveMessageOptParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -629,7 +629,6 @@ class AdvanceMessageManage {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgSetC2CReceiveMessageOpt", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -638,7 +637,8 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgSetC2CReceiveMessageOpt(
                 c_params,
                 opt,
-                this._callback.get("TIMMsgSetC2CReceiveMessageOpt") as Buffer,
+                this._cache.get("TIMMsgSetC2CReceiveMessageOpt")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -648,7 +648,7 @@ class AdvanceMessageManage {
 
     TIMMsgGetC2CReceiveMessageOpt(
         msgGetC2CReceiveMessageOptParams: MsgGetC2CReceiveMessageOptParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = msgGetC2CReceiveMessageOptParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -665,7 +665,6 @@ class AdvanceMessageManage {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgGetC2CReceiveMessageOpt", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -673,7 +672,8 @@ class AdvanceMessageManage {
             this._cache.set("TIMMsgGetC2CReceiveMessageOpt", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgGetC2CReceiveMessageOpt(
                 c_params,
-                this._callback.get("TIMMsgGetC2CReceiveMessageOpt") as Buffer,
+                this._cache.get("TIMMsgGetC2CReceiveMessageOpt")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -683,7 +683,7 @@ class AdvanceMessageManage {
 
     TIMMsgSetGroupReceiveMessageOpt(
         msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { group_id, opt, user_data } = msgSetGroupReceiveMessageOptParams;
         const c_group_id = this.stringFormator(group_id);
         const c_user_data = this.stringFormator(user_data);
@@ -700,7 +700,6 @@ class AdvanceMessageManage {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgSetGroupReceiveMessageOpt", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -710,9 +709,8 @@ class AdvanceMessageManage {
                 this._sdkconfig.Imsdklib.TIMMsgSetGroupReceiveMessageOpt(
                     c_group_id,
                     opt,
-                    this._callback.get(
-                        "TIMMsgSetGroupReceiveMessageOpt"
-                    ) as Buffer,
+                    this._cache.get("TIMMsgSetGroupReceiveMessageOpt")?.get(now)
+                        ?.callback,
                     c_user_data
                 );
 
@@ -722,7 +720,7 @@ class AdvanceMessageManage {
 
     TIMMsgDownloadElemToPath(
         msgDownloadElemToPathParams: MsgDownloadElemToPathParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, path, user_data } = msgDownloadElemToPathParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_path = this.stringFormator(path);
@@ -738,7 +736,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgDownloadElemToPath")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgDownloadElemToPath", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -747,7 +744,7 @@ class AdvanceMessageManage {
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadElemToPath(
                 c_params,
                 c_path,
-                this._callback.get("TIMMsgDownloadElemToPath") as Buffer,
+                this._cache.get("TIMMsgDownloadElemToPath")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -757,7 +754,7 @@ class AdvanceMessageManage {
 
     TIMMsgDownloadMergerMessage(
         msgDownloadMergerMessageParams: MsgDownloadMergerMessageParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = msgDownloadMergerMessageParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -772,7 +769,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgDownloadMergerMessage")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgDownloadMergerMessage", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -780,7 +776,8 @@ class AdvanceMessageManage {
             this._cache.set("TIMMsgDownloadMergerMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadMergerMessage(
                 c_params,
-                this._callback.get("TIMMsgDownloadMergerMessage") as Buffer,
+                this._cache.get("TIMMsgDownloadMergerMessage")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -788,7 +785,9 @@ class AdvanceMessageManage {
         });
     }
 
-    TIMMsgBatchSend(msgBatchSendParams: MsgBatchSendParams): Promise<any> {
+    TIMMsgBatchSend(
+        msgBatchSendParams: MsgBatchSendParams
+    ): Promise<commonResponse> {
         const { params, user_data } = msgBatchSendParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -803,7 +802,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgBatchSend")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgBatchSend", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -811,7 +809,7 @@ class AdvanceMessageManage {
             this._cache.set("TIMMsgBatchSend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgBatchSend(
                 c_params,
-                this._callback.get("TIMMsgBatchSend") as Buffer,
+                this._cache.get("TIMMsgBatchSend")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -821,7 +819,7 @@ class AdvanceMessageManage {
 
     TIMMsgSearchLocalMessages(
         msgSearchLocalMessagesParams: MsgSearchLocalMessagesParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = msgSearchLocalMessagesParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -836,7 +834,6 @@ class AdvanceMessageManage {
                     this._cache.get("TIMMsgSearchLocalMessages")?.delete(now);
                 }
             );
-            this._callback.set("TIMMsgSearchLocalMessages", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -844,7 +841,8 @@ class AdvanceMessageManage {
             this._cache.set("TIMMsgSearchLocalMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSearchLocalMessages(
                 c_params,
-                this._callback.get("TIMMsgSearchLocalMessages") as Buffer,
+                this._cache.get("TIMMsgSearchLocalMessages")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 

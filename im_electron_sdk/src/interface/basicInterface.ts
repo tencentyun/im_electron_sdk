@@ -24,9 +24,10 @@ interface sdkconfig {
 }
 interface commonResponse {
     code: TIMResult | TIMErrCode;
-    desc?: string;
-    json_param?: string;
-    user_data?: string;
+    desc?: string | undefined;
+    json_param?: string | undefined;
+    json_params?: string | undefined; // 兼容
+    user_data?: string | undefined;
 }
 interface TIMSetNetworkStatusListenerCallback {
     (status: number, code: number, desc: string, user_data: string): void;

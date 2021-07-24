@@ -83,7 +83,6 @@ class TimbaseManager {
             };
 
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMLogin", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
@@ -93,7 +92,7 @@ class TimbaseManager {
             const code: number = this._sdkconfig.Imsdklib.TIMLogin(
                 userID,
                 userSig,
-                this._callback.get("TIMLogin") as Buffer,
+                this._cache.get("TIMLogin")?.get(now)?.callback,
                 userData
             );
             code !== 0 && reject({ code });
@@ -116,18 +115,17 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("TIMLogout")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMLogout", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("TIMLogout", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMLogout(
-                this._callback.get("TIMLogout") as Buffer,
+                this._cache.get("TIMLogout")?.get(now)?.callback,
                 userData
             );
             code !== 0 && reject({ code });
@@ -153,18 +151,17 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("TIMGetLoginUserID")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMGetLoginUserID", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("TIMGetLoginUserID", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMGetLoginUserID(
-                this._callback.get("TIMGetLoginUserID") as Buffer,
+                this._cache.get("TIMGetLoginUserID")?.get(now)?.callback,
                 userData
             );
             code !== 0 && reject({ code });
@@ -239,19 +236,18 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("TIMSetConfig")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMSetConfig", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("TIMSetConfig", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMSetConfig(
                 json_config,
-                this._callback.get("TIMSetConfig") as Buffer,
+                this._cache.get("TIMSetConfig")?.get(now)?.callback,
                 user_data
             );
             code !== 0 && reject({ code });
@@ -279,19 +275,18 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("callExperimentalAPI")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("callExperimentalAPI", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("callExperimentalAPI", cacheMap);
             const code = this._sdkconfig.Imsdklib.callExperimentalAPI(
                 json_param,
-                this._callback.get("callExperimentalAPI") as Buffer,
+                this._cache.get("callExperimentalAPI")?.get(now)?.callback,
                 user_data
             );
             code !== 0 && reject({ code });
@@ -322,19 +317,19 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("TIMProfileGetUserProfileList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMProfileGetUserProfileList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("TIMProfileGetUserProfileList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
                 json_param,
-                this._callback.get("TIMProfileGetUserProfileList") as Buffer,
+                this._cache.get("TIMProfileGetUserProfileList")?.get(now)
+                    ?.callback,
                 userData
             );
             code !== 0 && reject({ code });
@@ -364,22 +359,20 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMLogin")?.delete(now);
+                this._cache.get("TIMProfileModifySelfUserProfile")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            this._callback.set("TIMProfileModifySelfUserProfile", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
-            this._cache.set("TIMLogin", cacheMap);
+            this._cache.set("TIMProfileModifySelfUserProfile", cacheMap);
             const code =
                 this._sdkconfig.Imsdklib.TIMProfileModifySelfUserProfile(
                     json_param,
-                    this._callback.get(
-                        "TIMProfileModifySelfUserProfile"
-                    ) as Buffer,
+                    this._cache.get("TIMProfileModifySelfUserProfile")?.get(now)
+                        ?.callback,
                     userData
                 );
             code !== 0 && reject({ code });

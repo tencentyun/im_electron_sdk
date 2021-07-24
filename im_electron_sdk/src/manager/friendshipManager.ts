@@ -16,6 +16,7 @@ import {
     ErrorResponse,
     sdkconfig,
     cache,
+    commonResponse,
 } from "../interface";
 import {
     TIMOnAddFriendCallbackParams,
@@ -60,22 +61,23 @@ class FriendshipManager {
 
     TIMFriendshipGetFriendProfileList(
         getFriendProfileListParam: GetFriendProfileListParams
-    ): Promise<Object> {
+    ): Promise<commonResponse> {
         const { user_data = " " } = getFriendProfileListParam;
         const c_user_data = this.stringFormator(user_data);
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const callback = jsFuncToFFIFun(
                 (code, desc, json_params, user_data) => {
-                    if (code === 0)
+                    if (code === 0) {
                         resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
+                    } else {
+                        reject(this.getErrorResponse({ code, desc }));
+                    }
                     this._cache
                         .get("TIMFriendshipGetFriendProfileList")
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipGetFriendProfileList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -83,9 +85,9 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipGetFriendProfileList", cacheMap);
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendProfileList(
-                    this._callback.get(
-                        "TIMFriendshipGetFriendProfileList"
-                    ) as Buffer,
+                    this._cache
+                        .get("TIMFriendshipGetFriendProfileList")
+                        ?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -93,7 +95,9 @@ class FriendshipManager {
         });
     }
 
-    TIMFriendshipAddFriend(addFriendParams: AddFriendParams): Promise<any> {
+    TIMFriendshipAddFriend(
+        addFriendParams: AddFriendParams
+    ): Promise<commonResponse> {
         const { params, user_data } = addFriendParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -108,7 +112,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipAddFriend")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipAddFriend", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -116,7 +119,7 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipAddFriend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddFriend(
                 c_params,
-                this._callback.get("TIMFriendshipAddFriend") as Buffer,
+                this._cache.get("TIMFriendshipAddFriend")?.get(now)?.callback,
                 c_user_data
             );
 
@@ -126,7 +129,7 @@ class FriendshipManager {
 
     TIMFriendshipHandleFriendAddRequest(
         handleFriendAddParams: HandleFriendAddParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = handleFriendAddParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -143,7 +146,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipHandleFriendAddRequest", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -152,9 +154,9 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipHandleFriendAddRequest(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipHandleFriendAddRequest"
-                    ) as Buffer,
+                    this._cache
+                        .get("TIMFriendshipHandleFriendAddRequest")
+                        ?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -163,7 +165,7 @@ class FriendshipManager {
     }
     TIMFriendshipModifyFriendProfile(
         modifyFriendProfileParams: ModifyFriendProfileParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = modifyFriendProfileParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -180,7 +182,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipModifyFriendProfile", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -189,9 +190,9 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendProfile(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipModifyFriendProfile"
-                    ) as Buffer,
+                    this._cache
+                        .get("TIMFriendshipModifyFriendProfile")
+                        ?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -200,7 +201,7 @@ class FriendshipManager {
     }
     TIMFriendshipDeleteFriend(
         deleteFriendParams: DeleteFriendParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = deleteFriendParams;
         const c_user_data = this.stringFormator(user_data);
@@ -215,7 +216,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipDeleteFriend")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipDeleteFriend", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -223,7 +223,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipDeleteFriend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriend(
                 c_params,
-                this._callback.get("TIMFriendshipDeleteFriend") as Buffer,
+                this._cache.get("TIMFriendshipDeleteFriend")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -232,7 +233,7 @@ class FriendshipManager {
     }
     TIMFriendshipCheckFriendType(
         checkFriendTypeParams: CheckFriendTypeParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = checkFriendTypeParams;
         const c_user_data = this.stringFormator(user_data);
@@ -249,7 +250,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipCheckFriendType", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -257,7 +257,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipCheckFriendType", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipCheckFriendType(
                 c_params,
-                this._callback.get("TIMFriendshipCheckFriendType") as Buffer,
+                this._cache.get("TIMFriendshipCheckFriendType")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -266,7 +267,7 @@ class FriendshipManager {
     }
     TIMFriendshipCreateFriendGroup(
         createFriendGroupParams: CreateFriendGroupParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = createFriendGroupParams;
         const c_user_data = this.stringFormator(user_data);
@@ -283,7 +284,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipCreateFriendGroup", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -292,9 +292,8 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipCreateFriendGroup(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipCreateFriendGroup"
-                    ) as Buffer,
+                    this._cache.get("TIMFriendshipCreateFriendGroup")?.get(now)
+                        ?.callback,
                     c_user_data
                 );
 
@@ -303,7 +302,7 @@ class FriendshipManager {
     }
     TIMFriendshipGetFriendGroupList(
         friendshipStringArrayParams: FriendshipStringArrayParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = friendshipStringArrayParams;
         const c_user_data = this.stringFormator(user_data);
@@ -320,7 +319,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipGetFriendGroupList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -329,9 +327,8 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipGetFriendGroupList(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipGetFriendGroupList"
-                    ) as Buffer,
+                    this._cache.get("TIMFriendshipGetFriendGroupList")?.get(now)
+                        ?.callback,
                     c_user_data
                 );
 
@@ -340,7 +337,7 @@ class FriendshipManager {
     }
     TIMFriendshipModifyFriendGroup(
         modifyFriendGroupParams: ModifyFriendGroupParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = modifyFriendGroupParams;
         const c_user_data = this.stringFormator(user_data);
@@ -357,7 +354,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipModifyFriendGroup", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -366,9 +362,8 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipModifyFriendGroup(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipModifyFriendGroup"
-                    ) as Buffer,
+                    this._cache.get("TIMFriendshipModifyFriendGroup")?.get(now)
+                        ?.callback,
                     c_user_data
                 );
 
@@ -377,7 +372,7 @@ class FriendshipManager {
     }
     TIMFriendshipDeleteFriendGroup(
         friendshipStringArrayParams: FriendshipStringArrayParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = friendshipStringArrayParams;
         const c_user_data = this.stringFormator(user_data);
@@ -394,7 +389,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipDeleteFriendGroup", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -403,9 +397,8 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriendGroup(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipDeleteFriendGroup"
-                    ) as Buffer,
+                    this._cache.get("TIMFriendshipDeleteFriendGroup")?.get(now)
+                        ?.callback,
                     c_user_data
                 );
 
@@ -414,7 +407,7 @@ class FriendshipManager {
     }
     TIMFriendshipAddToBlackList(
         friendshipStringArrayParams: FriendshipStringArrayParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { params, user_data } = friendshipStringArrayParams;
         const c_user_data = this.stringFormator(user_data);
@@ -429,7 +422,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipAddToBlackList")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipAddToBlackList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -437,7 +429,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipAddToBlackList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddToBlackList(
                 c_params,
-                this._callback.get("TIMFriendshipAddToBlackList") as Buffer,
+                this._cache.get("TIMFriendshipAddToBlackList")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -446,7 +439,7 @@ class FriendshipManager {
     }
     TIMFriendshipGetBlackList(
         getBlackListParams: GetBlackListParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const now = `${Date.now()}${randomString()}`;
         const { user_data } = getBlackListParams;
         const c_user_data = this.stringFormator(user_data);
@@ -460,14 +453,14 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipGetBlackList")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipGetBlackList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
             });
             this._cache.set("TIMFriendshipGetBlackList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetBlackList(
-                this._callback.get("TIMFriendshipGetBlackList") as Buffer,
+                this._cache.get("TIMFriendshipGetBlackList")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -476,7 +469,7 @@ class FriendshipManager {
     }
     TIMFriendshipDeleteFromBlackList(
         friendshipStringArrayParams: FriendshipStringArrayParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = friendshipStringArrayParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -493,7 +486,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipDeleteFromBlackList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -502,9 +494,9 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipDeleteFromBlackList(
                     c_params,
-                    this._callback.get(
-                        "TIMFriendshipDeleteFromBlackList"
-                    ) as Buffer,
+                    this._cache
+                        .get("TIMFriendshipDeleteFromBlackList")
+                        ?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -513,7 +505,7 @@ class FriendshipManager {
     }
     TIMFriendshipGetPendencyList(
         friendshipGetPendencyListParams: FriendshipGetPendencyListParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = friendshipGetPendencyListParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -530,7 +522,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipGetPendencyList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -538,7 +529,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipGetPendencyList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetPendencyList(
                 c_params,
-                this._callback.get("TIMFriendshipGetPendencyList") as Buffer,
+                this._cache.get("TIMFriendshipGetPendencyList")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -547,7 +539,7 @@ class FriendshipManager {
     }
     TIMFriendshipDeletePendency(
         deletePendencyParams: DeletePendencyParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = deletePendencyParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -562,7 +554,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipDeletePendency")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipDeletePendency", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -570,7 +561,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipDeletePendency", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeletePendency(
                 c_params,
-                this._callback.get("TIMFriendshipDeletePendency") as Buffer,
+                this._cache.get("TIMFriendshipDeletePendency")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -579,7 +571,7 @@ class FriendshipManager {
     }
     TIMFriendshipReportPendencyReaded(
         reportPendencyReadedParams: ReportPendencyReadedParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { timestamp, user_data } = reportPendencyReadedParams;
         const c_user_data = this.stringFormator(user_data);
 
@@ -595,7 +587,6 @@ class FriendshipManager {
                         ?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipReportPendencyReaded", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -604,9 +595,9 @@ class FriendshipManager {
             const code =
                 this._sdkconfig.Imsdklib.TIMFriendshipReportPendencyReaded(
                     timestamp,
-                    this._callback.get(
-                        "TIMFriendshipReportPendencyReaded"
-                    ) as Buffer,
+                    this._cache
+                        .get("TIMFriendshipReportPendencyReaded")
+                        ?.get(now)?.callback,
                     c_user_data
                 );
 
@@ -615,7 +606,7 @@ class FriendshipManager {
     }
     TIMFriendshipSearchFriends(
         searchFriendsParams: SearchFriendsParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = searchFriendsParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -630,7 +621,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipSearchFriends")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipSearchFriends", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -638,7 +628,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipSearchFriends", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipSearchFriends(
                 c_params,
-                this._callback.get("TIMFriendshipSearchFriends") as Buffer,
+                this._cache.get("TIMFriendshipSearchFriends")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
@@ -647,7 +638,7 @@ class FriendshipManager {
     }
     TIMFriendshipGetFriendsInfo(
         friendshipStringArrayParams: FriendshipStringArrayParams
-    ): Promise<any> {
+    ): Promise<commonResponse> {
         const { params, user_data } = friendshipStringArrayParams;
         const c_user_data = this.stringFormator(user_data);
         const c_params = this.stringFormator(JSON.stringify(params));
@@ -662,7 +653,6 @@ class FriendshipManager {
                     this._cache.get("TIMFriendshipGetFriendsInfo")?.delete(now);
                 }
             );
-            this._callback.set("TIMFriendshipGetFriendsInfo", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 callback: callback,
@@ -670,7 +660,8 @@ class FriendshipManager {
             this._cache.set("TIMFriendshipGetFriendsInfo", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetFriendsInfo(
                 c_params,
-                this._callback.get("TIMFriendshipGetFriendsInfo") as Buffer,
+                this._cache.get("TIMFriendshipGetFriendsInfo")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 

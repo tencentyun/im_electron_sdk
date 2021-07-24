@@ -74,7 +74,6 @@ class GroupManager {
                 this._cache.get("TIMGroupCreate")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupCreate", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -83,7 +82,7 @@ class GroupManager {
             this._cache.set("TIMGroupCreate", cacheMap);
             const code = this._imskdLib.TIMGroupCreate(
                 paramsForCString,
-                this._callback.get("TIMGroupCreate") as Buffer,
+                this._cache.get("TIMGroupCreate")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -110,7 +109,6 @@ class GroupManager {
             };
             const callback = jsFuncToFFIFun(successCallback);
 
-            this._callback.set("TIMGroupDelete", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -119,7 +117,7 @@ class GroupManager {
             this._cache.set("TIMGroupDelete", cacheMap);
             const code = this._imskdLib.TIMGroupDelete(
                 groupID,
-                this._callback.get("TIMGroupDelete") as Buffer,
+                this._cache.get("TIMGroupDelete")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -146,7 +144,6 @@ class GroupManager {
                 this._cache.get("TIMGroupJoin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupJoin", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -156,7 +153,7 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupJoin(
                 groupID,
                 msg,
-                this._callback.get("TIMGroupJoin") as Buffer,
+                this._cache.get("TIMGroupJoin")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -182,7 +179,6 @@ class GroupManager {
                 this._cache.get("TIMGroupQuit")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupQuit", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -191,7 +187,7 @@ class GroupManager {
             this._cache.set("TIMGroupQuit", cacheMap);
             const code = this._imskdLib.TIMGroupQuit(
                 groupID,
-                this._callback.get("TIMGroupQuit"),
+                this._cache.get("TIMGroupQuit")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -218,7 +214,6 @@ class GroupManager {
                 this._cache.get("TIMGroupInviteMember")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupInviteMember", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -227,7 +222,7 @@ class GroupManager {
             this._cache.set("TIMGroupInviteMember", cacheMap);
             const code = this._imskdLib.TIMGroupInviteMember(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupInviteMember"),
+                this._cache.get("TIMGroupInviteMember")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -254,7 +249,6 @@ class GroupManager {
                 this._cache.get("TIMGroupDeleteMember")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupDeleteMember", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -263,7 +257,7 @@ class GroupManager {
             this._cache.set("TIMGroupDeleteMember", cacheMap);
             const code = this._imskdLib.TIMGroupDeleteMember(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupDeleteMember"),
+                this._cache.get("TIMGroupDeleteMember")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -287,7 +281,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetJoinedGroupList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetJoinedGroupList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -295,7 +288,8 @@ class GroupManager {
             });
             this._cache.set("TIMGroupGetJoinedGroupList", cacheMap);
             const code = this._imskdLib.TIMGroupGetJoinedGroupList(
-                this._callback.get("TIMGroupGetJoinedGroupList") as Buffer,
+                this._cache.get("TIMGroupGetJoinedGroupList")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -322,7 +316,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetGroupInfoList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetGroupInfoList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -331,7 +324,7 @@ class GroupManager {
             this._cache.set("TIMGroupGetGroupInfoList", cacheMap);
             const code = this._imskdLib.TIMGroupGetGroupInfoList(
                 nodeStrigToCString(JSON.stringify(groupIds)),
-                this._callback.get("TIMGroupGetGroupInfoList"),
+                this._cache.get("TIMGroupGetGroupInfoList")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -358,7 +351,6 @@ class GroupManager {
                 this._cache.get("TIMGroupModifyGroupInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupModifyGroupInfo", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -367,7 +359,7 @@ class GroupManager {
             this._cache.set("TIMGroupModifyGroupInfo", cacheMap);
             const code = this._imskdLib.TIMGroupModifyGroupInfo(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupModifyGroupInfo"),
+                this._cache.get("TIMGroupModifyGroupInfo")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -395,7 +387,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetMemberInfoList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetMemberInfoList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -404,7 +395,8 @@ class GroupManager {
             this._cache.set("TIMGroupGetMemberInfoList", cacheMap);
             const code = this._imskdLib.TIMGroupGetMemberInfoList(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupGetMemberInfoList"),
+                this._cache.get("TIMGroupGetMemberInfoList")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -431,7 +423,6 @@ class GroupManager {
                 this._cache.get("TIMGroupModifyMemberInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupModifyMemberInfo", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -440,7 +431,7 @@ class GroupManager {
             this._cache.set("TIMGroupModifyMemberInfo", cacheMap);
             const code = this._imskdLib.TIMGroupModifyMemberInfo(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupModifyMemberInfo"),
+                this._cache.get("TIMGroupModifyMemberInfo")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -467,7 +458,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetPendencyList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetPendencyList", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -476,7 +466,7 @@ class GroupManager {
             this._cache.set("TIMGroupGetPendencyList", cacheMap);
             const code = this._imskdLib.TIMGroupGetPendencyList(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupGetPendencyList"),
+                this._cache.get("TIMGroupGetPendencyList")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -501,7 +491,6 @@ class GroupManager {
                 this._cache.get("TIMGroupReportPendencyReaded")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupReportPendencyReaded", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -510,7 +499,8 @@ class GroupManager {
             this._cache.set("TIMGroupReportPendencyReaded", cacheMap);
             const code = this._imskdLib.TIMGroupReportPendencyReaded(
                 timeStamp,
-                this._callback.get("TIMGroupReportPendencyReaded"),
+                this._cache.get("TIMGroupReportPendencyReaded")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -537,7 +527,6 @@ class GroupManager {
                 this._cache.get("TIMGroupHandlePendency")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupHandlePendency", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -546,7 +535,7 @@ class GroupManager {
             this._cache.set("TIMGroupHandlePendency", cacheMap);
             const code = this._imskdLib.TIMGroupHandlePendency(
                 nodeStrigToCString(JSON.stringify(params)),
-                this._callback.get("TIMGroupHandlePendency"),
+                this._cache.get("TIMGroupHandlePendency")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -573,7 +562,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetOnlineMemberCount")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetOnlineMemberCount", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -582,7 +570,8 @@ class GroupManager {
             this._cache.set("TIMGroupGetOnlineMemberCount", cacheMap);
             const code = this._imskdLib.TIMGroupGetOnlineMemberCount(
                 nodeStrigToCString(groupId),
-                this._callback.get("TIMGroupGetOnlineMemberCount"),
+                this._cache.get("TIMGroupGetOnlineMemberCount")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -609,7 +598,6 @@ class GroupManager {
                 this._cache.get("TIMGroupSearchGroups")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupSearchGroups", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -618,7 +606,7 @@ class GroupManager {
             this._cache.set("TIMGroupSearchGroups", cacheMap);
             const code = this._imskdLib.TIMGroupSearchGroups(
                 nodeStrigToCString(JSON.stringify(searchParams)),
-                this._callback.get("TIMGroupSearchGroups"),
+                this._cache.get("TIMGroupSearchGroups")?.get(now)?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -645,7 +633,6 @@ class GroupManager {
                 this._cache.get("TIMGroupSearchGroupMembers")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupSearchGroupMembers", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -654,7 +641,8 @@ class GroupManager {
             this._cache.set("TIMGroupSearchGroupMembers", cacheMap);
             const code = this._imskdLib.TIMGroupSearchGroupMembers(
                 nodeStrigToCString(JSON.stringify(searchParams)),
-                this._callback.get("TIMGroupSearchGroupMembers"),
+                this._cache.get("TIMGroupSearchGroupMembers")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -681,7 +669,6 @@ class GroupManager {
                 this._cache.get("TIMGroupInitGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupInitGroupAttributes", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -691,7 +678,8 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupInitGroupAttributes(
                 nodeStrigToCString(groupId),
                 nodeStrigToCString(JSON.stringify(attributes)),
-                this._callback.get("TIMGroupInitGroupAttributes"),
+                this._cache.get("TIMGroupInitGroupAttributes")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -718,7 +706,6 @@ class GroupManager {
                 this._cache.get("TIMGroupSetGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupSetGroupAttributes", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -728,7 +715,8 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupSetGroupAttributes(
                 nodeStrigToCString(groupId),
                 nodeStrigToCString(JSON.stringify(attributes)),
-                this._callback.get("TIMGroupSetGroupAttributes"),
+                this._cache.get("TIMGroupSetGroupAttributes")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -759,7 +747,6 @@ class GroupManager {
                 this._cache.get("TIMGroupDeleteGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupDeleteGroupAttributes", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -769,7 +756,8 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupDeleteGroupAttributes(
                 formatedGroupId,
                 formatedAttributesKey,
-                this._callback.get("TIMGroupDeleteGroupAttributes"),
+                this._cache.get("TIMGroupDeleteGroupAttributes")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -800,7 +788,6 @@ class GroupManager {
                 this._cache.get("TIMGroupGetGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            this._callback.set("TIMGroupGetGroupAttributes", callback);
             const cacheMap = new Map();
             cacheMap.set(now, {
                 cb: successCallback,
@@ -810,7 +797,8 @@ class GroupManager {
             const code = this._imskdLib.TIMGroupGetGroupAttributes(
                 formatedGroupId,
                 formatedAttributesKey,
-                this._callback.get("TIMGroupGetGroupAttributes"),
+                this._cache.get("TIMGroupGetGroupAttributes")?.get(now)
+                    ?.callback,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
