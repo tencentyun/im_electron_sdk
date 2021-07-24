@@ -31,6 +31,14 @@ class ConversationManager {
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
+    private TIMConvGetConvListCallback = jsFuncToFFIFun(
+        (code, desc, json_param, user_data) => {
+            this._cache
+                .get("TIMConvGetConvList")
+                ?.get(user_data)
+                ?.cb.bind(this)(code, desc, json_param, user_data);
+        }
+    );
     TIMConvCreate(param: convCreate): Promise<commonResponse> {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
@@ -122,19 +130,27 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                this._cache.get("TIMConvGetConvList")?.delete(now);
+                console.log(
+                    "callback_data_______________________",
+                    user_data,
+                    this._cache
+                );
+                this._cache.get("TIMConvGetConvList")?.delete(user_data);
             };
-
+            console.log("now+++", now);
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvGetConvList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
             });
             this._cache.set("TIMConvGetConvList", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvList(
-                this._cache.get("TIMConvGetConvList")?.get(now)?.callback,
-                userData
+                this.TIMConvGetConvListCallback,
+                nodeStrigToCString(now)
             );
             code !== 0 && reject({ code });
         });

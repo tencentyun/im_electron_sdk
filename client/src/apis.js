@@ -192,28 +192,28 @@ const APIS = [
                 action:(callback)=>{
                     for(let i = 0;i<30;i++){
                         ConversationManager.TIMConvGetConvList().then(data=>{
-                            console.log('hahah')
+                            console.log(data)
                             callback(JSON.stringify(data))
                         }).catch(err=>{
                             callback(err.toString())
                         })
                     }
-                    for(let i = 0;i<30;i++){
-                        TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
-                            console.log('hehehe')
-                            callback(JSON.stringify(data))
-                        }).catch(err => {
-                            callback(err.toString())
-                        })
-                    }
-                    for(let i = 0;i<30;i++){
-                        ConversationManager.TIMConvGetConvInfo().then(data=>{
-                            console.log('asdsa')
-                            callback(JSON.stringify(data))
-                        }).catch(err=>{
-                            callback(err.toString())
-                        })
-                    }
+                    // for(let i = 0;i<30;i++){
+                    //     TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
+                    //         console.log('hehehe')
+                    //         callback(JSON.stringify(data))
+                    //     }).catch(err => {
+                    //         callback(err.toString())
+                    //     })
+                    // }
+                    // for(let i = 0;i<30;i++){
+                    //     ConversationManager.TIMConvGetConvInfo().then(data=>{
+                    //         console.log('asdsa')
+                    //         callback(JSON.stringify(data))
+                    //     }).catch(err=>{
+                    //         callback(err.toString())
+                    //     })
+                    // }
                 }
             },
             {
