@@ -22,6 +22,8 @@ import {
     MsgSearchLocalMessagesParams,
     commonResponse,
     cache,
+    CommonCallbackFun,
+    CommonCallbackFuns,
 } from "../interface";
 import {
     TIMRecvNewMsgCallbackParams,
@@ -74,16 +76,23 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgSendMessage")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSendMessage")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSendMessage");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
+                cb: cb,
                 callback: callback,
             });
             this._cache.set("TIMMsgSendMessage", cacheMap);
@@ -111,17 +120,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgCancelSend")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgCancelSend")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgCancelSend");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgCancelSend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgCancelSend(
@@ -147,24 +163,31 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (json_params === "[]")
-                        reject(
-                            this.getErrorResponse({
-                                code,
-                                desc: "message is not found",
-                            })
-                        );
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgFindMessages")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (json_params === "[]")
+                    reject(
+                        this.getErrorResponse({
+                            code,
+                            desc: "message is not found",
+                        })
+                    );
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgFindMessages")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgFindMessages");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgFindMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgFindMessages(
@@ -204,18 +227,25 @@ class AdvanceMessageManage {
                     );
                     const c_json_msg_param =
                         this.stringFormator(json_msg_param);
-                    const callback = jsFuncToFFIFun(
-                        (code, desc, json_param, user_data) => {
-                            if (code === 0) {
-                                resolve({ code, desc, json_param, user_data });
-                            } else
-                                reject(this.getErrorResponse({ code, desc }));
-                            this._cache.get("TIMMsgReportReaded")?.delete(now);
-                        }
-                    );
-                    const cacheMap = new Map();
+                    const cb: CommonCallbackFuns = (
+                        code,
+                        desc,
+                        json_param,
+                        user_data
+                    ) => {
+                        if (code === 0) {
+                            resolve({ code, desc, json_param, user_data });
+                        } else reject(this.getErrorResponse({ code, desc }));
+                        this._cache.get("TIMMsgReportReaded")?.delete(now);
+                    };
+                    const callback = jsFuncToFFIFun(cb);
+                    let cacheMap = this._cache.get("TIMMsgReportReaded");
+                    if (cacheMap === undefined) {
+                        cacheMap = new Map();
+                    }
                     cacheMap.set(now, {
-                        callback: callback,
+                        cb,
+                        callback,
                     });
                     this._cache.set("TIMMsgReportReaded", cacheMap);
                     const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(
@@ -235,17 +265,25 @@ class AdvanceMessageManage {
                 const now = `${Date.now()}${randomString()}`;
                 const json_msg_param = "";
                 const c_json_msg_param = this.stringFormator(json_msg_param);
-                const callback = jsFuncToFFIFun(
-                    (code, desc, json_param, user_data) => {
-                        if (code === 0) {
-                            resolve({ code, desc, json_param, user_data });
-                        } else reject(this.getErrorResponse({ code, desc }));
-                        this._cache.get("TIMMsgReportReaded")?.delete(now);
-                    }
-                );
-                const cacheMap = new Map();
+                const cb: CommonCallbackFuns = (
+                    code,
+                    desc,
+                    json_param,
+                    user_data
+                ) => {
+                    if (code === 0) {
+                        resolve({ code, desc, json_param, user_data });
+                    } else reject(this.getErrorResponse({ code, desc }));
+                    this._cache.get("TIMMsgReportReaded")?.delete(now);
+                };
+                const callback = jsFuncToFFIFun(cb);
+                let cacheMap = this._cache.get("TIMMsgReportReaded");
+                if (cacheMap === undefined) {
+                    cacheMap = new Map();
+                }
                 cacheMap.set(now, {
-                    callback: callback,
+                    cb,
+                    callback,
                 });
                 this._cache.set("TIMMsgReportReaded", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(
@@ -277,17 +315,25 @@ class AdvanceMessageManage {
                     JSON.parse(json_msg_param_array || JSON.stringify([]))[0]
                 );
                 const c_json_msg_param = this.stringFormator(json_msg_param);
-                const callback = jsFuncToFFIFun(
-                    (code, desc, json_params, user_data) => {
-                        if (code === 0) {
-                            resolve({ code, desc, json_params, user_data });
-                        } else reject(this.getErrorResponse({ code, desc }));
-                        this._cache.get("TIMMsgRevoke")?.delete(now);
-                    }
-                );
-                const cacheMap = new Map();
+                const cb: CommonCallbackFuns = (
+                    code,
+                    desc,
+                    json_params,
+                    user_data
+                ) => {
+                    if (code === 0) {
+                        resolve({ code, desc, json_params, user_data });
+                    } else reject(this.getErrorResponse({ code, desc }));
+                    this._cache.get("TIMMsgRevoke")?.delete(now);
+                };
+                const callback = jsFuncToFFIFun(cb);
+                let cacheMap = this._cache.get("TIMMsgRevoke");
+                if (cacheMap === undefined) {
+                    cacheMap = new Map();
+                }
                 cacheMap.set(now, {
-                    callback: callback,
+                    cb,
+                    callback,
                 });
                 this._cache.set("TIMMsgRevoke", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(
@@ -314,17 +360,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgFindByMsgLocatorList")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgFindByMsgLocatorList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgFindByMsgLocatorList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgFindByMsgLocatorList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgFindByMsgLocatorList(
@@ -351,17 +404,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgImportMsgList")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgImportMsgList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgImportMsgList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgImportMsgList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgImportMsgList(
@@ -384,17 +444,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgSaveMsg")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSaveMsg")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSaveMsg");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgSaveMsg", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSaveMsg(
@@ -431,18 +498,25 @@ class AdvanceMessageManage {
                     const c_params = this.stringFormator(
                         JSON.stringify(params)
                     );
-                    const callback = jsFuncToFFIFun(
-                        (code, desc, json_params, user_data) => {
-                            if (code === 0) {
-                                resolve({ code, desc, json_params, user_data });
-                            } else
-                                reject(this.getErrorResponse({ code, desc }));
-                            this._cache.get("TIMMsgGetMsgList")?.delete(now);
-                        }
-                    );
-                    const cacheMap = new Map();
+                    const cb: CommonCallbackFuns = (
+                        code,
+                        desc,
+                        json_params,
+                        user_data
+                    ) => {
+                        if (code === 0) {
+                            resolve({ code, desc, json_params, user_data });
+                        } else reject(this.getErrorResponse({ code, desc }));
+                        this._cache.get("TIMMsgGetMsgList")?.delete(now);
+                    };
+                    const callback = jsFuncToFFIFun(cb);
+                    let cacheMap = this._cache.get("TIMMsgGetMsgList");
+                    if (cacheMap === undefined) {
+                        cacheMap = new Map();
+                    }
                     cacheMap.set(now, {
-                        callback: callback,
+                        cb,
+                        callback,
                     });
                     this._cache.set("TIMMsgGetMsgList", cacheMap);
                     const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
@@ -460,17 +534,25 @@ class AdvanceMessageManage {
             return new Promise((resolve, reject) => {
                 const now = `${Date.now()}${randomString()}`;
                 const c_params = this.stringFormator(JSON.stringify(params));
-                const callback = jsFuncToFFIFun(
-                    (code, desc, json_params, user_data) => {
-                        if (code === 0) {
-                            resolve({ code, desc, json_params, user_data });
-                        } else reject(this.getErrorResponse({ code, desc }));
-                        this._cache.get("TIMMsgGetMsgList")?.delete(now);
-                    }
-                );
-                const cacheMap = new Map();
+                const cb: CommonCallbackFuns = (
+                    code,
+                    desc,
+                    json_params,
+                    user_data
+                ) => {
+                    if (code === 0) {
+                        resolve({ code, desc, json_params, user_data });
+                    } else reject(this.getErrorResponse({ code, desc }));
+                    this._cache.get("TIMMsgGetMsgList")?.delete(now);
+                };
+                const callback = jsFuncToFFIFun(cb);
+                let cacheMap = this._cache.get("TIMMsgGetMsgList");
+                if (cacheMap === undefined) {
+                    cacheMap = new Map();
+                }
                 cacheMap.set(now, {
-                    callback: callback,
+                    cb,
+                    callback,
                 });
                 this._cache.set("TIMMsgGetMsgList", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
@@ -507,17 +589,25 @@ class AdvanceMessageManage {
                         params.msg_delete_param_is_remble,
                 };
                 const c_param = this.stringFormator(JSON.stringify(param));
-                const callback = jsFuncToFFIFun(
-                    (code, desc, json_params, user_data) => {
-                        if (code === 0) {
-                            resolve({ code, desc, json_params, user_data });
-                        } else reject(this.getErrorResponse({ code, desc }));
-                        this._cache.get("TIMMsgDelete")?.delete(now);
-                    }
-                );
-                const cacheMap = new Map();
+                const cb: CommonCallbackFuns = (
+                    code,
+                    desc,
+                    json_params,
+                    user_data
+                ) => {
+                    if (code === 0) {
+                        resolve({ code, desc, json_params, user_data });
+                    } else reject(this.getErrorResponse({ code, desc }));
+                    this._cache.get("TIMMsgDelete")?.delete(now);
+                };
+                const callback = jsFuncToFFIFun(cb);
+                let cacheMap = this._cache.get("TIMMsgDelete");
+                if (cacheMap === undefined) {
+                    cacheMap = new Map();
+                }
                 cacheMap.set(now, {
-                    callback: callback,
+                    cb,
+                    callback,
                 });
                 this._cache.set("TIMMsgDelete", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgDelete(
@@ -550,17 +640,25 @@ class AdvanceMessageManage {
                 const c_json_msg_param_array = this.stringFormator(
                     JSON.stringify(json_msg_param_array)
                 );
-                const callback = jsFuncToFFIFun(
-                    (code, desc, json_params, user_data) => {
-                        if (code === 0) {
-                            resolve({ code, desc, json_params, user_data });
-                        } else reject(this.getErrorResponse({ code, desc }));
-                        this._cache.get("TIMMsgListDelete")?.delete(now);
-                    }
-                );
-                const cacheMap = new Map();
+                const cb: CommonCallbackFuns = (
+                    code,
+                    desc,
+                    json_params,
+                    user_data
+                ) => {
+                    if (code === 0) {
+                        resolve({ code, desc, json_params, user_data });
+                    } else reject(this.getErrorResponse({ code, desc }));
+                    this._cache.get("TIMMsgListDelete")?.delete(now);
+                };
+                const callback = jsFuncToFFIFun(cb);
+                let cacheMap = this._cache.get("TIMMsgListDelete");
+                if (cacheMap === undefined) {
+                    cacheMap = new Map();
+                }
                 cacheMap.set(now, {
-                    callback: callback,
+                    cb,
+                    callback,
                 });
                 this._cache.set("TIMMsgListDelete", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(
@@ -585,17 +683,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgClearHistoryMessage")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgClearHistoryMessage")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgClearHistoryMessage");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgClearHistoryMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgClearHistoryMessage(
@@ -619,19 +724,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMMsgSetC2CReceiveMessageOpt")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSetC2CReceiveMessageOpt")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSetC2CReceiveMessageOpt");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgSetC2CReceiveMessageOpt", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSetC2CReceiveMessageOpt(
@@ -655,19 +765,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMMsgGetC2CReceiveMessageOpt")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgGetC2CReceiveMessageOpt")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgGetC2CReceiveMessageOpt");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgGetC2CReceiveMessageOpt", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgGetC2CReceiveMessageOpt(
@@ -690,19 +805,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMMsgSetGroupReceiveMessageOpt")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSetGroupReceiveMessageOpt")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSetGroupReceiveMessageOpt");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgSetGroupReceiveMessageOpt", cacheMap);
             const code =
@@ -728,17 +848,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgDownloadElemToPath")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgDownloadElemToPath")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgDownloadElemToPath");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgDownloadElemToPath", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadElemToPath(
@@ -761,17 +888,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgDownloadMergerMessage")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgDownloadMergerMessage")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgDownloadMergerMessage");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgDownloadMergerMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadMergerMessage(
@@ -794,17 +928,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgBatchSend")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgBatchSend")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgBatchSend");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgBatchSend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgBatchSend(
@@ -826,17 +967,24 @@ class AdvanceMessageManage {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMMsgSearchLocalMessages")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSearchLocalMessages")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSearchLocalMessages");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMMsgSearchLocalMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSearchLocalMessages(

@@ -74,7 +74,10 @@ class GroupManager {
                 this._cache.get("TIMGroupCreate")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupCreate");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -109,7 +112,10 @@ class GroupManager {
             };
             const callback = jsFuncToFFIFun(successCallback);
 
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupDelete");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -144,7 +150,10 @@ class GroupManager {
                 this._cache.get("TIMGroupJoin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupJoin");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -179,7 +188,10 @@ class GroupManager {
                 this._cache.get("TIMGroupQuit")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupQuit");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -214,7 +226,10 @@ class GroupManager {
                 this._cache.get("TIMGroupInviteMember")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupInviteMember");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -249,7 +264,10 @@ class GroupManager {
                 this._cache.get("TIMGroupDeleteMember")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupDeleteMember");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -281,7 +299,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetJoinedGroupList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetJoinedGroupList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -316,7 +337,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetGroupInfoList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetGroupInfoList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -351,7 +375,10 @@ class GroupManager {
                 this._cache.get("TIMGroupModifyGroupInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupModifyGroupInfo");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -387,7 +414,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetMemberInfoList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetMemberInfoList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -423,7 +453,10 @@ class GroupManager {
                 this._cache.get("TIMGroupModifyMemberInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupModifyMemberInfo");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -458,7 +491,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetPendencyList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetPendencyList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -491,7 +527,10 @@ class GroupManager {
                 this._cache.get("TIMGroupReportPendencyReaded")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupReportPendencyReaded");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -527,7 +566,10 @@ class GroupManager {
                 this._cache.get("TIMGroupHandlePendency")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupHandlePendency");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -562,7 +604,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetOnlineMemberCount")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetOnlineMemberCount");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -598,7 +643,10 @@ class GroupManager {
                 this._cache.get("TIMGroupSearchGroups")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupSearchGroups");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -633,7 +681,10 @@ class GroupManager {
                 this._cache.get("TIMGroupSearchGroupMembers")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupSearchGroupMembers");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -669,7 +720,10 @@ class GroupManager {
                 this._cache.get("TIMGroupInitGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupInitGroupAttributes");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -706,7 +760,10 @@ class GroupManager {
                 this._cache.get("TIMGroupSetGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupSetGroupAttributes");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -747,7 +804,10 @@ class GroupManager {
                 this._cache.get("TIMGroupDeleteGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupDeleteGroupAttributes");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,
@@ -788,7 +848,10 @@ class GroupManager {
                 this._cache.get("TIMGroupGetGroupAttributes")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGroupGetGroupAttributes");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: successCallback,
                 callback: callback,

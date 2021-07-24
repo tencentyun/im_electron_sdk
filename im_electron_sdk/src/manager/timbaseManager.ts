@@ -83,7 +83,10 @@ class TimbaseManager {
             };
 
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMLogin");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -118,7 +121,10 @@ class TimbaseManager {
                 this._cache.get("TIMLogout")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMLogout");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -154,7 +160,10 @@ class TimbaseManager {
                 this._cache.get("TIMGetLoginUserID")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMGetLoginUserID");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -239,7 +248,10 @@ class TimbaseManager {
                 this._cache.get("TIMSetConfig")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMSetConfig");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -278,7 +290,10 @@ class TimbaseManager {
                 this._cache.get("callExperimentalAPI")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("callExperimentalAPI");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -320,7 +335,10 @@ class TimbaseManager {
                 this._cache.get("TIMProfileGetUserProfileList")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMProfileGetUserProfileList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -362,7 +380,10 @@ class TimbaseManager {
                 this._cache.get("TIMProfileModifySelfUserProfile")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMProfileModifySelfUserProfile");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,

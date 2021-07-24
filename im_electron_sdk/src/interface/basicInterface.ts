@@ -12,7 +12,9 @@ import { libMethods } from "./libMethodInterface";
 interface CommonCallbackFun {
     (code: number, desc: string, json_param: string, user_data: string): void;
 }
-
+interface CommonCallbackFuns {
+    (code: number, desc: string, json_params: string, user_data: string): void;
+}
 interface initConfig {
     sdkappid: number;
 }
@@ -169,4 +171,5 @@ export {
     TIMProfileGetUserProfileListParam,
     TIMProfileModifySelfUserProfileParam,
     cache,
+    CommonCallbackFuns,
 };

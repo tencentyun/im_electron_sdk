@@ -31,14 +31,6 @@ class ConversationManager {
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
-    private TIMConvGetConvListCallback = jsFuncToFFIFun(
-        (code, desc, json_param, user_data) => {
-            this._cache
-                .get("TIMConvGetConvList")
-                ?.get(user_data)
-                ?.cb.bind(this)(code, desc, json_param, user_data);
-        }
-    );
     TIMConvCreate(param: convCreate): Promise<commonResponse> {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
@@ -61,7 +53,10 @@ class ConversationManager {
                 this._cache.get("TIMConvCreate")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvCreate");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -98,7 +93,10 @@ class ConversationManager {
                 this._cache.get("TIMConvDelete")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvDelete");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -188,7 +186,10 @@ class ConversationManager {
                 this._cache.get("TIMConvGetConvInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvGetConvInfo");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -227,7 +228,10 @@ class ConversationManager {
                 this._cache.get("TIMConvPinConversation")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvPinConversation");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
@@ -269,7 +273,10 @@ class ConversationManager {
                     ?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
-            const cacheMap = new Map();
+            let cacheMap = this._cache.get("TIMConvGetTotalUnreadMessageCount");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,

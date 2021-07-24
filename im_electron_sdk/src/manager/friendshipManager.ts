@@ -17,6 +17,7 @@ import {
     sdkconfig,
     cache,
     commonResponse,
+    CommonCallbackFuns,
 } from "../interface";
 import {
     TIMOnAddFriendCallbackParams,
@@ -66,21 +67,29 @@ class FriendshipManager {
         const c_user_data = this.stringFormator(user_data);
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0) {
-                        resolve({ code, desc, json_params, user_data });
-                    } else {
-                        reject(this.getErrorResponse({ code, desc }));
-                    }
-                    this._cache
-                        .get("TIMFriendshipGetFriendProfileList")
-                        ?.delete(now);
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) {
+                    resolve({ code, desc, json_params, user_data });
+                } else {
+                    reject(this.getErrorResponse({ code, desc }));
                 }
-            );
-            const cacheMap = new Map();
+                this._cache
+                    .get("TIMFriendshipGetFriendProfileList")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipGetFriendProfileList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipGetFriendProfileList", cacheMap);
             const code =
@@ -104,17 +113,24 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipAddFriend")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipAddFriend")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipAddFriend");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipAddFriend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddFriend(
@@ -136,19 +152,28 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipHandleFriendAddRequest")
-                        ?.delete(now);
-                }
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache
+                    .get("TIMFriendshipHandleFriendAddRequest")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get(
+                "TIMFriendshipHandleFriendAddRequest"
             );
-            const cacheMap = new Map();
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipHandleFriendAddRequest", cacheMap);
             const code =
@@ -172,19 +197,26 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipModifyFriendProfile")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache
+                    .get("TIMFriendshipModifyFriendProfile")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipModifyFriendProfile");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipModifyFriendProfile", cacheMap);
             const code =
@@ -208,17 +240,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipDeleteFriend")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipDeleteFriend")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipDeleteFriend");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipDeleteFriend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeleteFriend(
@@ -240,19 +279,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipCheckFriendType")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipCheckFriendType")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipCheckFriendType");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipCheckFriendType", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipCheckFriendType(
@@ -274,19 +318,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipCreateFriendGroup")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipCreateFriendGroup")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipCreateFriendGroup");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipCreateFriendGroup", cacheMap);
             const code =
@@ -309,19 +358,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipGetFriendGroupList")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipGetFriendGroupList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipGetFriendGroupList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipGetFriendGroupList", cacheMap);
             const code =
@@ -344,19 +398,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipModifyFriendGroup")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipModifyFriendGroup")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipModifyFriendGroup");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipModifyFriendGroup", cacheMap);
             const code =
@@ -379,19 +438,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipDeleteFriendGroup")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipDeleteFriendGroup")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipDeleteFriendGroup");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipDeleteFriendGroup", cacheMap);
             const code =
@@ -414,17 +478,24 @@ class FriendshipManager {
         const c_params = this.stringFormator(JSON.stringify(params));
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipAddToBlackList")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipAddToBlackList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipAddToBlackList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipAddToBlackList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipAddToBlackList(
@@ -445,17 +516,24 @@ class FriendshipManager {
         const c_user_data = this.stringFormator(user_data);
 
         return new Promise((resolve, reject) => {
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipGetBlackList")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipGetBlackList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipGetBlackList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipGetBlackList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetBlackList(
@@ -476,19 +554,26 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipDeleteFromBlackList")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache
+                    .get("TIMFriendshipDeleteFromBlackList")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipDeleteFromBlackList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipDeleteFromBlackList", cacheMap);
             const code =
@@ -512,19 +597,24 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipGetPendencyList")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipGetPendencyList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipGetPendencyList");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipGetPendencyList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetPendencyList(
@@ -546,17 +636,24 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipDeletePendency")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipDeletePendency")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipDeletePendency");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipDeletePendency", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipDeletePendency(
@@ -577,19 +674,26 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache
-                        .get("TIMFriendshipReportPendencyReaded")
-                        ?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache
+                    .get("TIMFriendshipReportPendencyReaded")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipReportPendencyReaded");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipReportPendencyReaded", cacheMap);
             const code =
@@ -613,17 +717,24 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipSearchFriends")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipSearchFriends")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipSearchFriends");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipSearchFriends", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipSearchFriends(
@@ -645,17 +756,24 @@ class FriendshipManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const callback = jsFuncToFFIFun(
-                (code, desc, json_params, user_data) => {
-                    if (code === 0)
-                        resolve({ code, desc, json_params, user_data });
-                    else reject(this.getErrorResponse({ code, desc }));
-                    this._cache.get("TIMFriendshipGetFriendsInfo")?.delete(now);
-                }
-            );
-            const cacheMap = new Map();
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                if (code === 0) resolve({ code, desc, json_params, user_data });
+                else reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMFriendshipGetFriendsInfo")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMFriendshipGetFriendsInfo");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
             cacheMap.set(now, {
-                callback: callback,
+                cb,
+                callback,
             });
             this._cache.set("TIMFriendshipGetFriendsInfo", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMFriendshipGetFriendsInfo(
