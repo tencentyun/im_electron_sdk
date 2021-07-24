@@ -130,14 +130,8 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
-                console.log(
-                    "callback_data_______________________",
-                    user_data,
-                    this._cache
-                );
-                this._cache.get("TIMConvGetConvList")?.delete(user_data);
+                this._cache.get("TIMConvGetConvList")?.delete(now);
             };
-            console.log("now+++", now);
             const callback = jsFuncToFFIFun(cb);
             let cacheMap = this._cache.get("TIMConvGetConvList");
             if (cacheMap === undefined) {
@@ -149,8 +143,8 @@ class ConversationManager {
             });
             this._cache.set("TIMConvGetConvList", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvList(
-                this.TIMConvGetConvListCallback,
-                nodeStrigToCString(now)
+                this._cache.get("TIMConvGetConvList")?.get(now)?.callback,
+                userData
             );
             code !== 0 && reject({ code });
         });
