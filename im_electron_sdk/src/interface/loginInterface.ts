@@ -1,5 +1,3 @@
-import { CommonCallbackFun } from "./basicInterface";
-
 interface loginParam {
     userID: string;
     userSig: string;

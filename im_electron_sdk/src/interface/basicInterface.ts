@@ -100,12 +100,13 @@ interface ServerAddress {
     server_address_port: number;
 }
 interface PrivatizationInfo {
-    server_address_array: Array<ServerAddress>;
+    longconnection_address_array?: Array<ServerAddress>;
+    shortconnection_address_array?: Array<ServerAddress>;
     server_public_key: string;
 }
 interface callExperimentalAPIJsonParam {
     request_internal_operation: TIMInternalOperation;
-    request_set_privatization_info_param: PrivatizationInfo;
+    request_set_custom_server_info_param: PrivatizationInfo;
 }
 interface TIMSetConfigParam {
     json_config: JSONCongfig;
@@ -145,6 +146,10 @@ interface TIMProfileModifySelfUserProfileParam {
     json_modify_self_user_profile_param: UserProfileItem;
     user_data: string;
 }
+interface cache {
+    callback: any;
+    cb: any;
+}
 export {
     initConfig,
     sdkconfig,
@@ -162,4 +167,5 @@ export {
     callExperimentalAPIParam,
     TIMProfileGetUserProfileListParam,
     TIMProfileModifySelfUserProfileParam,
+    cache,
 };

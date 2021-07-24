@@ -31,6 +31,13 @@ const ffipaths: any = {
         "./node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
     ),
 };
+function randomString(e = 6) {
+    const t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+    const a = t.length;
+    let n = "";
+    for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n;
+}
 function getFFIPath() {
     let res = "";
     const platform = os.platform().toLowerCase();
@@ -184,4 +191,5 @@ export {
     transformGroupTipFun,
     transformGroupAttributeFun,
     transferTIMLogCallbackFun,
+    randomString,
 };

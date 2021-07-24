@@ -1,4 +1,5 @@
 import {
+    cache,
     callExperimentalAPIParam,
     CommonCallbackFun,
     commonResponse,
@@ -21,6 +22,7 @@ import {
     jsFunToFFITIMSetNetworkStatusListenerCallback,
     jsFunToFFITIMSetUserSigExpiredCallback,
     nodeStrigToCString,
+    randomString,
     transferTIMLogCallbackFun,
 } from "../utils/utils";
 import { TIMLoginStatus } from "../enum";
@@ -28,6 +30,7 @@ import { TIMLoginStatus } from "../enum";
 class TimbaseManager {
     private _sdkconfig: sdkconfig;
     private _callback: Map<String, Buffer> = new Map();
+    private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -62,7 +65,9 @@ class TimbaseManager {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
+
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -74,9 +79,17 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
+
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMLogin", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMLogin(
                 userID,
                 userSig,
@@ -91,6 +104,7 @@ class TimbaseManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -102,9 +116,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMLogout", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMLogout(
                 this._callback.get("TIMLogout") as Buffer,
                 userData
@@ -120,6 +141,7 @@ class TimbaseManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -131,9 +153,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMGetLoginUserID", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMGetLoginUserID(
                 this._callback.get("TIMGetLoginUserID") as Buffer,
                 userData
@@ -150,7 +179,6 @@ class TimbaseManager {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
-
         this._callback.set("TIMSetNetworkStatusListenerCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetNetworkStatusListenerCallback(
             this._callback.get("TIMSetNetworkStatusListenerCallback") as Buffer,
@@ -198,6 +226,8 @@ class TimbaseManager {
             JSON.stringify(param.json_config)
         );
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -209,9 +239,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMSetConfig", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMSetConfig(
                 json_config,
                 this._callback.get("TIMSetConfig") as Buffer,
@@ -229,6 +266,8 @@ class TimbaseManager {
         const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -240,9 +279,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("callExperimentalAPI", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code = this._sdkconfig.Imsdklib.callExperimentalAPI(
                 json_param,
                 this._callback.get("callExperimentalAPI") as Buffer,
@@ -263,6 +309,8 @@ class TimbaseManager {
         );
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -274,9 +322,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMProfileGetUserProfileList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMProfileGetUserProfileList(
                 json_param,
                 this._callback.get("TIMProfileGetUserProfileList") as Buffer,
@@ -296,6 +351,8 @@ class TimbaseManager {
         );
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -307,9 +364,16 @@ class TimbaseManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMLogin")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMProfileModifySelfUserProfile", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMLogin", cacheMap);
             const code =
                 this._sdkconfig.Imsdklib.TIMProfileModifySelfUserProfile(
                     json_param,

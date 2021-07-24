@@ -93,6 +93,10 @@ import {
     getConvList,
     setConvEventCallback,
 } from "./interface/conversationInterface";
+import {
+    TRTCCallingCallGroupParam,
+    TRTCCallingCallParam,
+} from "./interface/trtcCalling";
 
 const getUniKey = (length: number) =>
     Number(Math.random().toString().substr(3, length) + Date.now()).toString(
@@ -126,7 +130,7 @@ export default class TimRender {
         }
     }
 
-    private async call(data: any): Promise<commonResponse> {
+    private async _call(data: any): Promise<commonResponse> {
         const response = await ipcRenderer.invoke(
             TIMIPCLISTENR,
             JSON.stringify(data)
@@ -142,7 +146,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvPinConversation(param: convPinConversation) {
         const formatedData = {
@@ -150,7 +154,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvGetConvInfo(param: convGetConvInfo) {
         const formatedData = {
@@ -158,7 +162,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvCancelDraft(param: convCancelDraft) {
         const formatedData = {
@@ -166,7 +170,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvSetDraft(param: convSetDrat) {
         const formatedData = {
@@ -174,7 +178,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvGetConvList(param: getConvList) {
         console.log(param);
@@ -183,7 +187,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvDelete(param: convDelete) {
         const formatedData = {
@@ -191,7 +195,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMConvCreate(param: convCreate) {
         const formatedData = {
@@ -199,7 +203,7 @@ export default class TimRender {
             manager: Managers.conversationManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam
@@ -214,7 +218,7 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetConvEventCallback(param: setConvEventCallback) {
         const callback = `TIMSetConvEventCallback`;
@@ -227,7 +231,7 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetUserSigExpiredCallback(param: TIMSetUserSigExpiredCallbackParam) {
         const callback = `TIMSetUserSigExpiredCallback`;
@@ -240,7 +244,7 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetKickedOfflineCallback(param: TIMSetKickedOfflineCallbackParam) {
         const callback = `TIMSetKickedOfflineCallback`;
@@ -253,7 +257,7 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetNetworkStatusListenerCallback(
         param: TIMSetNetworkStatusListenerCallbackParam
@@ -268,7 +272,7 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetLogCallback(param: TIMSetLogCallbackParam) {
         const callback = `TIMSetLogCallback`;
@@ -281,14 +285,14 @@ export default class TimRender {
             callback: callback,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMUninit() {
         const formatedData = {
             method: "TIMUninit",
             manager: Managers.timBaseManager,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMSetConfig(param: TIMSetConfigParam) {
         const formatedData = {
@@ -296,21 +300,21 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMGetSDKVersion() {
         const formatedData = {
             method: "TIMGetSDKVersion",
             manager: Managers.timBaseManager,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMGetServerTime() {
         const formatedData = {
             method: "TIMGetServerTime",
             manager: Managers.timBaseManager,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMLogout(param: logoutParam) {
         const formatedData = {
@@ -318,10 +322,10 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMInit() {
-        return this.call({
+        return this._call({
             method: "TIMInit",
             manager: Managers.timBaseManager,
         });
@@ -331,7 +335,7 @@ export default class TimRender {
             method: "TIMGetLoginStatus",
             manager: Managers.timBaseManager,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMGetLoginUserID(param: getLoginUserIDParam) {
         const formatedData = {
@@ -339,7 +343,7 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     callExperimentalAPI(param: callExperimentalAPIParam) {
         const formatedData = {
@@ -347,7 +351,7 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMLogin(data: loginParam) {
         const formatedData = {
@@ -355,7 +359,7 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: data,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMProfileGetUserProfileList(param: TIMProfileGetUserProfileListParam) {
         const formatedData = {
@@ -363,7 +367,7 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     TIMProfileModifySelfUserProfile(
         param: TIMProfileModifySelfUserProfileParam
@@ -373,7 +377,7 @@ export default class TimRender {
             manager: Managers.timBaseManager,
             param: param,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
     /**
      * @param data  Comment for parameter ´text´.
@@ -386,7 +390,7 @@ export default class TimRender {
             // callback,
             param: data,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupInitGroupAttributes(
@@ -397,7 +401,7 @@ export default class TimRender {
             manager: Managers.groupManager,
             param: initAttributesParams,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupSetGroupAttributes(setAttributesParams: InitGroupAttributeParams) {
@@ -406,7 +410,7 @@ export default class TimRender {
             manager: Managers.groupManager,
             param: setAttributesParams,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupDeleteGroupAttributes(
@@ -417,7 +421,7 @@ export default class TimRender {
             manager: Managers.groupManager,
             param: deleteAttributesParams,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetGroupAttributes(getAttributeParams: DeleteAttributeParams) {
@@ -426,7 +430,7 @@ export default class TimRender {
             manager: Managers.groupManager,
             param: getAttributeParams,
         };
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetGroupAttributeChangedCallback(data: GroupAttributeCallbackParams) {
@@ -440,7 +444,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, data.callback as unknown as Function);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetGroupTipsEventCallback(data: GroupTipsCallbackParams) {
@@ -454,7 +458,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, data.callback as unknown as Function);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupDelete(data: DeleteGroupParams) {
@@ -464,7 +468,7 @@ export default class TimRender {
             param: data,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupJoin(joinGroupParams: JoinGroupParams) {
@@ -474,7 +478,7 @@ export default class TimRender {
             param: joinGroupParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupQuit(quitGroupParams: QuitGroupParams) {
@@ -484,7 +488,7 @@ export default class TimRender {
             param: quitGroupParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupInviteMember(inviteMemberParams: InviteMemberParams) {
@@ -494,7 +498,7 @@ export default class TimRender {
             param: inviteMemberParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupDeleteMember(deleteMemberParams: DeleteMemberParams) {
@@ -504,7 +508,7 @@ export default class TimRender {
             param: deleteMemberParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetJoinedGroupList(data?: string) {
@@ -514,7 +518,7 @@ export default class TimRender {
             param: data,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetGroupInfoList(getGroupListParams: GetGroupListParams) {
@@ -524,7 +528,7 @@ export default class TimRender {
             param: getGroupListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupModifyGroupInfo(modifyGroupParams: ModifyGroupParams) {
@@ -534,7 +538,7 @@ export default class TimRender {
             param: modifyGroupParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetMemberInfoList(
@@ -546,7 +550,7 @@ export default class TimRender {
             param: getGroupMemberInfoParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupModifyMemberInfo(modifyMemberInfoParams: ModifyMemberInfoParams) {
@@ -556,7 +560,7 @@ export default class TimRender {
             param: modifyMemberInfoParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetPendencyList(getPendencyListParams: GetPendencyListParams) {
@@ -566,7 +570,7 @@ export default class TimRender {
             param: getPendencyListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupReportPendencyReaded(reportParams: ReportParams) {
@@ -576,7 +580,7 @@ export default class TimRender {
             param: reportParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupHandlePendency(handlePendencyParams: HandlePendencyParams) {
@@ -586,7 +590,7 @@ export default class TimRender {
             param: handlePendencyParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupGetOnlineMemberCount(params: GetOnlineMemberCountParams) {
@@ -596,7 +600,7 @@ export default class TimRender {
             param: params,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupSearchGroups(searchGroupsParams: SearchGroupParams) {
@@ -606,7 +610,7 @@ export default class TimRender {
             param: searchGroupsParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMGroupSearchGroupMembers(searchMemberParams: SearchMemberParams) {
@@ -616,7 +620,7 @@ export default class TimRender {
             param: searchMemberParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipGetFriendProfileList(
@@ -628,7 +632,7 @@ export default class TimRender {
             param: getFriendProfileListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipAddFriend(addFriendParams: AddFriendParams) {
@@ -638,7 +642,7 @@ export default class TimRender {
             param: addFriendParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipHandleFriendAddRequest(
@@ -650,7 +654,7 @@ export default class TimRender {
             param: handleFriendAddParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipModifyFriendProfile(
@@ -662,7 +666,7 @@ export default class TimRender {
             param: modifyFriendProfileParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipDeleteFriend(deleteFriendParams: DeleteFriendParams) {
@@ -672,7 +676,7 @@ export default class TimRender {
             param: deleteFriendParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipCheckFriendType(checkFriendTypeParams: CheckFriendTypeParams) {
@@ -682,7 +686,7 @@ export default class TimRender {
             param: checkFriendTypeParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipCreateFriendGroup(
@@ -694,7 +698,7 @@ export default class TimRender {
             param: createFriendGroupParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipGetFriendGroupList(
@@ -706,7 +710,7 @@ export default class TimRender {
             param: friendshipStringArrayParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipModifyFriendGroup(
@@ -718,7 +722,7 @@ export default class TimRender {
             param: modifyFriendGroupParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipDeleteFriendGroup(
@@ -730,7 +734,7 @@ export default class TimRender {
             param: friendshipStringArrayParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipAddToBlackList(
@@ -742,7 +746,7 @@ export default class TimRender {
             param: friendshipStringArrayParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipGetBlackList(getBlackListParams: GetBlackListParams) {
@@ -752,7 +756,7 @@ export default class TimRender {
             param: getBlackListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipDeleteFromBlackList(
@@ -764,7 +768,7 @@ export default class TimRender {
             param: friendshipStringArrayParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipGetPendencyList(
@@ -776,7 +780,7 @@ export default class TimRender {
             param: friendshipGetPendencyListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipDeletePendency(deletePendencyParams: DeletePendencyParams) {
@@ -786,7 +790,7 @@ export default class TimRender {
             param: deletePendencyParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipReportPendencyReaded(
@@ -798,7 +802,7 @@ export default class TimRender {
             param: reportPendencyReadedParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipSearchFriends(searchFriendsParams: SearchFriendsParams) {
@@ -808,7 +812,7 @@ export default class TimRender {
             param: searchFriendsParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMFriendshipGetFriendsInfo(
@@ -820,7 +824,7 @@ export default class TimRender {
             param: friendshipStringArrayParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetOnAddFriendCallback(params: TIMOnAddFriendCallbackParams) {
@@ -834,7 +838,7 @@ export default class TimRender {
 
         TimRender.runtime.set(callback, params.callback);
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetOnDeleteFriendCallback(params: TIMOnDeleteFriendCallbackParams) {
@@ -848,7 +852,7 @@ export default class TimRender {
 
         TimRender.runtime.set(callback, params.callback);
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetUpdateFriendProfileCallback(
@@ -864,7 +868,7 @@ export default class TimRender {
 
         TimRender.runtime.set(callback, params.callback);
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetFriendAddRequestCallback(params: TIMFriendAddRequestCallbackParams) {
@@ -878,7 +882,7 @@ export default class TimRender {
 
         TimRender.runtime.set(callback, params.callback);
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetFriendApplicationListDeletedCallback(
@@ -893,7 +897,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetFriendApplicationListReadCallback(
@@ -908,7 +912,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetFriendBlackListAddedCallback(
@@ -923,7 +927,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetFriendBlackListDeletedCallback(
@@ -938,7 +942,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgSendMessage(msgSendMessageParams: MsgSendMessageParams) {
@@ -948,7 +952,7 @@ export default class TimRender {
             param: msgSendMessageParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams) {
@@ -958,7 +962,7 @@ export default class TimRender {
             param: msgCancelSendParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgFindMessages(msgFindMessagesParams: MsgFindMessagesParams) {
@@ -968,7 +972,7 @@ export default class TimRender {
             param: msgFindMessagesParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgReportReaded(msgReportReadedParams: MsgReportReadedParams) {
@@ -978,7 +982,7 @@ export default class TimRender {
             param: msgReportReadedParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgRevoke(msgRevokeParams: MsgRevokeParams) {
@@ -988,7 +992,7 @@ export default class TimRender {
             param: msgRevokeParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgFindByMsgLocatorList(
@@ -1000,7 +1004,7 @@ export default class TimRender {
             param: msgFindByMsgLocatorListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgImportMsgList(msgImportMsgListParams: MsgImportMsgListParams) {
@@ -1010,7 +1014,7 @@ export default class TimRender {
             param: msgImportMsgListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams) {
@@ -1020,7 +1024,7 @@ export default class TimRender {
             param: msgSaveMsgParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgGetMsgList(msgGetMsgListParams: MsgGetMsgListParams) {
@@ -1030,7 +1034,7 @@ export default class TimRender {
             param: msgGetMsgListParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgDelete(msgDeleteParams: MsgDeleteParams) {
@@ -1040,7 +1044,7 @@ export default class TimRender {
             param: msgDeleteParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgListDelete(msgListDeleteParams: MsgListDeleteParams) {
@@ -1050,7 +1054,7 @@ export default class TimRender {
             param: msgListDeleteParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgClearHistoryMessage(
@@ -1062,7 +1066,7 @@ export default class TimRender {
             param: msgClearHistoryMessageParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgSetC2CReceiveMessageOpt(
@@ -1074,7 +1078,7 @@ export default class TimRender {
             param: msgSetC2CReceiveMessageOptParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgGetC2CReceiveMessageOpt(
@@ -1086,7 +1090,7 @@ export default class TimRender {
             param: msgGetC2CReceiveMessageOptParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgSetGroupReceiveMessageOpt(
@@ -1098,7 +1102,7 @@ export default class TimRender {
             param: msgSetGroupReceiveMessageOptParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgDownloadElemToPath(
@@ -1110,7 +1114,7 @@ export default class TimRender {
             param: msgDownloadElemToPathParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgDownloadMergerMessage(
@@ -1122,7 +1126,7 @@ export default class TimRender {
             param: msgDownloadMergerMessageParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgBatchSend(msgBatchSendParams: MsgBatchSendParams) {
@@ -1132,7 +1136,7 @@ export default class TimRender {
             param: msgBatchSendParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMMsgSearchLocalMessages(
@@ -1144,7 +1148,7 @@ export default class TimRender {
             param: msgSearchLocalMessagesParams,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams) {
@@ -1157,7 +1161,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMRemoveRecvNewMsgCallback() {
@@ -1166,7 +1170,7 @@ export default class TimRender {
             manager: Managers.advanceMessageManager,
         };
 
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetMsgReadedReceiptCallback(params: TIMMsgReadedReceiptCallbackParams) {
@@ -1179,7 +1183,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetMsgRevokeCallback(params: TIMMsgRevokeCallbackParams) {
@@ -1192,7 +1196,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetMsgElemUploadProgressCallback(
@@ -1207,7 +1211,7 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
 
     TIMSetMsgUpdateCallback(params: TIMMsgUpdateCallbackParams) {
@@ -1220,6 +1224,9 @@ export default class TimRender {
         };
 
         TimRender.runtime.set(callback, params.callback);
-        return this.call(formatedData);
+        return this._call(formatedData);
     }
+    // TRTCCalling start
+    call(param: TRTCCallingCallParam) {}
+    groupCall(param: TRTCCallingCallGroupParam) {}
 }

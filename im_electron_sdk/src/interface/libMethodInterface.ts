@@ -124,26 +124,18 @@ interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
 // ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
-    (
-        params: Buffer,
-        successCallback?: CommonCallbackFun,
-        userData?: Buffer
-    ): number;
+    (params: Buffer, successCallback?: Buffer, userData?: Buffer): number;
 }
 
 interface TIMGroupDeleteFun {
-    (
-        groupId: Buffer,
-        successCallback?: CommonCallbackFun,
-        userData?: Buffer
-    ): number;
+    (groupId: Buffer, successCallback?: Buffer, userData?: Buffer): number;
 }
 
 interface TIMGroupJoinFun {
     (
         groupId: Buffer,
         hello_msg: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }
@@ -155,7 +147,7 @@ interface TIMGroupInviteMemberFun extends TIMGroupCreateFun {}
 interface TIMGroupDeleteMemberFun extends TIMGroupCreateFun {}
 
 interface TIMGroupGetJoinedGroupListFun {
-    (successCallback?: CommonCallbackFun, userData?: Buffer): number;
+    (successCallback?: Buffer, userData?: Buffer): number;
 }
 
 interface TIMGroupGetGroupInfoListFun extends TIMGroupCreateFun {}
@@ -169,11 +161,7 @@ interface TIMGroupModifyMemberInfoFun extends TIMGroupCreateFun {}
 interface TIMGroupGetPendencyListFun extends TIMGroupCreateFun {}
 
 interface TIMGroupReportPendencyReadedFun {
-    (
-        timeStamp: number,
-        successCallback?: CommonCallbackFun,
-        userData?: Buffer
-    ): number;
+    (timeStamp: number, successCallback?: Buffer, userData?: Buffer): number;
 }
 
 interface TIMGroupHandlePendencyFun extends TIMGroupCreateFun {}
@@ -188,7 +176,7 @@ interface TIMGroupInitGroupAttributesFun {
     (
         groupId: Buffer,
         params: Buffer,
-        successCallback?: CommonCallbackFun,
+        successCallback?: Buffer,
         userData?: Buffer
     ): number;
 }

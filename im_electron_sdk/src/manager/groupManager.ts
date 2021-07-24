@@ -24,17 +24,20 @@ import {
     ErrorResponse,
     GroupTipsCallbackParams,
     GroupAttributeCallbackParams,
+    cache,
 } from "../interface";
 import {
     nodeStrigToCString,
     jsFuncToFFIFun,
     transformGroupTipFun,
     transformGroupAttributeFun,
+    randomString,
 } from "../utils/utils";
 
 class GroupManager {
     private _imskdLib: libMethods;
-    private _callbacks: Map<String, Buffer> = new Map();
+    private _callback: Map<String, Buffer> = new Map();
+    private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._imskdLib = config.Imsdklib;
     }
@@ -58,18 +61,29 @@ class GroupManager {
         const paramsForCString = nodeStrigToCString(JSON.stringify(params));
         const userData = this.stringFormator(data);
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupCreate")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupCreate", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupCreate", cacheMap);
             const code = this._imskdLib.TIMGroupCreate(
                 paramsForCString,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupCreate") as Buffer,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -82,18 +96,30 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupDelete")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+
+            this._callback.set("TIMGroupDelete", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupDelete", cacheMap);
             const code = this._imskdLib.TIMGroupDelete(
                 groupID,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupDelete") as Buffer,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -107,19 +133,30 @@ class GroupManager {
         const msg = this.stringFormator(helloMsg);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupJoin")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupJoin", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupJoin", cacheMap);
             const code = this._imskdLib.TIMGroupJoin(
                 groupID,
                 msg,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupJoin") as Buffer,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -132,18 +169,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupQuit")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupQuit", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupQuit", cacheMap);
             const code = this._imskdLib.TIMGroupQuit(
                 groupID,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupQuit"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -157,18 +205,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupInviteMember")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupInviteMember", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupInviteMember", cacheMap);
             const code = this._imskdLib.TIMGroupInviteMember(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupInviteMember"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -182,18 +241,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupDeleteMember")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupDeleteMember", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupDeleteMember", cacheMap);
             const code = this._imskdLib.TIMGroupDeleteMember(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupDeleteMember"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -204,17 +274,28 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetJoinedGroupList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetJoinedGroupList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetJoinedGroupList", cacheMap);
             const code = this._imskdLib.TIMGroupGetJoinedGroupList(
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetJoinedGroupList") as Buffer,
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -228,18 +309,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetGroupInfoList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetGroupInfoList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetGroupInfoList", cacheMap);
             const code = this._imskdLib.TIMGroupGetGroupInfoList(
                 nodeStrigToCString(JSON.stringify(groupIds)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetGroupInfoList"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -253,18 +345,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupModifyGroupInfo")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupModifyGroupInfo", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupModifyGroupInfo", cacheMap);
             const code = this._imskdLib.TIMGroupModifyGroupInfo(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupModifyGroupInfo"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -279,18 +382,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetMemberInfoList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetMemberInfoList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetMemberInfoList", cacheMap);
             const code = this._imskdLib.TIMGroupGetMemberInfoList(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetMemberInfoList"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -304,18 +418,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupModifyMemberInfo")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupModifyMemberInfo", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupModifyMemberInfo", cacheMap);
             const code = this._imskdLib.TIMGroupModifyMemberInfo(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupModifyMemberInfo"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -329,18 +454,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetPendencyList")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetPendencyList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetPendencyList", cacheMap);
             const code = this._imskdLib.TIMGroupGetPendencyList(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetPendencyList"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -352,18 +488,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupReportPendencyReaded")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupReportPendencyReaded", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupReportPendencyReaded", cacheMap);
             const code = this._imskdLib.TIMGroupReportPendencyReaded(
                 timeStamp,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupReportPendencyReaded"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -377,18 +524,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupHandlePendency")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupHandlePendency", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupHandlePendency", cacheMap);
             const code = this._imskdLib.TIMGroupHandlePendency(
                 nodeStrigToCString(JSON.stringify(params)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupHandlePendency"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -402,18 +560,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetOnlineMemberCount")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetOnlineMemberCount", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetOnlineMemberCount", cacheMap);
             const code = this._imskdLib.TIMGroupGetOnlineMemberCount(
                 nodeStrigToCString(groupId),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetOnlineMemberCount"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -427,18 +596,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupSearchGroups")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupSearchGroups", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupSearchGroups", cacheMap);
             const code = this._imskdLib.TIMGroupSearchGroups(
                 nodeStrigToCString(JSON.stringify(searchParams)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupSearchGroups"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -452,18 +632,29 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupSearchGroupMembers")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupSearchGroupMembers", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupSearchGroupMembers", cacheMap);
             const code = this._imskdLib.TIMGroupSearchGroupMembers(
                 nodeStrigToCString(JSON.stringify(searchParams)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupSearchGroupMembers"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -477,19 +668,30 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupInitGroupAttributes")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupInitGroupAttributes", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupInitGroupAttributes", cacheMap);
             const code = this._imskdLib.TIMGroupInitGroupAttributes(
                 nodeStrigToCString(groupId),
                 nodeStrigToCString(JSON.stringify(attributes)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupInitGroupAttributes"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -503,19 +705,30 @@ class GroupManager {
         const userData = this.stringFormator(data);
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupSetGroupAttributes")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupSetGroupAttributes", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupSetGroupAttributes", cacheMap);
             const code = this._imskdLib.TIMGroupSetGroupAttributes(
                 nodeStrigToCString(groupId),
                 nodeStrigToCString(JSON.stringify(attributes)),
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupSetGroupAttributes"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -533,19 +746,30 @@ class GroupManager {
         );
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupDeleteGroupAttributes")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupDeleteGroupAttributes", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupDeleteGroupAttributes", cacheMap);
             const code = this._imskdLib.TIMGroupDeleteGroupAttributes(
                 formatedGroupId,
                 formatedAttributesKey,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupDeleteGroupAttributes"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -563,19 +787,30 @@ class GroupManager {
         );
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const successCallback: CommonCallbackFun = (
                 code,
                 desc,
                 json_param,
                 user_data
-            ) =>
+            ) => {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMGroupGetGroupAttributes")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            this._callback.set("TIMGroupGetGroupAttributes", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMGroupGetGroupAttributes", cacheMap);
             const code = this._imskdLib.TIMGroupGetGroupAttributes(
                 formatedGroupId,
                 formatedAttributesKey,
-                jsFuncToFFIFun(successCallback),
+                this._callback.get("TIMGroupGetGroupAttributes"),
                 userData
             );
             if (code !== 0) reject(this.getErrorResponse({ code }));
@@ -587,13 +822,13 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
-        this._callbacks.set(
+        this._callback.set(
             "TIMSetGroupTipsEventCallback",
             transformGroupTipFun(callback)
         );
 
         this._imskdLib.TIMSetGroupTipsEventCallback(
-            this._callbacks.get("TIMSetGroupTipsEventCallback") as Buffer,
+            this._callback.get("TIMSetGroupTipsEventCallback") as Buffer,
             userData
         );
     }
@@ -603,14 +838,12 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
-        this._callbacks.set(
+        this._callback.set(
             "TIMSetGroupAttributeChangedCallback",
             transformGroupAttributeFun(callback)
         );
         this._imskdLib.TIMSetGroupAttributeChangedCallback(
-            this._callbacks.get(
-                "TIMSetGroupAttributeChangedCallback"
-            ) as Buffer,
+            this._callback.get("TIMSetGroupAttributeChangedCallback") as Buffer,
             userData
         );
     }

@@ -1,4 +1,9 @@
-import { CommonCallbackFun, commonResponse, sdkconfig } from "../interface";
+import {
+    cache,
+    CommonCallbackFun,
+    commonResponse,
+    sdkconfig,
+} from "../interface";
 import {
     convCreate,
     convDelete,
@@ -16,11 +21,13 @@ import {
     jsFuncToFFIFun,
     jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback,
     nodeStrigToCString,
+    randomString,
 } from "../utils/utils";
 
 class ConversationManager {
     private _sdkconfig: sdkconfig;
     private _callback: Map<String, Buffer> = new Map();
+    private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -31,6 +38,7 @@ class ConversationManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -42,9 +50,16 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMConvCreate")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvCreate", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvCreate", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvCreate(
                 convId,
                 convType,
@@ -61,6 +76,7 @@ class ConversationManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -72,9 +88,16 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMConvDelete")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvDelete", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvDelete", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvDelete(
                 convId,
                 convType,
@@ -89,6 +112,7 @@ class ConversationManager {
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -100,10 +124,17 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMConvGetConvList")?.delete(now);
             };
 
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvGetConvList", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvGetConvList", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvList(
                 this._callback.get("TIMConvGetConvList") as Buffer,
                 userData
@@ -135,6 +166,7 @@ class ConversationManager {
             : Buffer.from(" ");
 
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -146,9 +178,16 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMConvGetConvInfo")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvGetConvInfo", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvGetConvInfo", cacheMap);
             const code: number = this._sdkconfig.Imsdklib.TIMConvGetConvInfo(
                 convList,
                 this._callback.get("TIMConvGetConvInfo") as Buffer,
@@ -167,6 +206,7 @@ class ConversationManager {
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -178,9 +218,16 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache.get("TIMConvPinConversation")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvPinConversation", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvPinConversation", cacheMap);
             const code: number =
                 this._sdkconfig.Imsdklib.TIMConvPinConversation(
                     convId,
@@ -199,6 +246,7 @@ class ConversationManager {
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
         return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
                 code,
                 desc,
@@ -210,9 +258,18 @@ class ConversationManager {
                 } else {
                     reject({ code, desc, json_param, user_data });
                 }
+                this._cache
+                    .get("TIMConvGetTotalUnreadMessageCount")
+                    ?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
             this._callback.set("TIMConvGetTotalUnreadMessageCount", callback);
+            const cacheMap = new Map();
+            cacheMap.set(now, {
+                cb: cb,
+                callback: callback,
+            });
+            this._cache.set("TIMConvGetTotalUnreadMessageCount", cacheMap);
             const code: number =
                 this._sdkconfig.Imsdklib.TIMConvGetTotalUnreadMessageCount(
                     this._callback.get(
