@@ -181,7 +181,6 @@ export default class TimRender {
         return this._call(formatedData);
     }
     TIMConvGetConvList(param: getConvList) {
-        console.log(param);
         const formatedData = {
             method: "TIMConvGetConvList",
             manager: Managers.conversationManager,
