@@ -42,11 +42,13 @@ const ref = require("ref-napi");
 
 class AdvanceMessageManage {
     private _sdkconfig: sdkconfig;
-    private _callback: Map<String, Buffer> = new Map();
-    private _cache: Map<String, Map<string, cache>> = new Map();
+    private _callback: Map<string, Function> = new Map();
+    private _cache: Map<string, Map<string, cache>> = new Map();
     private tIMRecvNewMsgCallbackParams:
         | TIMRecvNewMsgCallbackParams
         | undefined;
+    private _ffiCallback: Map<string, Buffer> = new Map();
+    private _uploadProcessMap: Map<string, Map<string, boolean>> = new Map();
     private stringFormator = (str: string | undefined): Buffer =>
         str ? nodeStrigToCString(str) : Buffer.from(" ");
 
@@ -999,19 +1001,76 @@ class AdvanceMessageManage {
     }
 
     // callback begin
+
+    private recvNewMsgCallback(json_msg_array: Buffer, user_data: Buffer) {
+        const fn = this._callback.get("TIMAddRecvNewMsgCallback");
+        fn && fn(json_msg_array, user_data);
+    }
+
+    private msgReadedReceiptCallback(
+        json_msg_readed_receipt_array: Buffer,
+        user_data: Buffer
+    ) {
+        const fn = this._callback.get("TIMSetMsgReadedReceiptCallback");
+        fn && fn(json_msg_readed_receipt_array, user_data);
+    }
+    private msgRevokeCallback(
+        json_msg_locator_array: Buffer,
+        user_data: Buffer
+    ) {
+        const fn = this._callback.get("TIMSetMsgRevokeCallback");
+        fn && fn(json_msg_locator_array, user_data);
+    }
+    private msgElemUploadProgressCallback(
+        json_msg: Buffer,
+        index: number,
+        cur_size: number,
+        local_size: number,
+        user_data: Buffer
+    ) {
+        const fn = this._callback.get("TIMSetMsgElemUploadProgressCallback");
+        try {
+            const { message_msg_id } = JSON.parse(json_msg.toString());
+            const now = (Date.now() / 1000).toFixed(0);
+            if (!this._uploadProcessMap.get(message_msg_id)) {
+                const lastCallbackTime = new Map();
+                lastCallbackTime.set(now, true);
+                this._uploadProcessMap.set(message_msg_id, lastCallbackTime);
+                fn && fn(json_msg, index, cur_size, local_size, user_data);
+            } else {
+                const hasCallback = this._uploadProcessMap
+                    .get(message_msg_id)
+                    ?.get(now);
+                if (!hasCallback) {
+                    this._uploadProcessMap.get(message_msg_id)?.set(now, true);
+                    fn && fn(json_msg, index, cur_size, local_size, user_data);
+                }
+            }
+            if (cur_size === local_size) {
+                this._uploadProcessMap.delete(message_msg_id);
+            }
+        } catch (e) {
+            fn && fn(json_msg, index, cur_size, local_size, user_data);
+        }
+    }
+
+    private msgUpdateCallback(json_msg_array: Buffer, user_data: Buffer) {
+        const fn = this._callback.get("TIMSetMsgUpdateCallback");
+        fn && fn(json_msg_array, user_data);
+    }
+
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams): void {
         const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
-            function (json_msg_array: Buffer, user_data: Buffer) {
-                callback(json_msg_array.toString(), user_data.toString());
-            }
+            this.recvNewMsgCallback.bind(this)
         );
-        this._callback.set("TIMAddRecvNewMsgCallback", c_callback);
+        this._ffiCallback.set("TIMAddRecvNewMsgCallback", c_callback);
+        this._callback.set("TIMAddRecvNewMsgCallback", callback);
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(
-            this._callback.get("TIMAddRecvNewMsgCallback") as Buffer,
+            this._ffiCallback.get("TIMAddRecvNewMsgCallback"),
             c_user_data
         );
         // this.tIMRecvNewMsgCallbackParams = c_callback;
@@ -1019,7 +1078,7 @@ class AdvanceMessageManage {
 
     TIMRemoveRecvNewMsgCallback(): void {
         this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(
-            this._callback.get("TIMAddRecvNewMsgCallback") as Buffer
+            this._ffiCallback.get("TIMAddRecvNewMsgCallback")
         );
         // this.tIMRecvNewMsgCallbackParams = undefined;
     }
@@ -1032,19 +1091,12 @@ class AdvanceMessageManage {
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
-            function (
-                json_msg_readed_receipt_array: Buffer,
-                user_data: Buffer
-            ) {
-                callback(
-                    json_msg_readed_receipt_array.toString(),
-                    user_data.toString()
-                );
-            }
+            this.msgReadedReceiptCallback.bind(this)
         );
-        this._callback.set("TIMSetMsgReadedReceiptCallback", c_callback);
+        this._ffiCallback.set("TIMSetMsgReadedReceiptCallback", c_callback);
+        this._callback.set("TIMSetMsgReadedReceiptCallback", callback);
         this._sdkconfig.Imsdklib.TIMSetMsgReadedReceiptCallback(
-            this._callback.get("TIMSetMsgReadedReceiptCallback") as Buffer,
+            this._ffiCallback.get("TIMSetMsgReadedReceiptCallback"),
             c_user_data
         );
     }
@@ -1055,16 +1107,12 @@ class AdvanceMessageManage {
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
-            function (json_msg_locator_array: Buffer, user_data: Buffer) {
-                callback(
-                    json_msg_locator_array.toString(),
-                    user_data.toString()
-                );
-            }
+            this.msgRevokeCallback.bind(this)
         );
-        this._callback.set("TIMSetMsgRevokeCallback", c_callback);
+        this._callback.set("TIMSetMsgRevokeCallback", callback);
+        this._ffiCallback.set("TIMSetMsgRevokeCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(
-            this._callback.get("TIMSetMsgRevokeCallback") as Buffer,
+            this._ffiCallback.get("TIMSetMsgRevokeCallback"),
             c_user_data
         );
     }
@@ -1083,19 +1131,15 @@ class AdvanceMessageManage {
                 ref.types.int,
                 ref.types.CString,
             ],
-            function (
-                json_msg: Buffer,
-                index: number,
-                cur_size: number,
-                local_size: number,
-                user_data: Buffer
-            ) {
-                callback(json_msg.toString(), index, cur_size, local_size, "");
-            }
+            this.msgElemUploadProgressCallback.bind(this)
         );
-        this._callback.set("TIMSetMsgElemUploadProgressCallback", c_callback);
+        this._callback.set("TIMSetMsgElemUploadProgressCallback", callback);
+        this._ffiCallback.set(
+            "TIMSetMsgElemUploadProgressCallback",
+            c_callback
+        );
         this._sdkconfig.Imsdklib.TIMSetMsgElemUploadProgressCallback(
-            this._callback.get("TIMSetMsgElemUploadProgressCallback") as Buffer,
+            this._ffiCallback.get("TIMSetMsgElemUploadProgressCallback"),
             c_user_data
         );
     }
@@ -1106,13 +1150,12 @@ class AdvanceMessageManage {
         const c_callback = ffi.Callback(
             ref.types.void,
             [ref.types.CString, ref.types.CString],
-            function (json_msg_array: Buffer, user_data: Buffer) {
-                callback(json_msg_array.toString(), user_data.toString());
-            }
+            this.msgUpdateCallback.bind(this)
         );
-        this._callback.set("TIMSetMsgUpdateCallback", c_callback);
+        this._callback.set("TIMSetMsgUpdateCallback", callback);
+        this._ffiCallback.set("TIMSetMsgUpdateCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(
-            this._callback.get("TIMSetMsgUpdateCallback") as Buffer,
+            this._ffiCallback.get("TIMSetMsgUpdateCallback"),
             c_user_data
         );
     }

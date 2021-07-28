@@ -36,7 +36,8 @@ import {
 
 class GroupManager {
     private _imskdLib: libMethods;
-    private _callback: Map<String, Buffer> = new Map();
+    private _callback: Map<String, Function> = new Map();
+    private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._imskdLib = config.Imsdklib;
@@ -867,19 +868,34 @@ class GroupManager {
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
-
+    private groupTipsEventCallback(
+        json_group_tip_array: string,
+        user_data: string
+    ) {
+        const fn = this._callback.get("TIMSetGroupTipsEventCallback");
+        fn && fn(json_group_tip_array, user_data);
+    }
+    private groupAttributeChangedCallback(
+        group_id: string,
+        json_group_attibute_array: string,
+        user_data: string
+    ) {
+        const fn = this._callback.get("TIMSetGroupAttributeChangedCallback");
+        fn && fn(group_id, json_group_attibute_array, user_data);
+    }
     async TIMSetGroupTipsEventCallback(
         params: GroupTipsCallbackParams
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
-        this._callback.set(
-            "TIMSetGroupTipsEventCallback",
-            transformGroupTipFun(callback)
+        const c_callback = transformGroupTipFun(
+            this.groupTipsEventCallback.bind(this)
         );
+        this._ffiCallback.set("TIMSetGroupTipsEventCallback", c_callback);
+        this._callback.set("TIMSetGroupTipsEventCallback", callback);
 
         this._imskdLib.TIMSetGroupTipsEventCallback(
-            this._callback.get("TIMSetGroupTipsEventCallback") as Buffer,
+            this._ffiCallback.get("TIMSetGroupTipsEventCallback") as Buffer,
             userData
         );
     }
@@ -889,12 +905,18 @@ class GroupManager {
     ): Promise<any> {
         const { callback, data } = params;
         const userData = this.stringFormator(data);
-        this._callback.set(
-            "TIMSetGroupAttributeChangedCallback",
-            transformGroupAttributeFun(callback)
+        const c_callback = transformGroupAttributeFun(
+            this.groupAttributeChangedCallback.bind(this)
         );
+        this._ffiCallback.set(
+            "TIMSetGroupAttributeChangedCallback",
+            c_callback
+        );
+        this._callback.set("TIMSetGroupAttributeChangedCallback", callback);
         this._imskdLib.TIMSetGroupAttributeChangedCallback(
-            this._callback.get("TIMSetGroupAttributeChangedCallback") as Buffer,
+            this._ffiCallback.get(
+                "TIMSetGroupAttributeChangedCallback"
+            ) as Buffer,
             userData
         );
     }

@@ -26,7 +26,8 @@ import {
 
 class ConversationManager {
     private _sdkconfig: sdkconfig;
-    private _callback: Map<String, Buffer> = new Map();
+    private _callback: Map<String, Function> = new Map();
+    private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
@@ -292,33 +293,57 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    private setConvEventCallback(
+        conv_event: number,
+        json_conv_array: string,
+        user_data: string
+    ) {
+        const fn = this._callback.get("TIMSetConvEventCallback");
+        fn && fn(conv_event, json_conv_array, user_data);
+    }
+    private convTotalUnreadMessageCountChangedCallback(
+        total_unread_count: number,
+        user_data: string
+    ) {
+        const fn = this._callback.get(
+            "TIMSetConvTotalUnreadMessageCountChangedCallback"
+        );
+        fn && fn(total_unread_count, user_data);
+    }
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
-        const callback: Buffer = jsFuncToFFIConvEventCallback(param.callback);
-        this._callback.set("TIMSetConvEventCallback", callback);
+        this._callback.set("TIMSetConvEventCallback", param.callback);
+        const c_callback = jsFuncToFFIConvEventCallback(
+            this.setConvEventCallback.bind(this)
+        );
+        this._ffiCallback.set("TIMSetConvEventCallback", c_callback);
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
         this._sdkconfig.Imsdklib.TIMSetConvEventCallback(
-            this._callback.get("TIMSetConvEventCallback") as Buffer,
+            this._ffiCallback.get("TIMSetConvEventCallback") as Buffer,
             userData
         );
     }
     async TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam
     ): Promise<any> {
-        const callback =
-            jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
-                param.callback
-            );
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
+        const c_callback =
+            jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
+                this.convTotalUnreadMessageCountChangedCallback.bind(this)
+            );
+        this._ffiCallback.set(
+            "TIMSetConvTotalUnreadMessageCountChangedCallback",
+            c_callback
+        );
         this._callback.set(
             "TIMSetConvTotalUnreadMessageCountChangedCallback",
-            callback
+            param.callback
         );
         this._sdkconfig.Imsdklib.TIMSetConvTotalUnreadMessageCountChangedCallback(
-            this._callback.get(
+            this._ffiCallback.get(
                 "TIMSetConvTotalUnreadMessageCountChangedCallback"
             ) as Buffer,
             userData

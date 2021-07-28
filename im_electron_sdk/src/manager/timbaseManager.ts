@@ -29,7 +29,8 @@ import { TIMLoginStatus } from "../enum";
 
 class TimbaseManager {
     private _sdkconfig: sdkconfig;
-    private _callback: Map<String, Buffer> = new Map();
+    private _callback: Map<String, Function> = new Map();
+    private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
@@ -176,51 +177,90 @@ class TimbaseManager {
             code !== 0 && reject({ code });
         });
     }
+    private networkStatusListenerCallback(
+        status: number,
+        code: number,
+        desc: string,
+        user_data: string
+    ) {
+        const fn = this._callback.get("TIMSetNetworkStatusListenerCallback");
+        fn && fn(status, code, desc, user_data);
+    }
+    private kickedOfflineCallback(user_data: string) {
+        const fn = this._callback.get("TIMSetKickedOfflineCallback");
+        fn && fn(user_data);
+    }
+    private userSigExpiredCallback(user_data: string) {
+        const fn = this._callback.get("TIMSetUserSigExpiredCallback");
+        fn && fn(user_data);
+    }
+    private logCallback(level: number, log: string, user_data: string) {
+        const fn = this._callback.get("TIMSetLogCallback");
+        fn && fn(level, log, user_data);
+    }
     TIMSetNetworkStatusListenerCallback(
         param: TIMSetNetworkStatusListenerCallbackParam
     ) {
-        const callback = jsFunToFFITIMSetNetworkStatusListenerCallback(
-            param.callback
-        );
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
-        this._callback.set("TIMSetNetworkStatusListenerCallback", callback);
+        const c_callback = jsFunToFFITIMSetNetworkStatusListenerCallback(
+            this.networkStatusListenerCallback.bind(this)
+        );
+        this._callback.set(
+            "TIMSetNetworkStatusListenerCallback",
+            param.callback
+        );
+        this._ffiCallback.set(
+            "TIMSetNetworkStatusListenerCallback",
+            c_callback
+        );
         this._sdkconfig.Imsdklib.TIMSetNetworkStatusListenerCallback(
-            this._callback.get("TIMSetNetworkStatusListenerCallback") as Buffer,
+            this._ffiCallback.get(
+                "TIMSetNetworkStatusListenerCallback"
+            ) as Buffer,
             userData
         );
     }
     TIMSetKickedOfflineCallback(param: TIMSetKickedOfflineCallbackParam) {
-        const callback = jsFunToFFITIMSetKickedOfflineCallback(param.callback);
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
-        this._callback.set("TIMSetKickedOfflineCallback", callback);
+        const c_callback = jsFunToFFITIMSetKickedOfflineCallback(
+            this.kickedOfflineCallback.bind(this)
+        );
+        this._callback.set("TIMSetKickedOfflineCallback", param.callback);
+        this._ffiCallback.set("TIMSetKickedOfflineCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetKickedOfflineCallback(
-            this._callback.get("TIMSetKickedOfflineCallback") as Buffer,
+            this._ffiCallback.get("TIMSetKickedOfflineCallback") as Buffer,
             userData
         );
     }
     TIMSetUserSigExpiredCallback(param: TIMSetUserSigExpiredCallbackParam) {
-        const callback = jsFunToFFITIMSetUserSigExpiredCallback(param.callback);
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
             : Buffer.from(" ");
-        this._callback.set("TIMSetUserSigExpiredCallback", callback);
+        const c_callback = jsFunToFFITIMSetUserSigExpiredCallback(
+            this.userSigExpiredCallback.bind(this)
+        );
+        this._callback.set("TIMSetUserSigExpiredCallback", param.callback);
+        this._ffiCallback.set("TIMSetUserSigExpiredCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetUserSigExpiredCallback(
-            this._callback.get("TIMSetUserSigExpiredCallback") as Buffer,
+            this._ffiCallback.get("TIMSetUserSigExpiredCallback") as Buffer,
             userData
         );
     }
     TIMSetLogCallback(param: TIMSetLogCallbackParam) {
-        const callback = transferTIMLogCallbackFun(param.callback);
         const user_data = param.user_data
             ? nodeStrigToCString(param.user_data)
             : Buffer.from(" ");
-        this._callback.set("TIMSetLogCallback", callback);
+        const c_callback = transferTIMLogCallbackFun(
+            this.logCallback.bind(this)
+        );
+        this._callback.set("TIMSetLogCallback", param.callback);
+        this._ffiCallback.set("TIMSetLogCallback", c_callback);
         this._sdkconfig.Imsdklib.TIMSetLogCallback(
-            this._callback.get("TIMSetLogCallback") as Buffer,
+            this._ffiCallback.get("TIMSetLogCallback") as Buffer,
             user_data
         );
     }

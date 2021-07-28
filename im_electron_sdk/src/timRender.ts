@@ -1,4 +1,5 @@
 import { TIMIPCLISTENR } from "./const/const";
+import { v4 as uuidv4 } from "uuid";
 import {
     loginParam,
     CreateGroupParams,
@@ -97,6 +98,7 @@ import {
     TRTCCallingCallGroupParam,
     TRTCCallingCallParam,
 } from "./interface/trtcCalling";
+import { TIMConvType } from "./enum";
 
 const getUniKey = (length: number) =>
     Number(Math.random().toString().substr(3, length) + Date.now()).toString(
@@ -1226,6 +1228,18 @@ export default class TimRender {
         return this._call(formatedData);
     }
     // TRTCCalling start
-    call(param: TRTCCallingCallParam) {}
+    call(param: TRTCCallingCallParam) {
+        const { userID } = param;
+        // this.TIMMsgSendMessage({
+        //     conv_id: userID,
+        //     conv_type: TIMConvType.kTIMConv_C2C,
+        //     params: {
+        //         message_elem_array: [{}],
+        //         message_sender: "",
+
+        //     }
+        // })
+        const invitedID = uuidv4();
+    }
     groupCall(param: TRTCCallingCallGroupParam) {}
 }
