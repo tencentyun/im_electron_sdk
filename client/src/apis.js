@@ -51,6 +51,26 @@ const APIS = [
                 }
             },
             {
+                name: "TIMOnInvited",
+                action: (callback) => {
+                    TimBaseManager.TIMOnInvited().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMOnTimeout",
+                action: (callback) => {
+                    TimBaseManager.TIMOnTimeout().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMGetServerTime",
                 action: (callback) => {
                     TimBaseManager.TIMGetServerTime().then(data => {

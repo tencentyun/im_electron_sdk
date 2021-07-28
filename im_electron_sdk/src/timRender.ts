@@ -95,15 +95,18 @@ import {
     setConvEventCallback,
 } from "./interface/conversationInterface";
 import {
+    ActionType,
+    customDataTpl,
+    handleParam,
+    signalCallback,
     TRTCCallingCallGroupParam,
     TRTCCallingCallParam,
 } from "./interface/trtcCalling";
 import { TIMConvType } from "./enum";
-
-const getUniKey = (length: number) =>
-    Number(Math.random().toString().substr(3, length) + Date.now()).toString(
-        36
-    );
+const deepClone = (obj: object) => {
+    // 先简单实现
+    return JSON.parse(JSON.stringify(obj));
+};
 
 interface JoinGroupParams {
     groupId: string;
@@ -119,19 +122,92 @@ interface TestInterface {
 export default class TimRender {
     static runtime: Map<string, Function> = new Map();
     static isListened = false;
+    private _callingInfo: Map<string, any> = new Map();
     constructor() {
         if (!TimRender.isListened) {
             ipcRenderer.on("global-callback-reply", (e: any, res: any) => {
-                const { callbackKey, responseData } = JSON.parse(res);
-                if (TimRender.runtime.has(callbackKey)) {
-                    //@ts-ignore
-                    TimRender.runtime.get(callbackKey)(responseData);
+                try {
+                    const { callbackKey, responseData } = JSON.parse(res);
+                    if (TimRender.runtime.has(callbackKey)) {
+                        //@ts-ignore
+                        TimRender.runtime.get(callbackKey)(responseData);
+
+                        // 处理信令的逻辑
+
+                        if (callbackKey === "TIMAddRecvNewMsgCallback") {
+                            //收到消息
+                            this._handleMessage(responseData[0]);
+                        }
+                    }
+                } catch (err) {
+                    console.error("全局回调异常", err);
                 }
             });
             TimRender.isListened = true;
         }
     }
-
+    private async _handleMessage(message: any) {
+        if (message) {
+            try {
+                const messageItems = JSON.parse(message);
+                for (let j = 0; j < messageItems.length; j++) {
+                    const { message_elem_array } = messageItems[j];
+                    for (let i = 0; i < message_elem_array.length; i++) {
+                        const { elem_type } = message_elem_array[i];
+                        if (elem_type === 3) {
+                            // 自定义消息
+                            const { custom_elem_data } = message_elem_array[i];
+                            try {
+                                const parasedData =
+                                    JSON.parse(custom_elem_data);
+                                if (parasedData) {
+                                    const { inviteID, actionType } =
+                                        parasedData;
+                                    if (inviteID) {
+                                        // 是信令消息
+                                        switch (actionType) {
+                                            case ActionType.INVITE:
+                                                this._onInvited(
+                                                    inviteID,
+                                                    parasedData
+                                                );
+                                                break;
+                                            case ActionType.ACCEPT_INVITE:
+                                                this._onAccepted(
+                                                    inviteID,
+                                                    parasedData
+                                                );
+                                                break;
+                                            case ActionType.CANCEL_INVITE:
+                                                this._onCanceled(
+                                                    inviteID,
+                                                    parasedData
+                                                );
+                                                break;
+                                            case ActionType.INVITE_TIMEOUT:
+                                                this._onTimeouted(
+                                                    inviteID,
+                                                    parasedData
+                                                );
+                                                break;
+                                            case ActionType.REJECT_INVITE:
+                                                this._onRejected(
+                                                    inviteID,
+                                                    parasedData
+                                                );
+                                                break;
+                                        }
+                                    }
+                                }
+                            } catch (err) {}
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("解析消息失败：", err);
+            }
+        }
+    }
     private async _call(data: any): Promise<commonResponse> {
         const response = await ipcRenderer.invoke(
             TIMIPCLISTENR,
@@ -142,6 +218,96 @@ export default class TimRender {
 
     testDoc(param: TestInterface) {}
 
+    private async _onInvited(inviteID: string, parsedData: any) {
+        //@ts-ignore
+        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+        const { inviteeList } = parsedData;
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+            if (TimRender.runtime.get("TIMOnInvited")) {
+                //@ts-ignore
+                TimRender.runtime.get("TIMOnInvited")(parsedData);
+                this._callingInfo.set(inviteID, parsedData);
+            }
+        }
+    }
+    private async _onRejected(inviteID: string, parsedData: any) {
+        //@ts-ignore
+        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+        const { inviteeList } = parsedData;
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+            if (TimRender.runtime.get("TIMOnRejected")) {
+                //@ts-ignore
+                TimRender.runtime.get("TIMOnRejected")(parsedData);
+                this._callingInfo.delete(inviteID);
+            }
+        }
+    }
+    private async _onAccepted(inviteID: string, parsedData: any) {
+        //@ts-ignore
+        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+        const { inviteeList } = parsedData;
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+            if (TimRender.runtime.get("TIMOnAccepted")) {
+                //@ts-ignore
+                TimRender.runtime.get("TIMOnAccepted")(parsedData);
+                this._callingInfo.delete(inviteID);
+            }
+        }
+    }
+    private async _onCanceled(inviteID: string, parsedData: any) {
+        //@ts-ignore
+        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+        const { inviteeList } = parsedData;
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+            if (TimRender.runtime.get("TIMOnCanceled")) {
+                //@ts-ignore
+                TimRender.runtime.get("TIMOnCanceled")(parsedData);
+                this._callingInfo.delete(inviteID);
+            }
+        }
+    }
+    private async _onTimeouted(inviteID: string, parsedData: any) {
+        //@ts-ignore
+        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+        const { inviteeList } = parsedData;
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+            if (TimRender.runtime.get("TIMOnTimeout")) {
+                //@ts-ignore
+                TimRender.runtime.get("TIMOnTimeout")(parsedData);
+                this._callingInfo.delete(inviteID);
+            }
+        }
+    }
+    TIMOnInvited(param: signalCallback) {
+        return new Promise(resolve => {
+            TimRender.runtime.set("TIMOnInvited", param.callback);
+            resolve({});
+        });
+    }
+    TIMOnRejected(param: signalCallback) {
+        return new Promise(resolve => {
+            TimRender.runtime.set("TIMOnrejected", param.callback);
+            resolve({});
+        });
+    }
+    TIMOnAccepted(param: signalCallback) {
+        return new Promise(resolve => {
+            TimRender.runtime.set("TIMOnAccepted", param.callback);
+            resolve({});
+        });
+    }
+    TIMOnCanceled(param: signalCallback) {
+        return new Promise(resolve => {
+            TimRender.runtime.set("TIMOnCanceled", param.callback);
+            resolve({});
+        });
+    }
+    TIMOnTimeout(param: signalCallback) {
+        return new Promise(resolve => {
+            TimRender.runtime.set("TIMOnTimeout", param.callback);
+            resolve({});
+        });
+    }
     TIMConvGetTotalUnreadMessageCount(param: convGetTotalUnreadMessageCount) {
         const formatedData = {
             method: "TIMConvGetTotalUnreadMessageCount",
@@ -436,7 +602,6 @@ export default class TimRender {
 
     TIMSetGroupAttributeChangedCallback(data: GroupAttributeCallbackParams) {
         const callback = "TIMSetGroupAttributeChangedCallback";
-        console.log(callback);
         const formatedData = {
             method: "TIMSetGroupAttributeChangedCallback",
             manager: Managers.groupManager,
@@ -450,7 +615,6 @@ export default class TimRender {
 
     TIMSetGroupTipsEventCallback(data: GroupTipsCallbackParams) {
         const callback = "TIMSetGroupTipsEventCallback";
-        console.log(callback);
         const formatedData = {
             method: "TIMSetGroupTipsEventCallback",
             manager: Managers.groupManager,
@@ -1227,19 +1391,242 @@ export default class TimRender {
         TimRender.runtime.set(callback, params.callback);
         return this._call(formatedData);
     }
-    // TRTCCalling start
-    call(param: TRTCCallingCallParam) {
-        const { userID } = param;
-        // this.TIMMsgSendMessage({
-        //     conv_id: userID,
-        //     conv_type: TIMConvType.kTIMConv_C2C,
-        //     params: {
-        //         message_elem_array: [{}],
-        //         message_sender: "",
-
-        //     }
-        // })
-        const invitedID = uuidv4();
+    private _getSignalCustomData(param: customDataTpl) {
+        const {
+            inviter,
+            inviteID,
+            actionType,
+            inviteeList,
+            callType,
+            roomID = "",
+            timeout = 30,
+            groupID = "",
+            userID,
+        } = param;
+        const tpl = {
+            businessID: 1,
+            inviteID: inviteID,
+            inviter: inviter,
+            actionType: actionType,
+            inviteeList: inviteeList,
+            data: {
+                version: 0,
+                call_type: callType,
+                room_id: roomID,
+            },
+            timeout: timeout,
+            groupID: groupID,
+            userID: userID,
+        };
+        return tpl;
     }
-    groupCall(param: TRTCCallingCallGroupParam) {}
+    private _setCallingTimeout(inviteID: string) {
+        const callInfo = Object.assign(this._callingInfo.get(inviteID));
+        if (callInfo) {
+            const { timeout } = callInfo;
+            const timmer = setTimeout(() => {
+                clearTimeout(timmer);
+                this._timeout(inviteID);
+            }, timeout * 1000);
+        }
+    }
+    private async _timeout(inviteID: string) {
+        const callInfo = deepClone(this._callingInfo.get(inviteID));
+        if (callInfo) {
+            const { senderID, userID, groupID } = callInfo;
+            callInfo.actionType = ActionType.INVITE_TIMEOUT;
+            const { code } = await this._sendCumtomMessage(
+                userID ? userID : groupID,
+                senderID,
+                callInfo
+            );
+            if (code === 0) {
+                this._onTimeouted(inviteID, callInfo); // 让自己也知道超时了
+                this._callingInfo.delete(inviteID);
+            }
+        }
+    }
+    private async _sendCumtomMessage(
+        userID: string,
+        senderID: string,
+        customData: object
+    ) {
+        return this.TIMMsgSendMessage({
+            conv_id: userID,
+            conv_type: TIMConvType.kTIMConv_C2C,
+            params: {
+                message_elem_array: [
+                    {
+                        elem_type: 3, // 自定义消息
+                        custom_elem_data: customData,
+                        custom_elem_desc: "",
+                        custom_elem_ext: "",
+                        custom_elem_sound: "",
+                    },
+                ],
+                message_sender: senderID,
+            },
+        });
+    }
+    // TRTCCalling start
+    TIMInvite(param: TRTCCallingCallParam) {
+        return new Promise(async (resolve, reject) => {
+            const {
+                userID,
+                senderID,
+                roomID,
+                timeout = 30,
+                groupID,
+                callType,
+            } = param;
+            const inviteID = uuidv4();
+            const customData = this._getSignalCustomData({
+                inviter: senderID,
+                inviteeList: [userID],
+                actionType: ActionType.INVITE,
+                inviteID,
+                callType: callType,
+                roomID,
+                timeout,
+                groupID,
+                userID,
+            });
+            const data = await this._sendCumtomMessage(
+                userID,
+                senderID,
+                customData
+            );
+            const { code } = data;
+            if (code === 0) {
+                this._callingInfo.set(inviteID, customData);
+                if (timeout > 0) {
+                    this._setCallingTimeout(inviteID);
+                }
+                resolve(data);
+            } else {
+                reject(data);
+            }
+        });
+    }
+
+    TIMInviteInGroup(param: TRTCCallingCallGroupParam) {
+        return new Promise(async (resolve, reject) => {
+            const {
+                userIDs,
+                senderID,
+                roomID,
+                timeout = 30,
+                groupID,
+                callType,
+            } = param;
+            const inviteID = uuidv4();
+            const customData = this._getSignalCustomData({
+                inviter: senderID,
+                inviteeList: userIDs,
+                actionType: ActionType.INVITE,
+                inviteID,
+                callType: callType,
+                roomID,
+                timeout,
+                groupID,
+            });
+            const data = await this._sendCumtomMessage(
+                groupID,
+                senderID,
+                customData
+            );
+            const { code } = data;
+            if (code === 0) {
+                this._callingInfo.set(inviteID, customData);
+                if (timeout > 0) {
+                    this._setCallingTimeout(inviteID);
+                }
+                resolve(data);
+            } else {
+                reject(data);
+            }
+        });
+    }
+
+    TIMAcceptInvite(param: handleParam) {
+        return new Promise(async (resolve, reject) => {
+            const { inviteID } = param;
+            const callInfo = deepClone(this._callingInfo.get(inviteID));
+            if (callInfo) {
+                const { senderID, userID, groupID } = callInfo;
+                callInfo.actionType = ActionType.ACCEPT_INVITE;
+                const data = await this._sendCumtomMessage(
+                    userID ? userID : groupID,
+                    senderID,
+                    callInfo
+                );
+                const { code } = data;
+                if (code === 0) {
+                    resolve({
+                        inviteID,
+                        ...data,
+                    });
+                } else {
+                    resolve(data);
+                }
+            } else {
+                resolve({
+                    code: 8010,
+                    desc: "inviteID is invalid or invitation has been processed",
+                });
+            }
+        });
+    }
+    TIMRejectInvite(param: handleParam) {
+        return new Promise(async (resolve, reject) => {
+            const { inviteID } = param;
+            const callInfo = deepClone(this._callingInfo.get(inviteID));
+            if (callInfo) {
+                const { senderID, userID, groupID } = callInfo;
+                callInfo.actionType = ActionType.REJECT_INVITE;
+                const data = await this._sendCumtomMessage(
+                    userID ? userID : groupID,
+                    senderID,
+                    callInfo
+                );
+                const { code } = data;
+                if (code === 0) {
+                    resolve(data);
+                } else {
+                    resolve(data);
+                }
+            } else {
+                resolve({
+                    code: 8010,
+                    desc: "inviteID is invalid or invitation has been processed",
+                });
+            }
+        });
+    }
+    TIMCancelInvite(param: handleParam) {
+        return new Promise(async (resolve, reject) => {
+            const { inviteID } = param;
+            const callInfo = deepClone(this._callingInfo.get(inviteID));
+            if (callInfo) {
+                const { senderID, userID, groupID } = callInfo;
+                callInfo.actionType = ActionType.REJECT_INVITE;
+                const data = await this._sendCumtomMessage(
+                    userID ? userID : groupID,
+                    senderID,
+                    callInfo
+                );
+                const { code } = data;
+                if (code === 0) {
+                    resolve(data);
+                } else {
+                    resolve(data);
+                }
+            } else {
+                resolve({
+                    code: 8010,
+                    desc: "inviteID is invalid or invitation has been processed",
+                });
+            }
+        });
+    }
 }

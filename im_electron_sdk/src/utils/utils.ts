@@ -1,4 +1,3 @@
-import { ConsoleLogger } from "typedoc/dist/lib/utils";
 import {
     CommonCallbackFun,
     GroupAttributeCallbackFun,
@@ -90,6 +89,7 @@ function jsFuncToFFIConvEventCallback(fun: convEventCallback) {
     );
     return callback;
 }
+
 function jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
     fun: convTotalUnreadMessageCountChangedCallback
 ) {

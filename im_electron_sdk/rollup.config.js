@@ -1,12 +1,9 @@
-import dts from "rollup-plugin-dts";
-import multiInput from 'rollup-plugin-multi-input';
 const path = require('path');
-// const babel = require('rollup-plugin-babel');
 const typescript = require('rollup-plugin-typescript2')
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const uglify = require('rollup-plugin-uglify').uglify;
 const pkg = require('./package.json');
-
+import commonjs from 'rollup-plugin-commonjs'
 const extensions = ['.js', '.ts'];
 
 const resolve = function (...args) {
@@ -23,6 +20,7 @@ function getEnvConfigData(format,isUglify){
         name: 'rem',
       },
       plugins: [
+        commonjs(),
         typescript(),
         isUglify ? uglify() : null,
         nodeResolve({
@@ -30,7 +28,7 @@ function getEnvConfigData(format,isUglify){
           modulesOnly: true,
         }),
         
-      ],
+      ]
     },
     {
       input: resolve('./src/timRender.ts'),
@@ -41,6 +39,7 @@ function getEnvConfigData(format,isUglify){
         
       },
       plugins: [
+        commonjs(),
         typescript(),
         isUglify ? uglify() : null,
         nodeResolve({
@@ -58,25 +57,14 @@ function getEnvConfigData(format,isUglify){
         
       },
       plugins: [
+        commonjs(),
         typescript(),
         isUglify ? uglify() : null,
         nodeResolve({
           extensions,
           modulesOnly: true,
         }),
-      ],
-    },
-    {
-      input: ["./dist/*/*.d.ts"],
-      output: {
-        format: "umd",
-        dir: "./dist",
-        name: "types"
-      },
-      plugins: [
-        multiInput(),
-        dts()
-      ],
+      ]
     }
   ]
 }
