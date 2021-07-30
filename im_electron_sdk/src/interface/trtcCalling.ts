@@ -35,6 +35,7 @@ interface customDataTpl {
     actionType: ActionType;
     roomID?: string;
     userID?: string;
+    handleID?: string;
 }
 interface handleParam {
     inviteID: string;

@@ -1404,6 +1404,7 @@ export default class TimRender {
             timeout = 30,
             groupID = "",
             userID,
+            handleID = userID,
         } = param;
         const tpl = {
             businessID: 1,
@@ -1416,6 +1417,7 @@ export default class TimRender {
                 version: 4,
                 call_type: callType,
                 room_id: roomID,
+                handleID,
             }),
             timeout: timeout,
             groupID: groupID,
@@ -1424,7 +1426,7 @@ export default class TimRender {
         return tpl;
     }
     private _setCallingTimeout(inviteID: string) {
-        const callInfo = Object.assign(this._callingInfo.get(inviteID));
+        const callInfo = deepClone(this._callingInfo.get(inviteID));
         if (callInfo) {
             const { timeout } = callInfo;
             const timmer = setTimeout(() => {
@@ -1461,7 +1463,7 @@ export default class TimRender {
                 message_elem_array: [
                     {
                         elem_type: 3, // 自定义消息
-                        custom_elem_data: customData,
+                        custom_elem_data: JSON.stringify(customData),
                         custom_elem_desc: "",
                         custom_elem_ext: "",
                         custom_elem_sound: "",
@@ -1562,6 +1564,10 @@ export default class TimRender {
             if (callInfo) {
                 const { senderID, userID, groupID } = callInfo;
                 callInfo.actionType = ActionType.ACCEPT_INVITE;
+                // @ts-ignore
+                callInfo.handleID = (
+                    await this.TIMGetLoginUserID({})
+                ).data.json_param;
                 const data = await this._sendCumtomMessage(
                     userID ? userID : groupID,
                     senderID,
@@ -1591,6 +1597,10 @@ export default class TimRender {
             if (callInfo) {
                 const { senderID, userID, groupID } = callInfo;
                 callInfo.actionType = ActionType.REJECT_INVITE;
+                // @ts-ignore
+                callInfo.handleID = (
+                    await this.TIMGetLoginUserID({})
+                ).data.json_param;
                 const data = await this._sendCumtomMessage(
                     userID ? userID : groupID,
                     senderID,

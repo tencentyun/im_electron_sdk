@@ -1334,6 +1334,36 @@ TIM_DECL int TIMMsgBatchSend(const char* json_batch_send_param, TIMCommCallback 
  TIM_DECL int TIMMsgSearchLocalMessages(const char* json_search_message_param, TIMCommCallback cb, const void* user_data);
 /// @}
 
+/**
+* @brief 5.20   设置消息自定义数据（本地保存，不会发送到对端，程序卸载重装后失效）
+* 
+* @param json_msg_param  消息json字符串
+* @param cb 保存自定义消息成功与否的回调。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
+* @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
+* @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+* @example
+*   Json::Value json_parameters;
+*   json_parameters[kTIMMsgGetMsgListParamIsRamble] = true;
+*   json_parameters[kTIMMsgGetMsgListParamIsForward] = false;
+*   json_parameters[kTIMMsgGetMsgListParamCount] = 1;
+*    TIMMsgGetMsgList("98826", kTIMConv_C2C, json_parameters.toStyledString().c_str(),
+*       [](int32_t code, const char* desc, const char* json_params, const void* user_data) {
+            Json::Reader json_reader;
+*           json::Array json_message_array;
+            json_reader.parse(json_params, json_message_array);
+*           if (json_message_array.size() > 0) {
+*               Json::Value json_obj_msg = json_message_array[0];
+*               json_obj_msg[kTIMMsgCustomStr] = "custom Str";
+*               json_obj_msg[kTIMMsgCustomInt] = "custom int";
+*               TIMMsgSetLocalCustomData(json_obj_msg.toStyledString().c_str(),
+*                   [](int32_t code, const char* desc, const char* json_param, const void* user_data) {
+*                       printf("TIMMsgSetLocalCustomData complete|code:%d|desc:%s\n", code, desc);
+*                   }, nullptr);
+*           }
+*   }, nullptr);
+*/ 
+TIM_DECL int TIMMsgSetLocalCustomData(const char* json_msg_param, TIMCommCallback cb, const void* user_data);
+
 
 /////////////////////////////////////////////////////////////////////////////////
 //
