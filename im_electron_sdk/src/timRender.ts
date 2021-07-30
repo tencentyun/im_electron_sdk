@@ -164,6 +164,7 @@ export default class TimRender {
                                     const { inviteID, actionType } =
                                         parasedData;
                                     if (inviteID) {
+                                        console.log(parasedData, "222");
                                         // 是信令消息
                                         switch (actionType) {
                                             case ActionType.INVITE:
@@ -219,6 +220,7 @@ export default class TimRender {
     testDoc(param: TestInterface) {}
 
     private async _onInvited(inviteID: string, parsedData: any) {
+        console.log(parsedData);
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList } = parsedData;
@@ -1409,11 +1411,12 @@ export default class TimRender {
             inviter: inviter,
             actionType: actionType,
             inviteeList: inviteeList,
-            data: {
-                version: 0,
+            data: JSON.stringify({
+                businessID: "av_call",
+                version: 4,
                 call_type: callType,
                 room_id: roomID,
-            },
+            }),
             timeout: timeout,
             groupID: groupID,
             userID: userID,
@@ -1491,6 +1494,7 @@ export default class TimRender {
                 groupID,
                 userID,
             });
+            console.log("customdata", customData);
             const data = await this._sendCumtomMessage(
                 userID,
                 senderID,
@@ -1541,7 +1545,10 @@ export default class TimRender {
                 if (timeout > 0) {
                     this._setCallingTimeout(inviteID);
                 }
-                resolve(data);
+                resolve({
+                    inviteID,
+                    ...data,
+                });
             } else {
                 reject(data);
             }
@@ -1591,12 +1598,13 @@ export default class TimRender {
                 );
                 const { code } = data;
                 if (code === 0) {
+                    this._callingInfo.delete(inviteID);
                     resolve(data);
                 } else {
-                    resolve(data);
+                    reject(data);
                 }
             } else {
-                resolve({
+                reject({
                     code: 8010,
                     desc: "inviteID is invalid or invitation has been processed",
                 });
@@ -1619,10 +1627,10 @@ export default class TimRender {
                 if (code === 0) {
                     resolve(data);
                 } else {
-                    resolve(data);
+                    reject(data);
                 }
             } else {
-                resolve({
+                reject({
                     code: 8010,
                     desc: "inviteID is invalid or invitation has been processed",
                 });

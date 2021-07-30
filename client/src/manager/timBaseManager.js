@@ -27,6 +27,15 @@ const TimBaseManager = {
             // userSig: "eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk"
         })
     },
+    TIMInvite:()=>{
+        return timRenderInstance.TIMInvite({
+            userID: '109442',
+            senderID: '3708',
+            data: "",
+            roomID: '12321313123213',
+            callType: 1
+        })
+    },
     TIMOnInvited:()=>{
         return timRenderInstance.TIMOnInvited({
             callback:(data)=>{

@@ -9,7 +9,6 @@ enum ActionType {
 }
 interface TRTCCallingCallParam {
     userID: string;
-    type: CallType;
     senderID: string;
     data?: string;
     roomID?: string;
@@ -19,7 +18,6 @@ interface TRTCCallingCallParam {
 }
 interface TRTCCallingCallGroupParam {
     userIDs: Array<string>;
-    type: CallType;
     senderID: string;
     groupID: string;
     data?: string;

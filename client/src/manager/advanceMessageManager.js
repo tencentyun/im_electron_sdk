@@ -210,9 +210,9 @@ const advanceMessageManager = {
         return timRenderInstance.TIMAddRecvNewMsgCallback({
             callback: (...args)=>{
                 const [[data,user_data]] = args;
-                callback(JSON.stringify({
-                    data,user_data
-                }))
+                // callback(JSON.stringify({
+                //     data,user_data
+                // }))
                 
             },
             user_data: "TIMAddRecvNewMsgCallback"

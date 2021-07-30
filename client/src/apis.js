@@ -51,6 +51,16 @@ const APIS = [
                 }
             },
             {
+                name: "TIMInvite",
+                action: (callback) => {
+                    TimBaseManager.TIMInvite().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMOnInvited",
                 action: (callback) => {
                     TimBaseManager.TIMOnInvited().then(data => {
