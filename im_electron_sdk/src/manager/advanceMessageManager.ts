@@ -22,7 +22,6 @@ import {
     MsgSearchLocalMessagesParams,
     commonResponse,
     cache,
-    CommonCallbackFun,
     CommonCallbackFuns,
 } from "../interface";
 import {
@@ -639,9 +638,8 @@ class AdvanceMessageManage {
             return new Promise((resolve, reject) => {
                 const now = `${Date.now()}${randomString()}`;
                 const json_msg_param_array = res.json_params;
-                const c_json_msg_param_array = this.stringFormator(
-                    JSON.stringify(json_msg_param_array)
-                );
+                const c_json_msg_param_array =
+                    this.stringFormator(json_msg_param_array);
                 const cb: CommonCallbackFuns = (
                     code,
                     desc,
