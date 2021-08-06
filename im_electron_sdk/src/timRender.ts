@@ -1454,11 +1454,14 @@ export default class TimRender {
     private async _sendCumtomMessage(
         userID: string,
         senderID: string,
-        customData: object
+        customData: object,
+        isGroup?: boolean
     ) {
         return this.TIMMsgSendMessage({
             conv_id: userID,
-            conv_type: TIMConvType.kTIMConv_C2C,
+            conv_type: isGroup
+                ? TIMConvType.kTIMConv_Group
+                : TIMConvType.kTIMConv_C2C,
             params: {
                 message_elem_array: [
                     {
@@ -1539,7 +1542,8 @@ export default class TimRender {
             const data = await this._sendCumtomMessage(
                 groupID,
                 senderID,
-                customData
+                customData,
+                true
             );
             const { code } = data;
             if (code === 0) {
@@ -1564,12 +1568,14 @@ export default class TimRender {
             if (callInfo) {
                 const { senderID, userID, groupID } = callInfo;
                 callInfo.actionType = ActionType.ACCEPT_INVITE;
-                callInfo.handleID = // @ts-ignore
-                (await this.TIMGetLoginUserID({})).data.json_param;
+                callInfo.handleID = ( // @ts-ignore
+                    await this.TIMGetLoginUserID({})
+                ).data.json_param;
                 const data = await this._sendCumtomMessage(
-                    userID ? userID : groupID,
+                    groupID ? groupID : userID,
                     senderID,
-                    callInfo
+                    callInfo,
+                    groupID ? true : false
                 );
                 const { code } = data;
                 if (code === 0) {
@@ -1595,12 +1601,14 @@ export default class TimRender {
             if (callInfo) {
                 const { senderID, userID, groupID } = callInfo;
                 callInfo.actionType = ActionType.REJECT_INVITE;
-                callInfo.handleID = // @ts-ignore
-                (await this.TIMGetLoginUserID({})).data.json_param;
+                callInfo.handleID = ( // @ts-ignore
+                    await this.TIMGetLoginUserID({})
+                ).data.json_param;
                 const data = await this._sendCumtomMessage(
-                    userID ? userID : groupID,
+                    groupID ? groupID : userID,
                     senderID,
-                    callInfo
+                    callInfo,
+                    groupID ? true : false
                 );
                 const { code } = data;
                 if (code === 0) {
@@ -1625,9 +1633,10 @@ export default class TimRender {
                 const { senderID, userID, groupID } = callInfo;
                 callInfo.actionType = ActionType.REJECT_INVITE;
                 const data = await this._sendCumtomMessage(
-                    userID ? userID : groupID,
+                    groupID ? groupID : userID,
                     senderID,
-                    callInfo
+                    callInfo,
+                    groupID ? true : false
                 );
                 const { code } = data;
                 if (code === 0) {

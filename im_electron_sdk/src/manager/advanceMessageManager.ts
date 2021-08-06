@@ -1027,29 +1027,31 @@ class AdvanceMessageManage {
         user_data: Buffer
     ) {
         const fn = this._callback.get("TIMSetMsgElemUploadProgressCallback");
-        try {
-            const { message_msg_id } = JSON.parse(json_msg.toString());
-            const now = (Date.now() / 1000).toFixed(0);
-            if (!this._uploadProcessMap.get(message_msg_id)) {
-                const lastCallbackTime = new Map();
-                lastCallbackTime.set(now, true);
-                this._uploadProcessMap.set(message_msg_id, lastCallbackTime);
-                fn && fn(json_msg, index, cur_size, local_size, user_data);
-            } else {
-                const hasCallback = this._uploadProcessMap
-                    .get(message_msg_id)
-                    ?.get(now);
-                if (!hasCallback) {
-                    this._uploadProcessMap.get(message_msg_id)?.set(now, true);
-                    fn && fn(json_msg, index, cur_size, local_size, user_data);
-                }
-            }
-            if (cur_size === local_size) {
-                this._uploadProcessMap.delete(message_msg_id);
-            }
-        } catch (e) {
-            fn && fn(json_msg, index, cur_size, local_size, user_data);
-        }
+        // try {
+        //     const { message_msg_id } = JSON.parse(json_msg.toString());
+        //     const now = (Date.now() / 1000).toFixed(0);
+        //     if (!this._uploadProcessMap.get(message_msg_id)) {
+        //         const lastCallbackTime = new Map();
+        //         lastCallbackTime.set(now, true);
+        //         this._uploadProcessMap.set(message_msg_id, lastCallbackTime);
+        //         fn && fn(json_msg, index, cur_size, local_size, user_data);
+        //     } else {
+        //         const hasCallback = this._uploadProcessMap
+        //             .get(message_msg_id)
+        //             ?.get(now);
+        //         if (!hasCallback) {
+        //             this._uploadProcessMap.get(message_msg_id)?.set(now, true);
+        //             fn && fn(json_msg, index, cur_size, local_size, user_data);
+        //         }
+        //     }
+        //     if (cur_size === local_size) {
+        //         this._uploadProcessMap.delete(message_msg_id);
+        //     }
+        // } catch (e) {
+        //     fn && fn(json_msg, index, cur_size, local_size, user_data);
+        // }
+        fn && fn(json_msg, index, cur_size, local_size, user_data);
+        // console.log('native 回调了 sdk cur_size', cur_size)
     }
 
     private msgUpdateCallback(json_msg_array: Buffer, user_data: Buffer) {
