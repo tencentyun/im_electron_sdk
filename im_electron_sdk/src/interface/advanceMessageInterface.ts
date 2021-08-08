@@ -1,5 +1,5 @@
 import { GroupMemberInfo } from "./groupInterface";
-import { TIMPlatform, TIMMsgStatus } from "../enum";
+import { TIMPlatform, TIMMsgStatus, TIMReceiveMessageOpt } from "../enum";
 
 declare interface MsgSendMessageParams {
     conv_id: string;
@@ -81,7 +81,7 @@ interface MsgGetC2CReceiveMessageOptParams {
 }
 interface MsgSetGroupReceiveMessageOptParams {
     group_id: string;
-    opt: number;
+    opt: TIMReceiveMessageOpt;
     user_data?: string;
 }
 interface MsgDownloadElemToPathParams {

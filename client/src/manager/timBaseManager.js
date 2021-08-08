@@ -36,6 +36,16 @@ const TimBaseManager = {
             callType: 1
         })
     },
+    TIMInviteInGroup:()=>{
+        return timRenderInstance.TIMInviteInGroup({
+            senderID: '3708',
+            groupID:"@TGS#17VSIGKHC",
+            userIDs:['xingchenhe','109442'],
+            data: "",
+            roomID: 123123,
+            callType: 1
+        })
+    },
     TIMOnInvited:()=>{
         return timRenderInstance.TIMOnInvited({
             callback:(data)=>{

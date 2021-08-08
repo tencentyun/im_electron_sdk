@@ -61,6 +61,18 @@ const APIS = [
                 }
             },
             {
+                name: "TIMInviteInGroup",
+                action: (callback) => {
+                    TimBaseManager.TIMInviteInGroup().then(data => {
+                        console.log(data,113212)
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        console.log(err)
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMOnInvited",
                 action: (callback) => {
                     TimBaseManager.TIMOnInvited().then(data => {

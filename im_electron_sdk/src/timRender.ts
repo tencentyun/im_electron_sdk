@@ -104,6 +104,9 @@ import {
 } from "./interface/trtcCalling";
 import { TIMConvType } from "./enum";
 const deepClone = (obj: object) => {
+    if (!obj) {
+        return false;
+    }
     // 先简单实现
     return JSON.parse(JSON.stringify(obj));
 };
@@ -164,37 +167,41 @@ export default class TimRender {
                                     const { inviteID, actionType } =
                                         parasedData;
                                     if (inviteID) {
-                                        console.log(parasedData, "222");
                                         // 是信令消息
                                         switch (actionType) {
                                             case ActionType.INVITE:
                                                 this._onInvited(
                                                     inviteID,
-                                                    parasedData
+                                                    parasedData,
+                                                    message
                                                 );
                                                 break;
                                             case ActionType.ACCEPT_INVITE:
                                                 this._onAccepted(
                                                     inviteID,
-                                                    parasedData
+                                                    parasedData,
+                                                    message
                                                 );
                                                 break;
                                             case ActionType.CANCEL_INVITE:
                                                 this._onCanceled(
                                                     inviteID,
-                                                    parasedData
+                                                    parasedData,
+                                                    message
                                                 );
                                                 break;
                                             case ActionType.INVITE_TIMEOUT:
                                                 this._onTimeouted(
                                                     inviteID,
-                                                    parasedData
+                                                    parasedData,
+                                                    message
                                                 );
                                                 break;
                                             case ActionType.REJECT_INVITE:
                                                 this._onRejected(
                                                     inviteID,
-                                                    parasedData
+                                                    parasedData,
+                                                    message
                                                 );
                                                 break;
                                         }
@@ -216,66 +223,127 @@ export default class TimRender {
         );
         return JSON.parse(response);
     }
-
+    private _removeFormArr = (arr: any[], target: any) => {
+        for (let i = 0; i < arr.length; i++) {
+            if ((arr[i] = target)) {
+                arr.splice(i, 1);
+                break;
+            }
+        }
+        return arr;
+    };
     testDoc(param: TestInterface) {}
 
-    private async _onInvited(inviteID: string, parsedData: any) {
-        console.log(parsedData);
+    private async _onInvited(inviteID: string, parsedData: any, message: any) {
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList } = parsedData;
         if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
             if (TimRender.runtime.get("TIMOnInvited")) {
                 //@ts-ignore
-                TimRender.runtime.get("TIMOnInvited")(parsedData);
+                TimRender.runtime.get("TIMOnInvited")(message);
                 this._callingInfo.set(inviteID, parsedData);
             }
         }
     }
-    private async _onRejected(inviteID: string, parsedData: any) {
-        //@ts-ignore
-        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
-        const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
-            if (TimRender.runtime.get("TIMOnRejected")) {
-                //@ts-ignore
-                TimRender.runtime.get("TIMOnRejected")(parsedData);
-                this._callingInfo.delete(inviteID);
+    private async _onRejected(inviteID: string, parsedData: any, message: any) {
+        const callInfo = deepClone(this._callingInfo.get(inviteID));
+        if (callInfo) {
+            //@ts-ignore
+            const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+            const { inviteeList, inviter } = parsedData;
+            const { message_sender } = JSON.parse(message)[0];
+            if (
+                (inviteeList &&
+                    inviteeList.length &&
+                    inviteeList.includes(userID)) ||
+                inviter === userID
+            ) {
+                if (TimRender.runtime.get("TIMOnRejected")) {
+                    //@ts-ignore
+                    TimRender.runtime.get("TIMOnRejected")(message);
+                    // 收到拒绝，要把人从inviteList里去掉
+                    const { inviteeList } = callInfo;
+                    const newInviteeList = this._removeFormArr(
+                        inviteeList,
+                        message_sender
+                    );
+                    if (newInviteeList.length > 0) {
+                        callInfo.inviteeList = newInviteeList;
+                        this._callingInfo.set(inviteID, callInfo);
+                    } else {
+                        this._callingInfo.delete(inviteID);
+                    }
+                }
             }
         }
     }
-    private async _onAccepted(inviteID: string, parsedData: any) {
-        //@ts-ignore
-        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
-        const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
-            if (TimRender.runtime.get("TIMOnAccepted")) {
-                //@ts-ignore
-                TimRender.runtime.get("TIMOnAccepted")(parsedData);
-                this._callingInfo.delete(inviteID);
+    private async _onAccepted(inviteID: string, parsedData: any, message: any) {
+        const callInfo = deepClone(this._callingInfo.get(inviteID));
+        if (callInfo) {
+            //@ts-ignore
+            const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+            const { inviteeList, inviter } = parsedData;
+            const { message_sender } = JSON.parse(message)[0];
+            if (
+                (inviteeList &&
+                    inviteeList.length &&
+                    inviteeList.includes(userID)) ||
+                inviter === userID
+            ) {
+                if (TimRender.runtime.get("TIMOnAccepted")) {
+                    //@ts-ignore
+                    TimRender.runtime.get("TIMOnAccepted")(message);
+                    // 收到拒绝，要把人从inviteList里去掉
+                    const { inviteeList } = callInfo;
+                    const newInviteeList = this._removeFormArr(
+                        inviteeList,
+                        message_sender
+                    );
+                    if (newInviteeList.length > 0) {
+                        callInfo.inviteeList = newInviteeList;
+                        this._callingInfo.set(inviteID, callInfo);
+                    } else {
+                        this._callingInfo.delete(inviteID);
+                    }
+                }
             }
         }
     }
-    private async _onCanceled(inviteID: string, parsedData: any) {
+    private async _onCanceled(inviteID: string, parsedData: any, message: any) {
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
-        const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+        const { inviteeList, inviter } = parsedData;
+        if (
+            (inviteeList &&
+                inviteeList.length &&
+                inviteeList.includes(userID)) ||
+            inviter === userID
+        ) {
             if (TimRender.runtime.get("TIMOnCanceled")) {
                 //@ts-ignore
-                TimRender.runtime.get("TIMOnCanceled")(parsedData);
+                TimRender.runtime.get("TIMOnCanceled")(message);
                 this._callingInfo.delete(inviteID);
             }
         }
     }
-    private async _onTimeouted(inviteID: string, parsedData: any) {
+    private async _onTimeouted(
+        inviteID: string,
+        parsedData: any,
+        message: any
+    ) {
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
-        const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+        const { inviteeList, inviter } = parsedData;
+        if (
+            (inviteeList &&
+                inviteeList.length &&
+                inviteeList.includes(userID)) ||
+            inviter === userID
+        ) {
             if (TimRender.runtime.get("TIMOnTimeout")) {
                 //@ts-ignore
-                TimRender.runtime.get("TIMOnTimeout")(parsedData);
+                TimRender.runtime.get("TIMOnTimeout")(message);
                 this._callingInfo.delete(inviteID);
             }
         }
@@ -288,7 +356,7 @@ export default class TimRender {
     }
     TIMOnRejected(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnrejected", param.callback);
+            TimRender.runtime.set("TIMOnRejected", param.callback);
             resolve({});
         });
     }
@@ -1438,15 +1506,21 @@ export default class TimRender {
     private async _timeout(inviteID: string) {
         const callInfo = deepClone(this._callingInfo.get(inviteID));
         if (callInfo) {
-            const { senderID, userID, groupID } = callInfo;
+            const { userID, groupID } = callInfo;
             callInfo.actionType = ActionType.INVITE_TIMEOUT;
-            const { code } = await this._sendCumtomMessage(
-                userID ? userID : groupID,
-                senderID,
-                callInfo
+            callInfo.handleID = // @ts-ignore
+            (await this.TIMGetLoginUserID({})).data.json_param;
+            //@ts-ignore
+            const {
+                data: { code, json_params },
+            } = await this._sendCumtomMessage(
+                groupID ? groupID : userID,
+                callInfo.handleID,
+                callInfo,
+                groupID ? true : false
             );
             if (code === 0) {
-                this._onTimeouted(inviteID, callInfo); // 让自己也知道超时了
+                this._onTimeouted(inviteID, callInfo, json_params); // 让自己也知道超时了
                 this._callingInfo.delete(inviteID);
             }
         }
@@ -1505,7 +1579,8 @@ export default class TimRender {
                 senderID,
                 customData
             );
-            const { code } = data;
+            // @ts-ignore
+            const { code } = data.data;
             if (code === 0) {
                 this._callingInfo.set(inviteID, customData);
                 if (timeout > 0) {
@@ -1545,7 +1620,8 @@ export default class TimRender {
                 customData,
                 true
             );
-            const { code } = data;
+            // @ts-ignore
+            const { code } = data.data;
             if (code === 0) {
                 this._callingInfo.set(inviteID, customData);
                 if (timeout > 0) {
@@ -1566,18 +1642,19 @@ export default class TimRender {
             const { inviteID } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
-                const { senderID, userID, groupID } = callInfo;
+                const { groupID, inviter } = callInfo;
                 callInfo.actionType = ActionType.ACCEPT_INVITE;
-                callInfo.handleID = ( // @ts-ignore
-                    await this.TIMGetLoginUserID({})
-                ).data.json_param;
+                callInfo.handleID = // @ts-ignore
+                (await this.TIMGetLoginUserID({})).data.json_param;
+                console.log("参数", callInfo);
                 const data = await this._sendCumtomMessage(
-                    groupID ? groupID : userID,
-                    senderID,
+                    groupID ? groupID : inviter,
+                    callInfo.handleID,
                     callInfo,
                     groupID ? true : false
                 );
-                const { code } = data;
+                // @ts-ignore
+                const { code } = data.data;
                 if (code === 0) {
                     resolve({
                         inviteID,
@@ -1599,18 +1676,18 @@ export default class TimRender {
             const { inviteID } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
-                const { senderID, userID, groupID } = callInfo;
+                const { groupID, inviter } = callInfo;
                 callInfo.actionType = ActionType.REJECT_INVITE;
-                callInfo.handleID = ( // @ts-ignore
-                    await this.TIMGetLoginUserID({})
-                ).data.json_param;
+                callInfo.handleID = // @ts-ignore
+                (await this.TIMGetLoginUserID({})).data.json_param;
                 const data = await this._sendCumtomMessage(
-                    groupID ? groupID : userID,
-                    senderID,
+                    groupID ? groupID : inviter,
+                    callInfo.handleID,
                     callInfo,
                     groupID ? true : false
                 );
-                const { code } = data;
+                // @ts-ignore
+                const { code } = data.data;
                 if (code === 0) {
                     this._callingInfo.delete(inviteID);
                     resolve(data);
@@ -1630,15 +1707,18 @@ export default class TimRender {
             const { inviteID } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
-                const { senderID, userID, groupID } = callInfo;
-                callInfo.actionType = ActionType.REJECT_INVITE;
+                const { userID, groupID } = callInfo;
+                callInfo.actionType = ActionType.CANCEL_INVITE;
+                callInfo.handleID = // @ts-ignore
+                (await this.TIMGetLoginUserID({})).data.json_param;
                 const data = await this._sendCumtomMessage(
                     groupID ? groupID : userID,
-                    senderID,
+                    callInfo.handleID,
                     callInfo,
                     groupID ? true : false
                 );
-                const { code } = data;
+                // @ts-ignore
+                const { code } = data.data;
                 if (code === 0) {
                     resolve(data);
                 } else {
