@@ -1,4 +1,4 @@
-import TimRender from "../../../im_electron_sdk";
+import TimRender from "im_electron_sdk/dist/renderer";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
   TIMGroupCreate: () => {
@@ -46,18 +46,17 @@ const TimBaseManager = {
   TIMGroupGetMemberInfoList: () => {
     return timRenderInstance.TIMGroupGetMemberInfoList({
       params: {
-        group_get_members_info_list_param_group_id: "1lexuslin127",
-      },
-      data: 'test data'
+        group_get_members_info_list_param_group_id: "@TGS#1UHQ3OKHC",
+      }
     })
   },
   TIMGroupModifyMemberInfo: () => {
     return timRenderInstance.TIMGroupModifyMemberInfo({
       params: {
-        group_modify_member_info_group_id: "@TGS#a5X7C5HH2",
-        group_modify_member_info_identifier: '77778',
+        group_modify_member_info_group_id: "@TGS#1UHQ3OKHC",
+        group_modify_member_info_identifier: '109442',
         group_modify_member_info_modify_flag: 8,
-        group_modify_member_info_name_card: 'Modified Name card'
+        group_modify_member_info_name_card: 'Modified Name card 1111'
       },
       data: 'test data'
     })

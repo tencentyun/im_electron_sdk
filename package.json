@@ -3,6 +3,8 @@
   "version": "1.0.1",
   "description": "A minimal Electron application",
   "main": "main.js",
+  "homepage": "https://cloud.tencent.com/product/im",
+  "email": "946834832@qq.com",
   "scripts": {
     "start": "electron . --inspect",
     "prepare": "husky install",
@@ -10,6 +12,7 @@
     "build-l": "electron-builder --linux",
     "pack": "electron-builder --dir"
   },
+  "maintainer": "xingchenhe@tencent.com",
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
     "Electron",
@@ -45,9 +48,25 @@
           ]
         }
       ]
+    },
+    "linux": {
+      "target": "deb",
+      "extraFiles": [
+        {
+          "from": "./node_modules/im_electron_sdk/lib/",
+          "to": "./node_modules/im_electron_sdk/lib/",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ]
     }
   },
-  "author": "xingchenhe@tencent.com",
+  "author": {
+    "name": "tencent",
+    "email": "xingchenhe@tencent.com",
+    "url": "https://cloud.tencent.com/product/im"
+  },
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^13.1.6",
@@ -59,7 +78,7 @@
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
-    "im_electron_sdk": "file:im_electron_sdk",
+    "im_electron_sdk": "^1.0.62",
     "ref-napi": "^3.0.3"
   }
 }

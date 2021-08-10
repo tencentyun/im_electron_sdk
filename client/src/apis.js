@@ -232,14 +232,12 @@ const APIS = [
             {
                 name:"TIMConvGetConvList",
                 action:(callback)=>{
-                    for(let i = 0;i<30;i++){
-                        ConversationManager.TIMConvGetConvList().then(data=>{
-                            console.log(data)
-                            callback(JSON.stringify(data))
-                        }).catch(err=>{
-                            callback(err.toString())
-                        })
-                    }
+                    ConversationManager.TIMConvGetConvList().then(data=>{
+                        console.log(data)
+                        callback(JSON.stringify(data))
+                    }).catch(err=>{
+                        callback(err.toString())
+                    })
                     // for(let i = 0;i<30;i++){
                     //     TimGroupManager.TIMGroupGetJoinedGroupList().then(data => {
                     //         console.log('hehehe')
@@ -392,6 +390,7 @@ const APIS = [
                 name: "TIMGroupGetMemberInfoList",
                 action: (callback) => {
                     TimGroupManager.TIMGroupGetMemberInfoList(createdGroupId).then(data => {
+                        console.log(data)
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
@@ -402,6 +401,7 @@ const APIS = [
                 name: "TIMGroupModifyMemberInfo",
                 action: (callback) => {
                     TimGroupManager.TIMGroupModifyMemberInfo().then(data => {
+                        console.log(data)
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())
