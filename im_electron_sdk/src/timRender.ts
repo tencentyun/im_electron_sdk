@@ -1467,29 +1467,20 @@ export default class TimRender {
             inviteID,
             actionType,
             inviteeList,
-            callType,
-            roomID = "",
             timeout = 30,
             groupID = "",
-            userID,
-            handleID = userID,
+            data,
         } = param;
         const tpl = {
+            onlineUserOnly: false,
             businessID: 1,
             inviteID: inviteID,
             inviter: inviter,
             actionType: actionType,
             inviteeList: inviteeList,
-            data: JSON.stringify({
-                businessID: "av_call",
-                version: 4,
-                call_type: callType,
-                room_id: roomID,
-                handleID,
-            }),
+            data: data,
             timeout: timeout,
             groupID: groupID,
-            userID: userID,
         };
         return tpl;
     }
@@ -1508,10 +1499,12 @@ export default class TimRender {
         if (callInfo) {
             const { userID, groupID } = callInfo;
             callInfo.actionType = ActionType.INVITE_TIMEOUT;
-            callInfo.handleID = // @ts-ignore
-            (await this.TIMGetLoginUserID({})).data.json_param;
-            //@ts-ignore
+            callInfo.handleID = ( // @ts-ignore
+                await this.TIMGetLoginUserID({})
+            ).data.json_param;
+
             const {
+                //@ts-ignore
                 data: { code, json_params },
             } = await this._sendCumtomMessage(
                 groupID ? groupID : userID,
@@ -1556,10 +1549,8 @@ export default class TimRender {
             const {
                 userID,
                 senderID,
-                roomID,
                 timeout = 30,
-                groupID,
-                callType,
+                data = JSON.stringify({}),
             } = param;
             const inviteID = uuidv4();
             const customData = this._getSignalCustomData({
@@ -1567,61 +1558,16 @@ export default class TimRender {
                 inviteeList: [userID],
                 actionType: ActionType.INVITE,
                 inviteID,
-                callType: callType,
-                roomID,
                 timeout,
-                groupID,
-                userID,
+                data,
             });
-            console.log("customdata", customData);
-            const data = await this._sendCumtomMessage(
+            const res = await this._sendCumtomMessage(
                 userID,
                 senderID,
                 customData
             );
             // @ts-ignore
-            const { code } = data.data;
-            if (code === 0) {
-                this._callingInfo.set(inviteID, customData);
-                if (timeout > 0) {
-                    this._setCallingTimeout(inviteID);
-                }
-                resolve(data);
-            } else {
-                reject(data);
-            }
-        });
-    }
-
-    TIMInviteInGroup(param: TRTCCallingCallGroupParam) {
-        return new Promise(async (resolve, reject) => {
-            const {
-                userIDs,
-                senderID,
-                roomID,
-                timeout = 30,
-                groupID,
-                callType,
-            } = param;
-            const inviteID = uuidv4();
-            const customData = this._getSignalCustomData({
-                inviter: senderID,
-                inviteeList: userIDs,
-                actionType: ActionType.INVITE,
-                inviteID,
-                callType: callType,
-                roomID,
-                timeout,
-                groupID,
-            });
-            const data = await this._sendCumtomMessage(
-                groupID,
-                senderID,
-                customData,
-                true
-            );
-            // @ts-ignore
-            const { code } = data.data;
+            const { code } = res.data;
             if (code === 0) {
                 this._callingInfo.set(inviteID, customData);
                 if (timeout > 0) {
@@ -1629,39 +1575,76 @@ export default class TimRender {
                 }
                 resolve({
                     inviteID,
-                    ...data,
+                    ...res,
                 });
             } else {
-                reject(data);
+                reject(res);
+            }
+        });
+    }
+
+    TIMInviteInGroup(param: TRTCCallingCallGroupParam) {
+        return new Promise(async (resolve, reject) => {
+            const { userIDs, senderID, timeout = 30, groupID, data } = param;
+            const inviteID = uuidv4();
+            const customData = this._getSignalCustomData({
+                inviter: senderID,
+                inviteeList: userIDs,
+                actionType: ActionType.INVITE,
+                inviteID,
+                timeout,
+                groupID,
+                data,
+            });
+            const res = await this._sendCumtomMessage(
+                groupID,
+                senderID,
+                customData,
+                true
+            );
+            // @ts-ignore
+            const { code } = res.data;
+            if (code === 0) {
+                this._callingInfo.set(inviteID, customData);
+                if (timeout > 0) {
+                    this._setCallingTimeout(inviteID);
+                }
+                resolve({
+                    inviteID,
+                    ...res,
+                });
+            } else {
+                reject(res);
             }
         });
     }
 
     TIMAcceptInvite(param: handleParam) {
         return new Promise(async (resolve, reject) => {
-            const { inviteID } = param;
+            const { inviteID, data } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
                 const { groupID, inviter } = callInfo;
                 callInfo.actionType = ActionType.ACCEPT_INVITE;
-                callInfo.handleID = // @ts-ignore
-                (await this.TIMGetLoginUserID({})).data.json_param;
-                console.log("参数", callInfo);
-                const data = await this._sendCumtomMessage(
+                callInfo.data = data;
+                // @ts-ignore
+                const senderID = (await this.TIMGetLoginUserID({})).data
+                    .json_param;
+                const res = await this._sendCumtomMessage(
                     groupID ? groupID : inviter,
-                    callInfo.handleID,
+                    senderID,
                     callInfo,
                     groupID ? true : false
                 );
                 // @ts-ignore
-                const { code } = data.data;
+                const { code } = res.data;
                 if (code === 0) {
                     resolve({
                         inviteID,
-                        ...data,
+                        ...res,
                     });
                 } else {
-                    resolve(data);
+                    reject(res);
                 }
             } else {
                 resolve({
@@ -1673,26 +1656,32 @@ export default class TimRender {
     }
     TIMRejectInvite(param: handleParam) {
         return new Promise(async (resolve, reject) => {
-            const { inviteID } = param;
+            const { inviteID, data } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
                 const { groupID, inviter } = callInfo;
                 callInfo.actionType = ActionType.REJECT_INVITE;
-                callInfo.handleID = // @ts-ignore
-                (await this.TIMGetLoginUserID({})).data.json_param;
-                const data = await this._sendCumtomMessage(
+                callInfo.data = data;
+                // @ts-ignore
+                const sendID = (await this.TIMGetLoginUserID({})).data
+                    .json_param;
+
+                const res = await this._sendCumtomMessage(
                     groupID ? groupID : inviter,
-                    callInfo.handleID,
+                    sendID,
                     callInfo,
                     groupID ? true : false
                 );
                 // @ts-ignore
-                const { code } = data.data;
+                const { code } = res.data;
                 if (code === 0) {
                     this._callingInfo.delete(inviteID);
-                    resolve(data);
+                    resolve({
+                        inviteID,
+                        ...res,
+                    });
                 } else {
-                    reject(data);
+                    reject(res);
                 }
             } else {
                 reject({
@@ -1704,25 +1693,31 @@ export default class TimRender {
     }
     TIMCancelInvite(param: handleParam) {
         return new Promise(async (resolve, reject) => {
-            const { inviteID } = param;
+            const { inviteID, data } = param;
             const callInfo = deepClone(this._callingInfo.get(inviteID));
             if (callInfo) {
-                const { userID, groupID } = callInfo;
+                const { inviteeList, groupID } = callInfo;
                 callInfo.actionType = ActionType.CANCEL_INVITE;
-                callInfo.handleID = // @ts-ignore
-                (await this.TIMGetLoginUserID({})).data.json_param;
-                const data = await this._sendCumtomMessage(
-                    groupID ? groupID : userID,
-                    callInfo.handleID,
+                callInfo.data = data;
+                // @ts-ignore
+                const senderID = (await this.TIMGetLoginUserID({})).data
+                    .json_param;
+
+                const res = await this._sendCumtomMessage(
+                    groupID ? groupID : inviteeList[0],
+                    senderID,
                     callInfo,
                     groupID ? true : false
                 );
                 // @ts-ignore
-                const { code } = data.data;
+                const { code } = res.data;
                 if (code === 0) {
-                    resolve(data);
+                    resolve({
+                        inviteID,
+                        ...res,
+                    });
                 } else {
-                    reject(data);
+                    reject(res);
                 }
             } else {
                 reject({

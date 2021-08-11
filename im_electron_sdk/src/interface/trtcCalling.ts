@@ -11,31 +11,23 @@ interface TRTCCallingCallParam {
     userID: string;
     senderID: string;
     data?: string;
-    roomID?: string;
     timeout?: number;
-    groupID?: string;
-    callType: CallType;
 }
 interface TRTCCallingCallGroupParam {
     userIDs: Array<string>;
     senderID: string;
     groupID: string;
     data?: string;
-    roomID?: string;
     timeout?: number;
-    callType: CallType;
 }
 interface customDataTpl {
     inviteID: string;
     inviter: string;
     inviteeList: Array<string>;
-    callType: CallType;
     timeout?: number;
     groupID?: string;
     actionType: ActionType;
-    roomID?: string;
-    userID?: string;
-    handleID?: string;
+    data?: string;
 }
 interface handleParam {
     inviteID: string;
