@@ -1497,18 +1497,17 @@ export default class TimRender {
     private async _timeout(inviteID: string) {
         const callInfo = deepClone(this._callingInfo.get(inviteID));
         if (callInfo) {
-            const { userID, groupID } = callInfo;
+            const { inviteeList, groupID } = callInfo;
             callInfo.actionType = ActionType.INVITE_TIMEOUT;
-            callInfo.handleID = ( // @ts-ignore
-                await this.TIMGetLoginUserID({})
-            ).data.json_param;
+            // @ts-ignore
+            const senderID = (await this.TIMGetLoginUserID({})).data.json_param;
 
             const {
                 //@ts-ignore
                 data: { code, json_params },
             } = await this._sendCumtomMessage(
-                groupID ? groupID : userID,
-                callInfo.handleID,
+                groupID ? groupID : inviteeList[0],
+                senderID,
                 callInfo,
                 groupID ? true : false
             );
