@@ -1,4 +1,4 @@
-import TimRender from "im_electron_sdk/dist/renderer";
+import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 const ConversationManager = {
     TIMConvCreate(){

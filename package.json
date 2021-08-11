@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
-    "im_electron_sdk": "^1.0.62",
+    "im_electron_sdk": "file:im-electron-sdk",
     "ref-napi": "^3.0.3"
   }
 }

@@ -1,4 +1,4 @@
-import TimRender from "im_electron_sdk/dist/renderer";
+import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 
 const advanceMessageManager = {
@@ -210,9 +210,7 @@ const advanceMessageManager = {
         return timRenderInstance.TIMAddRecvNewMsgCallback({
             callback: (...args)=>{
                 const [[data,user_data]] = args;
-                // callback(JSON.stringify({
-                //     data,user_data
-                // }))
+                console.log("收到新消息")
                 
             },
             user_data: "TIMAddRecvNewMsgCallback"

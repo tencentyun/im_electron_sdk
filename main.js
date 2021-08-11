@@ -2,7 +2,7 @@
 const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
 const path = require('path')
 const url = require('url')
-const TimMain = require('im_electron_sdk/dist/main');
+const TimMain = require('./im_electron_sdk/dist/main');
 // const TIM = require('./im_electron_sdk/dist/tim')
 new TimMain({
   sdkappid: 1400187352

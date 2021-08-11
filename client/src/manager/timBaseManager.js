@@ -1,4 +1,4 @@
-import TimRender from "im_electron_sdk/dist/renderer";
+import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
     callExperimentalAPI:()=>{
@@ -28,12 +28,15 @@ const TimBaseManager = {
         })
     },
     TIMInvite:()=>{
-        return timRenderInstance.TIMInvite({
+        return timRenderInstance.s({
             userID: '109442',
             senderID: '3708',
-            data: "",
-            roomID: 123123,
-            callType: 1
+            
+            data: JSON.stringify({
+                buisnessID:'av_call',
+                call_type:2,
+                room_id:22334,
+            }),
         })
     },
     TIMInviteInGroup:()=>{
@@ -41,15 +44,28 @@ const TimBaseManager = {
             senderID: '3708',
             groupID:"@TGS#17VSIGKHC",
             userIDs:['xingchenhe','109442'],
-            data: "",
-            roomID: 123123,
-            callType: 1
+            data: JSON.stringify({
+                buisnessID:'av_call',
+                call_type:2,
+                room_id:22334,
+            }),
         })
     },
     TIMOnInvited:()=>{
         return timRenderInstance.TIMOnInvited({
             callback:(data)=>{
-                console.log('被回调',data)
+                const inviteID = JSON.parse(JSON.parse(data)[0].message_elem_array[0].custom_elem_data).inviteID;
+                console.log(inviteID)
+                timRenderInstance.TIMAcceptInvite({
+                    inviteID:inviteID,
+                    data:JSON.stringify({
+                        buisnessID:'av_call',
+                        call_type:2,
+                        room_id:22334,
+                    })
+                }).then(data=>{
+                    console.log(data,211)
+                })
             }
         })
     },
