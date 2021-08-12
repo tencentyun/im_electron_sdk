@@ -239,20 +239,18 @@ export default class TimRender {
     testDoc(param: TestInterface) {}
 
     private async _onInvited(inviteID: string, parsedData: any, message: any) {
-        console.log("被邀请");
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList } = parsedData;
         if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
             if (TimRender.runtime.get("TIMOnInvited")) {
+                TimRender._callingInfo.set(inviteID, parsedData);
                 //@ts-ignore
                 TimRender.runtime.get("TIMOnInvited")(message);
-                TimRender._callingInfo.set(inviteID, parsedData);
             }
         }
     }
     private async _onRejected(inviteID: string, parsedData: any, message: any) {
-        console.log("被拒绝");
         const callInfo = deepClone(TimRender._callingInfo.get(inviteID));
         if (callInfo) {
             //@ts-ignore
@@ -285,7 +283,6 @@ export default class TimRender {
         }
     }
     private async _onAccepted(inviteID: string, parsedData: any, message: any) {
-        console.log("被接受");
         const callInfo = deepClone(TimRender._callingInfo.get(inviteID));
         if (callInfo) {
             //@ts-ignore
@@ -318,7 +315,6 @@ export default class TimRender {
         }
     }
     private async _onCanceled(inviteID: string, parsedData: any, message: any) {
-        console.log("被取消");
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList, inviter } = parsedData;
@@ -1627,7 +1623,6 @@ export default class TimRender {
     }
 
     TIMAcceptInvite(param: handleParam) {
-        console.log(param, TimRender._callingInfo);
         return new Promise(async (resolve, reject) => {
             const { inviteID, data } = param;
             const callInfo = deepClone(TimRender._callingInfo.get(inviteID));

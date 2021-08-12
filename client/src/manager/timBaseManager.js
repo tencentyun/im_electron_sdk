@@ -1,7 +1,7 @@
 import TimRender from "../../../im_electron_sdk";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
-    callExperimentalAPI:()=>{
+    callExperimentalAPI: () => {
         return timRenderInstance.callExperimentalAPI({
             json_param: {
                 request_internal_operation: 'internal_operation_set_privatization_info',
@@ -15,10 +15,10 @@ const TimBaseManager = {
             }
         })
     },
-    TIMInit:()=>{
+    TIMInit: () => {
         return timRenderInstance.TIMInit();
     },
-    TIMLogin:()=>{
+    TIMLogin: () => {
         return timRenderInstance.TIMLogin({
             userID: "3708",
             userSig: "eJyrVgrxCdYrSy1SslIy0jNQ0gHzM1NS80oy0zLBwsbmBhZQ8eKU7MSCgswUJStDEwMDQwtzY1MjiExqRUFmUSpQ3NTU1MjAwAAiWpKZCxIzMzKxNDU3NjGDmpKZDjQ2LKnAz6Q0J9s3LdQsSrvA28kvKinY1LvIOdE9yDk13DEp0SIi2zWtND*53FapFgB-kjCC",
@@ -27,98 +27,111 @@ const TimBaseManager = {
             // userSig: "eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk"
         })
     },
-    TIMInvite:()=>{
+    TIMInvite: () => {
         return timRenderInstance.s({
             userID: '109442',
             senderID: '3708',
-            
+
             data: JSON.stringify({
-                buisnessID:'av_call',
-                call_type:2,
-                room_id:22334,
+                buisnessID: 'av_call',
+                call_type: 2,
+                room_id: 22334,
             }),
         })
     },
-    TIMInviteInGroup:()=>{
+    TIMInviteInGroup: () => {
         return timRenderInstance.TIMInviteInGroup({
             senderID: '3708',
-            groupID:"@TGS#17VSIGKHC",
-            userIDs:['xingchenhe','109442'],
+            groupID: "@TGS#17VSIGKHC",
+            userIDs: ['xingchenhe', '109442'],
             data: JSON.stringify({
-                buisnessID:'av_call',
-                call_type:2,
-                room_id:22334,
+                buisnessID: 'av_call',
+                call_type: 2,
+                room_id: 22334,
             }),
+        }).then(data => {
+            const inviteID = JSON.parse(JSON.parse(data)[0].message_elem_array[0].custom_elem_data).inviteID;
+            console.log(inviteID)
+            timRenderInstance.TIMAcceptInvite({
+                inviteID: inviteID,
+                data: JSON.stringify({
+                    buisnessID: 'av_call',
+                    call_type: 2,
+                    room_id: 22334,
+                })
+            }).then(data => {
+                console.log(data, 211)
+            })
         })
     },
-    TIMOnInvited:()=>{
+    TIMOnInvited: () => {
         return timRenderInstance.TIMOnInvited({
-            callback:(data)=>{
+            callback: (data) => {
                 const inviteID = JSON.parse(JSON.parse(data)[0].message_elem_array[0].custom_elem_data).inviteID;
                 console.log(inviteID)
-                timRenderInstance.TIMAcceptInvite({
-                    inviteID:inviteID,
-                    data:JSON.stringify({
-                        buisnessID:'av_call',
-                        call_type:2,
-                        room_id:22334,
+                timRenderInstance.TIMRejectInvite({
+                    inviteID: inviteID,
+                    data: JSON.stringify({
+                        buisnessID: 'av_call',
+                        call_type: 2,
+                        room_id: 22334,
                     })
-                }).then(data=>{
-                    console.log(data,211)
+                }).then(data => {
+                    console.log(data, 211)
                 })
             }
         })
     },
-    TIMOnTimeout:()=>{
+    TIMOnTimeout: () => {
         return timRenderInstance.TIMOnTimeout({
-            callback:(data)=>{
-                console.log('超时被回调',data)
+            callback: (data) => {
+                console.log('超时被回调', data)
             }
         })
     },
-    TIMUninit:()=>{
+    TIMUninit: () => {
         return timRenderInstance.TIMUninit()
     },
-    TIMGetSDKVersion:()=>{
+    TIMGetSDKVersion: () => {
         return timRenderInstance.TIMGetSDKVersion();
     },
-    TIMGetServerTime:()=>{
+    TIMGetServerTime: () => {
         return timRenderInstance.TIMGetServerTime();
     },
-    TIMLogout:()=>{
+    TIMLogout: () => {
         return timRenderInstance.TIMLogout({
-            userData:"logout"
+            userData: "logout"
         })
     },
-    TIMGetLoginStatus:()=>{
+    TIMGetLoginStatus: () => {
         return timRenderInstance.TIMGetLoginStatus()
     },
-    TIMGetLoginUserID:()=>{
+    TIMGetLoginUserID: () => {
         return timRenderInstance.TIMGetLoginUserID({
-            userData:"getLoginUserID"
+            userData: "getLoginUserID"
         })
     },
-    TIMSetNetworkStatusListenerCallback:()=>{
-       return timRenderInstance.TIMSetNetworkStatusListenerCallback({
-            userData:"setNetworkStatusListenerCallback",
-            callback:(data)=>{
-                console.log(data,'setNetworkStatusListenerCallback');
+    TIMSetNetworkStatusListenerCallback: () => {
+        return timRenderInstance.TIMSetNetworkStatusListenerCallback({
+            userData: "setNetworkStatusListenerCallback",
+            callback: (data) => {
+                console.log(data, 'setNetworkStatusListenerCallback');
             }
         })
     },
-    TIMSetKickedOfflineCallback:()=>{
+    TIMSetKickedOfflineCallback: () => {
         return timRenderInstance.TIMSetKickedOfflineCallback({
-            userData:"TIMSetKickedOfflineCallback",
-            callback:(data)=>{
-                console.log(data,'TIMSetKickedOfflineCallback');
+            userData: "TIMSetKickedOfflineCallback",
+            callback: (data) => {
+                console.log(data, 'TIMSetKickedOfflineCallback');
             }
         })
     },
-    TIMSetUserSigExpiredCallback:()=>{
+    TIMSetUserSigExpiredCallback: () => {
         return timRenderInstance.TIMSetUserSigExpiredCallback({
-            userData:"TIMSetUserSigExpiredCallback",
-            callback:(data)=>{
-                console.log(data,'TIMSetUserSigExpiredCallback');
+            userData: "TIMSetUserSigExpiredCallback",
+            callback: (data) => {
+                console.log(data, 'TIMSetUserSigExpiredCallback');
             }
         })
     },
@@ -127,7 +140,7 @@ const TimBaseManager = {
             json_get_user_profile_list_param: {
                 friendship_getprofilelist_param_identifier_array: ['3708']
             },
-            userData:"TIMProfileGetUserProfileList",
+            userData: "TIMProfileGetUserProfileList",
         })
     },
     TIMProfileModifySelfUserProfile: () => {
@@ -135,7 +148,7 @@ const TimBaseManager = {
             json_modify_self_user_profile_param: {
                 user_profile_item_nick_name: 'Jingfeng'
             },
-            userData:"TIMProfileModifySelfUserProfile",
+            userData: "TIMProfileModifySelfUserProfile",
         })
     }
 }
