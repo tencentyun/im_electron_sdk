@@ -11,16 +11,31 @@ import {
     convEventCallback,
     convTotalUnreadMessageCountChangedCallback,
 } from "../interface/conversationInterface";
-import fs from "fs";
+import { app } from "electron";
 const path = require("path");
 const os = require("os");
 const ref = require("ref-napi");
 const ffi = require("ffi-napi");
 
 const ffipaths: any = {
-    linux: path.resolve(process.resourcesPath, "linux/lib/libImSDK.so"),
-    x64: path.resolve(process.resourcesPath, "windows/lib/Win64/ImSDK.dll"),
-    ia32: path.resolve(process.resourcesPath, "windows/lib/Win32/ImSDK.dll"),
+    linux: app.isPackaged
+        ? path.resolve(process.resourcesPath, "linux/lib/libImSDK.so")
+        : path.resolve(
+              process.cwd(),
+              "node_modules/im_electron_sdk/lib/linux/lib/libImSDK.so"
+          ),
+    x64: app.isPackaged
+        ? path.resolve(process.resourcesPath, "windows/lib/Win64/ImSDK.dll")
+        : path.resolve(
+              process.cwd(),
+              "node_modules/im_electron_sdk/lib/windows/lib/Win64/ImSDK.dll"
+          ),
+    ia32: app.isPackaged
+        ? path.resolve(process.resourcesPath, "windows/lib/Win32/ImSDK.dll")
+        : path.resolve(
+              process.cwd(),
+              "node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
+          ),
 };
 function randomString(e = 6) {
     const t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
