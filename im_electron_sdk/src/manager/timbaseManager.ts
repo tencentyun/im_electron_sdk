@@ -40,10 +40,13 @@ class TimbaseManager {
      */
     TIMInit(): number {
         const sdkconfig: string = JSON.stringify({
-            sdk_config_log_file_path: path.resolve(process.cwd(), "./sdk-log"),
+            sdk_config_log_file_path: path.resolve(
+                process.resourcesPath,
+                "sdk-log"
+            ),
             sdk_config_config_file_path: path.resolve(
-                process.cwd(),
-                "./sdk-config"
+                process.resourcesPath,
+                "sdk-config"
             ),
         });
         return this._sdkconfig.Imsdklib.TIMInit(

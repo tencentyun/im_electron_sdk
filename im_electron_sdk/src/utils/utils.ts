@@ -11,24 +11,16 @@ import {
     convEventCallback,
     convTotalUnreadMessageCountChangedCallback,
 } from "../interface/conversationInterface";
+import fs from "fs";
 const path = require("path");
 const os = require("os");
 const ref = require("ref-napi");
 const ffi = require("ffi-napi");
 
 const ffipaths: any = {
-    linux: path.resolve(
-        process.cwd(),
-        "./node_modules/im_electron_sdk/lib/linux/lib/libImSDK.so"
-    ),
-    x64: path.resolve(
-        process.cwd(),
-        "./node_modules/im_electron_sdk/lib/windows/lib/Win64/ImSDK.dll"
-    ),
-    ia32: path.resolve(
-        process.cwd(),
-        "./node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
-    ),
+    linux: path.resolve(process.resourcesPath, "linux/lib/libImSDK.so"),
+    x64: path.resolve(process.resourcesPath, "windows/lib/Win64/ImSDK.dll"),
+    ia32: path.resolve(process.resourcesPath, "windows/lib/Win32/ImSDK.dll"),
 };
 function randomString(e = 6) {
     const t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
@@ -49,7 +41,6 @@ function getFFIPath() {
             res = ffipaths[cpu];
             break;
     }
-    console.log("路径", res);
     if (!res) {
         throw new Error(`tencent im sdk not support ${platform} os now.`);
         return;

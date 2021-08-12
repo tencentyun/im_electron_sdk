@@ -1,8 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain,dialog,crashReporter } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, crashReporter } = require('electron')
 const path = require('path')
 const url = require('url')
-const TimMain = require('./im_electron_sdk/dist/main');
+// const TimMain = require('./im_electron_sdk/dist/main');
+const TimMain = require('im_electron_sdk/dist/main');
 // const TIM = require('./im_electron_sdk/dist/tim')
 new TimMain({
   sdkappid: 1400187352
@@ -27,18 +28,18 @@ function createWindow() {
   })
 
   // and load the index.html of the app.
-  // mainWindow.loadURL(
-  //   url.format({
-  //       pathname: path.join(__dirname, './client/build/index.html'),
-  //       protocol: 'file:',
-  //       slashes: true
-  //   })
-  // )
+  mainWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, './client/build/index.html'),
+      protocol: 'file:',
+      slashes: true
+    })
+  )
 
-  mainWindow.loadURL('http://localhost:3000')
- 
+  // mainWindow.loadURL('http://localhost:3000')
+
   // mainWindow.loadFile(path.resolve(__dirname,'./test.html'))
- 
+
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
@@ -59,7 +60,7 @@ function createWindow() {
     //   },2000)
     // })
   })
- 
+
 }
 
 // This method will be called when Electron has finished
@@ -82,6 +83,12 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit()
 })
 
+// 设置开机自启动
+
+app.setLoginItemSettings({
+  openAtLogin: true,
+  path: process.execPath
+})
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.

@@ -79,7 +79,7 @@ class Callback {
 
 class TimMain {
     static isLisened = false;
-    private _callback: Map<string, Function> = new Map();
+    static _callback: Map<string, Function> = new Map();
     constructor(config: initConfig) {
         const tim: TIM = new TIM({
             sdkappid: config.sdkappid,
@@ -102,11 +102,11 @@ class TimMain {
                             })
                         );
                     };
-                    this._callback.set(callback, cb);
+                    TimMain._callback.set(callback, cb);
                 }
                 const requestInstance = new Callback(requestData, tim, event);
                 const response = await requestInstance.getResponse(
-                    callback ? this._callback.get(callback) : () => {}
+                    callback ? TimMain._callback.get(callback) : () => {}
                 );
                 return response;
             });
