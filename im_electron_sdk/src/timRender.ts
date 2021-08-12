@@ -264,8 +264,6 @@ export default class TimRender {
                 inviter === userID
             ) {
                 if (TimRender.runtime.get("TIMOnRejected")) {
-                    //@ts-ignore
-                    TimRender.runtime.get("TIMOnRejected")(message);
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
                     const newInviteeList = this._removeFormArr(
@@ -278,6 +276,8 @@ export default class TimRender {
                     } else {
                         TimRender._callingInfo.delete(inviteID);
                     }
+                    //@ts-ignore
+                    TimRender.runtime.get("TIMOnRejected")(message);
                 }
             }
         }
@@ -296,8 +296,6 @@ export default class TimRender {
                 inviter === userID
             ) {
                 if (TimRender.runtime.get("TIMOnAccepted")) {
-                    //@ts-ignore
-                    TimRender.runtime.get("TIMOnAccepted")(message);
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
                     const newInviteeList = this._removeFormArr(
@@ -310,6 +308,8 @@ export default class TimRender {
                     } else {
                         TimRender._callingInfo.delete(inviteID);
                     }
+                    //@ts-ignore
+                    TimRender.runtime.get("TIMOnAccepted")(message);
                 }
             }
         }
@@ -325,9 +325,9 @@ export default class TimRender {
             inviter === userID
         ) {
             if (TimRender.runtime.get("TIMOnCanceled")) {
+                TimRender._callingInfo.delete(inviteID);
                 //@ts-ignore
                 TimRender.runtime.get("TIMOnCanceled")(message);
-                TimRender._callingInfo.delete(inviteID);
             }
         }
     }
@@ -346,9 +346,9 @@ export default class TimRender {
             inviter === userID
         ) {
             if (TimRender.runtime.get("TIMOnTimeout")) {
+                TimRender._callingInfo.delete(inviteID);
                 //@ts-ignore
                 TimRender.runtime.get("TIMOnTimeout")(message);
-                TimRender._callingInfo.delete(inviteID);
             }
         }
     }
