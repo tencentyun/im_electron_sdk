@@ -1678,7 +1678,6 @@ export default class TimRender {
                 // @ts-ignore
                 const { code } = res.data;
                 if (code === 0) {
-                    TimRender._callingInfo.delete(inviteID);
                     resolve({
                         inviteID,
                         ...res,
