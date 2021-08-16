@@ -70,10 +70,14 @@ class AdvanceMessageManage {
     TIMMsgSendMessage(
         msgSendMessageParams: MsgSendMessageParams
     ): Promise<commonResponse> {
-        const { conv_id, conv_type, params, user_data } = msgSendMessageParams;
+        const { conv_id, conv_type, params, user_data, messageId } =
+            msgSendMessageParams;
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
+        const message_id_buffer = this.stringFormator(messageId);
+
+        console.log("=======message_id_buffer============", message_id_buffer);
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
@@ -101,7 +105,7 @@ class AdvanceMessageManage {
                 c_conv_id,
                 conv_type,
                 c_params,
-                undefined,
+                message_id_buffer,
                 this._cache.get("TIMMsgSendMessage")?.get(now)?.callback,
                 c_user_data
             );

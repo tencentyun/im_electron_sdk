@@ -6,6 +6,7 @@ declare interface MsgSendMessageParams {
     conv_type: number;
     params: Json_value_msg;
     user_data?: string;
+    messageId?: string;
 }
 interface MsgCancelSendParams {
     conv_id: string;
