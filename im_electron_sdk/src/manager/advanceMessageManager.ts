@@ -71,10 +71,14 @@ class AdvanceMessageManage {
         msgSendMessageParams: MsgSendMessageParams
     ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgSendMessageParams;
+
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-
+        console.log(
+            `|    ${JSON.stringify(msgSendMessageParams)}   |`,
+            c_params
+        );
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFuns = (
@@ -885,7 +889,7 @@ class AdvanceMessageManage {
         const { params, user_data } = msgDownloadMergerMessageParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-
+        console.log(`|         ${params}    |`, c_params);
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFuns = (

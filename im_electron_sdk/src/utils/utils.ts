@@ -63,8 +63,8 @@ function getFFIPath() {
     return res;
 }
 function nodeStrigToCString(str: string): Buffer {
-    const buffer = Buffer.from(str);
-    return ref.readCString(buffer, 0);
+    const buffer = Buffer.from(`${str}\0`, "utf8");
+    return ref.readCString(buffer);
 }
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
     const callback = ffi.Callback(

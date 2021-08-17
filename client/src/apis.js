@@ -86,6 +86,40 @@ const APIS = [
                 name: "TIMOnTimeout",
                 action: (callback) => {
                     TimBaseManager.TIMOnTimeout().then(data => {
+                        console.log('收到邀请')
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMOnRejected",
+                action: (callback) => {
+                    TimBaseManager.TIMOnRejected().then(data => {
+                        console.log('收到拒绝')
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMOnAccepted",
+                action: (callback) => {
+                    TimBaseManager.TIMOnAccepted().then(data => {
+                        console.log('收到接受')
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMOnCanceled",
+                action: (callback) => {
+                    TimBaseManager.TIMOnCanceled().then(data => {
+                        console.log('收到取消')
                         callback(JSON.stringify(data))
                     }).catch(err => {
                         callback(err.toString())

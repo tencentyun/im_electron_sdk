@@ -42,7 +42,7 @@ class Callback {
 
     async getResponse(cb?: Function) {
         const startTime = Date.now();
-        const { method, param, callback, manager } = this.requestData;
+        const { method, param, callback } = this.requestData;
         console.log("requestData:", this.requestData);
         const timManager = this.getManager();
         if (timManager && timManager[method]) {
@@ -80,6 +80,7 @@ class Callback {
 class TimMain {
     static isLisened = false;
     static _callback: Map<string, Function> = new Map();
+    static event: Map<string, any> = new Map();
     constructor(config: initConfig) {
         const tim: TIM = new TIM({
             sdkappid: config.sdkappid,
@@ -92,15 +93,24 @@ class TimMain {
                 const { callback, method } = requestData;
                 let cb;
                 if (callback) {
+                    TimMain.event.set(callback, event);
                     cb = (...args: any) => {
                         console.log("callback-response", method);
-                        event.sender.send(
-                            "global-callback-reply",
-                            JSON.stringify({
-                                callbackKey: callback,
-                                responseData: args,
-                            })
-                        );
+                        if (TimMain.event.get(method)) {
+                            try {
+                                TimMain.event.get(method).sender?.send(
+                                    "global-callback-reply",
+                                    JSON.stringify({
+                                        callbackKey: callback,
+                                        responseData: args,
+                                    })
+                                );
+                            } catch (err) {
+                                console.log("主渲染窗口事件绑定丢失", err);
+                            }
+                        } else {
+                            console.log("全局回调事件对象丢失");
+                        }
                     };
                     TimMain._callback.set(callback, cb);
                 }
