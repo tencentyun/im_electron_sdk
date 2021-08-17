@@ -9,16 +9,17 @@ const advanceMessageManager = {
             conv_type: 1,
             params: {
                 message_elem_array: [{
-                    elem_type: 4,
-                    // text_elem_content: "123"
+                    elem_type: 0,
+                    text_elem_content: "123"
                     // image_elem_orig_path: "/home/lexuslin/sucai/111.png",
                     // image_elem_level: 0
-                    file_elem_file_path: "/home/lexuslin/sucai/15.zip",
-                    file_elem_file_name: "xxxx",
-                    file_elem_file_size: 23150412 
+                    // file_elem_file_path: "/home/lexuslin/sucai/15.zip",
+                    // file_elem_file_name: "xxxx",
+                    // file_elem_file_size: 23150412 
                 }],
-                message_sender: "lexuslin3"
+                message_sender: "lexuslin3",
             },
+            messageId: '144115224990124941-1629124330-9674717892',
             user_data: "123"
         });
     },
