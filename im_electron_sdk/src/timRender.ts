@@ -79,10 +79,6 @@ import {
     callExperimentalAPIParam,
     TIMProfileModifySelfUserProfileParam,
     TIMProfileGetUserProfileListParam,
-} from "./interface";
-import { ipcData, Managers } from "./interface/ipcInterface";
-import { ipcRenderer } from "electron";
-import {
     convCancelDraft,
     convCreate,
     convDelete,
@@ -93,15 +89,15 @@ import {
     convTotalUnreadMessageCountChangedCallbackParam,
     getConvList,
     setConvEventCallback,
-} from "./interface/conversationInterface";
-import {
     ActionType,
     customDataTpl,
     handleParam,
     signalCallback,
     TRTCCallingCallGroupParam,
     TRTCCallingCallParam,
-} from "./interface/trtcCalling";
+} from "./interface";
+import { ipcData, Managers } from "./interface/ipcInterface";
+import { ipcRenderer } from "electron";
 import { TIMConvType } from "./enum";
 const deepClone = (obj: object) => {
     if (!obj) {
@@ -352,30 +348,90 @@ export default class TimRender {
             }
         }
     }
+    /**
+     * Example
+     *
+     * ```typescript
+     * import TimRender from "im_electron_sdk/dist/renderer";
+     * // 初始化TimeRender 示例
+     * const timRenderInstance = new TimRender();
+     *
+     * const callback = (data) => console.log(data);
+     * timRenderInstance.TIMOnInvited(callback)
+     * ```
+     */
     TIMOnInvited(param: signalCallback) {
         return new Promise(resolve => {
             TimRender.runtime.set("TIMOnInvited", param.callback);
             resolve({});
         });
     }
+    /**
+     * Example
+     *
+     * ```typescript
+     * import TimRender from "im_electron_sdk/dist/renderer";
+     * // 初始化TimeRender 示例
+     * const timRenderInstance = new TimRender();
+     *
+     * const callback = (data) => console.log(data);
+     * timRenderInstance.TIMOnRejected(callback)
+     * ```
+     */
     TIMOnRejected(param: signalCallback) {
         return new Promise(resolve => {
             TimRender.runtime.set("TIMOnRejected", param.callback);
             resolve({});
         });
     }
+    /**
+     * Example
+     *
+     * ```typescript
+     * import TimRender from "im_electron_sdk/dist/renderer";
+     * // 初始化TimeRender 示例
+     * const timRenderInstance = new TimRender();
+     *
+     * const callback = (data) => console.log(data);
+     * timRenderInstance.TIMOnAccepted(callback)
+     * ```
+     */
     TIMOnAccepted(param: signalCallback) {
         return new Promise(resolve => {
             TimRender.runtime.set("TIMOnAccepted", param.callback);
             resolve({});
         });
     }
+    /**
+     * Example
+     *
+     * ```typescript
+     * import TimRender from "im_electron_sdk/dist/renderer";
+     * // 初始化TimeRender 示例
+     * const timRenderInstance = new TimRender();
+     *
+     * const callback = (data) => console.log(data);
+     * timRenderInstance.TIMOnCanceled(callback)
+     * ```
+     */
     TIMOnCanceled(param: signalCallback) {
         return new Promise(resolve => {
             TimRender.runtime.set("TIMOnCanceled", param.callback);
             resolve({});
         });
     }
+    /**
+     * Example
+     *
+     * ```typescript
+     * import TimRender from "im_electron_sdk/dist/renderer";
+     * // 初始化TimeRender 示例
+     * const timRenderInstance = new TimRender();
+     *
+     * const callback = (data) => console.log(data);
+     * timRenderInstance.TIMOnTimeout(callback)
+     * ```
+     */
     TIMOnTimeout(param: signalCallback) {
         return new Promise(resolve => {
             TimRender.runtime.set("TIMOnTimeout", param.callback);

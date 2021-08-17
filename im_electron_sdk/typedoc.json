@@ -1,4 +1,4 @@
 {
-    "entryPoints": ["./src/timRender.ts", "./src/interface/index.ts"],
+    "entryPoints": ["./src/timRender.ts", "./src/interface/"],
     "out": "doc"
-  }
+}
