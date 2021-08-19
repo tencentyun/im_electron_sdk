@@ -889,7 +889,7 @@ class AdvanceMessageManage {
         const { params, user_data } = msgDownloadMergerMessageParams;
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-
+        console.log(`|         ${params}    |`, c_params);
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFuns = (

@@ -1,5 +1,5 @@
-// import TimRender from "../../../im_electron_sdk";
-import TimRender from "im_electron_sdk/dist/renderer";
+import TimRender from "../../../im_electron_sdk";
+// import TimRender from "im_electron_sdk/dist/renderer";
 const timRenderInstance = new TimRender();
 const TimBaseManager = {
     callExperimentalAPI: () => {
@@ -29,7 +29,7 @@ const TimBaseManager = {
         })
     },
     TIMInvite: () => {
-        return timRenderInstance.s({
+        return timRenderInstance.TIMInvite({
             userID: '109442',
             senderID: '3708',
 
@@ -70,23 +70,44 @@ const TimBaseManager = {
             callback: (data) => {
                 const inviteID = JSON.parse(JSON.parse(data)[0].message_elem_array[0].custom_elem_data).inviteID;
                 console.log(inviteID)
-                timRenderInstance.TIMRejectInvite({
-                    inviteID: inviteID,
-                    data: JSON.stringify({
-                        buisnessID: 'av_call',
-                        call_type: 2,
-                        room_id: 22334,
-                    })
-                }).then(data => {
-                    console.log(data, 211)
-                })
+                // timRenderInstance.TIMRejectInvite({
+                //     inviteID: inviteID,
+                //     data: JSON.stringify({
+                //         buisnessID: 'av_call',
+                //         call_type: 2,
+                //         room_id: 22334,
+                //     })
+                // }).then(data => {
+                //     console.log(data, 211)
+                // })
             }
         })
     },
     TIMOnTimeout: () => {
         return timRenderInstance.TIMOnTimeout({
             callback: (data) => {
-                console.log('超时被回调', data)
+                console.log('请求超时', data)
+            }
+        })
+    },
+    TIMOnRejected: () => {
+        return timRenderInstance.TIMOnRejected({
+            callback: (data) => {
+                console.log('有人拒绝', data)
+            }
+        })
+    },
+    TIMOnAccepted: () => {
+        return timRenderInstance.TIMOnAccepted({
+            callback: (data) => {
+                console.log('有人接受', data)
+            }
+        })
+    },
+    TIMOnCanceled: () => {
+        return timRenderInstance.TIMOnCanceled({
+            callback: (data) => {
+                console.log('被取消', data)
             }
         })
     },

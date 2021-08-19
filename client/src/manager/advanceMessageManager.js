@@ -212,7 +212,7 @@ const advanceMessageManager = {
         return timRenderInstance.TIMAddRecvNewMsgCallback({
             callback: (...args)=>{
                 const [[data,user_data]] = args;
-                console.log("收到新消息")
+                console.log("收到新消息",args)
                 
             },
             user_data: "TIMAddRecvNewMsgCallback"
