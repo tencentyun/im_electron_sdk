@@ -138,10 +138,10 @@ class AdvanceMessageManage {
                 if (code === 0)
                     fn && fn({ code, desc, json_params, user_data }, user_data);
                 else fn && fn(this.getErrorResponse({ code, desc }), user_data);
-                this._cache.get("TIMMsgSendMessage")?.delete(now);
+                this._cache.get("TIMMsgSendMessageV2Callback")?.delete(now);
             };
             const c_callback = jsFuncToFFIFun(cb);
-            let cacheMap = this._cache.get("TIMMsgSendMessage");
+            let cacheMap = this._cache.get("TIMMsgSendMessageV2Callback");
             if (cacheMap === undefined) {
                 cacheMap = new Map();
             }
@@ -149,13 +149,14 @@ class AdvanceMessageManage {
                 cb: cb,
                 callback: c_callback,
             });
-            this._cache.set("TIMMsgSendMessage", cacheMap);
+            this._cache.set("TIMMsgSendMessageV2Callback", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(
                 c_conv_id,
                 conv_type,
                 c_params,
                 message_id_buffer,
-                this._cache.get("TIMMsgSendMessage")?.get(now)?.callback,
+                this._cache.get("TIMMsgSendMessageV2Callback")?.get(now)
+                    ?.callback,
                 c_user_data
             );
 
