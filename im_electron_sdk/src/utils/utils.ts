@@ -36,6 +36,12 @@ const ffipaths: any = {
               process.cwd(),
               "node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
           ),
+    darwin: app.isPackaged
+        ? path.resolve(process.resourcesPath, "mac/ImSDKForMac")
+        : path.resolve(
+              process.cwd(),
+              "node_modules/im_electron_sdk/lib/mac/ImSDKForMac"
+          ),
 };
 function randomString(e = 6) {
     const t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
@@ -54,6 +60,9 @@ function getFFIPath() {
         case "win32":
             const cpu = os.arch();
             res = ffipaths[cpu];
+            break;
+        case "darwin":
+            res = ffipaths[platform];
             break;
     }
     if (!res) {
