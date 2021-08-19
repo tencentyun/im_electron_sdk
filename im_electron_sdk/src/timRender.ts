@@ -51,6 +51,7 @@ import {
     TIMFriendBlackListAddedCallbackParams,
     TIMFriendBlackListDeletedCallbackParams,
     MsgSendMessageParams,
+    MsgSendMessageParamsV2,
     MsgCancelSendParams,
     MsgFindMessagesParams,
     MsgReportReadedParams,
@@ -127,6 +128,10 @@ export default class TimRender {
             ipcRenderer.on("global-callback-reply", (e: any, res: any) => {
                 try {
                     const { callbackKey, responseData } = JSON.parse(res);
+                    console.log(
+                        "=============callbackKey============",
+                        callbackKey
+                    );
                     if (TimRender.runtime.has(callbackKey)) {
                         //@ts-ignore
                         TimRender.runtime.get(callbackKey)(responseData);
@@ -1247,6 +1252,19 @@ export default class TimRender {
             param: msgSendMessageParams,
         };
 
+        return this._call(formatedData);
+    }
+
+    TIMMsgSendMessageV2(msgSendMessageParams: MsgSendMessageParamsV2) {
+        const callback = "TIMMsgSendMessageV2";
+        const formatedData = {
+            method: "TIMMsgSendMessageV2",
+            manager: Managers.advanceMessageManager,
+            callback,
+            param: msgSendMessageParams,
+        };
+
+        TimRender.runtime.set(callback, msgSendMessageParams.callback);
         return this._call(formatedData);
     }
 
