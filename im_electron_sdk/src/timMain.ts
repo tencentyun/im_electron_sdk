@@ -81,8 +81,9 @@ class TimMain {
     static isLisened = false;
     static _callback: Map<string, Function> = new Map();
     static event: Map<string, any> = new Map();
+    private _tim: TIM;
     constructor(config: initConfig) {
-        const tim: TIM = new TIM({
+        this._tim = new TIM({
             sdkappid: config.sdkappid,
         });
 
@@ -114,7 +115,11 @@ class TimMain {
                     };
                     TimMain._callback.set(callback, cb);
                 }
-                const requestInstance = new Callback(requestData, tim, event);
+                const requestInstance = new Callback(
+                    requestData,
+                    this._tim,
+                    event
+                );
                 const response = await requestInstance.getResponse(
                     callback ? TimMain._callback.get(callback) : () => {}
                 );
@@ -122,6 +127,9 @@ class TimMain {
             });
             TimMain.isLisened = true;
         }
+    }
+    destroy() {
+        this._tim.getAdvanceMessageManager().TIMRemoveRecvNewMsgCallback();
     }
 }
 export default TimMain;

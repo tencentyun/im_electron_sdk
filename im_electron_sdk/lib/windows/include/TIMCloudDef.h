@@ -652,7 +652,7 @@ static const char* kTIMInternalOperationUserId2TinyId    = "internal_operation_u
 static const char* kTIMInternalOperationTinyId2UserId    = "internal_operation_tinyid_userid";
 static const char* kTIMInternalOperationSetEnv           = "internal_operation_set_env";
 static const char* kTIMInternalOperationSetMaxRetryCount = "internal_operation_set_max_retry_count";
-static const char* kTIMInternalOperationSetCustomServerInfo = "internal_operation_set_custom_server_info";
+static const char* kTIMInternalOperationSetPrivatizationInfo = "internal_operation_set_privatization_info";
 static const char* kTIMInternalOperationInitLocalStorage = "internal_operation_init_local_storage";
 // EndStruct
 
@@ -691,7 +691,7 @@ static const char* kTIMRequestUserId2TinyIdParam = "request_userid_tinyid_param"
 static const char* kTIMRequestTinyId2UserIdParam = "request_tinyid_userid_param"; // array uint64, 只写(选填), 请求需要转换成userid的tinyid列表, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationTinyId2UserId 时需要设置
 static const char* kTIMRequestSetEnvParam        = "request_set_env_param";       // bool, 只写(选填), true 表示设置当前环境为测试环境，false表示设置当前环境是正式环境，默认是正式环境, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetEnv 时需要设置
 static const char* kTIMRequestSetMaxRetryCountParam = "request_set_max_retry_count_param"; // uint32, 只写(选填), 设置登录、发消息的重试次数, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetMaxRetryCount 时需要设置
-static const char* kTIMRequestSetCustomServerInfoParam = "request_set_custom_server_info_param"; // object [CustomServerInfo](), 只写(选填), 自定义服务器信息, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetCustomServerInfo 时需要设置
+static const char* kTIMRequestSetPrivatizationInfoParam = "request_set_privatization_info_param"; // object [PrivatizationInfo](), 只写(选填), 私有云配置信息, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationSetPrivatizationInfo 时需要设置
 static const char* kTIMRequestInitLocalStorageParam = "request_init_local_storage_user_id_param"; // string, 只写(选填), 初始化 Database 的用户 ID, 当 kTIMRequestInternalOperation 为 kTIMInternalOperationInitLocalStorage 时需要设置
 // EndStruct
 
@@ -716,12 +716,11 @@ static const char* kTIMServerAddressPort = "server_address_port";               
 // EndStruct
 
 /**
-* @brief 自定义服务器信息
+* @brief 私有云配置信息
 */
-// Struct CustomServerInfo JsonKey
-static const char* kTIMCustomServerInfoLongConnectionAddressArray = "longconnection_address_array"; // array [ServerAddress](), 只读, 长连接服务器地址列表
-static const char* kTIMCustomServerInfoShortConnectionAddressArray = "shortconnection_address_array"; // array [ServerAddress](), 只读, 短连接服务器地址列表
-static const char* kTIMCustomServerInfoServerPublicKey = "server_public_key";       // string, 只写(必填), 服务器公钥
+// Struct PrivatizationInfo JsonKey
+static const char* kTIMPrivatizationInfoServerAddressArray = "server_address_array"; // array [ServerAddress](), 只读, 服务器地址列表
+static const char* kTIMPrivatizationInfoServerPublicKey = "server_public_key";       // string, 只写(必填), 服务器公钥
 // EndStruct
 
 /// @}
