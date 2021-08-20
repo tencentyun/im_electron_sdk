@@ -2,6 +2,7 @@ import {
     sdkconfig,
     ErrorResponse,
     MsgSendMessageParams,
+    MsgSendMessageParamsV2,
     MsgCancelSendParams,
     MsgFindMessagesParams,
     MsgReportReadedParams,
@@ -111,6 +112,62 @@ class AdvanceMessageManage {
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
+        });
+    }
+
+    TIMMsgSendMessageV2(msgSendMessageParams: MsgSendMessageParamsV2) {
+        const { conv_id, conv_type, params, user_data, messageId, callback } =
+            msgSendMessageParams;
+        console.log("===============callback params===============", callback);
+        const c_conv_id = this.stringFormator(conv_id);
+        const c_params = this.stringFormator(JSON.stringify(params));
+        const c_user_data = this.stringFormator(user_data);
+        const message_id_buffer = new Buffer(128);
+        this._callback.set("TIMMsgSendMessageV2Callback", callback);
+
+        return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+            const cb: CommonCallbackFuns = (
+                code,
+                desc,
+                json_params,
+                user_data
+            ) => {
+                const fn = this._callback.get("TIMMsgSendMessageV2Callback");
+                console.log("========executed callback func============", fn);
+                if (code === 0)
+                    fn && fn({ code, desc, json_params, user_data }, user_data);
+                else fn && fn(this.getErrorResponse({ code, desc }), user_data);
+                this._cache.get("TIMMsgSendMessageV2Callback")?.delete(now);
+            };
+            const c_callback = jsFuncToFFIFun(cb);
+            let cacheMap = this._cache.get("TIMMsgSendMessageV2Callback");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
+            cacheMap.set(now, {
+                cb: cb,
+                callback: c_callback,
+            });
+            this._cache.set("TIMMsgSendMessageV2Callback", cacheMap);
+            const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(
+                c_conv_id,
+                conv_type,
+                c_params,
+                message_id_buffer,
+                this._cache.get("TIMMsgSendMessageV2Callback")?.get(now)
+                    ?.callback,
+                c_user_data
+            );
+
+            if (code === 0) {
+                const message_id = message_id_buffer
+                    .toString()
+                    .split("\u0000")[0];
+                resolve(message_id);
+            } else {
+                reject(this.getErrorResponse({ code }));
+            }
         });
     }
 

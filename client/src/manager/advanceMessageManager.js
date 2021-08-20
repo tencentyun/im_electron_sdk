@@ -4,7 +4,7 @@ const timRenderInstance = new TimRender();
 
 const advanceMessageManager = {
     TIMMsgSendMessage:() => {
-        return timRenderInstance.TIMMsgSendMessage({
+        return timRenderInstance.TIMMsgSendMessageV2({
             conv_id: "lexuslin3",
             conv_type: 1,
             params: {
@@ -19,8 +19,11 @@ const advanceMessageManager = {
                 }],
                 message_sender: "lexuslin3",
             },
-            messageId: '144115224990124941-1629124330-9674717892',
-            user_data: "123"
+            user_data: "123",
+            callback: (data) => {
+                // const {code, json_params, desc } = data;
+                console.log('============data===========', data);
+            }
         });
     },
     TIMMsgCancelSend:() => {

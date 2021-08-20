@@ -1,14 +1,14 @@
-type GroupInfoCustemString = {
+interface GroupInfoCustemString {
     group_info_custom_string_info_key: string;
     group_info_custom_string_info_value: string;
-};
+}
 
-type GroupMemberInfoCustemString = {
+interface GroupMemberInfoCustemString {
     group_member_info_custom_string_info_key: string;
     group_member_info_custom_string_info_value: string;
-};
+}
 
-type GroupMemberInfo = {
+interface GroupMemberInfo {
     group_member_info_identifier: string;
     group_member_info_join_time?: number;
     group_member_info_member_role?: string;
@@ -17,7 +17,7 @@ type GroupMemberInfo = {
     group_member_info_shutup_time?: number;
     group_member_info_name_card?: string;
     group_member_info_custom_info?: Array<GroupMemberInfoCustemString>;
-};
+}
 
 interface GroupParams {
     create_group_param_group_name: string;
@@ -162,21 +162,21 @@ interface GetOnlineMemberCountParams {
     data?: string;
 }
 
-type GroupSearchParams = {
+interface GroupSearchParams {
     group_search_params_keyword_list: Array<string>;
     group_search_params_field_list: Array<number>;
-};
+}
 
-type MemberSearchParams = {
+interface MemberSearchParams {
     group_search_member_params_groupid_list: Array<string>;
     group_search_member_params_keyword_list: Array<string>;
     group_search_member_params_field_list: Array<number>;
-};
+}
 
-type GroupAttributes = {
+interface GroupAttributes {
     group_atrribute_key: string;
     group_atrribute_value: string;
-};
+}
 
 interface SearchGroupParams {
     searchParams: GroupSearchParams;
@@ -246,4 +246,9 @@ export {
     GroupTipCallBackFun,
     GroupAttributeCallbackParams,
     GroupAttributeCallbackFun,
+    GroupSearchParams,
+    MemberSearchParams,
+    GroupAttributes,
+    GroupInfoCustemString,
+    GroupMemberInfoCustemString,
 };

@@ -8,6 +8,15 @@ declare interface MsgSendMessageParams {
     user_data?: string;
     messageId?: string;
 }
+
+interface MsgSendMessageParamsV2 {
+    conv_id: string;
+    conv_type: number;
+    params: Json_value_msg;
+    user_data?: string;
+    messageId?: string;
+    callback: Function;
+}
 interface MsgCancelSendParams {
     conv_id: string;
     conv_type: number;
@@ -231,6 +240,7 @@ interface Elem {}
 
 export {
     MsgSendMessageParams,
+    MsgSendMessageParamsV2,
     MsgCancelSendParams,
     MsgFindMessagesParams,
     MsgReportReadedParams,

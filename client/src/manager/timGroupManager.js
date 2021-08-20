@@ -4,16 +4,23 @@ const timRenderInstance = new TimRender();
 const TimBaseManager = {
   TIMGroupCreate: () => {
     return timRenderInstance.TIMGroupCreate({
-      params: {
-        create_group_param_group_name: "test-avchatRoom",
-        create_group_param_group_type: 4,
-        create_group_param_group_member_array: [{
-          identifer: "6666",
-          nameCard: "member1"
+      params:
+      {
+        "create_group_param_add_option": 2,
+        "create_group_param_group_name": "FFFFFFF",
+        "create_group_param_group_type": 0,
+        create_group_param_custom_info: [{
+          group_info_custom_string_info_key: 'group_info',
+          group_info_custom_string_info_value: 'test value 1'
+        },
+        {
+          group_info_custom_string_info_key: 'custom_public',
+          group_info_custom_string_info_value: 'custom public value'
         }],
-        create_group_param_notification: "Pls add name card",
-        create_group_param_introduction: "use for dev test",
-        create_group_param_face_url: "test face_url",
+        "create_group_param_face_url": "http://oaim.crbank.com.cn:30003/emoji/qunioc.png",
+        "create_group_param_group_member_array": [{ "group_member_info_member_role": 2, "group_member_info_identifier": "123213" }],
+        "create_group_param_introduction": "12312",
+        "create_group_param_notification": "121212"
       },
       data: "ssss"
     });
@@ -29,7 +36,7 @@ const TimBaseManager = {
   },
   TIMGroupGetGroupInfoList: () => {
     return timRenderInstance.TIMGroupGetGroupInfoList({
-      groupIds: ["@TGS#a5X7C5HH2"],
+      groupIds: ["@TGS#2F7WEKLHX"],
       data: 'test data'
     })
   },
@@ -124,9 +131,9 @@ const TimBaseManager = {
   TIMSetGroupAttributeChangedCallback: (cbk) => {
     return timRenderInstance.TIMSetGroupAttributeChangedCallback({
       callback: (...args) => {
-        const [[data,user_data]] = args;
+        const [[data, user_data]] = args;
         cbk(JSON.stringify({
-            data,user_data
+          data, user_data
         }))
       },
       data: 'test data'
@@ -156,8 +163,8 @@ const TimBaseManager = {
       searchParams: {
         group_search_params_keyword_list: ['test'],
         group_search_params_field_list: [2]
-    },
-    data: 'test data'
+      },
+      data: 'test data'
     })
   },
   TIMGroupSearchGroupMembers: () => {
@@ -166,8 +173,8 @@ const TimBaseManager = {
         group_search_member_params_groupid_list: ['@TGS#a5X7C5HH2'],
         group_search_member_params_keyword_list: ['9999'],
         group_search_member_params_field_list: [1]
-    },
-    data: 'test data'
+      },
+      data: 'test data'
     })
   },
   TIMGroupInviteMember: () => {
@@ -190,10 +197,10 @@ const TimBaseManager = {
   },
   TIMSetGroupTipsEventCallback: (cbk) => {
     return timRenderInstance.TIMSetGroupTipsEventCallback({
-      callback:(...args) => {
-        const [[data,user_data]] = args;
+      callback: (...args) => {
+        const [[data, user_data]] = args;
         cbk(JSON.stringify({
-            data,user_data
+          data, user_data
         }))
       },
       data: 'test data'

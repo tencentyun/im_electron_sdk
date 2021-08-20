@@ -129,7 +129,7 @@ class TimMain {
         }
     }
     destroy() {
-        this._tim.getAdvanceMessageManager().TIMRemoveRecvNewMsgCallback();
+        this._tim.getTimbaseManager().TIMUninit();
     }
 }
 export default TimMain;

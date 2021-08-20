@@ -371,6 +371,7 @@ const APIS = [
                     TimGroupManager.TIMGroupCreate().then(res => {
                         const { data: { json_param } } = res
                         const { create_group_result_groupid } = JSON.parse(json_param);
+                        console.log(JSON.parse(json_param));
                         createdGroupId = create_group_result_groupid;
                         callback(JSON.stringify(res))
                     }).catch(err => {
@@ -403,8 +404,10 @@ const APIS = [
             {
                 name: "TIMGroupGetGroupInfoList",
                 action: (callback) => {
-                    TimGroupManager.TIMGroupGetGroupInfoList().then(data => {
-                        callback(JSON.stringify(data))
+                    TimGroupManager.TIMGroupGetGroupInfoList().then(res => {
+                        const { data: { json_param } } = res
+                        console.log(JSON.parse(json_param));
+                        callback(JSON.stringify(res))
                     }).catch(err => {
                         callback(err.toString())
                     })
