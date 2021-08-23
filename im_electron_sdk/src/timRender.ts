@@ -1732,6 +1732,19 @@ export default class TimRender {
                 // @ts-ignore
                 const { code } = res.data;
                 if (code === 0) {
+                    // 如果没人了，移除本地维护的数据
+                    const localInviteeList =
+                        TimRender._callingInfo.get(inviteID);
+                    const newInviteeList = this._removeFormArr(
+                        localInviteeList,
+                        senderID
+                    );
+                    if (newInviteeList.length > 0) {
+                        callInfo.inviteeList = newInviteeList;
+                        TimRender._callingInfo.set(inviteID, callInfo);
+                    } else {
+                        TimRender._callingInfo.delete(inviteID);
+                    }
                     resolve({
                         inviteID,
                         ...res,
@@ -1768,6 +1781,19 @@ export default class TimRender {
                 // @ts-ignore
                 const { code } = res.data;
                 if (code === 0) {
+                    // 如果没人了，移除本地维护的数据
+                    const localInviteeList =
+                        TimRender._callingInfo.get(inviteID);
+                    const newInviteeList = this._removeFormArr(
+                        localInviteeList,
+                        sendID
+                    );
+                    if (newInviteeList.length > 0) {
+                        callInfo.inviteeList = newInviteeList;
+                        TimRender._callingInfo.set(inviteID, callInfo);
+                    } else {
+                        TimRender._callingInfo.delete(inviteID);
+                    }
                     resolve({
                         inviteID,
                         ...res,
