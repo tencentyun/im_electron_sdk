@@ -1229,6 +1229,86 @@ typedef void (*TIMCommCallback)(int32_t code, const char* desc, const char* json
 *    }
 * ]
 *
+* @example 接口[TIMFriendshipSearchFriends](TIMCloud.h)的回调TIMCommCallback参数json_params的Json。Json Key请参考[FriendInfoGetResult](TIMCloudDef.h)
+*[
+*    {
+*	    "friendship_friend_info_get_result_error_code": 0,
+*	    "friendship_friend_info_get_result_error_message": "OK",
+*	    "friendship_friend_info_get_result_field_info": {
+*	    	"friend_profile_add_source": "",
+*	    	"friend_profile_add_time": 0,
+*	    	"friend_profile_add_wording": "",
+*	    	"friend_profile_custom_string_array": [{
+*	    		"friend_profile_custom_string_info_key": "Tag_Profile_Custom_Str",
+*	    		"friend_profile_custom_string_info_value": "test3-lamar-value"
+*	    	}],
+*	    	"friend_profile_group_name_array": [],
+*	    	"friend_profile_identifier": "98826",
+*	    	"friend_profile_remark": "",
+*	    	"friend_profile_user_profile": {
+*	    		"user_profile_add_permission": 1,
+*	    		"user_profile_birthday": 2000,
+*	    		"user_profile_custom_string_array": [{
+*	    			"user_profile_custom_string_info_key": "Tag_Profile_Custom_Str",
+*	    			"user_profile_custom_string_info_value": "test3-lamar-value"
+*	    		}],
+*	    		"user_profile_face_url": "test1-www.google.com",
+*	    		"user_profile_gender": 2,
+*	    		"user_profile_identifier": "98826",
+*	    		"user_profile_language": 1000,
+*	    		"user_profile_level": 3000,
+*	    		"user_profile_location": "shenzhen",
+*   			"user_profile_nick_name": "test change8888",
+*	    		"user_profile_role": 4000,
+*	    		"user_profile_self_signature": "1111111"
+*	    	}
+*   	},
+*	    "friendship_friend_info_get_result_identifier": "98826",
+*	    "friendship_friend_info_get_result_relation_type": 0
+*   }
+*]
+
+* @example 接口[TIMFriendshipGetFriendsInfo](TIMCloud.h)的回调TIMCommCallback参数json_params的Json。Json Key请参考[FriendInfoGetResult](TIMCloudDef.h)
+*[
+*    {
+*	    "friendship_friend_info_get_result_error_code": 0,
+*	    "friendship_friend_info_get_result_error_message": "OK",
+*	    "friendship_friend_info_get_result_field_info": {
+*	    	"friend_profile_add_source": "",
+*	    	"friend_profile_add_time": 0,
+*	    	"friend_profile_add_wording": "",
+*	    	"friend_profile_custom_string_array": [{
+*	    		"friend_profile_custom_string_info_key": "Tag_Profile_Custom_Str",
+*	    		"friend_profile_custom_string_info_value": "test3-lamar-value"
+*	    	}],
+*	    	"friend_profile_group_name_array": [],
+*	    	"friend_profile_identifier": "98826",
+*	    	"friend_profile_remark": "",
+*	    	"friend_profile_user_profile": {
+*	    		"user_profile_add_permission": 1,
+*	    		"user_profile_birthday": 2000,
+*	    		"user_profile_custom_string_array": [{
+*	    			"user_profile_custom_string_info_key": "Tag_Profile_Custom_Str",
+*	    			"user_profile_custom_string_info_value": "test3-lamar-value"
+*	    		}],
+*	    		"user_profile_face_url": "test1-www.google.com",
+*	    		"user_profile_gender": 2,
+*	    		"user_profile_identifier": "98826",
+*	    		"user_profile_language": 1000,
+*	    		"user_profile_level": 3000,
+*	    		"user_profile_location": "shenzhen",
+*   			"user_profile_nick_name": "test change8888",
+*	    		"user_profile_role": 4000,
+*	    		"user_profile_self_signature": "1111111"
+*	    	}
+*   	},
+*	    "friendship_friend_info_get_result_identifier": "98826",
+*	    "friendship_friend_info_get_result_relation_type": 0
+*   }
+*]
+
+
+*
 * @note 以下接口的回调TIMCommCallback参数json_params均为空字符串""
 * > [TIMLogin](TIMCloud.h) 
 * > [TIMLogout](TIMCloud.h)

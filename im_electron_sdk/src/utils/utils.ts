@@ -65,6 +65,7 @@ function getFFIPath() {
             res = ffipaths[platform];
             break;
     }
+    console.log("SDK路径", res);
     if (!res) {
         throw new Error(`tencent im sdk not support ${platform} os now.`);
         return;
