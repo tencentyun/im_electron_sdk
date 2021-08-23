@@ -37,10 +37,10 @@ const ffipaths: any = {
               "node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
           ),
     darwin: app.isPackaged
-        ? path.resolve(process.resourcesPath, "mac/ImSDKForMac")
+        ? path.resolve(process.resourcesPath, "mac/current/ImSDKForMac")
         : path.resolve(
               process.cwd(),
-              "node_modules/im_electron_sdk/lib/mac/ImSDKForMac"
+              "node_modules/im_electron_sdk/lib/mac/current/ImSDKForMac"
           ),
 };
 function randomString(e = 6) {
