@@ -100,6 +100,7 @@ import {
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { TIMConvType } from "./enum";
+import log from "./utils/log";
 const deepClone = (obj: object) => {
     if (!obj) {
         return false;
@@ -128,10 +129,7 @@ export default class TimRender {
             ipcRenderer.on("global-callback-reply", (e: any, res: any) => {
                 try {
                     const { callbackKey, responseData } = JSON.parse(res);
-                    console.log(
-                        "=============callbackKey============",
-                        callbackKey
-                    );
+                    log.info("事件回调返回渲染进程", JSON.parse(res));
                     if (TimRender.runtime.has(callbackKey)) {
                         //@ts-ignore
                         TimRender.runtime.get(callbackKey)(responseData);
@@ -209,6 +207,9 @@ export default class TimRender {
                                     }
                                 }
                             } catch (err) {
+                                log.error(
+                                    "IM_ELECTRON_SDK:尝试解析信令失败，业务可不关注"
+                                );
                                 console.log(
                                     "IM_ELECTRON_SDK:尝试解析信令失败，业务可不关注"
                                 );
@@ -217,6 +218,7 @@ export default class TimRender {
                     }
                 }
             } catch (err) {
+                log.error("解析消息失败：", err);
                 console.error("解析消息失败：", err);
             }
         }

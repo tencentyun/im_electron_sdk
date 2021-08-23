@@ -4,6 +4,7 @@ import { TIMIPCLISTENR, CONSOLETAG } from "./const/const";
 import { initConfig } from "./interface";
 import { ipcData } from "./interface/ipcInterface";
 import TIM from "./tim";
+import log from "./utils/log";
 
 class Callback {
     private requestData;
@@ -56,8 +57,10 @@ class Callback {
                     param.callback = cb;
                 }
                 try {
+                    log.info(`${method} 入参:`, param);
                     responseData = await timManager[method](param);
                 } catch (err) {
+                    log.info(`${method} error:`, err);
                     responseData = err;
                 }
 
@@ -107,9 +110,11 @@ class TimMain {
                                     })
                                 );
                             } catch (err) {
+                                log.error("主渲染窗口事件绑定丢失", err);
                                 console.log("主渲染窗口事件绑定丢失", err);
                             }
                         } else {
+                            log.error("主渲染窗口事件绑定丢失");
                             console.log("全局回调事件对象丢失");
                         }
                     };
