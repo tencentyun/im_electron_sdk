@@ -513,11 +513,20 @@ enum TIMPlatform {
 };
 
 /**
+* @brief 服务器地域
+*/
+enum TIMServerRegion {
+    kTIMServerRegion_Default = 0,       // 默认服务器
+    kTIMServerRegion_Singapore = 1,     // 新加坡服务器
+};
+
+/**
 * @brief 初始化ImSDK的配置
 */
 // Struct SdKConfig JsonKey
 static const char* kTIMSdkConfigConfigFilePath     = "sdk_config_config_file_path";// string, 只写(选填), 配置文件路径,默认路径为"/"
 static const char* kTIMSdkConfigLogFilePath        = "sdk_config_log_file_path";   // string, 只写(选填), 日志文件路径,默认路径为"/"
+static const char* kTIMSdkConfigServerRegion       = "sdk_config_serverRegion";    // uint, [TIMServerRegion](), 只写(选填), 服务器地域，默认中国境内服务器，如果需要指定境外的服务器，请设置为这个字段
 static const char* kTIMSdkConfigJavaVM             = "sdk_config_java_vm";         // uint64, 只写(选填), 配置Android平台的Java虚拟机指针
 // EndStruct
 

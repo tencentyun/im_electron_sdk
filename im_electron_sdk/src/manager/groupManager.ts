@@ -430,7 +430,8 @@ class GroupManager {
                     ?.callback,
                 userData
             );
-            if (code !== 0) reject(this.getErrorResponse({ code }));
+            if (code !== 0)
+                reject(this.getErrorResponse({ code, user_data: data }));
         });
     }
 

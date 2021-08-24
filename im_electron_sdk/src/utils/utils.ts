@@ -37,10 +37,10 @@ const ffipaths: any = {
               "node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
           ),
     darwin: app.isPackaged
-        ? path.resolve(process.resourcesPath, "mac/ImSDKForMac")
+        ? path.resolve(process.resourcesPath, "mac/current/ImSDKForMac.dylib")
         : path.resolve(
               process.cwd(),
-              "node_modules/im_electron_sdk/lib/mac/ImSDKForMac"
+              "node_modules/im_electron_sdk/lib/mac/current/ImSDKForMac.dylib"
           ),
 };
 function mkdirsSync(dirname: string) {
@@ -75,6 +75,7 @@ function getFFIPath() {
             res = ffipaths[platform];
             break;
     }
+    console.log("SDK路径", res);
     if (!res) {
         throw new Error(`tencent im sdk not support ${platform} os now.`);
         return;
