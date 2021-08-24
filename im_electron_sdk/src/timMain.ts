@@ -93,7 +93,7 @@ class TimMain {
         this._tim = new TIM({
             sdkappid: config.sdkappid,
         });
-        if (os.platform()) {
+        if (os.platform() === "linux") {
             mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
         }
         //建立ipc通信通道
