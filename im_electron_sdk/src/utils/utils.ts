@@ -16,7 +16,7 @@ const path = require("path");
 const os = require("os");
 const ref = require("ref-napi");
 const ffi = require("ffi-napi");
-
+const fs = require("fs");
 const ffipaths: any = {
     linux: app.isPackaged
         ? path.resolve(process.resourcesPath, "linux/lib/libImSDK.so")
@@ -43,6 +43,16 @@ const ffipaths: any = {
               "node_modules/im_electron_sdk/lib/mac/ImSDKForMac"
           ),
 };
+function mkdirsSync(dirname: string) {
+    if (fs.existsSync(dirname)) {
+        return true;
+    } else {
+        if (mkdirsSync(path.dirname(dirname))) {
+            fs.mkdirSync(dirname);
+            return true;
+        }
+    }
+}
 function randomString(e = 6) {
     const t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
     const a = t.length;
@@ -207,4 +217,5 @@ export {
     transformGroupAttributeFun,
     transferTIMLogCallbackFun,
     randomString,
+    mkdirsSync,
 };

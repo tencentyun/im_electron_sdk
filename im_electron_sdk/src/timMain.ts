@@ -4,6 +4,9 @@ import { TIMIPCLISTENR, CONSOLETAG } from "./const/const";
 import { initConfig } from "./interface";
 import { ipcData } from "./interface/ipcInterface";
 import TIM from "./tim";
+import path from "path";
+import os from "os";
+import { mkdirsSync } from "./utils/utils";
 
 class Callback {
     private requestData;
@@ -82,11 +85,14 @@ class TimMain {
     static _callback: Map<string, Function> = new Map();
     static event: Map<string, any> = new Map();
     private _tim: TIM;
+
     constructor(config: initConfig) {
         this._tim = new TIM({
             sdkappid: config.sdkappid,
         });
-
+        if (os.platform()) {
+            mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
+        }
         //建立ipc通信通道
         if (!TimMain.isLisened) {
             ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
