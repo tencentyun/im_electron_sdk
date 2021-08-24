@@ -39,16 +39,31 @@ class TimbaseManager {
      * sdk初始化
      */
     TIMInit(): number {
-        const sdkconfig: string = JSON.stringify({
-            sdk_config_log_file_path: path.resolve(
-                process.resourcesPath,
-                "sdk-log"
-            ),
-            sdk_config_config_file_path: path.resolve(
-                process.resourcesPath,
-                "sdk-config"
-            ),
-        });
+        let sdkconfig: string;
+
+        if (os.platform() == "linux") {
+            sdkconfig = JSON.stringify({
+                sdk_config_log_file_path: path.resolve(
+                    os.homedir(),
+                    ".tencent-im/sdk-log"
+                ),
+                sdk_config_config_file_path: path.resolve(
+                    os.homedir(),
+                    ".tencent-im/sdk-config"
+                ),
+            });
+        } else {
+            sdkconfig = JSON.stringify({
+                sdk_config_log_file_path: path.resolve(
+                    process.resourcesPath,
+                    "sdk-log"
+                ),
+                sdk_config_config_file_path: path.resolve(
+                    process.resourcesPath,
+                    "sdk-config"
+                ),
+            });
+        }
         return this._sdkconfig.Imsdklib.TIMInit(
             this._sdkconfig.sdkappid,
             nodeStrigToCString(sdkconfig)

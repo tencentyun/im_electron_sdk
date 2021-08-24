@@ -54,7 +54,7 @@ const TimBaseManager = {
   TIMGroupGetMemberInfoList: () => {
     return timRenderInstance.TIMGroupGetMemberInfoList({
       params: {
-        group_get_members_info_list_param_group_id: "@TGS#1UHQ3OKHC",
+        group_get_members_info_list_param_group_id: "@TGS#1CT",
       }
     })
   },
@@ -170,9 +170,9 @@ const TimBaseManager = {
   TIMGroupSearchGroupMembers: () => {
     return timRenderInstance.TIMGroupSearchGroupMembers({
       searchParams: {
-        group_search_member_params_groupid_list: ['@TGS#a5X7C5HH2'],
-        group_search_member_params_keyword_list: ['9999'],
-        group_search_member_params_field_list: [1]
+        group_search_member_params_groupid_list: ['@TGS#1CT'],
+        group_search_member_params_keyword_list: ['327'],
+        group_search_member_params_field_list: [1,2,4,8]
       },
       data: 'test data'
     })

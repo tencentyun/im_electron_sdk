@@ -1,6 +1,6 @@
 {
   "name": "im-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A minimal Electron application",
   "main": "main.js",
   "homepage": "https://cloud.tencent.com/product/im",
@@ -78,7 +78,7 @@
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
-    "im_electron_sdk": "^1.2.16",
+    "im_electron_sdk": "^1.2.26",
     "ref-napi": "^3.0.3"
   }
 }
