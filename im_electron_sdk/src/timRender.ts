@@ -230,15 +230,7 @@ export default class TimRender {
         );
         return JSON.parse(response);
     }
-    private _removeFormArr = (arr: any[], target: any) => {
-        for (let i = 0; i < arr.length; i++) {
-            if ((arr[i] = target)) {
-                arr.splice(i, 1);
-                break;
-            }
-        }
-        return arr;
-    };
+
     testDoc(param: TestInterface) {}
 
     private async _onInvited(inviteID: string, parsedData: any, message: any) {
@@ -258,9 +250,9 @@ export default class TimRender {
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
+        if (inviteeList && inviteeList.length) {
             if (TimRender.runtime.get("TIMOnInvited")) {
-                TimRender._callingInfo.set(inviteID, parsedData);
+                TimRender._callingInfo.set(inviteID, deepClone(parsedData));
                 //@ts-ignore
                 TimRender.runtime.get("TIMOnInvited")(message);
                 // 开始倒计时计算超时
@@ -277,15 +269,19 @@ export default class TimRender {
         const callInfo = deepClone(TimRender._callingInfo.get(inviteID));
         if (callInfo) {
             //@ts-ignore
-            const { inviteeList } = parsedData;
-            if (inviteeList && inviteeList.length) {
-                const accepter = inviteeList[0];
+            const { inviteeList: rejectList } = parsedData;
+
+            if (rejectList && rejectList.length) {
+                const accepter = rejectList[0];
                 if (TimRender.runtime.get("TIMOnRejected")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
-                    const newInviteeList = this._removeFormArr(
-                        inviteeList,
-                        accepter
+                    const newInviteeList = inviteeList.filter(
+                        (item: string) => item !== accepter
+                    );
+
+                    log.info(
+                        `acceptList ${rejectList},newInviteeList :${newInviteeList}`
                     );
                     if (newInviteeList.length > 0) {
                         callInfo.inviteeList = newInviteeList;
@@ -303,18 +299,21 @@ export default class TimRender {
         const callInfo = deepClone(TimRender._callingInfo.get(inviteID));
         if (callInfo) {
             //@ts-ignore
-            const { inviteeList } = parsedData;
-            if (inviteeList && inviteeList.length) {
-                const accepter = inviteeList[0];
+            const { inviteeList: acceptList } = parsedData;
+
+            if (acceptList && acceptList.length) {
+                const accepter = acceptList[0];
 
                 if (TimRender.runtime.get("TIMOnAccepted")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
-                    const newInviteeList = this._removeFormArr(
-                        inviteeList,
-                        accepter
+                    const newInviteeList = inviteeList.filter(
+                        (item: string) => item !== accepter
                     );
-                    if (newInviteeList.length > 0) {
+                    log.info(
+                        `acceptList ${acceptList},newInviteeList :${newInviteeList}`
+                    );
+                    if (newInviteeList?.length > 0) {
                         callInfo.inviteeList = newInviteeList;
                         TimRender._callingInfo.set(inviteID, callInfo);
                     } else {
@@ -342,17 +341,16 @@ export default class TimRender {
         message: any
     ) {
         //@ts-ignore
-        const { inviteeList } = parsedData;
-        const handler = inviteeList[0];
-        if (inviteeList && inviteeList.length) {
+        const { inviteeList: timeouter } = parsedData;
+        const handler = timeouter[0];
+        if (timeouter && timeouter.length) {
             if (TimRender.runtime.get("TIMOnTimeout")) {
                 const callInfo = deepClone(
                     TimRender._callingInfo.get(inviteID)
                 );
                 const { inviteeList } = callInfo;
-                const newInviteeList = this._removeFormArr(
-                    inviteeList,
-                    handler
+                const newInviteeList = inviteeList.filter(
+                    (item: any) => item !== handler
                 );
                 if (newInviteeList.length > 0) {
                     TimRender._callingInfo.set(inviteID, newInviteeList);
@@ -1735,15 +1733,18 @@ export default class TimRender {
                 const { code } = res.data;
                 if (code === 0) {
                     // 如果没人了，移除本地维护的数据
-                    const localInviteeList =
-                        TimRender._callingInfo.get(inviteID);
-                    const newInviteeList = this._removeFormArr(
-                        localInviteeList,
-                        senderID
+                    const localInfo = TimRender._callingInfo.get(inviteID);
+
+                    const { inviteeList: localInviteeList } = localInfo;
+                    const newInviteeList = localInviteeList.filter(
+                        (item: any) => item !== senderID
+                    );
+                    log.info(
+                        `info: ${JSON.stringify(localInfo)},${newInviteeList}`
                     );
                     if (newInviteeList.length > 0) {
-                        callInfo.inviteeList = newInviteeList;
-                        TimRender._callingInfo.set(inviteID, callInfo);
+                        localInfo.inviteeList = newInviteeList;
+                        TimRender._callingInfo.set(inviteID, localInfo);
                     } else {
                         TimRender._callingInfo.delete(inviteID);
                     }
@@ -1784,11 +1785,10 @@ export default class TimRender {
                 const { code } = res.data;
                 if (code === 0) {
                     // 如果没人了，移除本地维护的数据
-                    const localInviteeList =
+                    const { inviteeList: localInviteeList } =
                         TimRender._callingInfo.get(inviteID);
-                    const newInviteeList = this._removeFormArr(
-                        localInviteeList,
-                        sendID
+                    const newInviteeList = localInviteeList?.filter(
+                        (item: any) => item !== sendID
                     );
                     if (newInviteeList.length > 0) {
                         callInfo.inviteeList = newInviteeList;
