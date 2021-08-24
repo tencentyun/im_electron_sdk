@@ -26,7 +26,7 @@ import {
     transferTIMLogCallbackFun,
 } from "../utils/utils";
 import { TIMLoginStatus } from "../enum";
-
+import os from "os";
 class TimbaseManager {
     private _sdkconfig: sdkconfig;
     private _callback: Map<String, Function> = new Map();

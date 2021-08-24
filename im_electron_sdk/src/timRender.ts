@@ -250,7 +250,7 @@ export default class TimRender {
         //@ts-ignore
         const userID = (await this.TIMGetLoginUserID({})).data.json_param;
         const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length) {
+        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
             if (TimRender.runtime.get("TIMOnInvited")) {
                 TimRender._callingInfo.set(inviteID, deepClone(parsedData));
                 //@ts-ignore
@@ -353,7 +353,8 @@ export default class TimRender {
                     (item: any) => item !== handler
                 );
                 if (newInviteeList.length > 0) {
-                    TimRender._callingInfo.set(inviteID, newInviteeList);
+                    parsedData.inviteeList = newInviteeList;
+                    TimRender._callingInfo.set(inviteID, parsedData);
                 } else {
                     TimRender._callingInfo.delete(inviteID);
                 }
@@ -1598,7 +1599,11 @@ export default class TimRender {
                     //@ts-ignore
                     data: { code, json_params },
                 } = await this._sendCumtomMessage(
-                    groupID ? groupID : inviter,
+                    groupID
+                        ? groupID
+                        : inviter === senderID
+                        ? inviteeList[0]
+                        : inviter,
                     senderID,
                     callInfo,
                     groupID ? true : false
@@ -1832,6 +1837,7 @@ export default class TimRender {
                 // @ts-ignore
                 const { code } = res.data;
                 if (code === 0) {
+                    TimRender._callingInfo.delete(inviteID);
                     resolve({
                         inviteID,
                         ...res,
