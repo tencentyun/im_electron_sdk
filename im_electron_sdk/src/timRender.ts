@@ -234,35 +234,43 @@ export default class TimRender {
     testDoc(param: TestInterface) {}
 
     private async _onInvited(inviteID: string, parsedData: any, message: any) {
-        //@ts-ignore
-        const { data: serverTime } = await this.TIMGetServerTime();
-        const { message_server_time } = message;
-        const { timeout } = parsedData;
-        console.log(serverTime, message_server_time, timeout);
-        if (timeout > 0 && serverTime - message_server_time > timeout) {
-            console.log(
-                `signaling receive invitation but ignore to callback because timeInterval:${
-                    serverTime - message_server_time
-                } > timeout: ${timeout}`
-            );
-            return null;
-        }
-        //@ts-ignore
-        const userID = (await this.TIMGetLoginUserID({})).data.json_param;
-        const { inviteeList } = parsedData;
-        if (inviteeList && inviteeList.length && inviteeList.includes(userID)) {
-            if (TimRender.runtime.get("TIMOnInvited")) {
-                TimRender._callingInfo.set(inviteID, deepClone(parsedData));
-                //@ts-ignore
-                TimRender.runtime.get("TIMOnInvited")(message);
-                // 开始倒计时计算超时
-                if (timeout > 0) {
-                    parsedData.inviteeList = [userID];
-                    parsedData.actionType = ActionType.INVITE_TIMEOUT;
-                    const { inviteID } = parsedData;
-                    this._setCallingTimeout(inviteID, true);
+        try {
+            //@ts-ignore
+            const { data: serverTime } = await this.TIMGetServerTime();
+            const { message_server_time } = JSON.parse(message)[0];
+            const { timeout } = parsedData;
+
+            if (timeout > 0 && serverTime - message_server_time > timeout) {
+                console.log(
+                    `signaling receive invitation but ignore to callback because timeInterval:${
+                        serverTime - message_server_time
+                    } > timeout: ${timeout}`
+                );
+                return null;
+            }
+            //@ts-ignore
+            const userID = (await this.TIMGetLoginUserID({})).data.json_param;
+            const { inviteeList } = parsedData;
+            if (
+                inviteeList &&
+                inviteeList.length &&
+                inviteeList.includes(userID)
+            ) {
+                if (TimRender.runtime.get("TIMOnInvited")) {
+                    TimRender._callingInfo.set(inviteID, deepClone(parsedData));
+                    //@ts-ignore
+                    TimRender.runtime.get("TIMOnInvited")(message);
+                    // 开始倒计时计算超时
+                    if (timeout > 0) {
+                        parsedData.inviteeList = [userID];
+                        parsedData.actionType = ActionType.INVITE_TIMEOUT;
+                        const { inviteID } = parsedData;
+                        this._setCallingTimeout(inviteID, true);
+                    }
                 }
             }
+        } catch (err) {
+            console.error(err);
         }
     }
     private async _onRejected(inviteID: string, parsedData: any, message: any) {

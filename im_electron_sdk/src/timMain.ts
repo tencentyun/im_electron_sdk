@@ -61,7 +61,9 @@ class Callback {
                 }
                 try {
                     log.info(`${method} 入参:`, param);
-                    responseData = await timManager[method](param);
+                    param
+                        ? (responseData = await timManager[method](param))
+                        : (responseData = await timManager[method]());
                 } catch (err) {
                     log.info(`${method} error:`, err);
                     responseData = err;

@@ -1139,7 +1139,8 @@ class AdvanceMessageManage {
 
     TIMRemoveRecvNewMsgCallback(): void {
         this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(
-            this._ffiCallback.get("TIMAddRecvNewMsgCallback")
+            // @ts-ignore
+            this._ffiCallback.get("TIMAddRecvNewMsgCallback") || null
         );
         // this.tIMRecvNewMsgCallbackParams = undefined;
     }
