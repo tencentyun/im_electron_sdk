@@ -32,6 +32,14 @@ class ConversationManager {
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
+    /**
+     * ###  创建会话
+     * @param convCreate
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @note
+     * > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
+     * > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
+     */
     TIMConvCreate(param: convCreate): Promise<commonResponse> {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
@@ -72,6 +80,13 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    /**
+     * ### 删除会话
+     * @param convDelete
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @note
+     * 此接口用于删除会话，删除会话是否成功通过回调返回。
+     */
     TIMConvDelete(param: convDelete): Promise<commonResponse> {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
@@ -112,6 +127,13 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    /**
+     * ### 获取最近联系人的会话列表
+     * @param getConvList
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @note
+     * 会话草稿一般用在保存用户当前输入的未发送的消息。
+     */
     async TIMConvGetConvList(param: getConvList): Promise<commonResponse> {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
@@ -148,6 +170,13 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    /**
+     * ### 设置指定会话的草稿
+     * @param convSetDrat
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @note
+     * 会话草稿一般用在保存用户当前输入的未发送的消息。
+     */
     TIMConvSetDraft(param: convSetDrat): number {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
@@ -158,11 +187,24 @@ class ConversationManager {
             draftParam
         );
     }
+    /**
+     * ### 删除指定会话的草稿
+     * @param convCancelDraft
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @note
+     * > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
+     * > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
+     */
     TIMConvCancelDraft(param: convCancelDraft): number {
         const convId = nodeStrigToCString(param.convId);
         const convType = param.convType;
         return this._sdkconfig.Imsdklib.TIMConvCancelDraft(convId, convType);
     }
+    /**
+     * ### 获取指定会话列表
+     * @param convGetConvInfo
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     *   */
     TIMConvGetConvInfo(param: convGetConvInfo): Promise<commonResponse> {
         const convList = nodeStrigToCString(
             JSON.stringify(param.json_get_conv_list_param)
@@ -204,6 +246,11 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    /**
+     * ### 设置会话置顶
+     * @param convCreate
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     */
     TIMConvPinConversation(
         param: convPinConversation
     ): Promise<commonResponse> {
@@ -250,6 +297,11 @@ class ConversationManager {
             code !== 0 && reject({ code });
         });
     }
+    /**
+     * ### 获取所有会话总的未读消息数
+     * @param convGetTotalUnreadMessageCount
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     */
     TIMConvGetTotalUnreadMessageCount(
         param: convGetTotalUnreadMessageCount
     ): Promise<commonResponse> {
@@ -310,6 +362,21 @@ class ConversationManager {
         );
         fn && fn(total_unread_count, user_data);
     }
+    /**
+     * ### 设置会话事件回调
+     * @param setConvEventCallback
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+    @note
+    * > 会话事件包括：
+    * >> 会话新增
+    * >> 会话删除
+    * >> 会话更新。
+    * >> 会话开始
+    * >> 会话结束
+    * > 任何产生一个新会话的操作都会触发会话新增事件，例如调用接口[TIMConvCreate]()创建会话，接收到未知会话的第一条消息等。
+    * 任何已有会话变化的操作都会触发会话更新事件，例如收到会话新消息，消息撤回，已读上报等。
+    * 调用接口[TIMConvDelete]()删除会话成功时会触发会话删除事件。
+    */
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
         this._callback.set("TIMSetConvEventCallback", param.callback);
         const c_callback = jsFuncToFFIConvEventCallback(
@@ -324,6 +391,11 @@ class ConversationManager {
             userData
         );
     }
+    /**
+     * ### 设置会话未读消息总数变更的回调
+     * @param convTotalUnreadMessageCountChangedCallbackParam
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     */
     async TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam
     ): Promise<any> {
