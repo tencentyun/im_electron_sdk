@@ -14,8 +14,8 @@ import {
     TIMSetLogCallbackParam,
     TIMSetNetworkStatusListenerCallbackParam,
     TIMSetUserSigExpiredCallbackParam,
-    initParam,
 } from "../interface";
+import { initParam } from "../interface/basicInterface";
 import path from "path";
 import {
     jsFuncToFFIFun,
