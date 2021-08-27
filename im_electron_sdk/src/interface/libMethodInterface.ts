@@ -319,7 +319,7 @@ interface TIMMsgSendMessageFun {
         conv_id?: Buffer,
         conv_type?: TIMConvType,
         json_add_friend_param?: Buffer,
-        message_id_buffer?: Buffer,
+        message_id_buffer?: ArrayBuffer,
         successCallback?: Buffer,
         userData?: Buffer
     ): number;

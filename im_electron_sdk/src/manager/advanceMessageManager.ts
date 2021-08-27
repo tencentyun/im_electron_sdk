@@ -50,7 +50,7 @@ class AdvanceMessageManage {
     private _ffiCallback: Map<string, Buffer> = new Map();
     private _uploadProcessMap: Map<string, Map<string, boolean>> = new Map();
     private stringFormator = (str: string | undefined): Buffer =>
-        str ? nodeStrigToCString(str) : Buffer.from(" ");
+        str ? nodeStrigToCString(str) : nodeStrigToCString("");
 
     getErrorResponse(params: ErrorResponse) {
         return {
@@ -76,7 +76,7 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-        const message_id_buffer = this.stringFormator(messageId);
+        const message_id_buffer = new ArrayBuffer(128);
 
         console.log("=======message_id_buffer============", message_id_buffer);
 
