@@ -76,7 +76,7 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-        const message_id_buffer = new ArrayBuffer(128);
+        const message_id_buffer = new Buffer(128);
 
         console.log("=======message_id_buffer============", message_id_buffer);
 
