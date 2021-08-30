@@ -52,7 +52,7 @@ class AdvanceMessageManage {
     private stringFormator = (str: string | undefined): Buffer =>
         str ? nodeStrigToCString(str) : Buffer.from(" ");
 
-    getErrorResponse(params: ErrorResponse) {
+    private getErrorResponse(params: ErrorResponse) {
         return {
             code: params.code || -1,
             desc: params.desc || "error",
@@ -61,13 +61,18 @@ class AdvanceMessageManage {
         };
     }
 
-    getErrorResponseByCode(code: number) {
+    private getErrorResponseByCode(code: number) {
         return this.getErrorResponse({ code });
     }
 
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
+    /**
+     * ### 发送新消息，单聊消息和群消息的发送均采用此接口。
+     * @param msgSendMessageParams
+     * @return  {Promise} Promise的response返回值为：{ code, desc, json_params, user_data }
+     */
     TIMMsgSendMessage(
         msgSendMessageParams: MsgSendMessageParams
     ): Promise<commonResponse> {
@@ -114,7 +119,11 @@ class AdvanceMessageManage {
             code !== 0 && reject(this.getErrorResponse({ code }));
         });
     }
-
+    /**
+     * ### 发送新消息，单聊消息和群消息的发送均采用此接口（返回值与TIMMsgSendMessage不同）
+     * @param msgSendMessageParams
+     * @return  {Promise} Promise的response返回值为：message_id(消息ID)
+     */
     TIMMsgSendMessageV2(msgSendMessageParams: MsgSendMessageParamsV2) {
         const { conv_id, conv_type, params, user_data, messageId, callback } =
             msgSendMessageParams;
@@ -171,6 +180,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 根据消息 messageID 取消发送中的消息
+     * @param msgCancelSendParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_params, user_data }
+     */
     TIMMsgCancelSend(
         msgCancelSendParams: MsgCancelSendParams
     ): Promise<commonResponse> {
@@ -214,6 +228,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 查询本地的消息列表
+     * @param MsgFindMessagesParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_params, user_data }
+     */
     TIMMsgFindMessages(
         msgFindMessagesParams: MsgFindMessagesParams
     ): Promise<commonResponse> {
@@ -262,6 +281,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 消息上报已读
+     * @param MsgReportReadedParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_param, user_data }
+     */
     TIMMsgReportReaded(
         msgReportReadedParams: MsgReportReadedParams
     ): Promise<commonResponse> {
@@ -361,6 +385,11 @@ class AdvanceMessageManage {
         }
     }
 
+    /**
+     * ### 消息撤回
+     * @param MsgRevokeParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_param, user_data }
+     */
     TIMMsgRevoke(msgRevokeParams: MsgRevokeParams): Promise<commonResponse> {
         const { conv_id, conv_type, message_id, user_data } = msgRevokeParams;
         const c_conv_id = this.stringFormator(conv_id);
@@ -411,6 +440,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 根据消息定位精准查找指定会话的消息
+     * @param MsgFindByMsgLocatorListParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_param, user_data }
+     */
     TIMMsgFindByMsgLocatorList(
         msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams
     ): Promise<commonResponse> {
@@ -455,6 +489,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 导入消息列表到指定会话
+     * @param MsgImportMsgListParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_param, user_data }
+     */
     TIMMsgImportMsgList(
         msgImportMsgListParams: MsgImportMsgListParams
     ): Promise<commonResponse> {
@@ -498,6 +537,11 @@ class AdvanceMessageManage {
         });
     }
 
+    /**
+     * ### 导入消息列表到指定会话
+     * @param MsgImportMsgListParams
+     * @return {Promise} Promise的response返回值为{ code, desc, json_param, user_data }
+     */
     TIMMsgSaveMsg(msgSaveMsgParams: MsgSaveMsgParams): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data } = msgSaveMsgParams;
         const c_conv_id = this.stringFormator(conv_id);

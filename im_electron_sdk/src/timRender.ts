@@ -1277,7 +1277,9 @@ export default class TimRender {
         TimRender.runtime.set(callback, msgSendMessageParams.callback);
         return this._call(formatedData);
     }
-
+    /**
+     *
+     */
     TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams) {
         const formatedData = {
             method: "TIMMsgCancelSend",

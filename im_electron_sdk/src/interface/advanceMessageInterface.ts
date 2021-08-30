@@ -17,12 +17,23 @@ interface MsgSendMessageParamsV2 {
     messageId?: string;
     callback: Function;
 }
+/**
+ * @typeParam {string} conv_id      conv_id 会话ID
+ * @typeParam {number} conv_type    conv_type 会话类型
+ * @typeParam {string} message_id   message_id 消息 ID
+ * @typeParam {string} [user_data]  user_data 户自定义数据，ImSDK只负责传回给回调函数，不做任何处理(可选)
+ */
 interface MsgCancelSendParams {
     conv_id: string;
     conv_type: number;
     message_id: string;
     user_data?: string;
 }
+
+/**
+ * @typeParam {array} json_message_id_array  json_message_id_array 消息ID列表
+ * @typeParam {string} [user_data]  user_data 户自定义数据，ImSDK只负责传回给回调函数，不做任何处理(可选)
+ *  */
 interface MsgFindMessagesParams {
     json_message_id_array: string[];
     user_data?: string;
