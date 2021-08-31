@@ -173,7 +173,7 @@ class ConversationManager {
     /**
      * ### 设置指定会话的草稿
      * @param convSetDrat
-     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @return number 返回TIM_SUCC表示接口调用成功，其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../../doc/enums/enum.timresult.html)
      * @note
      * 会话草稿一般用在保存用户当前输入的未发送的消息。
      */
@@ -190,7 +190,7 @@ class ConversationManager {
     /**
      * ### 删除指定会话的草稿
      * @param convCancelDraft
-     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @return int 返回TIM_SUCC表示接口调用成功，其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../../doc/enums/enum.timresult.html)
      * @note
      * > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
      * > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
@@ -248,8 +248,8 @@ class ConversationManager {
     }
     /**
      * ### 设置会话置顶
-     * @param convCreate
-     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @param convPinConversation
+     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code([错误码(https://cloud.tencent.com/document/product/269/1671)), desc, json_param, user_data }
      */
     TIMConvPinConversation(
         param: convPinConversation
@@ -362,21 +362,22 @@ class ConversationManager {
         );
         fn && fn(total_unread_count, user_data);
     }
+    // TODO这个参数有问题
     /**
      * ### 设置会话事件回调
      * @param setConvEventCallback
-     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
-    @note
-    * > 会话事件包括：
-    * >> 会话新增
-    * >> 会话删除
-    * >> 会话更新。
-    * >> 会话开始
-    * >> 会话结束
-    * > 任何产生一个新会话的操作都会触发会话新增事件，例如调用接口[TIMConvCreate]()创建会话，接收到未知会话的第一条消息等。
-    * 任何已有会话变化的操作都会触发会话更新事件，例如收到会话新消息，消息撤回，已读上报等。
-    * 调用接口[TIMConvDelete]()删除会话成功时会触发会话删除事件。
-    */
+     * @note
+     *
+     *  会话事件包括：
+     * > 会话新增
+     * > 会话删除
+     * > 会话更新。
+     * > 会话开始
+     * > 会话结束
+     * > 任何产生一个新会话的操作都会触发会话新增事件，例如调用接口[TIMConvCreate]()创建会话，接收到未知会话的第一条消息等。
+     * 任何已有会话变化的操作都会触发会话更新事件，例如收到会话新消息，消息撤回，已读上报等。
+     * 调用接口[TIMConvDelete]()删除会话成功时会触发会话删除事件。
+     */
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
         this._callback.set("TIMSetConvEventCallback", param.callback);
         const c_callback = jsFuncToFFIConvEventCallback(
@@ -394,8 +395,9 @@ class ConversationManager {
     /**
      * ### 设置会话未读消息总数变更的回调
      * @param convTotalUnreadMessageCountChangedCallbackParam
-     * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
+     * @return  {Promise<any>} Promise的response返回值为：{ code, desc, json_param, user_data }
      */
+    // TODO 这里的promise，返回可以删掉
     async TIMSetConvTotalUnreadMessageCountChangedCallback(
         param: convTotalUnreadMessageCountChangedCallbackParam
     ): Promise<any> {
