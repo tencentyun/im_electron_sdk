@@ -73,6 +73,50 @@
 					<dl class="tsd-comment-tags">
 						<dt>brief</dt>
 						<dd><p>群组成员信息标识</p>
+							<table>
+								<thead>
+									<tr>
+										<th>名称</th>
+										<th>含义</th>
+										<th>值（number）</th>
+									</tr>
+								</thead>
+								<tbody><tr>
+										<td>kTIMPlatform_Other</td>
+										<td>无</td>
+										<td>0x00</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_Windows</td>
+										<td>加入时间</td>
+										<td>0x01</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_Android</td>
+										<td>群消息接收选项</td>
+										<td>0x01 &lt;&lt; 1</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_IOS</td>
+										<td>成员已读消息seq</td>
+										<td>0x01 &lt;&lt; 2</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_IOS</td>
+										<td>成员角色</td>
+										<td>0x01 &lt;&lt; 3</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_Mac</td>
+										<td>禁言时间。当该值为0时表示没有被禁言</td>
+										<td>0x01 &lt;&lt; 4,</td>
+									</tr>
+									<tr>
+										<td>kTIMPlatform_Simulator</td>
+										<td>iOS模拟器平台</td>
+										<td>0x01 &lt;&lt; 5</td>
+									</tr>
+							</tbody></table>
 						</dd>
 					</dl>
 				</div>
@@ -104,7 +148,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Join<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L523">enum/index.ts:523</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L586">enum/index.ts:586</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -114,7 +158,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Member<wbr>Role<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 8</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L526">enum/index.ts:526</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L589">enum/index.ts:589</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,7 +168,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Msg<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L524">enum/index.ts:524</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L587">enum/index.ts:587</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -134,7 +178,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Msg<wbr>Seq<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L525">enum/index.ts:525</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L588">enum/index.ts:588</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +188,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Name<wbr>Card<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 32</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L528">enum/index.ts:528</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L591">enum/index.ts:591</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +198,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L522">enum/index.ts:522</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L585">enum/index.ts:585</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +208,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Member<wbr>Info<wbr>Flag_<wbr><wbr>Shutup<wbr>Untill<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 16</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L527">enum/index.ts:527</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L590">enum/index.ts:590</a></li>
 						</ul>
 					</aside>
 				</section>

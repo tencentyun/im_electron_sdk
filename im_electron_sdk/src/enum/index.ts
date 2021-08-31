@@ -454,6 +454,7 @@ export enum TIMResult {
 
 /**
  * @brief 日志级别
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMLog_Off  | 关闭日志输出 | 0 |
@@ -478,6 +479,7 @@ export enum TIMLogLevel {
 
 /**
  * @brief 登陆状态
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMLoginStatus_Logined  | 已登陆 | 1 |
@@ -494,6 +496,7 @@ export enum TIMLoginStatus {
 
 /**
  * @brief 连接事件类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMConnected  | 已连接 | kTIMConnected |
@@ -510,6 +513,7 @@ export enum TIMNetworkStatus {
 
 /**
  * @brief 会话事件类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMConvEvent_Add  | 会话新增,例如收到一条新消息,产生一个新的会话是事件触发 | kTIMConvEvent_Add |
@@ -528,6 +532,7 @@ export enum TIMConvEvent {
 
 /**
  * @brief 会话类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMConv_Invalid  | 无效会话 | kTIMConv_Invalid |
@@ -544,6 +549,7 @@ export enum TIMConvType {
 
 /**
  * @brief 平台信息
+ *
  *  |  名称   | 含义   | 值（enum/number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMPlatform_Other  | 未知平台 | 0（number） |
@@ -564,6 +570,7 @@ export enum TIMPlatform {
 
 /**
  * @brief 群组成员信息标识
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMPlatform_Other  | 无 | 0x00 |
@@ -586,6 +593,7 @@ export enum TIMGroupMemberInfoFlag {
 
 /**
  * @brief 群组成员角色标识
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupMemberRoleFlag_All  | 获取全部角色类型 | 0x00 |
@@ -602,6 +610,7 @@ export enum TIMGroupMemberRoleFlag {
 
 /**
  * @brief 群组成员信息标识
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupInfoFlag_None  | 无 | 0x00 |
@@ -652,6 +661,7 @@ export enum TIMGroupGetInfoFlag {
 
 /**
  * @brief Android离线推送模式
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMAndroidOfflinePushNotifyMode_Normal  | 普通通知栏消息模式，离线消息下发后，点击通知栏消息直接启动应用，不会给应用进行回调 | kTIMAndroidOfflinePushNotifyMode_Normal |
@@ -664,6 +674,7 @@ export enum TIMAndroidOfflinePushNotifyMode {
 
 /**
  * @brief 推送规则
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMOfflinePushFlag_Default  | 按照默认规则进行推送 | kTIMOfflinePushFlag_Default |
@@ -676,6 +687,7 @@ export enum TIMOfflinePushFlag {
 
 /**
  * @brief 消息当前状态定义
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMMsg_Sending  | 消息正在发送 | 1 |
@@ -698,6 +710,7 @@ export enum TIMMsgStatus {
 
 /**
  * @brief 标识消息的优先级，数字越大优先级越低
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMMsgPriority_High  | 优先级最高，一般为红包或者礼物消息 | kTIMMsgPriority_High |
@@ -714,6 +727,7 @@ export enum TIMMsgPriority {
 
 /**
  * @brief 元素的类型
+ *
  *  |  名称   | 含义   | 值（enum/number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMElem_Text  | 文本元素 | kTIMElem_Text |
@@ -750,6 +764,7 @@ export enum TIMElemType {
 
 /**
  * @brief 图片质量级别
+ *
  *  |  名称   | 含义   | 值（enum/number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMImageLevel_Orig  | 原图发送 | kTIMImageLevel_Orig |
@@ -764,6 +779,7 @@ export enum TIMImageLevel {
 
 /**
  * @brief 群组信息修改的类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupTipChangeFlag_Unknown  | 未知的修改 | kTIMGroupTipChangeFlag_Unknown |
@@ -788,6 +804,7 @@ export enum TIMGroupTipGroupChangeFlag {
 
 /**
  * @brief 群组系统消息类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupTip_None  | 无效的群提示 | kTIMGroupTip_None |
@@ -812,6 +829,7 @@ export enum TIMGroupTipType {
 
 /**
  * @brief 群组系统通知类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupReport_None  | 未知类型 | kTIMGroupReport_None |
@@ -854,6 +872,7 @@ export enum TIMGroupReportType {
 
 /**
  * @brief 资料变更类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupReport_None  | 未知类型 | kTIMGroupReport_None |
@@ -866,6 +885,7 @@ export enum TIMProfileChangeType {
 
 /**
  * @brief 好友变更类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMFriendChange_None  | 未知类型 | kTIMFriendChange_None |
@@ -898,6 +918,7 @@ export enum TIMFriendChangeType {
 
 /**
  * @brief 消息接收选项
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMRecvMsgOpt_Receive  | 在线正常接收消息，离线时会进行 APNs 推送 | kTIMRecvMsgOpt_Receive |
@@ -913,6 +934,7 @@ export enum TIMReceiveMessageOpt {
 
 /**
  * @brief UUID类型
+ *
  *  |  名称   | 含义   | 值（enum/number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMDownload_VideoThumb  | 视频缩略图 | 0 |
@@ -930,6 +952,7 @@ export enum TIMDownloadType {
 /// @ 类型
 /**
  * @brief  @ 类型
+ *
  *  |  名称   | 含义   | 值（enum/number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroup_At_Me  | @ 我 | 1 |
@@ -947,6 +970,7 @@ export enum TIMGroupAtType {
 /// @{
 /**
  * @brief 群组加群选项
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupAddOpt_Forbid  | 禁止加群 | 0 |
@@ -961,6 +985,7 @@ export enum TIMGroupAddOption {
 
 /**
  * @brief 群组类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroup_Public  | 公开群 | kTIMGroup_Public |
@@ -979,6 +1004,7 @@ export enum TIMGroupType {
 
 /**
  * @brief 群组成员角色类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMMemberRole_None  | 未定义 | kTIMMemberRole_None |
@@ -995,6 +1021,7 @@ export enum TIMGroupMemberRole {
 
 /**
  * @brief 群组基础信息
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupMember_HandledErr  | 失败 | kTIMGroupMember_HandledErr |
@@ -1011,6 +1038,7 @@ export enum HandleGroupMemberResult {
 
 /**
  * @brief 设置(修改)群组信息的类型
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupModifyInfoFlag_None  | 无 | 0x00 |
@@ -1043,6 +1071,7 @@ export enum TIMGroupModifyInfoFlag {
 
 /**
  * @brief 设置(修改)群成员信息的类型
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupMemberModifyFlag_None  | 无 | 0x00 |
@@ -1063,6 +1092,7 @@ export enum TIMGroupMemberModifyInfoFlag {
 
 /**
  * @brief 未决请求类型
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupPendency_RequestJoin  | 请求加群 | 0 |
@@ -1077,6 +1107,7 @@ export enum TIMGroupPendencyType {
 
 /**
  * @brief 群未决处理状态
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupPendency_NotHandle  | 未处理 | 0 |
@@ -1091,6 +1122,7 @@ export enum TIMGroupPendencyHandle {
 
 /**
  * @brief 群未决处理操作类型
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupPendency_Refuse  | 拒绝 | 0 |
@@ -1105,6 +1137,7 @@ export enum TIMGroupPendencyHandleResult {
 
 /**
  * @brief 群搜索 Field 的枚举
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupSearchFieldKey_GroupId  | 群 ID | 0x01 |
@@ -1117,6 +1150,7 @@ export enum TIMGroupSearchFieldKey {
 
 /**
  * @brief 群成员搜索 Field 的枚举
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGroupMemberSearchFieldKey_Identifier  |  用户 ID | 0x01 |
@@ -1133,6 +1167,7 @@ export enum TIMGroupMemberSearchFieldKey {
 
 /**
  * @brief 用户性别类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMGenderType_Unkown  | 未知性别 | kTIMGenderType_Unkown |
@@ -1147,6 +1182,7 @@ export enum TIMGenderType {
 
 /**
  * @brief 用户加好友的选项
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMProfileAddPermission_Unknown  | 未知 | kTIMProfileAddPermission_Unknown |
@@ -1163,6 +1199,7 @@ export enum TIMProfileAddPermission {
 
 /**
  * @brief 好友类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | FriendTypeSignle  | 单向好友：用户A的好友表中有用户B，但B的好友表中却没有A | FriendTypeSignle |
@@ -1175,6 +1212,7 @@ export enum TIMFriendType {
 
 /**
  * @brief 好友添加请求未决类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | FriendPendencyTypeComeIn  | 别人发给我的 | FriendPendencyTypeComeIn |
@@ -1189,6 +1227,7 @@ export enum TIMFriendPendencyType {
 
 /**
  * @brief 好友添加请求响应的动作类型
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | ResponseActionAgree  | 同意 | ResponseActionAgree |
@@ -1203,6 +1242,7 @@ export enum TIMFriendResponseAction {
 
 /**
  * @brief 二者之间的关系
+ *
  *  |  名称   | 含义   | 值（enum）    |
  *  |  ----  | ----  | ----  |
  *  | FriendCheckNoRelation  | 无关系 | FriendCheckNoRelation |
@@ -1219,6 +1259,7 @@ export enum TIMFriendCheckRelation {
 
 /**
  * @brief 好友搜索的枚举
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMFriendshipSearchFieldKey_Identifier  | userid |  0x01 |
@@ -1233,6 +1274,7 @@ export enum TIMFriendshipSearchFieldKey {
 
 /**
  * @brief 二者之间的关系
+ *
  *  |  名称   | 含义   | 值（number）    |
  *  |  ----  | ----  | ----  |
  *  | kTIMFriendshipRelationType_None  | 未知关系 |  0 |

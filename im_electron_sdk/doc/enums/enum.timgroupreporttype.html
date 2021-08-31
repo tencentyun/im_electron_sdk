@@ -72,7 +72,26 @@
 				<div class="tsd-comment tsd-typography">
 					<dl class="tsd-comment-tags">
 						<dt>brief</dt>
-						<dd><p>群组系统通知类型</p>
+						<dd><p>群组系统通知类型
+								|  名称   | 含义   | 值（enum）    |
+								|  ----  | ----  | ----  |
+								| kTIMGroupReport_None  | 未知类型 | kTIMGroupReport_None |
+								| kTIMGroupReport_AddRequest  | 申请加群(只有管理员会接收到) | kTIMGroupReport_AddRequest |
+								| kTIMGroupReport_AddAccept  | 申请加群被同意(只有申请人自己接收到) | kTIMGroupReport_AddAccept |
+								| kTIMGroupReport_AddRefuse  |  申请加群被拒绝(只有申请人自己接收到) | kTIMGroupReport_AddRefuse |
+								| kTIMGroupReport_BeKicked  |  被管理员踢出群(只有被踢者接收到) | kTIMGroupReport_BeKicked |
+								| kTIMGroupReport_Delete  |  群被解散(全员接收) | kTIMGroupReport_AddRefuse |
+								| kTIMGroupReport_Create  | 创建群(创建者接收, 不展示) | kTIMGroupReport_Create |
+								| kTIMGroupReport_Invite  |  邀请加群(被邀请者接收) | kTIMGroupReport_Invite |
+								| kTIMGroupReport_Quit  | 主动退群(主动退出者接收, 不展示) | kTIMGroupReport_Quit |
+								| kTIMGroupReport_GrantAdmin  | 设置管理员(被设置者接收) | kTIMGroupReport_GrantAdmin |
+								| kTIMGroupReport_CancelAdmin  |  取消管理员(被取消者接收) | kTIMGroupReport_CancelAdmin |
+								| kTIMGroupReport_GroupRecycle  |  群已被回收(全员接收, 不展示) | kTIMGroupReport_GroupRecycle |
+								| kTIMGroupReport_InviteReq  |  邀请加群(只有被邀请者会接收到) | kTIMGroupReport_InviteReq |
+								| kTIMGroupReport_InviteAccept  |  邀请加群被同意(只有发出邀请者会接收到) | kTIMGroupReport_InviteAccept |
+								| kTIMGroupReport_InviteRefuse  |  邀请加群被拒绝(只有发出邀请者会接收到) | kTIMGroupReport_InviteRefuse |
+								| kTIMGroupReport_ReadReport  |  已读上报多终端同步通知(只有上报人自己收到) | kTIMGroupReport_ReadReport |
+							| kTIMGroupReport_UserDefine  |  用户自定义通知(默认全员接收) | kTIMGroupReport_UserDefine |</p>
 						</dd>
 					</dl>
 				</div>
@@ -114,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Add<wbr>Accept<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L670">enum/index.ts:670</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L852">enum/index.ts:852</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -124,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Add<wbr>Refuse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 3</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L671">enum/index.ts:671</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L853">enum/index.ts:853</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -134,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Add<wbr>Request<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L669">enum/index.ts:669</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L851">enum/index.ts:851</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -144,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>BeKicked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L672">enum/index.ts:672</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L854">enum/index.ts:854</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -154,7 +173,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Cancel<wbr>Admin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 10</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L678">enum/index.ts:678</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L860">enum/index.ts:860</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Create<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 6</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L674">enum/index.ts:674</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L856">enum/index.ts:856</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +193,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Delete<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 5</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L673">enum/index.ts:673</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L855">enum/index.ts:855</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +203,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Grant<wbr>Admin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 9</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L677">enum/index.ts:677</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L859">enum/index.ts:859</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Group<wbr>Recycle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 11</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L679">enum/index.ts:679</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L861">enum/index.ts:861</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Invite<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 7</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L675">enum/index.ts:675</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L857">enum/index.ts:857</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Invite<wbr>Accept<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 13</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L681">enum/index.ts:681</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L863">enum/index.ts:863</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Invite<wbr>Refuse<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 14</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L682">enum/index.ts:682</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L864">enum/index.ts:864</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -234,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Invite<wbr>Req<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 12</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L680">enum/index.ts:680</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L862">enum/index.ts:862</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -244,7 +263,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>None<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L668">enum/index.ts:668</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L850">enum/index.ts:850</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -254,7 +273,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Quit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 8</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L676">enum/index.ts:676</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L858">enum/index.ts:858</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -264,7 +283,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>Read<wbr>Report<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 15</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L683">enum/index.ts:683</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L865">enum/index.ts:865</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -274,7 +293,7 @@
 					<div class="tsd-signature tsd-kind-icon">kTIMGroup<wbr>Report_<wbr><wbr>User<wbr>Define<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 16</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/95c84dc/im_electron_sdk/src/enum/index.ts#L684">enum/index.ts:684</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/af78f39/im_electron_sdk/src/enum/index.ts#L866">enum/index.ts:866</a></li>
 						</ul>
 					</aside>
 				</section>
