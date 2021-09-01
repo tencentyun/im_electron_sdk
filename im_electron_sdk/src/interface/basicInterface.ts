@@ -25,12 +25,13 @@ interface sdkconfig {
     Imsdklib: libMethods;
 }
 /**
- * @param {TIMResult | TIMErrCode} code code：返回状态码
- * @param {string} [desc]   desc
+ * @param {TIMResult | TIMErrCode} code code：返回状态码 每个返回值的定义请参考 [IM文档](https://cloud.tencent.com/document/product/269/1671)
+ * @param {string} [desc]   describe
  * @param {string} [json_param]  json_param：根据具具体接口返回
  * @param {string | undefined} [json_params] json_params：兼容的字段，某些情况下会返回这个，根据具体接口返回
  * @param {string | undefined} [user_data] user_data：ImSDK负责透传的用户自定义数据，未做任何处理
  */
+//[TimResult](../../doc/enums/enum.timresult.html)
 interface commonResponse {
     code: TIMResult | TIMErrCode;
     desc?: string | undefined;
