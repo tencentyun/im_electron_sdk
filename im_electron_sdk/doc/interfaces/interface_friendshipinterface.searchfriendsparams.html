@@ -68,6 +68,30 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<dl class="tsd-comment-tags">
+						<dt>brief</dt>
+						<dd><p>搜索好友的参数</p>
+						</dd>
+						<dt>param</dt>
+						<dd><p>params</p>
+						</dd>
+						<dt>param</dt>
+						<dd><p>user_data: 用户自定义数据</p>
+							<pre><code><span style="color: #000000">   params: {</span>
+<span style="color: #001080">friendship_search_param_keyword_list</span><span style="color: #000000">?: [</span><span style="color: #001080">string</span><span style="color: #000000">]; </span><span style="color: #008000">// 关键字列表最多支持 5 个</span>
+<span style="color: #001080">friendship_search_param_search_field_list</span><span style="color: #000000">?: [</span><span style="color: #001080">number</span><span style="color: #000000">]; </span><span style="color: #008000">// 好友搜索类型（如下）</span>
+<span style="color: #008000">//    kTIMFriendshipSearchFieldKey_Identifier = 0x01,  // userid</span>
+<span style="color: #008000">// kTIMFriendshipSearchFieldKey_NikeName = 0x01 &lt;&lt; 1, // 昵称</span>
+<span style="color: #008000">// kTIMFriendshipSearchFieldKey_Remark = 0x01 &lt;&lt; 2, // 备注</span>
+<span style="color: #000000">};</span>
+
+</code></pre>
+						</dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -98,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>friendship_search_param_keyword_list<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>friendship_search_param_search_field_list<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/0dc438b/im_electron_sdk/src/interface/friendshipInterface.ts#L107">interface/friendshipInterface.ts:107</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/18273a3/im_electron_sdk/src/interface/friendshipInterface.ts#L251">interface/friendshipInterface.ts:251</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -119,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">user_<wbr>data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/0dc438b/im_electron_sdk/src/interface/friendshipInterface.ts#L111">interface/friendshipInterface.ts:111</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/18273a3/im_electron_sdk/src/interface/friendshipInterface.ts#L255">interface/friendshipInterface.ts:255</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -203,6 +227,15 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="interface_friendshipinterface.errorresponse.html" class="tsd-kind-icon">Error<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="interface_friendshipinterface.friendaddpendency.html" class="tsd-kind-icon">Friend<wbr>Add<wbr>Pendency</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="interface_friendshipinterface.friendprofile.html" class="tsd-kind-icon">Friend<wbr>Profile</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="interface_friendshipinterface.friendprofileitem.html" class="tsd-kind-icon">Friend<wbr>Profile<wbr>Item</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="interface_friendshipinterface.friendshipgetpendencylistparams.html" class="tsd-kind-icon">Friendship<wbr>Get<wbr>Pendency<wbr>List<wbr>Params</a>
@@ -290,6 +323,9 @@
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="interface_friendshipinterface.timupdatefriendprofilecallbackparams.html" class="tsd-kind-icon">TIMUpdate<wbr>Friend<wbr>Profile<wbr>Callback<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="interface_friendshipinterface.userprofile.html" class="tsd-kind-icon">User<wbr>Profile</a>
 					</li>
 				</ul>
 			</nav>
