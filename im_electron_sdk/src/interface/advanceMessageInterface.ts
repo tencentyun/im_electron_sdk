@@ -145,12 +145,12 @@ interface Json_value_msg {
 }
 
 interface Json_msg_locator {
-    message_locator_is_revoked: boolean;
-    message_locator_time: boolean;
-    message_locator_seq: boolean;
-    message_locator_is_self: boolean;
-    message_locator_rand: boolean;
-    message_locator_unique_id: boolean;
+    message_locator_is_revoked?: boolean;
+    message_locator_time?: number;
+    message_locator_seq?: number;
+    message_locator_is_self?: boolean;
+    message_locator_rand?: number;
+    message_locator_unique_id?: number;
 }
 
 interface Json_download_elem_param {
