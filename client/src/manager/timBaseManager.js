@@ -21,8 +21,8 @@ const TimBaseManager = {
     },
     TIMLogin: () => {
         return timRenderInstance.TIMLogin({
-            userID: "109448",
-            userSig: "eJwsjs0KglAQhd9l1iEz17-rhRbiopDMxDa1K5x0CEvMrIjePbJ7lueDc743bFelw89OegbjBvjLbCql4ssgJ*EeDBBGnqfhT27V*dB1UoEhD5F06PrKEqnBwF3SLOrXvB83GZVtm8biF9kyTBbx69HkdaLi4*5a5I3GuZ0cpGUwFKhIo6vIKozTt3IQPt8AAAD--z0XMAY_",
+            userID: "3708",
+            userSig: "eJwtzNsKgkAUheF3meuQ7eichC60SCwJonqA0Em2WowH0ozePVMv17fg-5BLfLZeuiYeoRaQ1bQx1c8W7zixI0Au3qTFzRhMiWe7ALYUDqPzo3uDtR6dMUYBYNYWH3-jlAvOlVJLBbMxexiOfnTFvuIqKfM3y*xwu4uKfRA2snDcsovzQW9OXVAla-L9AYNdMIc_",
             userData: "xingchenhe-test",
             // userID: "lexuslin",
             // userSig: "eJwtjM0KgkAURt9l1iF3rjbjCC1chVFBWtR2dKa8ZGL*IUTvnqnf7jsHzoed94nT25oFDB1gq*mTsWVLd5pwYYeuKahcXGOeuqrIsIB7ANyX7hpnY4eKajtyAB-GzbSl158J9FAAV3Kp0GNMK6Ey40UYp7GmLsrRCDc8Qp7dePqWPc-UVqvd4XJNThv2-QHiqDGk"

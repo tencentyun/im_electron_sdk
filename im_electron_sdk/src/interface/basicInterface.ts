@@ -312,7 +312,11 @@ interface cache {
     callback: any;
     cb: any;
 }
+interface initParam {
+    config_path?: string;
+}
 export {
+    initParam,
     initConfig,
     sdkconfig,
     CommonCallbackFun,

@@ -15,6 +15,7 @@ import {
     TIMSetNetworkStatusListenerCallbackParam,
     TIMSetUserSigExpiredCallbackParam,
 } from "../interface";
+import { initParam } from "../interface/basicInterface";
 import path from "path";
 import {
     jsFuncToFFIFun,
@@ -27,6 +28,8 @@ import {
 } from "../utils/utils";
 import { TIMLoginStatus } from "../enum";
 import os from "os";
+import fs from "fs";
+import log from "../utils/log";
 class TimbaseManager {
     private _sdkconfig: sdkconfig;
     private _callback: Map<String, Function> = new Map();
@@ -44,30 +47,33 @@ class TimbaseManager {
      * 在使用ImSDK进一步操作之前，需要先初始化ImSDK
 
      */
-    TIMInit(): number {
+    TIMInit(initParams?: initParam): number {
         let sdkconfig: string;
-
+        const { config_path } = initParams || {};
+        if (config_path) {
+            const res = fs.statSync(config_path);
+            if (!res.isDirectory()) {
+                log.info(`${config_path} is not a validate directory`);
+                return -1;
+            }
+        }
         if (os.platform() == "linux") {
             sdkconfig = JSON.stringify({
-                sdk_config_log_file_path: path.resolve(
-                    os.homedir(),
-                    ".tencent-im/sdk-log"
-                ),
-                sdk_config_config_file_path: path.resolve(
-                    os.homedir(),
-                    ".tencent-im/sdk-config"
-                ),
+                sdk_config_log_file_path: config_path
+                    ? config_path
+                    : path.resolve(os.homedir(), ".tencent-im/sdk-log"),
+                sdk_config_config_file_path: config_path
+                    ? config_path
+                    : path.resolve(os.homedir(), ".tencent-im/sdk-config"),
             });
         } else {
             sdkconfig = JSON.stringify({
-                sdk_config_log_file_path: path.resolve(
-                    process.resourcesPath,
-                    "sdk-log"
-                ),
-                sdk_config_config_file_path: path.resolve(
-                    process.resourcesPath,
-                    "sdk-config"
-                ),
+                sdk_config_log_file_path: config_path
+                    ? config_path
+                    : path.resolve(process.resourcesPath, "sdk-log"),
+                sdk_config_config_file_path: config_path
+                    ? config_path
+                    : path.resolve(process.resourcesPath, "sdk-config"),
             });
         }
         return this._sdkconfig.Imsdklib.TIMInit(

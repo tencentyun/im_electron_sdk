@@ -37,10 +37,10 @@ const ffipaths: any = {
               "node_modules/im_electron_sdk/lib/windows/lib/Win32/ImSDK.dll"
           ),
     darwin: app.isPackaged
-        ? path.resolve(process.resourcesPath, "mac/current/ImSDKForMac.dylib")
+        ? path.resolve(process.resourcesPath, "mac/Versions/A/ImSDKForMac")
         : path.resolve(
               process.cwd(),
-              "node_modules/im_electron_sdk/lib/mac/current/ImSDKForMac.dylib"
+              "node_modules/im_electron_sdk/lib/mac/Versions/A/ImSDKForMac"
           ),
 };
 function mkdirsSync(dirname: string) {
