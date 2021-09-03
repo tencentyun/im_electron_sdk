@@ -1643,10 +1643,11 @@ export default class TimRender {
             callInfo.actionType = ActionType.INVITE_TIMEOUT;
             // @ts-ignore
             const senderID = (await this.TIMGetLoginUserID({})).data.json_param;
-            if (isRec) {
-                callInfo.inviteeList = [senderID];
-            }
-            if (inviteeList.length > 0) {
+
+            if (inviteeList.length > 0 && inviteeList.includes(senderID)) {
+                if (isRec) {
+                    callInfo.inviteeList = [senderID];
+                }
                 const {
                     //@ts-ignore
                     data: { code, json_params },
@@ -1794,7 +1795,9 @@ export default class TimRender {
                 const { code } = res.data;
                 if (code === 0) {
                     // 如果没人了，移除本地维护的数据
-                    const localInfo = await this._getCallInfo(inviteID);
+                    const localInfo = deepClone(
+                        await this._getCallInfo(inviteID)
+                    );
                     //@ts-ignore
                     const { inviteeList: localInviteeList } = localInfo;
                     const newInviteeList = localInviteeList.filter(

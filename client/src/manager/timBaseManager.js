@@ -70,16 +70,16 @@ const TimBaseManager = {
             callback: (data) => {
                 const inviteID = JSON.parse(JSON.parse(data)[0].message_elem_array[0].custom_elem_data).inviteID;
                 console.log(inviteID)
-                // timRenderInstance.TIMRejectInvite({
-                //     inviteID: inviteID,
-                //     data: JSON.stringify({
-                //         buisnessID: 'av_call',
-                //         call_type: 2,
-                //         room_id: 22334,
-                //     })
-                // }).then(data => {
-                //     console.log(data, 211)
-                // })
+                timRenderInstance.TIMRejectInvite({
+                    inviteID: inviteID,
+                    data: JSON.stringify({
+                        buisnessID: 'av_call',
+                        call_type: 2,
+                        room_id: 22334,
+                    })
+                }).then(data => {
+                    console.log(data, 211)
+                })
             }
         })
     },
