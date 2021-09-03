@@ -438,7 +438,7 @@ class TimbaseManager {
     /**
      * @brief  实验性接口
      * @param  callExperimentalAPIParam
-     * @return {numdber}  code
+     * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      */
     callExperimentalAPI(
         param: callExperimentalAPIParam
@@ -486,6 +486,7 @@ class TimbaseManager {
     /**
      * @brief 获取指定用户列表的个人资料
      * @param TIMProfileGetUserProfileListParam
+     * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      * @note
      * 可以通过该接口获取任何人的个人资料，包括自己的个人资料。
      * PS:用户资料相关接口 [资料系统简介](https://cloud.tencent.com/document/product/269/1500#.E8.B5.84.E6.96.99.E7.B3.BB.E7.BB.9F.E7.AE.80.E4.BB.8B)

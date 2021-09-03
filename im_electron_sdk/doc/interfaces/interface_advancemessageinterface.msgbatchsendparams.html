@@ -72,7 +72,9 @@
 				<div class="tsd-comment tsd-typography">
 					<dl class="tsd-comment-tags">
 						<dt>param</dt>
-						<dd><p>json_batch_send_param  群发消息json字符串</p>
+						<dd><p>params  群发消息json字符串
+								msg_batch_send_param_identifier_array 只写(必填), 群发的ID列表
+							msg_batch_send_param_msg 只写(必填), 群发的消息</p>
 						</dd>
 						<dt>param</dt>
 						<dd><p>user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理</p>
@@ -107,10 +109,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="params" class="tsd-anchor"></a>
 					<h3>params</h3>
-					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>msg_batch_send_param_identifier_array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>msg_batch_send_param_msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Json_value_msg</span><span class="tsd-signature-symbol"> }</span></div>
+					<div class="tsd-signature tsd-kind-icon">params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>msg_batch_send_param_identifier_array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>msg_batch_send_param_msg<span class="tsd-signature-symbol">: </span><a href="interface_advancemessageinterface.json_value_msg.html" class="tsd-signature-type" data-tsd-kind="Interface">Json_value_msg</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/18273a3/im_electron_sdk/src/interface/advanceMessageInterface.ts#L234">interface/advanceMessageInterface.ts:234</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/d1e9e5a/im_electron_sdk/src/interface/advanceMessageInterface.ts#L437">interface/advanceMessageInterface.ts:437</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -120,7 +122,7 @@
 								<h5>msg_<wbr>batch_<wbr>send_<wbr>param_<wbr>identifier_<wbr>array<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 							<li class="tsd-parameter">
-								<h5>msg_<wbr>batch_<wbr>send_<wbr>param_<wbr>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Json_value_msg</span></h5>
+								<h5>msg_<wbr>batch_<wbr>send_<wbr>param_<wbr>msg<span class="tsd-signature-symbol">: </span><a href="interface_advancemessageinterface.json_value_msg.html" class="tsd-signature-type" data-tsd-kind="Interface">Json_value_msg</a></h5>
 							</li>
 						</ul>
 					</div>
@@ -131,7 +133,7 @@
 					<div class="tsd-signature tsd-kind-icon">user_<wbr>data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/18273a3/im_electron_sdk/src/interface/advanceMessageInterface.ts#L238">interface/advanceMessageInterface.ts:238</a></li>
+							<li>Defined in <a href="https://github.com/tencentyun/im_electron_sdk/blob/d1e9e5a/im_electron_sdk/src/interface/advanceMessageInterface.ts#L441">interface/advanceMessageInterface.ts:441</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -191,9 +193,6 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/manager_timbasemanager.html">manager/timbase<wbr>Manager</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/timrender.html">tim<wbr>Render</a>
-					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
@@ -213,93 +212,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgcancelsendparams.html" class="tsd-kind-icon">Msg<wbr>Cancel<wbr>Send<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgclearhistorymessageparams.html" class="tsd-kind-icon">Msg<wbr>Clear<wbr>History<wbr>Message<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgdeleteparams.html" class="tsd-kind-icon">Msg<wbr>Delete<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgdownloadelemtopathparams.html" class="tsd-kind-icon">Msg<wbr>Download<wbr>Elem<wbr>ToPath<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgdownloadmergermessageparams.html" class="tsd-kind-icon">Msg<wbr>Download<wbr>Merger<wbr>Message<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgfindbymsglocatorlistparams.html" class="tsd-kind-icon">Msg<wbr>Find<wbr>ByMsg<wbr>Locator<wbr>List<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgfindmessagesparams.html" class="tsd-kind-icon">Msg<wbr>Find<wbr>Messages<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msggetc2creceivemessageoptparams.html" class="tsd-kind-icon">Msg<wbr>Get<wbr>C2CReceive<wbr>Message<wbr>Opt<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msggetmsglistparams.html" class="tsd-kind-icon">Msg<wbr>Get<wbr>Msg<wbr>List<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgimportmsglistparams.html" class="tsd-kind-icon">Msg<wbr>Import<wbr>Msg<wbr>List<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msglistdeleteparams.html" class="tsd-kind-icon">Msg<wbr>List<wbr>Delete<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgreportreadedparams.html" class="tsd-kind-icon">Msg<wbr>Report<wbr>Readed<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgrevokeparams.html" class="tsd-kind-icon">Msg<wbr>Revoke<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsavemsgparams.html" class="tsd-kind-icon">Msg<wbr>Save<wbr>Msg<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsearchlocalmessagesparams.html" class="tsd-kind-icon">Msg<wbr>Search<wbr>Local<wbr>Messages<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsendmessageparams.html" class="tsd-kind-icon">Msg<wbr>Send<wbr>Message<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsendmessageparamsv2.html" class="tsd-kind-icon">Msg<wbr>Send<wbr>Message<wbr>Params<wbr>V2</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsetc2creceivemessageoptparams.html" class="tsd-kind-icon">Msg<wbr>Set<wbr>C2CReceive<wbr>Message<wbr>Opt<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.msgsetgroupreceivemessageoptparams.html" class="tsd-kind-icon">Msg<wbr>Set<wbr>Group<wbr>Receive<wbr>Message<wbr>Opt<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgelemuploadprogresscallbackfunc.html" class="tsd-kind-icon">TIMMsg<wbr>Elem<wbr>Upload<wbr>Progress<wbr>Callback<wbr>Func</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgelemuploadprogresscallbackparams.html" class="tsd-kind-icon">TIMMsg<wbr>Elem<wbr>Upload<wbr>Progress<wbr>Callback<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgreadedreceiptcallbackfunc.html" class="tsd-kind-icon">TIMMsg<wbr>Readed<wbr>Receipt<wbr>Callback<wbr>Func</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgreadedreceiptcallbackparams.html" class="tsd-kind-icon">TIMMsg<wbr>Readed<wbr>Receipt<wbr>Callback<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgrevokecallbackfunc.html" class="tsd-kind-icon">TIMMsg<wbr>Revoke<wbr>Callback<wbr>Func</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgrevokecallbackparams.html" class="tsd-kind-icon">TIMMsg<wbr>Revoke<wbr>Callback<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgupdatecallbackfunc.html" class="tsd-kind-icon">TIMMsg<wbr>Update<wbr>Callback<wbr>Func</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timmsgupdatecallbackparams.html" class="tsd-kind-icon">TIMMsg<wbr>Update<wbr>Callback<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timrecvnewmsgcallbackfunc.html" class="tsd-kind-icon">TIMRecv<wbr>New<wbr>Msg<wbr>Callback<wbr>Func</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="interface_advancemessageinterface.timrecvnewmsgcallbackparams.html" class="tsd-kind-icon">TIMRecv<wbr>New<wbr>Msg<wbr>Callback<wbr>Params</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

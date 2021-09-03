@@ -1,5 +1,5 @@
 {
-    "entryPoints": ["./src/timRender.ts", "./src/interface/", "./src/manager","./src/enum"],
+    "entryPoints": ["./src/interface/", "./src/manager","./src/enum"],
     "out": "doc",
     "excludePrivate": true,
     "name": "im_electron_sdk文档"
