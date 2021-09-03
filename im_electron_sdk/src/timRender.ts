@@ -262,8 +262,6 @@ export default class TimRender {
                     TimRender.runtime.get("TIMOnInvited")(message);
                     // 开始倒计时计算超时
                     if (timeout > 0) {
-                        parsedData.inviteeList = [userID];
-                        parsedData.actionType = ActionType.INVITE_TIMEOUT;
                         const { inviteID } = parsedData;
                         this._setCallingTimeout(inviteID, true);
                     }
@@ -363,6 +361,7 @@ export default class TimRender {
                     TimRender._callingInfo.delete(inviteID);
                 }
                 //@ts-ignore
+
                 TimRender.runtime.get("TIMOnTimeout")(message);
             }
         }
@@ -1576,15 +1575,33 @@ export default class TimRender {
         };
         return tpl;
     }
-    private _setCallingTimeout(inviteID: string, isRec: boolean) {
+    private _setCallingTimeout(
+        inviteID: string,
+        isRec: boolean,
+        [message]: any
+    ) {
         const callInfo = deepClone(TimRender._callingInfo.get(inviteID));
+        const { message_server_time } = message;
         if (callInfo) {
             const { timeout } = callInfo;
             if (timeout && timeout > 0) {
-                const timmer = setTimeout(() => {
-                    clearTimeout(timmer);
-                    this._timeout(inviteID, isRec);
-                }, timeout * 1000);
+                const interVal = setInterval(async () => {
+                    const startTime = new Date().getTime();
+                    //@ts-ignore
+                    const { data: currentServerTime } =
+                        await this.TIMGetServerTime();
+                    const endTime = new Date().getTime();
+                    const diffTime = endTime - startTime;
+                    const isTimeout =
+                        currentServerTime -
+                            diffTime -
+                            message_server_time * 1000 >=
+                        timeout * 1000;
+                    if (isTimeout) {
+                        this._timeout(inviteID, isRec);
+                        clearInterval(interVal);
+                    }
+                }, 600);
             }
         }
     }
@@ -1668,11 +1685,12 @@ export default class TimRender {
                 customData
             );
             // @ts-ignore
-            const { code } = res.data;
+            const { code, data: responseData } = res.data;
             if (code === 0) {
+                const message = JSON.parse(responseData?.json_params);
                 TimRender._callingInfo.set(inviteID, customData);
                 if (timeout > 0) {
-                    this._setCallingTimeout(inviteID, false);
+                    this._setCallingTimeout(inviteID, false, message);
                 }
                 resolve({
                     inviteID,
