@@ -343,11 +343,7 @@ export default class TimRender {
             }
         }
     }
-    private async _onTimeouted(
-        inviteID: string,
-        parsedData: any,
-        message: any
-    ) {
+    private _onTimeouted(inviteID: string, parsedData: any, message: any) {
         //@ts-ignore
         const { inviteeList: timeouter } = parsedData;
         const handler = timeouter[0];
