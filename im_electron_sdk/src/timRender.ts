@@ -1644,9 +1644,13 @@ export default class TimRender {
             // @ts-ignore
             const senderID = (await this.TIMGetLoginUserID({})).data.json_param;
 
-            if (inviteeList.length > 0 && inviteeList.includes(senderID)) {
+            if (inviteeList.length > 0) {
                 if (isRec) {
-                    callInfo.inviteeList = [senderID];
+                    if (inviteeList.includes(senderID)) {
+                        callInfo.inviteeList = [senderID];
+                    } else {
+                        return;
+                    }
                 }
                 const {
                     //@ts-ignore
