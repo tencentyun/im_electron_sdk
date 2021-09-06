@@ -457,7 +457,7 @@ TIM_DECL uint64_t TIMGetServerTime();
 *
 * @param user_id 用户的UserID
 * @param user_sig 用户的UserSig
-* @param cb 登录成功与否的回调。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
+* @param cb 登录成功与否的回调。票据过期会返回 ERR_USER_SIG_EXPIRED（6206）或者 ERR_SVR_ACCOUNT_USERSIG_EXPIRED（70001） 错误码，此时请您生成新的 userSig 重新登录。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
 * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
 * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
 *
