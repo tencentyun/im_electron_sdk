@@ -96,6 +96,7 @@ import {
     signalCallback,
     TRTCCallingCallGroupParam,
     TRTCCallingCallParam,
+    initParam,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -667,10 +668,11 @@ export default class TimRender {
         };
         return this._call(formatedData);
     }
-    TIMInit() {
+    TIMInit(param?: initParam) {
         return this._call({
             method: "TIMInit",
             manager: Managers.timBaseManager,
+            param: param,
         });
     }
     TIMGetLoginStatus() {
