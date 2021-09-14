@@ -2,3 +2,4 @@ node_modules
 sdk-config
 sdk-log
 dist
+.DS_Store

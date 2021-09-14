@@ -89,6 +89,7 @@ class TimMain {
     static isLisened = false;
     static _callback: Map<string, Function> = new Map();
     static event: Map<string, any> = new Map();
+    static _callingInfo: Map<string, any> = new Map();
     private _tim: TIM;
 
     constructor(config: initConfig) {
@@ -138,8 +139,41 @@ class TimMain {
                 );
                 return response;
             });
+            ipcMain.handle("_setCallInfo", (event, data) => {
+                try {
+                    const { inviteID, data: callInfo } = JSON.parse(data);
+                    this._setCallInfo(inviteID, callInfo);
+                } catch (err) {
+                    log.info(`_setCallInfo error ${data}`);
+                }
+            });
+            ipcMain.handle("_getCallInfo", (event, data) => {
+                try {
+                    const { inviteID } = JSON.parse(data);
+                    return this._getCallInfo(inviteID);
+                } catch (err) {
+                    log.info(`_getCallInfo error ${data}`);
+                }
+            });
+            ipcMain.handle("_deleteCallInfo", (event, data) => {
+                try {
+                    const { inviteID } = JSON.parse(data);
+                    return this._deleteCallInfo(inviteID);
+                } catch (err) {
+                    log.info(`_deleteCallInfo error ${data}`);
+                }
+            });
             TimMain.isLisened = true;
         }
+    }
+    private _setCallInfo(inviteID: string, data: object) {
+        TimMain._callingInfo.set(inviteID, data);
+    }
+    private _getCallInfo(inviteID: string): string {
+        return JSON.stringify(TimMain._callingInfo.get(inviteID));
+    }
+    private _deleteCallInfo(inviteID: string) {
+        TimMain._callingInfo.delete(inviteID);
     }
     destroy() {
         this._tim.getTimbaseManager().TIMUninit();

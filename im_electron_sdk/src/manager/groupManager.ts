@@ -676,7 +676,6 @@ class GroupManager {
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
-
     /**
      * @brief 上报群未决信息已读
      *
@@ -686,7 +685,9 @@ class GroupManager {
      * @note
      * 时间戳time_stamp以前的群未决请求都将置为已读。上报已读后，仍然可以拉取到这些未决信息，但可通过对已读时戳的判断判定未决信息是否已读。
      */
-    TIMGroupReportPendencyReaded(reportParams: ReportParams) {
+    TIMGroupReportPendencyReaded(
+        reportParams: ReportParams
+    ): Promise<commonResponse> {
         const { timeStamp, data } = reportParams;
         const userData = this.stringFormator(data);
 
