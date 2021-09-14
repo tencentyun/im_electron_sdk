@@ -70,7 +70,7 @@ interface convCancelDraft {
 }
 /**
  * @param get_conversation_list_param_conv_id get_conversation_list_param_conv_id: 会话ID
- * @param get_conversation_list_param_conv_type get_conversation_list_param_conv_type: 会话类型
+ * @param get_conversation_list_param_conv_type get_conversation_list_param_conv_type: 会话类型[TIMConvType](../enums/enum.timconvtype.html)
  */
 interface convItem {
     get_conversation_list_param_conv_id: string;

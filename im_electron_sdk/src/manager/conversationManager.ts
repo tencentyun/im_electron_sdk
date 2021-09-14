@@ -36,7 +36,7 @@ class ConversationManager {
      * ###  创建会话
      * @param convCreate
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data }
-     * @note
+     * @note &emsp;
      * > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
      * > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
      */
@@ -191,7 +191,7 @@ class ConversationManager {
      * ### 删除指定会话的草稿
      * @param convCancelDraft
      * @return int 返回TIM_SUCC表示接口调用成功，其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../../doc/enums/enum.timresult.html)
-     * @note
+     * @note &emsp;
      * > 会话是指面向一个人或者一个群组的对话，通过与单个人或群组之间会话收发消息
      * > 此接口创建或者获取会话信息，需要指定会话类型（群组或者单聊），以及会话对方标志（对方帐号或者群号）。会话信息通过cb回传。
      */

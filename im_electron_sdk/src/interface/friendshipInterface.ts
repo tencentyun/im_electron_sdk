@@ -39,8 +39,8 @@ interface AddFriendParams {
 
 /**
 * @brief 删除好友接口的参数
-* @param params params
 * @param user_data user_data: 用户自定义数据
+* @param params params参数如下
 * ```
 *    params: {
         friendship_delete_friend_param_friend_type?: TIMFriendType; // 删除好友，指定删除的好友类型
@@ -78,8 +78,8 @@ interface ModifyFriendProfileParams {
 
 /**
 * @brief 检测好友的类型接口的参数
-* @param params params
 * @param user_data user_data: 用户自定义数据
+* @param params params的参数如下
 * ```
 *    params: {
         friendship_check_friendtype_param_check_type?: TIMFriendType; // 要检测的好友类型
@@ -98,8 +98,8 @@ interface CheckFriendTypeParams {
 
 /**
 * @brief 好友分组信息
-* @param params params
 * @param user_data user_data: 用户自定义数据
+* @param params params参数如下展示：
 * ```
 *    params: {
         friendship_create_friend_group_param_name_array?: [string]; // 创建分组的名称列表
@@ -293,16 +293,16 @@ interface TIMOnAddFriendCallbackParams {
     user_data?: string;
 }
 /**
- *  @param callback 设置删除好友的回调
- *  @param user_data 用户自定义数据
+ *  @param callback callback：设置删除好友的回调
+ *  @param user_data user_data：用户自定义数据
  */
 interface TIMOnDeleteFriendCallbackParams {
     callback: TIMOnDeleteFriendCallbackFunc;
     user_data?: string;
 }
 /**
- * @param callback 更新好友资料回调
- * @param user_data 用户自定义数据
+ * @param callback callback：更新好友资料回调
+ * @param user_data user_data：用户自定义数据
  */
 interface TIMUpdateFriendProfileCallbackParams {
     callback: TIMUpdateFriendProfileCallbackFunc;

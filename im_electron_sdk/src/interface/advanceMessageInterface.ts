@@ -5,7 +5,7 @@ import { TIMPlatform, TIMMsgStatus, TIMReceiveMessageOpt } from "../enum";
  *  @param conv_id  conv_id 会话的ID
  * @param conv_type  conv_type会话类型，请参考[TIMConvType](../enums/enum.timconvtype.html)
  * @param params  params:paramsLjson_msg_param 消息json字符串
- * @param message_id  message_id 消息 ID ，调用接口后，可以读取到以 '\0' 结尾的字符串，分配内存大小不能低于 128 字节，如果不需要，可传入 nullptr
+ * @param message_id  message_id 消息 ID ，调用接口后，可以读取到以 '\0' 结尾的字符串，分配内存大小不能低于 128 字节，如果不需要，可传入 null
  * @param user_data  user_data 用户自定义数据，ImSDK只负责传回给回调函数 result_cb，不做任何处理
  */
 declare interface MsgSendMessageParams {
@@ -19,7 +19,7 @@ declare interface MsgSendMessageParams {
   @param conv_id   conv_id 会话的ID
 * @param conv_type  conv_type 会话类型，请参考[TIMConvType](../enums/enum.timconvtype.html)
 * @param params  params：json_msg_param 消息json字符串
-* @param messageId  message_id 消息 ID ，调用接口后，可以读取到以 '\0' 结尾的字符串，分配内存大小不能低于 128 字节，如果不需要，可传入 nullptr
+* @param messageId  message_id 消息 ID ，调用接口后，可以读取到以 '\0' 结尾的字符串，分配内存大小不能低于 128 字节，如果不需要，可传入 null
 * @param callback  callback 发送新消息成功与否的回调。
 * @param user_data  user_data 用户自定义数据，ImSDK只负责传回给回调函数 result_cb，不做任何处理
  */
@@ -241,7 +241,7 @@ interface MergerElem {
 
 /**
  * @param {string} conv_id      conv_id 会话ID
- * @param {number} conv_type    conv_type 会话类型
+ * @param {number} conv_type    conv_type 会话类型[TIMConvType](../enums/enum.timconvtype.html)
  * @param {string} message_id   message_id 消息 ID
  * @param {string} [user_data]  user_data 户自定义数据，ImSDK只负责传回给回调函数，不做任何处理(可选)
  */
@@ -385,7 +385,7 @@ interface MsgSetC2CReceiveMessageOptParams {
 /**
  * @param params params:json_identifier_array 用户 ID 列表
  * @param user_data user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
- * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+ * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../enums/enum.timresult.html)
  *
  */
 interface MsgGetC2CReceiveMessageOptParams {

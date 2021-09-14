@@ -71,8 +71,8 @@ interface DeleteGroupParams {
     data?: string;
 }
 /**
- * @param GroupParams GroupParams:创建组接口参数
- * @param data data
+ * @param GroupParams params:创建组接口参数
+ * @param data data: 用户自定义数据
  */
 interface CreateGroupParams {
     params: GroupParams;
@@ -237,11 +237,11 @@ interface ModifyMemberInfoParams {
 }
 
 /**
- * @param data data(可选)
+ * @param data data(可选)：用户自定义数据
  * 
- * params参数如下
+ * @param params params参数如下：
  * ```
- * @param params {
+ *  params {
         group_pendency_option_start_time: number; //设置拉取时间戳,第一次请求填0,后边根据server返回的[GroupPendencyResult]()键kTIMGroupPendencyResultNextStartTime指定的时间戳进行填写
         group_pendency_option_max_limited: number; // 拉取的建议数量,server可根据需要返回或多或少,不能作为完成与否的标志
     }
@@ -398,7 +398,7 @@ interface GroupTipCallBackFun {
 
 /** 
  @param callback callback：回调
- @param data data
+ @param data data：用户自定义数据
 */
 interface GroupAttributeCallbackParams {
     callback: GroupAttributeCallbackFun;

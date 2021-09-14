@@ -41,4 +41,9 @@ timRender.TIMLogin({
 
 [C接口文档](https://cloud.tencent.com/document/product/269/33546)
 
+#### 关于文档
+
+右侧manger/xxx 是各个API的文档
+右侧interface/xxx 是各个API方法的interface，其中有各个参数的提醒注意事项
+
 

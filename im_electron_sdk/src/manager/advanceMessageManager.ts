@@ -462,9 +462,9 @@ class AdvanceMessageManage {
      * ### 根据消息定位精准查找指定会话的消息
      * @param MsgFindByMsgLocatorListParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_param, user_data }
-     * * @note
-     * > 此接口根据消息定位符精准查找指定会话的消息，该功能一般用于消息撤回时查找指定消息等
-     * > 一个消息定位符对应一条消息
+     * @note
+     *  此接口根据消息定位符精准查找指定会话的消息，该功能一般用于消息撤回时查找指定消息等
+     *  一个消息定位符对应一条消息
      */
     TIMMsgFindByMsgLocatorList(
         msgFindByMsgLocatorListParams: MsgFindByMsgLocatorListParams
@@ -876,9 +876,9 @@ class AdvanceMessageManage {
      * ### 设置针对某个用户的 C2C 消息接收选项（支持批量设置）
      * @param MsgSetC2CReceiveMessageOptParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
-     * * @note
-     * > 该接口支持批量设置，您可以通过参数 userIDList 设置一批用户，但一次最大允许设置 30 个用户。
-     * > 该接口调用频率被限制为1秒内最多调用5次。
+     * @note
+     *  该接口支持批量设置，您可以通过参数 userIDList 设置一批用户，但一次最大允许设置 30 个用户。
+     *  该接口调用频率被限制为1秒内最多调用5次。
      */
     TIMMsgSetC2CReceiveMessageOpt(
         msgSetC2CReceiveMessageOptParams: MsgSetC2CReceiveMessageOptParams
@@ -970,7 +970,7 @@ class AdvanceMessageManage {
      * @param MsgSetGroupReceiveMessageOptParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      * @note
-     * > 查询群消息的接收选项：您可以在群资料（GroupBaseInfo）中获得这个信息
+     * 查询群消息的接收选项：您可以在群资料（GroupBaseInfo）中获得这个信息
      */
     TIMMsgSetGroupReceiveMessageOpt(
         msgSetGroupReceiveMessageOptParams: MsgSetGroupReceiveMessageOptParams
@@ -1253,8 +1253,9 @@ class AdvanceMessageManage {
     /**
      * ### 事件回调接口
      * @param TIMRecvNewMsgCallbackParams
-     *  @note
-     * 如果用户是登录状态，ImSDK收到新消息会通过此接口设置的回调抛出，另外需要注意，抛出的消息不一定是未读的消息，
+     * @note  如果用户是登录状态，ImSDK收到新消息会通过此接口设置的回调抛出，
+     * &emsp;
+     * 另外需要注意，抛出的消息不一定是未读的消息，
      * 只是本地曾经没有过的消息（例如在另外一个终端已读，拉取最近联系人消息时可以获取会话最后一条消息，如果本地没有，会通过此方法抛出）。
      * 在用户登录之后，ImSDK会拉取离线消息，为了不漏掉消息通知，需要在登录之前注册新消息通知。
      */
@@ -1366,6 +1367,7 @@ class AdvanceMessageManage {
      * @param TIMMsgUpdateCallbackParams
      *
      *  @note
+     * &emsp;
      * > 当您发送的消息在服务端被修改后，ImSDK会通过该回调通知给您
      * > 您可以在您自己的服务器上拦截所有即时通信IM消息 [发单聊消息之前回调](https://cloud.tencent.com/document/product/269/1632)
      * > 设置成功之后，即时通信IM服务器会将您的用户发送的每条消息都同步地通知给您的业务服务器。

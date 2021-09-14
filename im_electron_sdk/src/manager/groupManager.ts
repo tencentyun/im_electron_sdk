@@ -56,10 +56,11 @@ class GroupManager {
     }
 
     /**
-     *
+     * @brief 创建群组
      * @param createGroupParams
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data}
      * @note
+     * &emsp;
      * > 创建群组时可以指定群ID，若未指定时IM通讯云服务器会生成一个唯一的ID，以便后续操作，群组ID通过创建群组时传入的回调返回
      */
     TIMGroupCreate(
@@ -106,9 +107,10 @@ class GroupManager {
      * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data}
      *
      * @note
+     * &emsp;
      * > 权限说明：
-     * >>   对于私有群，任何人都无法解散群组。
-     * >>   对于公开群、聊天室和直播大群，群主可以解散群组。
+     * >   对于私有群，任何人都无法解散群组。
+     * >   对于公开群、聊天室和直播大群，群主可以解散群组。
      */
     TIMGroupDelete(deleteParams: DeleteGroupParams): Promise<commonResponse> {
         const { groupId, data } = deleteParams;
@@ -153,10 +155,10 @@ class GroupManager {
      * @param JoinGroupParams
      * @return {Promise<commonResponse>}  Promise的response返回值为：{ code, desc, json_param, user_data}
      *
-     * @note
+     * @note &emsp;
      * > 权限说明：
-     * >> 私有群不能由用户主动申请入群。
-     * >> 公开群和聊天室可以主动申请进入。
+     * > 私有群不能由用户主动申请入群。
+     * > 公开群和聊天室可以主动申请进入。
      * +  如果群组设置为需要审核，申请后管理员和群主会受到申请入群系统消息，需要等待管理员或者群主审核，如果群主设置为任何人可加入，则直接入群成功。
      *    直播大群可以任意加入群组。
      */
@@ -206,10 +208,10 @@ class GroupManager {
      * @return {Promise<commonResponse>}
      *
      * @note
-     *
+     *&emsp;
      * > 权限说明：
-     * >>   对于私有群，全员可退出群组。
-     * >>   对于公开群、聊天室和直播大群，群主不能退出。
+     * >   对于私有群，全员可退出群组。
+     * >   对于公开群、聊天室和直播大群，群主不能退出。
      * > 退出指定群组groupId的接口，退出成功与否可根据回调cb的参数判断。
      */
     TIMGroupQuit(quitGroupParams: QuitGroupParams): Promise<commonResponse> {
@@ -347,6 +349,7 @@ class GroupManager {
      * @return {Promise<commonResponse>}
      *
      * @note
+     * &emsp;
      * > 权限说明：
      * >   此接口可以获取自己所加入的群列表
      * >   此接口只能获得加入的部分直播大群的列表。
@@ -476,7 +479,7 @@ class GroupManager {
      * @param ModifyGroupParams
      * @return {Promise<commonResponse>}
      * @note
-     *
+     * &emsp;
      * > 修改群主（群转让）的权限说明：
      * >   只有群主才有权限进行群转让操作。
      * >   直播大群不能进行群转让操作。
@@ -619,9 +622,9 @@ class GroupManager {
     }
     /**
      * @brief  获取群未决信息列表
+     *         &emsp;
      *        群未决信息是指还没有处理的操作，例如，邀请加群或者请求加群操作还没有被处理，称之为群未决信息
      * @param GetPendencyListParams
-     * @return {Promise<commonResponse>}
      *
      *  @note 注意
      * > 此处的群未决消息泛指所有需要审批的群相关的操作。例如：加群待审批，拉人入群待审批等等。即便审核通过或者拒绝后，该条信息也可通过此接口拉回，拉回的信息中有已决标志。
@@ -631,12 +634,13 @@ class GroupManager {
      * > 只有审批人有权限拉取相关未决信息。
      * > kTIMGroupPendencyOptionStartTime 设置拉取时间戳,第一次请求填0,后边根据server返回的 GroupPendencyResult键 kTIMGroupPendencyResultNextStartTime （参考下方）指定的时间戳进行填写。
      * > kTIMGroupPendencyOptionMaxLimited 拉取的建议数量,server可根据需要返回或多或少,不能作为完成与否的标志
+     *      * @return {Promise<commonResponse>}
      * ```
      * // 获取群未决信息列表的返回(GroupPendencyResult JsonKey)
-     * static const char* kTIMGroupPendencyResultNextStartTime = "group_pendency_result_next_start_time";  // uint64, 只读, 下一次拉取的起始时戳,server返回0表示没有更多的数据,否则在下次获取数据时以这个时间戳作为开始时间戳
-     * static const char* kTIMGroupPendencyResultReadTimeSeq   = "group_pendency_result_read_time_seq";    // uint64, 只读, 已读上报的时间戳
-     * static const char* kTIMGroupPendencyResultUnReadNum     = "group_pendency_result_unread_num";       // uint,   只读, 未决请求的未读数
-     * static const char* kTIMGroupPendencyResultPendencyArray = "group_pendency_result_pendency_array";   // array [GroupPendency](), 只读, 群未决信息列表
+     *  kTIMGroupPendencyResultNextStartTime = "group_pendency_result_next_start_time";  // number, 只读, 下一次拉取的起始时戳,server返回0表示没有更多的数据,否则在下次获取数据时以这个时间戳作为开始时间戳
+     *  kTIMGroupPendencyResultReadTimeSeq   = "group_pendency_result_read_time_seq";    // number, 只读, 已读上报的时间戳
+     *  kTIMGroupPendencyResultUnReadNum     = "group_pendency_result_unread_num";       // number,   只读, 未决请求的未读数
+     *  kTIMGroupPendencyResultPendencyArray = "group_pendency_result_pendency_array";   // array [GroupPendency](), 只读, 群未决信息列表
      * ```
      */
     TIMGroupGetPendencyList(
@@ -730,8 +734,8 @@ class GroupManager {
      * @return {Promise<commonResponse>}
      * @note 注意
      * > 对于群的未决信息，ImSDK增加了处理接口。审批人可以选择对单条信息进行同意或者拒绝。已处理成功过的未决信息不能再次处理。
-     * > 处理未决信息时需要带一个未决信息[HandlePendencyParams](../../doc/nterfaces/interface_groupinterface.handlependencyparams.html),
-     * > 可以在接口[TIMGroupGetPendencyList]()返回的未决信息列表将未决信息保存下来，
+     * > 处理未决信息时需要带一个未决信息[HandlePendencyParams](../../doc/interfaces/interface_groupinterface.handlependencyparams.html),
+     * > 可以在接口[TIMGroupGetPendencyList](./manager_groupmanager.default.html#timgroupgetpendencylist)返回的未决信息列表将未决信息保存下来，
      * > 在处理未决信息的时候将GroupPendency传入键 group_handle_pendency_param_pendency 。
      */
     TIMGroupHandlePendency(
@@ -820,7 +824,7 @@ class GroupManager {
     }
 
     /**
-     * @brief 6.16 搜索群列表
+     * @brief 搜索群列表
      *
      * @param SearchGroupParams  群列表参数
      * @return {Promise<commonResponse>}

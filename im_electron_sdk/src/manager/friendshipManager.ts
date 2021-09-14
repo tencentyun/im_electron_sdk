@@ -62,23 +62,23 @@ class FriendshipManager {
     }
 
     /**
-    * @brief 8.1 获取好友列表
+    * @brief  获取好友列表
     *
     * @param GetFriendProfileListParams
     * @return Promise<commonResponse>
     *
     * @note 好友资料
-    * 此接口通过回调返回所有好友资料FriendProfile.
+    * 此接口通过回调返回所有好友资料[FriendProfile](../interfaces/interface_friendshipinterface.userprofile.html).
     * 
     * ```
-    * static const char* kTIMFriendProfileIdentifier          = "friend_profile_identifier";          // string,       只读, 好友UserID
-    static const char* kTIMFriendProfileGroupNameArray      = "friend_profile_group_name_array";    // array string, 只读, 好友分组名称列表
-    static const char* kTIMFriendProfileRemark              = "friend_profile_remark";              // string,       只读, 好友备注，最大96字节，获取自己资料时，该字段为空
-    static const char* kTIMFriendProfileAddWording          = "friend_profile_add_wording";         // string,       只读, 好友申请时的添加理由
-    static const char* kTIMFriendProfileAddSource           = "friend_profile_add_source";          // string,       只读, 好友申请时的添加来源
-    static const char* kTIMFriendProfileAddTime             = "friend_profile_add_time";            // number,       只读, 好友添加时间
-    static const char* kTIMFriendProfileUserProfile         = "friend_profile_user_profile";        // object [UserProfile](), 只读, 好友的个人资料
-    static const char* kTIMFriendProfileCustomStringArray   = "friend_profile_custom_string_array"; // array [FriendProfileCustemStringInfo](), 只读, [自定义好友字段](https://cloud.tencent.com/document/product/269/1501#.E8.87.AA.E5.AE.9A.E4.B9.89.E5.A5.BD.E5.8F.8B.E5.AD.97.E6.AE.B5)
+    kTIMFriendProfileIdentifier          = "friend_profile_identifier";          // string,       只读, 好友UserID
+    kTIMFriendProfileGroupNameArray      = "friend_profile_group_name_array";    // array string, 只读, 好友分组名称列表
+    kTIMFriendProfileRemark              = "friend_profile_remark";              // string,       只读, 好友备注，最大96字节，获取自己资料时，该字段为空
+    kTIMFriendProfileAddWording          = "friend_profile_add_wording";         // string,       只读, 好友申请时的添加理由
+    kTIMFriendProfileAddSource           = "friend_profile_add_source";          // string,       只读, 好友申请时的添加来源
+    kTIMFriendProfileAddTime             = "friend_profile_add_time";            // number,       只读, 好友添加时间
+    kTIMFriendProfileUserProfile         = "friend_profile_user_profile";        // object [UserProfile](../../interfaces/interface_friendshipinterface.userprofile.html), 只读, 好友的个人资料
+    kTIMFriendProfileCustomStringArray   = "friend_profile_custom_string_array"; // array [FriendProfileCustemStringInfo](), 只读, [自定义好友字段](https://cloud.tencent.com/document/product/269/1501#.E8.87.AA.E5.AE.9A.E4.B9.89.E5.A5.BD.E5.8F.8B.E5.AD.97.E6.AE.B5)
     * ```
     */
     TIMFriendshipGetFriendProfileList(
@@ -175,7 +175,7 @@ class FriendshipManager {
      * @brief 处理好友请求
      * @param HandleFriendAddParams
      * @return {Promise<commonResponse>}
-     * @note
+     * @note &emsp;
      * 当自己的个人资料的加好友权限 kTIMUserProfileAddPermission 设置为 kTIMProfileAddPermission_NeedConfirm 时，别人添加自己为好友时会收到一个加好友的请求，可通过此接口处理加好友的请求。
      */
     TIMFriendshipHandleFriendAddRequest(
