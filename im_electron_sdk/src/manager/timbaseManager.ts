@@ -51,25 +51,14 @@ class TimbaseManager {
                 return -1;
             }
         }
-        if (os.platform() == "linux") {
-            sdkconfig = JSON.stringify({
-                sdk_config_log_file_path: config_path
-                    ? path.resolve(config_path, "sdk-log")
-                    : path.resolve(os.homedir(), ".tencent-im/sdk-log"),
-                sdk_config_config_file_path: config_path
-                    ? path.resolve(config_path, "sdk-config")
-                    : path.resolve(os.homedir(), ".tencent-im/sdk-config"),
-            });
-        } else {
-            sdkconfig = JSON.stringify({
-                sdk_config_log_file_path: config_path
-                    ? config_path
-                    : path.resolve(process.resourcesPath, "sdk-log"),
-                sdk_config_config_file_path: config_path
-                    ? config_path
-                    : path.resolve(process.resourcesPath, "sdk-config"),
-            });
-        }
+        sdkconfig = JSON.stringify({
+            sdk_config_log_file_path: config_path
+                ? path.resolve(config_path, "sdk-log")
+                : path.resolve(os.homedir(), ".tencent-im/sdk-log"),
+            sdk_config_config_file_path: config_path
+                ? path.resolve(config_path, "sdk-config")
+                : path.resolve(os.homedir(), ".tencent-im/sdk-config"),
+        });
         return this._sdkconfig.Imsdklib.TIMInit(
             this._sdkconfig.sdkappid,
             nodeStrigToCString(sdkconfig)
