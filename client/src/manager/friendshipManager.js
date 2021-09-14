@@ -9,16 +9,17 @@ const friendShipManager = {
         });
     },
     TIMFriendshipAddFriend: () => {
+
         return timRenderInstance.TIMFriendshipAddFriend({ 
             params: {
-                friendship_add_friend_param_identifier: "lexuslin3",
+                friendship_add_friend_param_identifier: "test_jinhui",
                 friendship_add_friend_param_friend_type: 1,
-                friendship_add_friend_param_remark: "xxx2",
+                friendship_add_friend_param_remark: "test_jinhui",
                 friendship_add_friend_param_group_name: "",
                 friendship_add_friend_param_add_source: "Windows",
-                friendship_add_friend_param_add_wording: "xxx",
+                friendship_add_friend_param_add_wording: "Hi好",
             },
-            user_data: "1234"
+            user_data: "121"
         });
     },
     TIMFriendshipHandleFriendAddRequest: () => {

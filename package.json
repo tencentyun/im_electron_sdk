@@ -33,10 +33,7 @@
     "win": {
       "target": [
         {
-          "target": "nsis",
-          "arch": [
-            "ia32"
-          ]
+          "target": "nsis"
         }
       ],
       "extraFiles": [

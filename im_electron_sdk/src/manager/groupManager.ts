@@ -511,7 +511,9 @@ class GroupManager {
         });
     }
 
-    TIMGroupReportPendencyReaded(reportParams: ReportParams) {
+    TIMGroupReportPendencyReaded(
+        reportParams: ReportParams
+    ): Promise<commonResponse> {
         const { timeStamp, data } = reportParams;
         const userData = this.stringFormator(data);
 
