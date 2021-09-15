@@ -45,7 +45,7 @@ class GroupManager {
     }
 
     private stringFormator = (str: string | undefined): Buffer =>
-        str ? nodeStrigToCString(str) : Buffer.from(" ");
+        str ? nodeStrigToCString(str) : nodeStrigToCString("");
 
     getErrorResponse(params: ErrorResponse) {
         return {

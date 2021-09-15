@@ -10,10 +10,10 @@ import {
 import { libMethods } from "./libMethodInterface";
 
 interface CommonCallbackFun {
-    (code: number, desc: string, json_param: string, user_data: string): void;
+    (code: number, desc: string, json_param: string, user_data?: any): void;
 }
 interface CommonCallbackFuns {
-    (code: number, desc: string, json_params: string, user_data: string): void;
+    (code: number, desc: string, json_params: string, user_data?: any): void;
 }
 interface initConfig {
     sdkappid: number;
@@ -32,7 +32,7 @@ interface commonResponse {
     user_data?: string | undefined;
 }
 interface TIMSetNetworkStatusListenerCallback {
-    (status: number, code: number, desc: string, user_data: string): void;
+    (status: number, code: number, desc: string, user_data?: any): void;
 }
 interface TIMSetKickedOfflineCallback {
     (user_data: string): void;

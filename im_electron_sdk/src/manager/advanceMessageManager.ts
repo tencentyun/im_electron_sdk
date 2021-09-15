@@ -32,6 +32,7 @@ import {
     TIMMsgElemUploadProgressCallbackParams,
     TIMMsgUpdateCallbackParams,
 } from "../interface/advanceMessageInterface";
+import log from "../utils/log";
 import {
     nodeStrigToCString,
     jsFuncToFFIFun,
@@ -39,6 +40,10 @@ import {
 } from "../utils/utils";
 const ffi = require("ffi-napi");
 const ref = require("ref-napi");
+const voidPtrType = ref.types.CString;
+const charPtrType = ref.types.CString;
+const uint32Type = ref.types.uint32;
+const voidType = ref.types.void;
 
 class AdvanceMessageManage {
     private _sdkconfig: sdkconfig;
@@ -545,7 +550,7 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
-
+        log.info(`获取消息列表参数:${user_data},${conv_id}`);
         if (params.msg_getmsglist_param_last_msg) {
             return this.TIMMsgFindMessages({
                 json_message_id_array: [params.msg_getmsglist_param_last_msg],
@@ -567,6 +572,9 @@ class AdvanceMessageManage {
                         user_data
                     ) => {
                         if (code === 0) {
+                            log.info(
+                                `获取消息列表返回:${code},${desc},${json_params},${user_data}`
+                            );
                             resolve({ code, desc, json_params, user_data });
                         } else reject(this.getErrorResponse({ code, desc }));
                         this._cache.get("TIMMsgGetMsgList")?.delete(now);
@@ -603,6 +611,9 @@ class AdvanceMessageManage {
                     user_data
                 ) => {
                     if (code === 0) {
+                        log.info(
+                            `获取消息列表返回:${code},${desc},${json_params},${user_data}`
+                        );
                         resolve({ code, desc, json_params, user_data });
                     } else reject(this.getErrorResponse({ code, desc }));
                     this._cache.get("TIMMsgGetMsgList")?.delete(now);
@@ -1061,22 +1072,19 @@ class AdvanceMessageManage {
 
     // callback begin
 
-    private recvNewMsgCallback(json_msg_array: Buffer, user_data: Buffer) {
+    private recvNewMsgCallback(json_msg_array: Buffer, user_data?: any) {
         const fn = this._callback.get("TIMAddRecvNewMsgCallback");
         fn && fn(json_msg_array, user_data);
     }
 
     private msgReadedReceiptCallback(
         json_msg_readed_receipt_array: Buffer,
-        user_data: Buffer
+        user_data?: any
     ) {
         const fn = this._callback.get("TIMSetMsgReadedReceiptCallback");
         fn && fn(json_msg_readed_receipt_array, user_data);
     }
-    private msgRevokeCallback(
-        json_msg_locator_array: Buffer,
-        user_data: Buffer
-    ) {
+    private msgRevokeCallback(json_msg_locator_array: Buffer, user_data?: any) {
         const fn = this._callback.get("TIMSetMsgRevokeCallback");
         fn && fn(json_msg_locator_array, user_data);
     }
@@ -1085,7 +1093,7 @@ class AdvanceMessageManage {
         index: number,
         cur_size: number,
         local_size: number,
-        user_data: Buffer
+        user_data?: any
     ) {
         const fn = this._callback.get("TIMSetMsgElemUploadProgressCallback");
         // try {
@@ -1124,8 +1132,8 @@ class AdvanceMessageManage {
         const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
-            ref.types.void,
-            [ref.types.CString, ref.types.CString],
+            voidType,
+            [charPtrType, voidPtrType],
             this.recvNewMsgCallback.bind(this)
         );
         this._ffiCallback.set("TIMAddRecvNewMsgCallback", c_callback);
@@ -1151,8 +1159,8 @@ class AdvanceMessageManage {
         const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
-            ref.types.void,
-            [ref.types.CString, ref.types.CString],
+            voidType,
+            [charPtrType, voidPtrType],
             this.msgReadedReceiptCallback.bind(this)
         );
         this._ffiCallback.set("TIMSetMsgReadedReceiptCallback", c_callback);
@@ -1167,8 +1175,8 @@ class AdvanceMessageManage {
         const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
-            ref.types.void,
-            [ref.types.CString, ref.types.CString],
+            voidType,
+            [charPtrType, voidPtrType],
             this.msgRevokeCallback.bind(this)
         );
         this._callback.set("TIMSetMsgRevokeCallback", callback);
@@ -1186,13 +1194,7 @@ class AdvanceMessageManage {
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
-            [
-                ref.types.CString,
-                ref.types.int,
-                ref.types.int,
-                ref.types.int,
-                ref.types.CString,
-            ],
+            [charPtrType, uint32Type, uint32Type, uint32Type, voidPtrType],
             this.msgElemUploadProgressCallback.bind(this)
         );
         this._callback.set("TIMSetMsgElemUploadProgressCallback", callback);
@@ -1210,8 +1212,8 @@ class AdvanceMessageManage {
         const { callback, user_data = " " } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
-            ref.types.void,
-            [ref.types.CString, ref.types.CString],
+            voidType,
+            [charPtrType, voidPtrType],
             this.msgUpdateCallback.bind(this)
         );
         this._callback.set("TIMSetMsgUpdateCallback", callback);

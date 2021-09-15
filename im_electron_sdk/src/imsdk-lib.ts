@@ -3,432 +3,250 @@ import { getFFIPath } from "./utils/utils";
 const ffi = require("ffi-napi");
 const ref = require("ref-napi");
 const ffiPath = getFFIPath();
+const voidPtrType = ref.types.CString;
+const charPtrType = ref.types.CString;
+const intType = ref.types.int;
+const uint64Type = ref.types.uint64;
+const voidType = ref.types.void;
+const boolType = ref.types.bool;
+const callback = "pointer";
+
 const Imsdklib = ffi.Library(ffiPath, {
     // timbaseManager start
     // 回调
-    TIMSetNetworkStatusListenerCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetKickedOfflineCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetUserSigExpiredCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetLogCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMSetConfig: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    callExperimentalAPI: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMSetNetworkStatusListenerCallback: [voidType, [callback, voidPtrType]],
+    TIMSetKickedOfflineCallback: [voidType, [callback, voidPtrType]],
+    TIMSetUserSigExpiredCallback: [voidType, [callback, voidPtrType]],
+    TIMSetLogCallback: [voidType, [callback, voidPtrType]],
+    TIMSetConfig: [intType, [charPtrType, callback, voidPtrType]],
+    callExperimentalAPI: [intType, [charPtrType, callback, voidPtrType]],
     TIMProfileGetUserProfileList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMProfileModifySelfUserProfile: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
-    TIMGetSDKVersion: [ref.types.CString, []],
-    TIMInit: [ref.types.int, [ref.types.uint64, ref.types.CString]],
-    TIMLogin: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMGetSDKVersion: [charPtrType, []],
+    TIMInit: [intType, [uint64Type, charPtrType]],
+    TIMLogin: [intType, [charPtrType, charPtrType, callback, voidPtrType]],
 
-    TIMUninit: [ref.types.int, []],
-    TIMGetServerTime: [ref.types.uint64, []],
-    TIMLogout: [ref.types.int, ["pointer", ref.types.CString]],
-    TIMGetLoginStatus: [ref.types.int, []],
-    TIMGetLoginUserID: [ref.types.int, ["pointer", ref.types.CString]],
+    TIMUninit: [intType, []],
+    TIMGetServerTime: [uint64Type, []],
+    TIMLogout: [intType, [callback, voidPtrType]],
+    TIMGetLoginStatus: [intType, []],
+    TIMGetLoginUserID: [intType, [callback, voidPtrType]],
     // timbaseManager end
     // conversationManager start
     // 已废弃
-    TIMConvCreate: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, "pointer", ref.types.CString],
-    ],
-    TIMConvGetConvList: [ref.types.int, ["pointer", ref.types.CString]],
-    TIMConvDelete: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, "pointer", ref.types.CString],
-    ],
-    TIMConvSetDraft: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, ref.types.CString],
-    ],
-    TIMConvCancelDraft: [ref.types.int, [ref.types.CString, ref.types.int]],
-    TIMConvGetConvInfo: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMConvCreate: [intType, [charPtrType, intType, callback, voidPtrType]],
+    TIMConvGetConvList: [intType, [callback, voidPtrType]],
+    TIMConvDelete: [intType, [charPtrType, intType, callback, voidPtrType]],
+    TIMConvSetDraft: [intType, [charPtrType, intType, charPtrType]],
+    TIMConvCancelDraft: [intType, [charPtrType, intType]],
+    TIMConvGetConvInfo: [intType, [charPtrType, callback, voidPtrType]],
     TIMConvPinConversation: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.bool,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, boolType, callback, voidPtrType],
     ],
-    TIMSetConvEventCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMConvGetTotalUnreadMessageCount: [
-        ref.types.int,
-        ["pointer", ref.types.CString],
-    ],
+    TIMSetConvEventCallback: [voidType, [callback, voidPtrType]],
+    TIMConvGetTotalUnreadMessageCount: [intType, [callback, voidPtrType]],
     TIMSetConvTotalUnreadMessageCountChangedCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
+        voidType,
+        [callback, voidPtrType],
     ],
     // conversationManager end
     // groupManager start
-    TIMGroupCreate: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupDelete: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupJoin: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMGroupCreate: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupDelete: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupJoin: [intType, [charPtrType, charPtrType, callback, voidPtrType]],
 
-    TIMGroupQuit: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupInviteMember: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupDeleteMember: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupGetJoinedGroupList: [ref.types.int, ["pointer", ref.types.CString]],
-    TIMGroupGetGroupInfoList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupModifyGroupInfo: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupGetMemberInfoList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupModifyMemberInfo: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupGetPendencyList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMGroupQuit: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupInviteMember: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupDeleteMember: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupGetJoinedGroupList: [intType, [callback, voidPtrType]],
+    TIMGroupGetGroupInfoList: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupModifyGroupInfo: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupGetMemberInfoList: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupModifyMemberInfo: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupGetPendencyList: [intType, [charPtrType, callback, voidPtrType]],
     TIMGroupReportPendencyReaded: [
-        ref.types.int,
-        [ref.types.int, "pointer", ref.types.CString],
+        intType,
+        [uint64Type, callback, voidPtrType],
     ],
-    TIMGroupHandlePendency: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMGroupHandlePendency: [intType, [charPtrType, callback, voidPtrType]],
     TIMGroupGetOnlineMemberCount: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
-    TIMGroupSearchGroups: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMGroupSearchGroupMembers: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMGroupSearchGroups: [intType, [charPtrType, callback, voidPtrType]],
+    TIMGroupSearchGroupMembers: [intType, [charPtrType, callback, charPtrType]],
     TIMGroupInitGroupAttributes: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, charPtrType, callback, voidPtrType],
     ],
     TIMGroupSetGroupAttributes: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, charPtrType, callback, voidPtrType],
     ],
     TIMGroupDeleteGroupAttributes: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, charPtrType, callback, voidPtrType],
     ],
     TIMGroupGetGroupAttributes: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, charPtrType, callback, voidPtrType],
     ],
-    TIMSetGroupTipsEventCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetGroupAttributeChangedCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
+    TIMSetGroupTipsEventCallback: [voidType, [callback, voidPtrType]],
+    TIMSetGroupAttributeChangedCallback: [voidType, [callback, voidPtrType]],
     // groupManager end
 
     // friendship begin
-    TIMFriendshipGetFriendProfileList: [
-        ref.types.int,
-        ["pointer", ref.types.CString],
-    ],
-    TIMFriendshipAddFriend: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMFriendshipGetFriendProfileList: [intType, [callback, voidPtrType]],
+    TIMFriendshipAddFriend: [intType, [charPtrType, callback, voidPtrType]],
     TIMFriendshipHandleFriendAddRequest: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipModifyFriendProfile: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
-    TIMFriendshipDeleteFriend: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMFriendshipDeleteFriend: [intType, [charPtrType, callback, voidPtrType]],
     TIMFriendshipCheckFriendType: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipCreateFriendGroup: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipGetFriendGroupList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipModifyFriendGroup: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipDeleteFriendGroup: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipAddToBlackList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
-    TIMFriendshipGetBlackList: [ref.types.int, ["pointer", ref.types.CString]],
+    TIMFriendshipGetBlackList: [intType, [callback, voidPtrType]],
     TIMFriendshipDeleteFromBlackList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipGetPendencyList: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipDeletePendency: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMFriendshipReportPendencyReaded: [
-        ref.types.int,
-        [ref.types.uint64, "pointer", ref.types.CString],
+        intType,
+        [uint64Type, callback, voidPtrType],
     ],
-    TIMFriendshipSearchFriends: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMFriendshipSearchFriends: [intType, [charPtrType, callback, voidPtrType]],
     TIMFriendshipGetFriendsInfo: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMMsgSendMessage: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgCancelSend: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
-    TIMMsgFindMessages: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
+    TIMMsgFindMessages: [intType, [charPtrType, callback, voidPtrType]],
     TIMMsgReportReaded: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgRevoke: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgFindByMsgLocatorList: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgImportMsgList: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgSaveMsg: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgGetMsgList: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgDelete: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgListDelete: [
-        ref.types.int,
-        [
-            ref.types.CString,
-            ref.types.int,
-            ref.types.CString,
-            "pointer",
-            ref.types.CString,
-        ],
+        intType,
+        [charPtrType, intType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgClearHistoryMessage: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, intType, callback, voidPtrType],
     ],
     TIMMsgSetC2CReceiveMessageOpt: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, intType, callback, voidPtrType],
     ],
     TIMMsgGetC2CReceiveMessageOpt: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
     TIMMsgSetGroupReceiveMessageOpt: [
-        ref.types.int,
-        [ref.types.CString, ref.types.int, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, intType, callback, voidPtrType],
     ],
     TIMMsgDownloadElemToPath: [
-        ref.types.int,
-        [ref.types.CString, ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, charPtrType, callback, voidPtrType],
     ],
     TIMMsgDownloadMergerMessage: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
+        intType,
+        [charPtrType, callback, voidPtrType],
     ],
-    TIMMsgBatchSend: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMMsgSearchLocalMessages: [
-        ref.types.int,
-        [ref.types.CString, "pointer", ref.types.CString],
-    ],
-    TIMAddRecvNewMsgCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMRemoveRecvNewMsgCallback: [ref.types.void, ["pointer"]],
-    TIMSetMsgReadedReceiptCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetMsgRevokeCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMSetMsgElemUploadProgressCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetOnAddFriendCallback: [ref.types.void, ["pointer", ref.types.CString]],
-    TIMSetOnDeleteFriendCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetUpdateFriendProfileCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetFriendAddRequestCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
+    TIMMsgBatchSend: [intType, [charPtrType, callback, voidPtrType]],
+    TIMMsgSearchLocalMessages: [intType, [charPtrType, callback, voidPtrType]],
+    TIMAddRecvNewMsgCallback: [voidType, [callback, voidPtrType]],
+    TIMRemoveRecvNewMsgCallback: [voidType, [callback]],
+    TIMSetMsgReadedReceiptCallback: [voidType, [callback, voidPtrType]],
+    TIMSetMsgRevokeCallback: [voidType, [callback, voidPtrType]],
+    TIMSetMsgElemUploadProgressCallback: [voidType, [callback, voidPtrType]],
+    TIMSetOnAddFriendCallback: [voidType, [callback, voidPtrType]],
+    TIMSetOnDeleteFriendCallback: [voidType, [callback, voidPtrType]],
+    TIMSetUpdateFriendProfileCallback: [voidType, [callback, voidPtrType]],
+    TIMSetFriendAddRequestCallback: [voidType, [callback, voidPtrType]],
     TIMSetFriendApplicationListDeletedCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
+        voidType,
+        [callback, voidPtrType],
     ],
     TIMSetFriendApplicationListReadCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
+        voidType,
+        [callback, voidPtrType],
     ],
-    TIMSetFriendBlackListAddedCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetFriendBlackListDeletedCallback: [
-        ref.types.void,
-        ["pointer", ref.types.CString],
-    ],
-    TIMSetMsgUpdateCallback: [ref.types.void, ["pointer", ref.types.CString]],
+    TIMSetFriendBlackListAddedCallback: [voidType, [callback, voidPtrType]],
+    TIMSetFriendBlackListDeletedCallback: [voidType, [callback, voidPtrType]],
+    TIMSetMsgUpdateCallback: [voidType, [callback, voidPtrType]],
     // friendship end
 });
 
