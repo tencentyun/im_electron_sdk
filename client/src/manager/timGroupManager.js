@@ -142,7 +142,7 @@ const TimBaseManager = {
   TIMGroupJoin: () => {
     return timRenderInstance.TIMGroupJoin({
       groupId: '@TGS#1UEDUNNHW',
-      helloMsg: 'hello',
+      helloMsg: '',
       data: 'test data'
     })
   },

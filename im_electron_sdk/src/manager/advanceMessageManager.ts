@@ -105,6 +105,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb: cb,
                 callback: callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSendMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(
@@ -113,7 +114,7 @@ class AdvanceMessageManage {
                 c_params,
                 message_id_buffer,
                 this._cache.get("TIMMsgSendMessage")?.get(now)?.callback,
-                c_user_data
+                this._cache.get("TIMMsgSendMessage")?.get(now)?.user_data
             );
 
             code !== 0 && reject(this.getErrorResponse({ code }));
@@ -550,6 +551,7 @@ class AdvanceMessageManage {
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
+
         log.info(`获取消息列表参数:${user_data},${conv_id}`);
         if (params.msg_getmsglist_param_last_msg) {
             return this.TIMMsgFindMessages({
@@ -587,6 +589,7 @@ class AdvanceMessageManage {
                     cacheMap.set(now, {
                         cb,
                         callback,
+                        user_data: c_user_data,
                     });
                     this._cache.set("TIMMsgGetMsgList", cacheMap);
                     const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
@@ -594,7 +597,7 @@ class AdvanceMessageManage {
                         conv_type,
                         c_params,
                         this._cache.get("TIMMsgGetMsgList")?.get(now)?.callback,
-                        c_user_data
+                        this._cache.get("TIMMsgGetMsgList")?.get(now)?.user_data
                     );
 
                     code !== 0 && reject(this.getErrorResponse({ code }));
@@ -626,6 +629,7 @@ class AdvanceMessageManage {
                 cacheMap.set(now, {
                     cb,
                     callback,
+                    user_data: c_user_data,
                 });
                 this._cache.set("TIMMsgGetMsgList", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgGetMsgList(
@@ -633,7 +637,7 @@ class AdvanceMessageManage {
                     conv_type,
                     c_params,
                     this._cache.get("TIMMsgGetMsgList")?.get(now)?.callback,
-                    c_user_data
+                    this._cache.get("TIMMsgGetMsgList")?.get(now)?.user_data
                 );
 
                 code !== 0 && reject(this.getErrorResponse({ code }));
