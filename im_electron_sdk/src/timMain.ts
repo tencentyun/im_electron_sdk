@@ -86,7 +86,7 @@ class Callback {
 }
 
 class TimMain {
-    static isLisened = false;
+    private isLisened = false;
     static _callback: Map<string, Function> = new Map();
     static event: Map<string, any> = new Map();
     static _callingInfo: Map<string, any> = new Map();
@@ -100,7 +100,7 @@ class TimMain {
             mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
         }
         //建立ipc通信通道
-        if (!TimMain.isLisened) {
+        if (!this.isLisened) {
             ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
                 const requestData = JSON.parse(data as unknown as string);
                 const { callback, method } = requestData;
@@ -163,7 +163,7 @@ class TimMain {
                     log.info(`_deleteCallInfo error ${data}`);
                 }
             });
-            TimMain.isLisened = true;
+            this.isLisened = true;
         }
     }
     private _setCallInfo(inviteID: string, data: object) {
@@ -176,6 +176,11 @@ class TimMain {
         TimMain._callingInfo.delete(inviteID);
     }
     destroy() {
+        ipcMain.removeHandler(TIMIPCLISTENR);
+        ipcMain.removeHandler("_setCallInfo");
+        ipcMain.removeHandler("_getCallInfo");
+        ipcMain.removeHandler("_deleteCallInfo");
+
         this._tim.getTimbaseManager().TIMUninit();
     }
 }

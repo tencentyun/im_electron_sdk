@@ -8,19 +8,19 @@ const TimBaseManager = {
       {
         "create_group_param_add_option": 2,
         "create_group_param_group_name": "FFFFFFF",
-        "create_group_param_group_type": 0,
-        create_group_param_custom_info: [{
-          group_info_custom_string_info_key: 'group_info',
-          group_info_custom_string_info_value: 'test value 1'
-        },
-        {
-          group_info_custom_string_info_key: 'custom_public',
-          group_info_custom_string_info_value: 'custom public value'
-        }],
-        "create_group_param_face_url": "http://oaim.crbank.com.cn:30003/emoji/qunioc.png",
-        "create_group_param_group_member_array": [{ "group_member_info_member_role": 2, "group_member_info_identifier": "123213" }],
-        "create_group_param_introduction": "12312",
-        "create_group_param_notification": "121212"
+        "create_group_param_group_type": 1,
+        // create_group_param_custom_info: [{
+        //   group_info_custom_string_info_key: 'group_info',
+        //   group_info_custom_string_info_value: 'test value 1'
+        // },
+        // {
+        //   group_info_custom_string_info_key: 'custom_public',
+        //   group_info_custom_string_info_value: 'custom public value'
+        // }],
+        // "create_group_param_face_url": "http://oaim.crbank.com.cn:30003/emoji/qunioc.png",
+        "create_group_param_group_member_array": [{ "group_member_info_member_role": 1, "group_member_info_identifier": "3708" }],
+        // "create_group_param_introduction": "12312",
+        // "create_group_param_notification": "121212"
       },
       data: "ssss"
     });
@@ -141,14 +141,14 @@ const TimBaseManager = {
   },
   TIMGroupJoin: () => {
     return timRenderInstance.TIMGroupJoin({
-      groupId: '@TGS#2VUXAAIHW',
-      helloMsg: 'hello',
+      groupId: '@TGS#1UEDUNNHW',
+      helloMsg: '',
       data: 'test data'
     })
   },
   TIMGroupQuit: () => {
     return timRenderInstance.TIMGroupQuit({
-      groupId: '@TGS#2VUXAAIHW',
+      groupId: '@TGS#1UEDUNNHW',
       data: 'test data'
     })
   },
