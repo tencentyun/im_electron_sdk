@@ -88,7 +88,7 @@ function getFFIPath() {
     }
     return res;
 }
-function nodeStrigToCString(str: string): Buffer {
+function nodeStrigToCString(str: string): string {
     const buffer = Buffer.from(`${str}\0`, "utf8");
     return ref.readCString(buffer);
 }

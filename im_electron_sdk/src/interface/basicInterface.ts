@@ -152,7 +152,7 @@ interface TIMProfileModifySelfUserProfileParam {
 interface cache {
     callback: any;
     cb: any;
-    user_data?: Buffer;
+    user_data?: string;
 }
 interface initParam {
     config_path?: string;

@@ -44,7 +44,7 @@ class FriendshipManager {
     private _sdkconfig: sdkconfig;
     private _callback: Map<String, Function> = new Map();
     private _ffiCallback: Map<String, Buffer> = new Map();
-    private stringFormator = (str: string | undefined): Buffer =>
+    private stringFormator = (str: string | undefined): string =>
         str ? nodeStrigToCString(str) : nodeStrigToCString("");
     private _cache: Map<String, Map<string, cache>> = new Map();
     getErrorResponse(params: ErrorResponse) {

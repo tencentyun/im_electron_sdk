@@ -44,7 +44,7 @@ class GroupManager {
         this._imskdLib = config.Imsdklib;
     }
 
-    private stringFormator = (str: string | undefined): Buffer =>
+    private stringFormator = (str: string | undefined): string =>
         str ? nodeStrigToCString(str) : nodeStrigToCString("");
 
     getErrorResponse(params: ErrorResponse) {
