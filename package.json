@@ -1,6 +1,6 @@
 {
-  "name": "im-sdk",
-  "version": "1.0.2",
+  "name": "im-electron-sdk",
+  "version": "1.0.3",
   "description": "A minimal Electron application",
   "main": "main.js",
   "homepage": "https://cloud.tencent.com/product/im",
@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron . --inspect",
     "prepare": "husky install",
-    "build-w": "electron-builder -w",
+    "build-w": "electron-builder -m",
     "build-l": "electron-builder --linux",
     "pack": "electron-builder --dir"
   },
@@ -29,11 +29,24 @@
   },
   "build": {
     "appId": "electron-sdk",
-    "mac": {},
+    "mac": {
+      "extraFiles": [
+        {
+          "from": "./node_modules/im_electron_sdk/lib/",
+          "to": "./Resources",
+          "filter": [
+            "**/*"
+          ]
+        }
+      ]
+    },
     "win": {
       "target": [
         {
-          "target": "nsis"
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "extraFiles": [
@@ -75,7 +88,7 @@
   },
   "dependencies": {
     "ffi-napi": "^4.0.3",
-    "im_electron_sdk": "^1.2.27",
+    "im_electron_sdk": "^1.2.46",
     "ref-napi": "^3.0.3"
   }
 }

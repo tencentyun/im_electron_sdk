@@ -26,6 +26,7 @@ import {
     GroupAttributeCallbackParams,
     cache,
 } from "../interface";
+import log from "../utils/log";
 import {
     nodeStrigToCString,
     jsFuncToFFIFun,
@@ -43,8 +44,8 @@ class GroupManager {
         this._imskdLib = config.Imsdklib;
     }
 
-    private stringFormator = (str: string | undefined): Buffer =>
-        str ? nodeStrigToCString(str) : Buffer.from(" ");
+    private stringFormator = (str: string | undefined): string =>
+        str ? nodeStrigToCString(str) : nodeStrigToCString("");
 
     private getErrorResponse(params: ErrorResponse) {
         return {
@@ -706,6 +707,7 @@ class GroupManager {
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
+                log.info(`delete TIMGroupReportPendencyReaded Func ${now}`);
                 this._cache.get("TIMGroupReportPendencyReaded")?.delete(now);
             };
             const callback = jsFuncToFFIFun(successCallback);
@@ -718,6 +720,8 @@ class GroupManager {
                 callback: callback,
             });
             this._cache.set("TIMGroupReportPendencyReaded", cacheMap);
+            log.info(`set TIMGroupReportPendencyReaded Func ${now}`);
+            log.info(`TIMGroupReportPendencyReaded ${callback}`);
             const code = this._imskdLib.TIMGroupReportPendencyReaded(
                 timeStamp,
                 this._cache.get("TIMGroupReportPendencyReaded")?.get(now)

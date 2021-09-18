@@ -10,10 +10,10 @@ import {
 import { libMethods } from "./libMethodInterface";
 
 interface CommonCallbackFun {
-    (code: number, desc: string, json_param: string, user_data: string): void;
+    (code: number, desc: string, json_param: string, user_data?: any): void;
 }
 interface CommonCallbackFuns {
-    (code: number, desc: string, json_params: string, user_data: string): void;
+    (code: number, desc: string, json_params: string, user_data?: any): void;
 }
 interface initConfig {
     sdkappid: number;
@@ -46,7 +46,7 @@ interface commonResponse {
  * @param {string} user_data ImSDK负责透传的用户自定义数据，未做任何处理
  */
 interface TIMSetNetworkStatusListenerCallback {
-    (status: number, code: number, desc: string, user_data: string): void;
+    (status: number, code: number, desc: string, user_data?: any): void;
 }
 /**
  * @param {string} user_data ImSDK负责透传的用户自定义数据，未做任何处理
@@ -311,6 +311,7 @@ interface TIMProfileModifySelfUserProfileParam {
 interface cache {
     callback: any;
     cb: any;
+    user_data?: string;
 }
 interface initParam {
     config_path?: string;

@@ -1,38 +1,7 @@
 import { TIMConvType, TIMReceiveMessageOpt } from "../enum";
-import {
-    TIMMsgElemUploadProgressCallbackParams,
-    TIMMsgReadedReceiptCallbackParams,
-    TIMMsgRevokeCallbackParams,
-    TIMMsgUpdateCallbackParams,
-    TIMRecvNewMsgCallbackParams,
-} from "./advanceMessageInterface";
-import {
-    TIMFriendAddRequestCallbackParams,
-    TIMFriendApplicationListDeletedCallbackParams,
-    TIMFriendApplicationListReadCallbackParams,
-    TIMFriendBlackListAddedCallbackParams,
-    TIMFriendBlackListDeletedCallbackParams,
-    TIMOnAddFriendCallbackParams,
-    TIMOnDeleteFriendCallbackParams,
-    TIMUpdateFriendProfileCallbackParams,
-} from "./friendshipInterface";
-import {
-    CommonCallbackFun,
-    TIMSetKickedOfflineCallback,
-    TIMSetNetworkStatusListenerCallback,
-    TIMSetUserSigExpiredCallback,
-} from "./basicInterface";
-import {
-    convTotalUnreadMessageCountChangedCallback,
-    setConvEventCallback,
-} from "./conversationInterface";
-import {
-    GroupTipCallBackFun,
-    GroupAttributeCallbackFun,
-} from "./groupInterface";
 
 interface TIMInitFun {
-    (sdkappid: number, sdkconfig: Buffer): number;
+    (sdkappid: number, sdkconfig: string): number;
 }
 
 interface TIMUninitFun {
@@ -41,14 +10,14 @@ interface TIMUninitFun {
 
 interface TIMLoginFun {
     (
-        userID: Buffer,
-        userSig: Buffer,
+        user_id: string,
+        user_sig: string,
         callback: Buffer,
-        user_data: Buffer
+        user_data?: string
     ): number;
 }
 interface TIMLogoutFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 
 interface TIMGetLoginStatusFun {
@@ -63,80 +32,80 @@ interface TIMGetServerTimeFun {
     (): number;
 }
 interface TIMGetLoginUserIDFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 
 interface TIMSetNetworkStatusListenerCallbackFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 
 interface TIMSetKickedOfflineCallbackFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 interface TIMSetUserSigExpiredCallbackFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 
 // ==========Interface For Conversation Start===========
 interface TIMConvCreateFun {
     (
-        conv_id: Buffer,
+        conv_id: string,
         conv_type: number,
         callback: Buffer,
-        user_data: Buffer
+        user_data?: string
     ): number;
 }
 interface TIMConvGetConvListFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 interface TIMConvSetDraftFun {
-    (conv_id: Buffer, conv_type: number, json_draft_param: Buffer): number;
+    (conv_id: string, conv_type: number, json_draft_param: string): number;
 }
 interface TIMConvCancelDraftFun {
-    (conv_id: Buffer, conv_type: number): number;
+    (conv_id: string, conv_type: number): number;
 }
 interface TIMConvDeleteFun extends TIMConvCreateFun {}
 interface TIMConvGetConvInfoFun {
     (
-        json_get_conv_list_param: Buffer,
+        json_get_conv_list_param: string,
         callback: Buffer,
-        user_data: Buffer
+        user_data?: string
     ): number;
 }
 interface TIMConvPinConversationFun {
     (
-        conv_id: Buffer,
+        conv_id: string,
         conv_type: number,
         is_pinned: boolean,
         callback: Buffer,
-        user_data: Buffer
+        user_data?: string
     ): number;
 }
 interface TIMConvGetTotalUnreadMessageCountFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 interface TIMSetConvEventCallbackFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 interface TIMSetConvTotalUnreadMessageCountChangedCallbackFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (callback: Buffer, user_data?: string): number;
 }
 // ==========Interface For Conversation End===========
 // ==========Interface For Group Start===========
 interface TIMGroupCreateFun {
-    (params: Buffer, successCallback?: Buffer, userData?: Buffer): number;
+    (params: string, callback?: Buffer, user_data?: string): number;
 }
 
 interface TIMGroupDeleteFun {
-    (groupId: Buffer, successCallback?: Buffer, userData?: Buffer): number;
+    (groupId: string, callback?: Buffer, user_data?: string): number;
 }
 
 interface TIMGroupJoinFun {
     (
-        groupId: Buffer,
-        hello_msg: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        groupId: string,
+        hello_msg: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 
@@ -147,7 +116,7 @@ interface TIMGroupInviteMemberFun extends TIMGroupCreateFun {}
 interface TIMGroupDeleteMemberFun extends TIMGroupCreateFun {}
 
 interface TIMGroupGetJoinedGroupListFun {
-    (successCallback?: Buffer, userData?: Buffer): number;
+    (callback?: Buffer, user_data?: string): number;
 }
 
 interface TIMGroupGetGroupInfoListFun extends TIMGroupCreateFun {}
@@ -161,7 +130,7 @@ interface TIMGroupModifyMemberInfoFun extends TIMGroupCreateFun {}
 interface TIMGroupGetPendencyListFun extends TIMGroupCreateFun {}
 
 interface TIMGroupReportPendencyReadedFun {
-    (timeStamp: number, successCallback?: Buffer, userData?: Buffer): number;
+    (timeStamp: number, callback?: Buffer, user_data?: string): number;
 }
 
 interface TIMGroupHandlePendencyFun extends TIMGroupCreateFun {}
@@ -174,10 +143,10 @@ interface TIMGroupSearchGroupMembersFun extends TIMGroupCreateFun {}
 
 interface TIMGroupInitGroupAttributesFun {
     (
-        groupId: Buffer,
-        params: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        groupId: string,
+        params: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 
@@ -191,344 +160,340 @@ interface TIMGroupGetGroupAttributesFun
     extends TIMGroupInitGroupAttributesFun {}
 
 interface TIMSetGroupTipsEventCallbackFun {
-    (successCallback: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 
 interface TIMSetGroupAttributeChangedCallbackFun {
-    (successCallback: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 
 // ==========Interface For Group End===========
 // ==========Interface For friendship begin===========
 interface TIMFriendshipGetFriendProfileListFun {
-    (successCallback?: Buffer, userData?: Buffer): number;
+    (callback?: Buffer, user_data?: string): number;
 }
 interface TIMFriendshipAddFriendFun {
     (
-        json_add_friend_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_add_friend_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipHandleFriendAddRequestFun {
     (
-        json_add_friend_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_add_friend_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipModifyFriendProfileFun {
     (
-        json_modify_friend_info_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_modify_friend_info_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipDeleteFriendFun {
     (
-        json_delete_friend_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_delete_friend_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipCheckFriendTypeFun {
     (
-        json_check_friend_list_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_check_friend_list_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipCreateFriendGroupFun {
     (
-        json_create_friend_group_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_create_friend_group_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipGetFriendGroupListFun {
     (
-        json_get_friend_group_list_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_get_friend_group_list_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipModifyFriendGroupFun {
     (
-        json_modify_friend_group_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_modify_friend_group_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipDeleteFriendGroupFun {
     (
-        json_delete_friend_group_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_delete_friend_group_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipAddToBlackListFun {
     (
-        json_add_to_blacklist_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_add_to_blacklist_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipGetBlackListFun {
-    (successCallback?: Buffer, userData?: Buffer): number;
+    (callback?: Buffer, user_data?: string): number;
 }
 interface TIMFriendshipDeleteFromBlackListFun {
     (
-        json_delete_from_blacklist_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_delete_from_blacklist_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipGetPendencyListFun {
     (
-        json_get_pendency_list_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_get_pendency_list_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipDeletePendencyFun {
     (
-        json_delete_pendency_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_delete_pendency_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipReportPendencyReadedFun {
-    (time_stamp?: number, successCallback?: Buffer, userData?: Buffer): number;
+    (time_stamp?: number, callback?: Buffer, user_data?: string): number;
 }
 interface TIMFriendshipSearchFriendsFun {
     (
-        json_search_friends_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_search_friends_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMFriendshipGetFriendsInfoFun {
     (
-        json_get_friends_info_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_get_friends_info_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgSendMessageFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_add_friend_param?: Buffer,
+        json_add_friend_param?: string,
         message_id_buffer?: ArrayBuffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgCancelSendFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        message_id?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        message_id?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgFindMessagesFun {
     (
-        json_message_id_array?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_message_id_array: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgReportReadedFun {
     (
-        conv_id?: Buffer,
-        conv_type?: TIMConvType,
-        json_msg_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        conv_id: string,
+        conv_type: TIMConvType,
+        json_msg_param: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgRevokeFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msg_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msg_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgFindByMsgLocatorListFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msg_Locator_array?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msg_Locator_array?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgImportMsgListFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msg_array?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msg_array?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgSaveMsgFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msg_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msg_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgGetMsgListFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_get_msg_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_get_msg_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgDeleteFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msgdel_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msgdel_param?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgListDeleteFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        json_msg_array?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_msg_array?: string,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgClearHistoryMessageFun {
     (
-        conv_id?: Buffer,
+        conv_id?: string,
         conv_type?: TIMConvType,
-        successCallback?: Buffer,
-        userData?: Buffer
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgSetC2CReceiveMessageOptFun {
     (
-        json_identifier_array?: Buffer,
+        json_identifier_array?: string,
         opt?: TIMReceiveMessageOpt,
-        successCallback?: Buffer,
-        userData?: Buffer
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgGetC2CReceiveMessageOptFun {
     (
-        json_identifier_array?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_identifier_array: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgSetGroupReceiveMessageOptFun {
     (
-        group_id?: Buffer,
-        opt?: number,
-        successCallback?: Buffer,
-        userData?: Buffer
+        group_id: string,
+        opt: number,
+        callback?: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgDownloadElemToPathFun {
     (
-        json_download_elem_param?: Buffer,
-        path?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_download_elem_param: string,
+        path: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgDownloadMergerMessageFun {
-    (
-        json_single_msg?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
-    ): number;
+    (json_single_msg: string, callback: Buffer, user_data?: string): number;
 }
 interface TIMMsgBatchSendFun {
     (
-        json_batch_send_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_batch_send_param: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMMsgSearchLocalMessagesFun {
     (
-        json_search_message_param?: Buffer,
-        successCallback?: Buffer,
-        userData?: Buffer
+        json_search_message_param: string,
+        callback: Buffer,
+        user_data?: string
     ): number;
 }
 interface TIMAddRecvNewMsgCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMRemoveRecvNewMsgCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetMsgReadedReceiptCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetMsgRevokeCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetMsgElemUploadProgressCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetOnAddFriendCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetOnDeleteFriendCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetUpdateFriendProfileCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetFriendAddRequestCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetFriendApplicationListDeletedCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetFriendApplicationListReadCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetFriendBlackListAddedCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetFriendBlackListDeletedCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetMsgUpdateCallbackFun {
-    (successCallback?: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetLogCallbackLibFun {
-    (callback: Buffer, userData?: Buffer): void;
+    (callback: Buffer, user_data?: string): void;
 }
 interface TIMSetConfigLibFun {
-    (json_config: Buffer, callback: Buffer, user_data: Buffer): number;
+    (json_config: string, callback: Buffer, user_data: string): number;
 }
 interface callExperimentalAPIFun {
-    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+    (json_param: string, callback: Buffer, user_data: string): number;
 }
 interface TIMProfileGetUserProfileListFun {
-    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+    (json_param: string, callback: Buffer, user_data: string): number;
 }
 
 interface TIMProfileModifySelfUserProfileFun {
-    (json_param: Buffer, callback: Buffer, user_data: Buffer): number;
+    (json_param: string, callback: Buffer, user_data: string): number;
 }
 // ==========Interface For friendship End===========
 

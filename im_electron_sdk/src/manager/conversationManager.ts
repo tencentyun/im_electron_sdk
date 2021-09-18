@@ -45,7 +45,7 @@ class ConversationManager {
         const convType = param.convType;
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
@@ -92,7 +92,7 @@ class ConversationManager {
         const convType = param.convType;
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
@@ -137,7 +137,7 @@ class ConversationManager {
     async TIMConvGetConvList(param: getConvList): Promise<commonResponse> {
         const userData = param.userData
             ? nodeStrigToCString(param.userData)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
@@ -211,7 +211,7 @@ class ConversationManager {
         );
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
@@ -259,7 +259,7 @@ class ConversationManager {
         const isPinged = param.isPinned;
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
@@ -307,7 +307,7 @@ class ConversationManager {
     ): Promise<commonResponse> {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
             const cb: CommonCallbackFun = (
@@ -386,7 +386,7 @@ class ConversationManager {
         this._ffiCallback.set("TIMSetConvEventCallback", c_callback);
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         this._sdkconfig.Imsdklib.TIMSetConvEventCallback(
             this._ffiCallback.get("TIMSetConvEventCallback") as Buffer,
             userData
@@ -403,7 +403,7 @@ class ConversationManager {
     ): Promise<any> {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
-            : Buffer.from(" ");
+            : nodeStrigToCString("");
         const c_callback =
             jsFunToFFITIMSetConvTotalUnreadMessageCountChangedCallback(
                 this.convTotalUnreadMessageCountChangedCallback.bind(this)
