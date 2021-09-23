@@ -1,3 +1,7 @@
+/**
+ * 基础接口，包括基本的登陆，发送简单消息，回调等功能
+ * @module TimbaseManager(基础接口)
+ */
 import {
     cache,
     callExperimentalAPIParam,
@@ -35,12 +39,13 @@ class TimbaseManager {
     private _callback: Map<String, Function> = new Map();
     private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
+    /** @internal */
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
     /**
      * @brief ImSDK初始化
-
+     * @category SDK相关(如初始化)
      * 
      * @return  {number}  返回 TIM_SUCC的枚举值 表示接口调用成功，其他值表示接口调用失败。每个返回值的定义请参见[枚举TIMResult](../../doc/enums/enum.timresult.html)
      * @note 
@@ -72,6 +77,7 @@ class TimbaseManager {
     }
     /**
      * ### ImSDK卸载
+     * @category SDK相关(如初始化)
      * @return  {number}  返回 TIM_SUCC的枚举值 表示接口调用成功，其他值表示接口调用失败。每个返回值的定义请参见[枚举TIMResult](../../doc/enums/enum.timresult.html)
      * @note
      * 卸载DLL或退出进程前需要此接口卸载ImSDK，清理ImSDK相关资源
@@ -81,6 +87,7 @@ class TimbaseManager {
     }
     /**
      * @brief 获取ImSDK版本号
+     * @category SDK相关(如初始化)
      * @return  String 返回ImSDK的版本号
      */
     TIMGetSDKVersion(): Buffer {
@@ -90,7 +97,7 @@ class TimbaseManager {
     /**
      * @brief  获取服务器当前时间
      * @return {number} 服务器时间
-     *
+     * @category SDK相关(如初始化)
      * @note
      * 可用于信令离线推送场景下超时判断
      */
@@ -99,7 +106,7 @@ class TimbaseManager {
     }
     /**
      * ### 登录
-     *
+     * @category 登录相关
      * @param loginParam 用户的UserID
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      *
@@ -150,7 +157,7 @@ class TimbaseManager {
     }
     /**
      * @brief  登出
-     *
+     * @category 登录相关
      * @param logoutParam
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      * @note
@@ -194,7 +201,7 @@ class TimbaseManager {
     }
     /**
      * @brief  获取登录状态
-     *
+     * @category 登录相关
      * @param logoutParam
      * @return  {number} TIMLoginStatus 每个返回值的定义请参考 [TIMLoginStatus](../../doc/enums/enum.timloginstatus.html)
      * @note
@@ -205,7 +212,7 @@ class TimbaseManager {
     }
     /**
      * @brief 获取登陆用户的 userid
-     *
+     * @category 登录相关
      * @param getLoginUserIDParam
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params（登录用户的 userid）, user_data }
      *
@@ -269,7 +276,8 @@ class TimbaseManager {
     }
     /**
      * ### 设置网络连接状态监听回调
-     *@param TIMSetNetworkStatusListenerCallbackParam
+     * @param TIMSetNetworkStatusListenerCallbackParam
+     * @category 回调相关
      * @note
      * &emsp;
      * > 当调用接口 [TIMInit](./manager_timbasemanager.default.html#timinit) 时，ImSDK会去连接云后台。此接口设置的回调用于监听网络连接的状态。
@@ -304,6 +312,7 @@ class TimbaseManager {
     /**
      *  ### 设置被踢下线通知回调
      * @param TIMSetKickedOfflineCallbackParam
+     * @category 回调相关
      * @note
      * &emsp;
      * > 用户如果在其他终端登录，会被踢下线，这时会收到用户被踢下线的通知，出现这种情况常规的做法是提示用户进行操作（退出，或者再次把对方踢下线）。
@@ -334,7 +343,7 @@ class TimbaseManager {
     /**
      * @brief 设置票据过期回调
      * @param TIMSetUserSigExpiredCallbackParam
-     *
+     * @category 回调相关
      * @note
      * 用户票据，可能会存在过期的情况，如果用户票据过期，此接口设置的回调会调用。
      * [TIMLogin](./manager_timbasemanager.default.html#timlogin)也将会返回70001错误码。开发者可根据错误码或者票据过期回调进行票据更换
@@ -356,7 +365,7 @@ class TimbaseManager {
     /**
      * ### 设置日志回调
      * @param TIMSetLogCallbackParam TIMSetLogCallbackParam
-     *
+     * @category 回调相关
      * @note
      * 设置日志监听的回调之后，ImSDK内部的日志会回传到此接口设置的回调。
      * 开发者可以通过接口[SetConfig](./manager_timbasemanager.default.html#timsetconfig)配置哪些日志级别的日志回传到回调函数。
@@ -379,6 +388,7 @@ class TimbaseManager {
     /**
      * @brief  设置额外的用户配置
      * @param TIMSetConfigParam
+     * @category 配置相关
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      * @note
      * 目前支持设置的配置有http代理的IP和端口、socks5代理的IP和端口、输出日志的级别、获取群信息/群成员信息的默认选项、是否接受消息已读回执事件等。
@@ -429,6 +439,7 @@ class TimbaseManager {
     /**
      * @brief  实验性接口
      * @param  callExperimentalAPIParam
+     * @category 实验接口
      * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      */
     callExperimentalAPI(
@@ -477,6 +488,7 @@ class TimbaseManager {
     /**
      * @brief 获取指定用户列表的个人资料
      * @param TIMProfileGetUserProfileListParam
+     * @category 资料相关接口
      * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params, user_data }
      * @note
      * 可以通过该接口获取任何人的个人资料，包括自己的个人资料。
@@ -530,6 +542,7 @@ class TimbaseManager {
     /**
      * @brief 修改自己的个人资料
      * @param  TIMProfileModifySelfUserProfileParam
+     * @category 资料相关接口
      * @return {Promise<commonResponse>} json_param 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../../doc/enums/enum.timresult.html)
      */
     TIMProfileModifySelfUserProfile(

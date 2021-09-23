@@ -1,3 +1,11 @@
+/**
+ * 腾讯云 IM SDK 支持四种预设的群组类型，每种类型都有其适用场景：<br>
+ * > 工作群（Work）：类似普通微信群，创建后不能自由加入，必须由已经在群的用户邀请入群。<br>
+ * > 公开群（Public）：类似 QQ 群，用户申请加入，但需要群主或管理员审批。  <br>
+ * > 会议群（Meeting)：适合跟 TRTC 结合实现视频会议和在线教育等场景，支持随意进出，支持查看进群前的历史消息。  <br>
+ * > 直播群（AVChatRoom）：适合直播弹幕聊天室等场景，支持随意进出，人数无上限  <br>
+ * @module GroupManager(群组相关接口)
+ */
 import {
     sdkconfig,
     libMethods,
@@ -40,6 +48,7 @@ class GroupManager {
     private _callback: Map<String, Function> = new Map();
     private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
+    /** @internal */
     constructor(config: sdkconfig) {
         this._imskdLib = config.Imsdklib;
     }
@@ -59,6 +68,7 @@ class GroupManager {
     /**
      * @brief 创建群组
      * @param createGroupParams
+     * @category 创建群组
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data}
      * @note
      * &emsp;
@@ -105,6 +115,7 @@ class GroupManager {
     /**
      * @brief 删除(解散)群组
      * @param DeleteGroupParams
+     * @category 删除（解散）群组
      * @return {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_param, user_data}
      *
      * @note
@@ -155,7 +166,7 @@ class GroupManager {
      * @brief 申请加入群组
      * @param JoinGroupParams
      * @return {Promise<commonResponse>}  Promise的response返回值为：{ code, desc, json_param, user_data}
-     *
+     * @category 加入群组
      * @note &emsp;
      * > 权限说明：
      * > 私有群不能由用户主动申请入群。
@@ -204,7 +215,7 @@ class GroupManager {
 
     /**
      * @brief 退出群组
-     *
+     * @category 退出群组
      * @param QuitGroupParams
      * @return {Promise<commonResponse>}
      *
@@ -254,7 +265,7 @@ class GroupManager {
 
     /**
      * @brief 邀请加入群组
-     *
+     * @category 加入群组
      * @param InviteMemberParams
      * @return {Promise<commonResponse>}
      */
@@ -297,6 +308,7 @@ class GroupManager {
     }
     /**
      * @brief 删除群组成员
+     * @category 删除群组成员
      * @param DeleteMemberParams
      * @return {Promise<commonResponse>}
      * @note 权限说明：
@@ -345,7 +357,7 @@ class GroupManager {
 
     /**
      * @brief  获取已加入群组列表
-     *
+     * @category 群组信息相关接口
      * @param data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
      * @return {Promise<commonResponse>}
      *
@@ -392,7 +404,7 @@ class GroupManager {
 
     /**
     * @brief  获取群组信息列表
-    *
+    * @category 群组信息相关接口
     * @param json_group_getinfo_param 获取群组信息列表参数的Json字符串
     * @param cb 获取群组信息列表成功与否的回调。回调函数定义和参数解析请参考 [TIMCommCallback](TIMCloudCallback.h)
     * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
@@ -478,6 +490,7 @@ class GroupManager {
     /**
      * @brief  修改群信息
      * @param ModifyGroupParams
+     * @category 群组信息相关接口
      * @return {Promise<commonResponse>}
      * @note
      * &emsp;
@@ -527,7 +540,7 @@ class GroupManager {
     }
     /**
      * @brief 获取群成员信息列表
-     *
+     * @category 群组信息相关接口
      * @param GetGroupMemberInfoParams
      * @return {Promise<commonResponse> }
      * @note 权限说明：
@@ -577,6 +590,7 @@ class GroupManager {
     /**
      * @brief 修改群成员信息
      * @param ModifyMemberInfoParams
+     * @category 群组信息相关接口
      * @return {Promise<commonResponse>}
      * @note 权限说明：
      * > 只有群主或者管理员可以进行对群成员的身份进行修改。
@@ -626,7 +640,7 @@ class GroupManager {
      *         &emsp;
      *        群未决信息是指还没有处理的操作，例如，邀请加群或者请求加群操作还没有被处理，称之为群未决信息
      * @param GetPendencyListParams
-     *
+     * @category 群组信息相关接口
      *  @note 注意
      * > 此处的群未决消息泛指所有需要审批的群相关的操作。例如：加群待审批，拉人入群待审批等等。即便审核通过或者拒绝后，该条信息也可通过此接口拉回，拉回的信息中有已决标志。
      * > UserA申请加入群GroupA，则群管理员可获取此未决相关信息，UserA因为没有审批权限，不需要获取此未决信息。
@@ -683,7 +697,7 @@ class GroupManager {
     }
     /**
      * @brief 上报群未决信息已读
-     *
+     * @category 群组信息相关接口
      * @param ReportParams
      * @return  {Promise<commonResponse>}
      *
@@ -735,6 +749,7 @@ class GroupManager {
     /**
      * @brief 处理群未决信息
      * @param HandlePendencyParams
+     * @category 群组信息相关接口
      * @return {Promise<commonResponse>}
      * @note 注意
      * > 对于群的未决信息，ImSDK增加了处理接口。审批人可以选择对单条信息进行同意或者拒绝。已处理成功过的未决信息不能再次处理。
@@ -782,6 +797,7 @@ class GroupManager {
 
     /**
      * @brief 获取指定群在线人数
+     * @category 群组信息相关接口
      * @param SearchGroupParams
      * @return {Promise<commonResponse>}
      * @note 请注意
@@ -832,6 +848,7 @@ class GroupManager {
      *
      * @param SearchGroupParams  群列表参数
      * @return {Promise<commonResponse>}
+     * @category 搜索群列表
      * @note
      *  SDK 会搜索群名称包含于关键字列表 keywordList 的所有群并返回群信息列表。关键字列表最多支持5个。
      */
@@ -875,7 +892,7 @@ class GroupManager {
 
     /**
      * @brief 搜索群成员列表
-     *
+     * @category 搜索群成员列表
      * @param SearchMemberParams
      * @return {Promise<commonResponse>}
      * @note
@@ -922,7 +939,7 @@ class GroupManager {
 
     /**
      * @brief 初始化群属性，会清空原有的群属性列表
-     *
+     * @category 群属性相关接口
      * @param InitGroupAttributeParams
      * @return {Promise<commonResponse>}
      */
@@ -968,7 +985,7 @@ class GroupManager {
 
     /**
      * @brief 设置群属性，已有该群属性则更新其 value 值，没有该群属性则添加该群属性
-     *
+     * @category 群属性相关接口
      * @param DeleteAttributeParams
      * @return {Promise<commonResponse>}
      */
@@ -1014,7 +1031,7 @@ class GroupManager {
 
     /**
      * @brief 删除群属性
-     *
+     * @category 群属性相关接口
      * @param DeleteAttributeParams
      * @return {Promise<commonResponse>}
      */
@@ -1064,7 +1081,7 @@ class GroupManager {
 
     /**
      * @brief 获取群指定属性，keys 传 null 则获取所有群属性。
-     *
+     * @category 群属性相关接口
      * @param DeleteAttributeParams
      * @return {Promise<commonResponse>}
      */
@@ -1128,7 +1145,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组系统消息回调
-     *
+     * @category 回调相关接口
      * @param GroupTipsCallbackParams
      * @note
      * 群组系统消息事件包括 加入群、退出群、踢出群、设置管理员、取消管理员、群资料变更、群成员资料变更。此消息是针对所有群组成员下发的
@@ -1151,7 +1168,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组属性变更回调
-     *
+     * @category 回调相关接口
      * @param GroupAttributeCallbackParams
      * @note
      * 某个已加入的群的属性被修改了，会返回所在群组的所有属性（该群所有的成员都能收到）

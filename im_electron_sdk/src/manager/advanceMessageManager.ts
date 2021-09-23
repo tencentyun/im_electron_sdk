@@ -1,3 +1,7 @@
+/**
+ * 如果您需要收发图片、视频、文件等富媒体消息，并需要撤回消息、标记已读、查询历史消息等高级功能，推荐使用下面这套高级消息接口（简单消息接口和高级消息接口请不要混用）。
+ * @module advanceMessageManager(高级消息收发接口)
+ */
 import {
     sdkconfig,
     ErrorResponse,
@@ -65,13 +69,14 @@ class AdvanceMessageManage {
     private getErrorResponseByCode(code: number) {
         return this.getErrorResponse({ code });
     }
-
+    /** @internal */
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
     /**
      * ### 发送新消息，单聊消息和群消息的发送均采用此接口。
      * @param msgSendMessageParams
+     * @category 发送消息
      * @return  {Promise} Promise的response返回值为：{ code, desc, json_params, user_data }
      * @note 注意：
      *
@@ -138,6 +143,7 @@ class AdvanceMessageManage {
     /**
      * ### 发送新消息，单聊消息和群消息的发送均采用此V2接口（返回值与TIMMsgSendMessage不同）
      * @param msgSendMessageParams
+     * @category 发送消息
      * @return  {Promise<commonResponse>} Promise的response返回值为：message_id(消息ID)
      * @note 与TIMMsgSendMessage不同的是他的返回值不一样并且增加了callback参数
      */
@@ -201,6 +207,7 @@ class AdvanceMessageManage {
     /**
      * ### 根据消息 messageID 取消发送中的消息
      * @param msgCancelSendParams
+     * @category 取消发送中的消息
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
     TIMMsgCancelSend(
@@ -248,6 +255,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 根据消息 messageID 查询本地的消息列表
+     * @category 查询本地的消息列表
      * @param MsgFindMessagesParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -301,6 +309,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 消息上报已读
+     * @category 消息上报已读
      * @param MsgReportReadedParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_param, user_data }
      */
@@ -406,6 +415,7 @@ class AdvanceMessageManage {
     /**
      * ### 消息撤回
      * @param MsgRevokeParams
+     * @category 消息撤回
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_param, user_data }
      * @note
      * 消息撤回。使用保存的消息Json或者用消息定位符查找到的消息Json，避免重复构造消息Json.
@@ -463,6 +473,7 @@ class AdvanceMessageManage {
     /**
      * ### 根据消息定位精准查找指定会话的消息
      * @param MsgFindByMsgLocatorListParams
+     * @category 根据消息定位精准查找指定会话的消息
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_param, user_data }
      * @note
      *  此接口根据消息定位符精准查找指定会话的消息，该功能一般用于消息撤回时查找指定消息等
@@ -514,6 +525,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 导入消息列表到指定会话
+     * @category 导入消息列表到指定会话
      * @param MsgImportMsgListParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_param, user_data }
      * @note
@@ -564,6 +576,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 保存自定义消息
+     * @category 保存自定义消息
      * @param MsgSaveMsgParams
      * @return {Promise<commonResponse> } Promise的response返回值为{ code, desc, json_param, user_data }
      * @note
@@ -611,6 +624,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 获取指定会话的消息列表
+     * @category 获取指定会话的消息列表
      * @param MsgGetMsgListParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data}
      */
@@ -724,6 +738,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 删除指定会话的本地消息
+     * @category 删除指定会话的本地消息
      * @param MsgGetMsgListParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      *  @note
@@ -790,6 +805,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 删除指定会话的本地及漫游消息
+     * @category 删除指定会话的本地及漫游消息
      * @param MsgListDeleteParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -845,6 +861,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 清空指定会话的消息
+     * @category 清空指定会话的消息
      * @param MsgClearHistoryMessageParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -891,6 +908,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 设置针对某个用户的 C2C 消息接收选项（支持批量设置）
+     * @category 设置针对某个用户的 C2C 消息接收选项
      * @param MsgSetC2CReceiveMessageOptParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      * @note
@@ -940,6 +958,7 @@ class AdvanceMessageManage {
 
     /**
      * ### 查询针对某个用户的 C2C 消息接收选项
+     * @category 查询针对某个用户的 C2C 消息接收选项
      * @param MsgGetC2CReceiveMessageOptParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -984,6 +1003,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置群消息的接收选项
+     * @category 设置群消息的接收选项
      * @param MsgSetGroupReceiveMessageOptParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      * @note
@@ -1032,6 +1052,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 下载消息内元素到指定文件路径(图片、视频、音频、文件)
+     * @category 下载消息内元素到指定文件路径
      * @param MsgDownloadElemToPathParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -1077,6 +1098,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 下载合并消息
+     * @category 下载合并消息
      * @param MsgDownloadMergerMessageParams
      * @return {Promise<commonResponse> } Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -1121,6 +1143,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 群发消息，该接口不支持向群组发送消息。
+     * @category 群发消息
      * @param MsgBatchSendParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -1164,6 +1187,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 搜索本地消息
+     * @category 搜索本地消息
      * @param MsgSearchLocalMessagesParams
      * @return {Promise<commonResponse>} Promise的response返回值为{ code, desc, json_params, user_data }
      */
@@ -1266,6 +1290,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 事件回调接口
+     * @category 回调相关接口
      * @param TIMRecvNewMsgCallbackParams
      * @note  如果用户是登录状态，ImSDK收到新消息会通过此接口设置的回调抛出，
      * &emsp;
@@ -1291,6 +1316,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 删除接收新消息回调
+     * @category 回调相关接口
      * @note 参数cb需要跟TIMAddRecvNewMsgCallback传入的cb一致，否则删除回调失败
      */
     TIMRemoveRecvNewMsgCallback(): void {
@@ -1302,6 +1328,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置消息已读回执回调
+     * @category 回调相关接口
      * @param TIMMsgReadedReceiptCallbackParams
      * @note  发送方发送消息，接收方调用接口TIMMsgReportReaded上报该消息已读，发送方ImSDK会通过此接口设置的回调抛出。
      */
@@ -1324,6 +1351,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置接收的消息被撤回回调
+     * @category 回调相关接口
      * @param TIMMsgRevokeCallbackParams
      * @note
      * 发送方发送消息，接收方收到消息。此时发送方调用接口TIMMsgRevoke撤回该消息，接收方的ImSDK会通过此接口设置的回调抛出。
@@ -1345,6 +1373,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置消息内元素相关文件上传进度回调
+     * @category 回调相关接口
      * @param TIMMsgElemUploadProgressCallbackParams
      * @note
      * 设置消息元素上传进度回调。当消息内包含图片、声音、文件、视频元素时，ImSDK会上传这些文件，并触发此接口设置的回调，用户可以根据回调感知上传的进度
@@ -1375,7 +1404,7 @@ class AdvanceMessageManage {
     /**
      * ### 设置消息在云端被修改后回传回来的消息更新通知回调
      * @param TIMMsgUpdateCallbackParams
-     *
+     * @category 回调相关接口
      *  @note
      * &emsp;
      * > 当您发送的消息在服务端被修改后，ImSDK会通过该回调通知给您

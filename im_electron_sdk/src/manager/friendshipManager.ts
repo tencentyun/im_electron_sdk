@@ -1,3 +1,8 @@
+/**
+ * 腾讯云 IM 在收发消息时默认不检查是不是好友关系，您可以在 [腾讯云IM官网](https://cloud.tencent.com/document/product/269/51940#.E5.A5.BD.E5.8F.8B.E7.AE.A1.E7.90.86.E7.9B.B8.E5.85.B3.E6.8E.A5.E5.8F.A3])
+ * 控制台 >功能配置>登录与消息>好友关系检查中开启"发送单聊消息检查关系链"开关，并使用如下接口增删好友和管理好友列表。
+ * @module FriendshipManager(好友管理相关接口)
+ */
 import {
     GetFriendProfileListParams,
     AddFriendParams,
@@ -59,17 +64,16 @@ class FriendshipManager {
     getErrorResponseByCode(code: number) {
         return this.getErrorResponse({ code });
     }
-
+    /** @internal */
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
 
     /**
     * @brief  获取好友列表
-    *
+    * @category 获取好友列表
     * @param GetFriendProfileListParams
     * @return Promise<commonResponse>
-    *
     * @note 好友资料
     * 此接口通过回调返回所有好友资料[FriendProfile](../interfaces/interface_friendshipinterface.userprofile.html).
     * 
@@ -129,7 +133,8 @@ class FriendshipManager {
     }
 
     /**
-     * @brief 处理好友请求
+     * @brief 添加好友
+     * @category 添加好友
      * @param AddFriendParams
      * @return {Promise<commonResponse>}
      * @note
@@ -176,6 +181,7 @@ class FriendshipManager {
 
     /**
      * @brief 处理好友请求
+     * @category 处理好友请求
      * @param HandleFriendAddParams
      * @return {Promise<commonResponse>}
      * @note &emsp;
@@ -229,6 +235,7 @@ class FriendshipManager {
 
     /**
      * @brief 更新好友资料(备注等)
+     * @category 更新好友资料(备注等)
      * @param ModifyFriendProfileParams
      * @return {Promise<commonResponse>}
      * @note
@@ -279,6 +286,7 @@ class FriendshipManager {
     }
     /**
      * @brief 删除好友
+     * @category 删除好友
      * @param deleteFriendParams
      * @return {Promise<commonResponse>}
      * @note
@@ -325,6 +333,7 @@ class FriendshipManager {
     }
     /**
      * @brief 检测好友类型(单向或双向)
+     * @category 检测好友类型
      * @param CheckFriendTypeParams
      * @return {Promise<commonResponse>}
      * @note
@@ -371,6 +380,7 @@ class FriendshipManager {
     }
     /**
      * @brief 创建好友分组
+     * @category 好友分组相关接口
      * @param CreateFriendGroupParams
      * @return {Promise<commonResponse>}
      * @note
@@ -418,6 +428,7 @@ class FriendshipManager {
     }
     /**
      * @brief 获取指定好友分组的分组信息
+     * @category 好友分组相关接口
      * @param friendshipStringArrayParams
      * @return {Promise<commonResponse>}
      */
@@ -463,6 +474,7 @@ class FriendshipManager {
     }
     /**
      * @brief 修改好友分组
+     * @category 好友分组相关接口
      * @param ModifyFriendGroupParams
      * @return {Promise<commonResponse>}
      */
@@ -508,6 +520,7 @@ class FriendshipManager {
     }
     /**
      * @brief 删除好友分组
+     * @category 好友分组相关接口*
      * @param friendshipStringArrayParams
      * @return {Promise<commonResponse>}
      */
@@ -553,6 +566,7 @@ class FriendshipManager {
     }
     /**
      * @brief 添加指定用户到黑名单
+     * @category 黑名单相关接口
      * @param friendshipStringArrayParams
      * @return {Promise<commonResponse>}
      */
@@ -597,6 +611,7 @@ class FriendshipManager {
     }
     /**
      * @brief 获取黑名单列表
+     * @category 黑名单相关接口
      * @param GetBlackListParams
      * @return {Promise<commonResponse>}
      */
@@ -639,6 +654,7 @@ class FriendshipManager {
     }
     /**
      * @brief 从黑名单中删除指定用户列表
+     * @category 黑名单相关接口
      * @param FriendshipStringArrayParams
      * @return {Promise<commonResponse>}
      */
@@ -687,6 +703,7 @@ class FriendshipManager {
     }
     /**
      * @brief 获取好友添加请求未决信息列表
+     * @category 未决信息相关接口
      * @param FriendshipGetPendencyListParams
      * @return {Promise<commonResponse>}
      */
@@ -731,6 +748,7 @@ class FriendshipManager {
     }
     /**
      * @brief 上报好友添加请求未决信息已读
+     * @category 未决信息相关接口
      * @param DeletePendencyParams
      * @return {Promise<commonResponse>}
      */
@@ -775,6 +793,7 @@ class FriendshipManager {
     }
     /**
      * @brief 上报好友添加请求未决信息已读
+     * @category 未决信息相关接口
      * @param ReportPendencyReadedParams
      * @return {Promise<commonResponse>}
      */
@@ -822,6 +841,7 @@ class FriendshipManager {
     }
     /**
      * @brief 搜索好友
+     * @category 搜索好友
      * @param SearchFriendsParams
      * @return {Promise<commonResponse>}
      */
@@ -866,6 +886,7 @@ class FriendshipManager {
     }
     /**
      * @brief 获取好友信息
+     * @category 获取好友信息
      * @param FriendshipStringArrayParams
      * @return {Promise<commonResponse>}
      */
@@ -967,6 +988,7 @@ class FriendshipManager {
     }
     /**
      * @brief 设置添加好友的回调
+     * @category 回调相关
      * @param TIMOnAddFriendCallbackParams
      *
      * @note
@@ -990,6 +1012,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置好友的回调
+     * @category 回调相关
      * @param  TIMOnDeleteFriendCallbackParams
      * @note
      * 此回调为了多终端同步。例如A设备、B设备都登录了同一帐号的ImSDK，A设备添加了好友，B设备ImSDK会收到添加好友的推送，ImSDK通过此回调告知开发者。
@@ -1014,6 +1037,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置更新好友资料的回调
+     * @category 回调相关
      * @param TIMUpdateFriendProfileCallbackParams
      * @note
      * 此回调为了多终端同步。例如A设备、B设备都登录了同一帐号的ImSDK，A设备更新了好友资料，B设备ImSDK会收到更新好友资料的推送，ImSDK通过此回调告知开发者。
@@ -1042,7 +1066,7 @@ class FriendshipManager {
     /**
      * @brief  设置好友添加请求的回调
      * @param TIMFriendAddRequestCallbackParams 好友添加请求回调
-     *
+     *  @category 回调相关
      * @note
      * 当前登入用户设置添加好友需要确认时，如果有用户请求加当前登入用户为好友，会收到好友添加请求的回调，ImSDK通过此回调告知开发者。如果多终端登入同一帐号，每个终端都会收到这个回调。
      */
@@ -1068,7 +1092,7 @@ class FriendshipManager {
     /**
      * @brief 设置好友申请删除的回调
      * @param TIMFriendApplicationListDeletedCallbackParams 好友申请删除回调
-     *
+     * @category 回调相关
      * @note
      *  1. 主动删除好友申请
      *  2. 拒绝好友申请
@@ -1105,7 +1129,7 @@ class FriendshipManager {
     /**
      * @brief 设置好友申请已读的回调
      * @param TIMFriendApplicationListReadCallbackParams
-     *
+     * @category 回调相关
      * @note
      * 如果调用 setFriendApplicationRead 设置好友申请列表已读，会收到这个回调（主要用于多端同步）
      */
@@ -1134,6 +1158,7 @@ class FriendshipManager {
     }
     /**
      * @brief 设置黑名单新增的回调
+     * @category 回调相关
      * @param TIMFriendBlackListAddedCallbackParams 黑名单新增的回调
      */
     TIMSetFriendBlackListAddedCallback(
@@ -1159,6 +1184,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置黑名单删除的回调
+     * @category 回调相关
      * @param TIMFriendBlackListDeletedCallbackParams 黑名单新增的回调
      */
     TIMSetFriendBlackListDeletedCallback(
