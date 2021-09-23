@@ -4,13 +4,13 @@
 
 #### 支持平台
 
-Windows、Linux（uos）
+Windows、Linux（uos）、Mac
 
 #### 使用
 
 ```javascript
 // 主进程
-const TimMain = require('im_electron_sdk')
+const TimMain = require('im_electron_sdk/dist/main')
 
 const sdkappid = 0;// 可以去腾讯云即时通信IM控制台申请
 const tim = new TimMain({
@@ -19,7 +19,7 @@ const tim = new TimMain({
 
 //渲染进程
 
-const TimRender = require('im_electron_sdk')
+const TimRender = require('im_electron_sdk/dist/render')
 const timRender = new TimRender();
 // 初始化
 timRender.TIMInit()
@@ -34,6 +34,8 @@ timRender.TIMLogin({
 })
 // 其他api
 ```
+#### 注意
+1、多渲染进程使用sdk不能重复初始化和登录
 
 #### API列表
 
