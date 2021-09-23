@@ -50,6 +50,7 @@ class AdvanceMessageManage {
     private _callback: Map<string, Function> = new Map();
     private _cache: Map<string, Map<string, cache>> = new Map();
     private _ffiCallback: Map<string, Buffer> = new Map();
+    private _globalUserData: Map<string, string> = new Map();
     private stringFormator = (str: string | undefined): string =>
         str ? nodeStrigToCString(str) : nodeStrigToCString("");
 
@@ -89,7 +90,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgSendMessage")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgSendMessage")?.delete(now);
             };
@@ -136,10 +141,13 @@ class AdvanceMessageManage {
                 user_data
             ) => {
                 const fn = this._callback.get("TIMMsgSendMessageV2Callback");
+                const us = this._cache
+                    .get("TIMMsgSendMessageV2Callback")
+                    ?.get(now)?.user_data;
                 console.log("========executed callback func============", fn);
                 if (code === 0)
-                    fn && fn({ code, desc, json_params, user_data }, user_data);
-                else fn && fn(this.getErrorResponse({ code, desc }), user_data);
+                    fn && fn({ code, desc, json_params, user_data: us }, us);
+                else fn && fn(this.getErrorResponse({ code, desc }), us);
                 this._cache.get("TIMMsgSendMessageV2Callback")?.delete(now);
             };
             const c_callback = jsFuncToFFIFun(cb);
@@ -150,6 +158,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb: cb,
                 callback: c_callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSendMessageV2Callback", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSendMessage(
@@ -190,7 +199,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgCancelSend")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgCancelSend")?.delete(now);
             };
@@ -202,6 +215,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgCancelSend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgCancelSend(
@@ -240,7 +254,11 @@ class AdvanceMessageManage {
                             desc: "message is not found",
                         })
                     );
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgFindMessages")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgFindMessages")?.delete(now);
             };
@@ -252,6 +270,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgFindMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgFindMessages(
@@ -298,7 +317,10 @@ class AdvanceMessageManage {
                         user_data
                     ) => {
                         if (code === 0) {
-                            resolve({ code, desc, json_param, user_data });
+                            const us = this._cache
+                                .get("TIMMsgReportReaded")
+                                ?.get(now)?.user_data;
+                            resolve({ code, desc, json_param, user_data: us });
                         } else reject(this.getErrorResponse({ code, desc }));
                         this._cache.get("TIMMsgReportReaded")?.delete(now);
                     };
@@ -310,6 +332,7 @@ class AdvanceMessageManage {
                     cacheMap.set(now, {
                         cb,
                         callback,
+                        user_data: c_user_data,
                     });
                     this._cache.set("TIMMsgReportReaded", cacheMap);
                     const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(
@@ -336,7 +359,10 @@ class AdvanceMessageManage {
                     user_data
                 ) => {
                     if (code === 0) {
-                        resolve({ code, desc, json_param, user_data });
+                        const us = this._cache
+                            .get("TIMMsgReportReaded")
+                            ?.get(now)?.user_data;
+                        resolve({ code, desc, json_param, user_data: us });
                     } else reject(this.getErrorResponse({ code, desc }));
                     this._cache.get("TIMMsgReportReaded")?.delete(now);
                 };
@@ -348,6 +374,7 @@ class AdvanceMessageManage {
                 cacheMap.set(now, {
                     cb,
                     callback,
+                    user_data: c_user_data,
                 });
                 this._cache.set("TIMMsgReportReaded", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgReportReaded(
@@ -386,7 +413,10 @@ class AdvanceMessageManage {
                     user_data
                 ) => {
                     if (code === 0) {
-                        resolve({ code, desc, json_params, user_data });
+                        const us = this._cache
+                            .get("TIMMsgRevoke")
+                            ?.get(now)?.user_data;
+                        resolve({ code, desc, json_params, user_data: us });
                     } else reject(this.getErrorResponse({ code, desc }));
                     this._cache.get("TIMMsgRevoke")?.delete(now);
                 };
@@ -398,6 +428,7 @@ class AdvanceMessageManage {
                 cacheMap.set(now, {
                     cb,
                     callback,
+                    user_data: c_user_data,
                 });
                 this._cache.set("TIMMsgRevoke", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgRevoke(
@@ -430,7 +461,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgFindByMsgLocatorList")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgFindByMsgLocatorList")?.delete(now);
             };
@@ -442,6 +477,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgFindByMsgLocatorList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgFindByMsgLocatorList(
@@ -474,7 +510,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgImportMsgList")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgImportMsgList")?.delete(now);
             };
@@ -486,6 +526,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgImportMsgList", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgImportMsgList(
@@ -514,7 +555,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgSaveMsg")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgSaveMsg")?.delete(now);
             };
@@ -526,6 +571,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSaveMsg", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSaveMsg(
@@ -675,7 +721,10 @@ class AdvanceMessageManage {
                     user_data
                 ) => {
                     if (code === 0) {
-                        resolve({ code, desc, json_params, user_data });
+                        const us = this._cache
+                            .get("TIMMsgDelete")
+                            ?.get(now)?.user_data;
+                        resolve({ code, desc, json_params, user_data: us });
                     } else reject(this.getErrorResponse({ code, desc }));
                     this._cache.get("TIMMsgDelete")?.delete(now);
                 };
@@ -687,6 +736,7 @@ class AdvanceMessageManage {
                 cacheMap.set(now, {
                     cb,
                     callback,
+                    user_data: c_user_data,
                 });
                 this._cache.set("TIMMsgDelete", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgDelete(
@@ -725,7 +775,10 @@ class AdvanceMessageManage {
                     user_data
                 ) => {
                     if (code === 0) {
-                        resolve({ code, desc, json_params, user_data });
+                        const us = this._cache
+                            .get("TIMMsgListDelete")
+                            ?.get(now)?.user_data;
+                        resolve({ code, desc, json_params, user_data: us });
                     } else reject(this.getErrorResponse({ code, desc }));
                     this._cache.get("TIMMsgListDelete")?.delete(now);
                 };
@@ -737,6 +790,7 @@ class AdvanceMessageManage {
                 cacheMap.set(now, {
                     cb,
                     callback,
+                    user_data: c_user_data,
                 });
                 this._cache.set("TIMMsgListDelete", cacheMap);
                 const code = this._sdkconfig.Imsdklib.TIMMsgListDelete(
@@ -767,7 +821,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgClearHistoryMessage")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgClearHistoryMessage")?.delete(now);
             };
@@ -779,6 +837,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgClearHistoryMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgClearHistoryMessage(
@@ -808,7 +867,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgSetC2CReceiveMessageOpt")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgSetC2CReceiveMessageOpt")?.delete(now);
             };
@@ -820,6 +883,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSetC2CReceiveMessageOpt", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSetC2CReceiveMessageOpt(
@@ -849,7 +913,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgGetC2CReceiveMessageOpt")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgGetC2CReceiveMessageOpt")?.delete(now);
             };
@@ -861,6 +929,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgGetC2CReceiveMessageOpt", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgGetC2CReceiveMessageOpt(
@@ -889,7 +958,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgSetGroupReceiveMessageOpt")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgSetGroupReceiveMessageOpt")?.delete(now);
             };
@@ -901,6 +974,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSetGroupReceiveMessageOpt", cacheMap);
             const code =
@@ -932,7 +1006,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgDownloadElemToPath")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgDownloadElemToPath")?.delete(now);
             };
@@ -944,6 +1022,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgDownloadElemToPath", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadElemToPath(
@@ -972,7 +1051,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgDownloadMergerMessage")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgDownloadMergerMessage")?.delete(now);
             };
@@ -984,6 +1067,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgDownloadMergerMessage", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgDownloadMergerMessage(
@@ -1012,7 +1096,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgBatchSend")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgBatchSend")?.delete(now);
             };
@@ -1024,6 +1112,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgBatchSend", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgBatchSend(
@@ -1051,7 +1140,11 @@ class AdvanceMessageManage {
                 json_params,
                 user_data
             ) => {
-                if (code === 0) resolve({ code, desc, json_params, user_data });
+                const us = this._cache
+                    .get("TIMMsgSearchLocalMessages")
+                    ?.get(now)?.user_data;
+                if (code === 0)
+                    resolve({ code, desc, json_params, user_data: us });
                 else reject(this.getErrorResponse({ code, desc }));
                 this._cache.get("TIMMsgSearchLocalMessages")?.delete(now);
             };
@@ -1063,6 +1156,7 @@ class AdvanceMessageManage {
             cacheMap.set(now, {
                 cb,
                 callback,
+                user_data: c_user_data,
             });
             this._cache.set("TIMMsgSearchLocalMessages", cacheMap);
             const code = this._sdkconfig.Imsdklib.TIMMsgSearchLocalMessages(
@@ -1080,7 +1174,11 @@ class AdvanceMessageManage {
 
     private recvNewMsgCallback(json_msg_array: Buffer, user_data?: any) {
         const fn = this._callback.get("TIMAddRecvNewMsgCallback");
-        fn && fn(json_msg_array, user_data);
+        const us = this._globalUserData.get("TIMAddRecvNewMsgCallback");
+        if (us !== user_data) {
+            log.info("TIMAddRecvNewMsgCallback user_data pointer error");
+        }
+        fn && fn(json_msg_array, us);
     }
 
     private msgReadedReceiptCallback(
@@ -1088,11 +1186,19 @@ class AdvanceMessageManage {
         user_data?: any
     ) {
         const fn = this._callback.get("TIMSetMsgReadedReceiptCallback");
-        fn && fn(json_msg_readed_receipt_array, user_data);
+        const us = this._globalUserData.get("TIMSetMsgReadedReceiptCallback");
+        if (us !== user_data) {
+            log.info("TIMSetMsgReadedReceiptCallback user_data pointer error");
+        }
+        fn && fn(json_msg_readed_receipt_array, us);
     }
     private msgRevokeCallback(json_msg_locator_array: Buffer, user_data?: any) {
         const fn = this._callback.get("TIMSetMsgRevokeCallback");
-        fn && fn(json_msg_locator_array, user_data);
+        const us = this._globalUserData.get("TIMSetMsgRevokeCallback");
+        if (us !== user_data) {
+            log.info("TIMSetMsgRevokeCallback user_data pointer error");
+        }
+        fn && fn(json_msg_locator_array, us);
     }
     private msgElemUploadProgressCallback(
         json_msg: Buffer,
@@ -1102,40 +1208,29 @@ class AdvanceMessageManage {
         user_data?: any
     ) {
         const fn = this._callback.get("TIMSetMsgElemUploadProgressCallback");
-        // try {
-        //     const { message_msg_id } = JSON.parse(json_msg.toString());
-        //     const now = (Date.now() / 1000).toFixed(0);
-        //     if (!this._uploadProcessMap.get(message_msg_id)) {
-        //         const lastCallbackTime = new Map();
-        //         lastCallbackTime.set(now, true);
-        //         this._uploadProcessMap.set(message_msg_id, lastCallbackTime);
-        //         fn && fn(json_msg, index, cur_size, local_size, user_data);
-        //     } else {
-        //         const hasCallback = this._uploadProcessMap
-        //             .get(message_msg_id)
-        //             ?.get(now);
-        //         if (!hasCallback) {
-        //             this._uploadProcessMap.get(message_msg_id)?.set(now, true);
-        //             fn && fn(json_msg, index, cur_size, local_size, user_data);
-        //         }
-        //     }
-        //     if (cur_size === local_size) {
-        //         this._uploadProcessMap.delete(message_msg_id);
-        //     }
-        // } catch (e) {
-        //     fn && fn(json_msg, index, cur_size, local_size, user_data);
-        // }
-        fn && fn(json_msg, index, cur_size, local_size, user_data);
+        const us = this._globalUserData.get(
+            "TIMSetMsgElemUploadProgressCallback"
+        );
+        if (us !== user_data) {
+            log.info(
+                "TIMSetMsgElemUploadProgressCallback user_data pointer error"
+            );
+        }
+        fn && fn(json_msg, index, cur_size, local_size, us);
         // console.log('native 回调了 sdk cur_size', cur_size)
     }
 
     private msgUpdateCallback(json_msg_array: string, user_data: string) {
         const fn = this._callback.get("TIMSetMsgUpdateCallback");
-        fn && fn(json_msg_array, user_data);
+        const us = this._globalUserData.get("TIMSetMsgUpdateCallback");
+        if (us !== user_data) {
+            log.info("TIMSetMsgUpdateCallback user_data pointer error");
+        }
+        fn && fn(json_msg_array, us);
     }
 
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams): void {
-        const { callback, user_data = " " } = params;
+        const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             voidType,
@@ -1144,6 +1239,7 @@ class AdvanceMessageManage {
         );
         this._ffiCallback.set("TIMAddRecvNewMsgCallback", c_callback);
         this._callback.set("TIMAddRecvNewMsgCallback", callback);
+        this._globalUserData.set("TIMAddRecvNewMsgCallback", c_user_data);
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(
             this._ffiCallback.get("TIMAddRecvNewMsgCallback") as Buffer,
             c_user_data
@@ -1162,7 +1258,7 @@ class AdvanceMessageManage {
     TIMSetMsgReadedReceiptCallback(
         params: TIMMsgReadedReceiptCallbackParams
     ): void {
-        const { callback, user_data = " " } = params;
+        const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             voidType,
@@ -1171,6 +1267,7 @@ class AdvanceMessageManage {
         );
         this._ffiCallback.set("TIMSetMsgReadedReceiptCallback", c_callback);
         this._callback.set("TIMSetMsgReadedReceiptCallback", callback);
+        this._globalUserData.set("TIMSetMsgReadedReceiptCallback", c_user_data);
         this._sdkconfig.Imsdklib.TIMSetMsgReadedReceiptCallback(
             this._ffiCallback.get("TIMSetMsgReadedReceiptCallback") as Buffer,
             c_user_data
@@ -1178,7 +1275,7 @@ class AdvanceMessageManage {
     }
 
     TIMSetMsgRevokeCallback(params: TIMMsgRevokeCallbackParams): void {
-        const { callback, user_data = " " } = params;
+        const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             voidType,
@@ -1187,6 +1284,7 @@ class AdvanceMessageManage {
         );
         this._callback.set("TIMSetMsgRevokeCallback", callback);
         this._ffiCallback.set("TIMSetMsgRevokeCallback", c_callback);
+        this._globalUserData.set("TIMSetMsgRevokeCallback", c_user_data);
         this._sdkconfig.Imsdklib.TIMSetMsgRevokeCallback(
             this._ffiCallback.get("TIMSetMsgRevokeCallback") as Buffer,
             c_user_data
@@ -1196,7 +1294,7 @@ class AdvanceMessageManage {
     TIMSetMsgElemUploadProgressCallback(
         params: TIMMsgElemUploadProgressCallbackParams
     ): void {
-        const { callback, user_data = " " } = params;
+        const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             ref.types.void,
@@ -1208,6 +1306,10 @@ class AdvanceMessageManage {
             "TIMSetMsgElemUploadProgressCallback",
             c_callback
         );
+        this._globalUserData.set(
+            "TIMSetMsgElemUploadProgressCallback",
+            c_user_data
+        );
         this._sdkconfig.Imsdklib.TIMSetMsgElemUploadProgressCallback(
             this._ffiCallback.get(
                 "TIMSetMsgElemUploadProgressCallback"
@@ -1217,7 +1319,7 @@ class AdvanceMessageManage {
     }
 
     TIMSetMsgUpdateCallback(params: TIMMsgUpdateCallbackParams): void {
-        const { callback, user_data = " " } = params;
+        const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
             voidType,
@@ -1226,6 +1328,7 @@ class AdvanceMessageManage {
         );
         this._callback.set("TIMSetMsgUpdateCallback", callback);
         this._ffiCallback.set("TIMSetMsgUpdateCallback", c_callback);
+        this._globalUserData.set("TIMSetMsgUpdateCallback", c_user_data);
         this._sdkconfig.Imsdklib.TIMSetMsgUpdateCallback(
             this._ffiCallback.get("TIMSetMsgUpdateCallback") as Buffer,
             c_user_data

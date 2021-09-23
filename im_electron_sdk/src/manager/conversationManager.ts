@@ -29,6 +29,7 @@ class ConversationManager {
     private _callback: Map<String, Function> = new Map();
     private _ffiCallback: Map<String, Buffer> = new Map();
     private _cache: Map<String, Map<string, cache>> = new Map();
+    private _globalUserData: Map<string, string> = new Map();
     constructor(config: sdkconfig) {
         this._sdkconfig = config;
     }
@@ -299,7 +300,8 @@ class ConversationManager {
         user_data: string
     ) {
         const fn = this._callback.get("TIMSetConvEventCallback");
-        fn && fn(conv_event, json_conv_array, user_data);
+        const us = this._globalUserData.get("TIMSetConvEventCallback");
+        fn && fn(conv_event, json_conv_array, us);
     }
     private convTotalUnreadMessageCountChangedCallback(
         total_unread_count: number,
@@ -308,7 +310,10 @@ class ConversationManager {
         const fn = this._callback.get(
             "TIMSetConvTotalUnreadMessageCountChangedCallback"
         );
-        fn && fn(total_unread_count, user_data);
+        const us = this._globalUserData.get(
+            "TIMSetConvTotalUnreadMessageCountChangedCallback"
+        );
+        fn && fn(total_unread_count, us);
     }
     async TIMSetConvEventCallback(param: setConvEventCallback): Promise<any> {
         this._callback.set("TIMSetConvEventCallback", param.callback);
@@ -319,6 +324,7 @@ class ConversationManager {
         const userData = param.user_data
             ? nodeStrigToCString(param.user_data)
             : nodeStrigToCString("");
+        this._globalUserData.set("TIMSetConvEventCallback", userData);
         this._sdkconfig.Imsdklib.TIMSetConvEventCallback(
             this._ffiCallback.get("TIMSetConvEventCallback") as Buffer,
             userData
@@ -341,6 +347,10 @@ class ConversationManager {
         this._callback.set(
             "TIMSetConvTotalUnreadMessageCountChangedCallback",
             param.callback
+        );
+        this._globalUserData.set(
+            "TIMSetConvTotalUnreadMessageCountChangedCallback",
+            userData
         );
         this._sdkconfig.Imsdklib.TIMSetConvTotalUnreadMessageCountChangedCallback(
             this._ffiCallback.get(

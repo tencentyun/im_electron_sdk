@@ -102,6 +102,7 @@ import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { TIMConvType } from "./enum";
 import log from "./utils/log";
+import { remote } from "electron";
 const deepClone = (obj: object) => {
     if (!obj) {
         return false;
@@ -124,15 +125,17 @@ interface TestInterface {
 export default class TimRender {
     static runtime: Map<string, Function> = new Map();
     static isListened = false;
+    private _currentWindowID = remote.getCurrentWindow().id;
     constructor() {
         if (!TimRender.isListened) {
-            ipcRenderer.on("global-callback-reply", (e: any, res: any) => {
+            ipcRenderer.on(`global-callback-reply`, (e: any, res: any) => {
+                console.log("事件回调到了渲染进程*************");
                 try {
                     const { callbackKey, responseData } = JSON.parse(res);
                     log.info("事件回调返回渲染进程", JSON.parse(res));
-                    if (TimRender.runtime.has(callbackKey)) {
+                    if (this._getCallback(callbackKey)) {
                         //@ts-ignore
-                        TimRender.runtime.get(callbackKey)(responseData);
+                        this._getCallback(callbackKey)(responseData);
 
                         // 处理信令的逻辑
 
@@ -233,6 +236,7 @@ export default class TimRender {
         );
         return JSON.parse(response);
     }
+
     private async _getCallInfo(inviteID: string): Promise<object> {
         const resStrng = await ipcRenderer.invoke(
             "_getCallInfo",
@@ -283,10 +287,10 @@ export default class TimRender {
                 inviteeList.length &&
                 inviteeList.includes(userID)
             ) {
-                if (TimRender.runtime.get("TIMOnInvited")) {
+                if (this._getCallback("TIMOnInvited")) {
                     await this._setCallInfo(inviteID, deepClone(parsedData));
                     //@ts-ignore
-                    TimRender.runtime.get("TIMOnInvited")(message);
+                    this._getCallback("TIMOnInvited")(message);
                     // 开始倒计时计算超时
                     if (timeout > 0) {
                         const { inviteID } = parsedData;
@@ -306,7 +310,7 @@ export default class TimRender {
 
             if (rejectList && rejectList.length) {
                 const accepter = rejectList[0];
-                if (TimRender.runtime.get("TIMOnRejected")) {
+                if (this._getCallback("TIMOnRejected")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
                     const newInviteeList = inviteeList.filter(
@@ -323,7 +327,7 @@ export default class TimRender {
                         await this._deleteCallInfo(inviteID);
                     }
                     //@ts-ignore
-                    TimRender.runtime.get("TIMOnRejected")(message);
+                    this._getCallback("TIMOnRejected")(message);
                 }
             }
         }
@@ -337,7 +341,7 @@ export default class TimRender {
             if (acceptList && acceptList.length) {
                 const accepter = acceptList[0];
 
-                if (TimRender.runtime.get("TIMOnAccepted")) {
+                if (this._getCallback("TIMOnAccepted")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
                     const newInviteeList = inviteeList.filter(
@@ -353,7 +357,7 @@ export default class TimRender {
                         await this._deleteCallInfo(inviteID);
                     }
                     //@ts-ignore
-                    TimRender.runtime.get("TIMOnAccepted")(message);
+                    this._getCallback("TIMOnAccepted")(message);
                 }
             }
         }
@@ -361,10 +365,10 @@ export default class TimRender {
     private async _onCanceled(inviteID: string, parsedData: any, message: any) {
         const callInfo = deepClone(await this._getCallInfo(inviteID));
         if (callInfo) {
-            if (TimRender.runtime.get("TIMOnCanceled")) {
+            if (this._getCallback("TIMOnCanceled")) {
                 await this._deleteCallInfo(inviteID);
                 //@ts-ignore
-                TimRender.runtime.get("TIMOnCanceled")(message);
+                this._getCallback("TIMOnCanceled")(message);
             }
         }
     }
@@ -377,7 +381,7 @@ export default class TimRender {
         const { inviteeList: timeouter } = parsedData;
         const handler = timeouter[0];
         if (timeouter && timeouter.length) {
-            if (TimRender.runtime.get("TIMOnTimeout")) {
+            if (this._getCallback("TIMOnTimeout")) {
                 const callInfo = deepClone(await this._getCallInfo(inviteID));
                 const { inviteeList } = callInfo;
                 const newInviteeList = inviteeList.filter(
@@ -391,9 +395,15 @@ export default class TimRender {
                 }
                 //@ts-ignore
 
-                TimRender.runtime.get("TIMOnTimeout")(message);
+                this._getCallback("TIMOnTimeout")(message);
             }
         }
+    }
+    private _setCallback(key: string, callback: Function) {
+        TimRender.runtime.set(`${key}_${this._currentWindowID}`, callback);
+    }
+    private _getCallback(key: string) {
+        return TimRender.runtime.get(`${key}_${this._currentWindowID}`);
     }
     /**
      * Example
@@ -409,7 +419,7 @@ export default class TimRender {
      */
     TIMOnInvited(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnInvited", param.callback);
+            this._setCallback("TIMOnInvited", param.callback);
             resolve({});
         });
     }
@@ -427,7 +437,7 @@ export default class TimRender {
      */
     TIMOnRejected(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnRejected", param.callback);
+            this._setCallback("TIMOnRejected", param.callback);
             resolve({});
         });
     }
@@ -445,7 +455,7 @@ export default class TimRender {
      */
     TIMOnAccepted(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnAccepted", param.callback);
+            this._setCallback("TIMOnAccepted", param.callback);
             resolve({});
         });
     }
@@ -463,7 +473,7 @@ export default class TimRender {
      */
     TIMOnCanceled(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnCanceled", param.callback);
+            this._setCallback("TIMOnCanceled", param.callback);
             resolve({});
         });
     }
@@ -481,7 +491,7 @@ export default class TimRender {
      */
     TIMOnTimeout(param: signalCallback) {
         return new Promise(resolve => {
-            TimRender.runtime.set("TIMOnTimeout", param.callback);
+            this._setCallback("TIMOnTimeout", param.callback);
             resolve({});
         });
     }
@@ -553,52 +563,56 @@ export default class TimRender {
         param: convTotalUnreadMessageCountChangedCallbackParam
     ) {
         const callback = `TIMSetConvTotalUnreadMessageCountChangedCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetConvTotalUnreadMessageCountChangedCallback",
             manager: Managers.conversationManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
     }
     TIMSetConvEventCallback(param: setConvEventCallback) {
         const callback = `TIMSetConvEventCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetConvEventCallback",
             manager: Managers.conversationManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
     }
     TIMSetUserSigExpiredCallback(param: TIMSetUserSigExpiredCallbackParam) {
         const callback = `TIMSetUserSigExpiredCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetUserSigExpiredCallback",
             manager: Managers.timBaseManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
     }
     TIMSetKickedOfflineCallback(param: TIMSetKickedOfflineCallbackParam) {
         const callback = `TIMSetKickedOfflineCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetKickedOfflineCallback",
             manager: Managers.timBaseManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
@@ -607,26 +621,28 @@ export default class TimRender {
         param: TIMSetNetworkStatusListenerCallbackParam
     ) {
         const callback = `TIMSetNetworkStatusListenerCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetNetworkStatusListenerCallback",
             manager: Managers.timBaseManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
     }
     TIMSetLogCallback(param: TIMSetLogCallbackParam) {
         const callback = `TIMSetLogCallback`;
-        TimRender.runtime.set(callback, param.callback);
+        this._setCallback(callback, param.callback);
         //@ts-ignore
         param.callback = callback;
         const formatedData = {
             method: "TIMSetLogCallback",
             manager: Managers.timBaseManager,
-            callback: callback,
+            callback,
+            windowID: this._currentWindowID,
             param: param,
         };
         return this._call(formatedData);
@@ -732,7 +748,6 @@ export default class TimRender {
         const formatedData: ipcData<CreateGroupParams> = {
             method: "TIMGroupCreate",
             manager: Managers.groupManager,
-            // callback,
             param: data,
         };
         return this._call(formatedData);
@@ -784,10 +799,11 @@ export default class TimRender {
             method: "TIMSetGroupAttributeChangedCallback",
             manager: Managers.groupManager,
             callback,
+            windowID: this._currentWindowID,
             param: data,
         };
 
-        TimRender.runtime.set(callback, data.callback as unknown as Function);
+        this._setCallback(callback, data.callback as unknown as Function);
         return this._call(formatedData);
     }
 
@@ -797,10 +813,11 @@ export default class TimRender {
             method: "TIMSetGroupTipsEventCallback",
             manager: Managers.groupManager,
             callback,
+            windowID: this._currentWindowID,
             param: data,
         };
 
-        TimRender.runtime.set(callback, data.callback as unknown as Function);
+        this._setCallback(callback, data.callback as unknown as Function);
         return this._call(formatedData);
     }
 
@@ -1176,10 +1193,11 @@ export default class TimRender {
             method: "TIMSetOnAddFriendCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
 
         return this._call(formatedData);
     }
@@ -1190,10 +1208,11 @@ export default class TimRender {
             method: "TIMSetOnDeleteFriendCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
 
         return this._call(formatedData);
     }
@@ -1206,10 +1225,11 @@ export default class TimRender {
             method: "TIMSetUpdateFriendProfileCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
 
         return this._call(formatedData);
     }
@@ -1220,10 +1240,11 @@ export default class TimRender {
             method: "TIMSetFriendAddRequestCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
 
         return this._call(formatedData);
     }
@@ -1236,10 +1257,11 @@ export default class TimRender {
             method: "TIMSetFriendApplicationListDeletedCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1251,10 +1273,11 @@ export default class TimRender {
             method: "TIMSetFriendApplicationListReadCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1266,10 +1289,11 @@ export default class TimRender {
             method: "TIMSetFriendBlackListAddedCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1281,10 +1305,11 @@ export default class TimRender {
             method: "TIMSetFriendBlackListDeletedCallback",
             manager: Managers.friendshipManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1304,10 +1329,11 @@ export default class TimRender {
             method: "TIMMsgSendMessageV2",
             manager: Managers.advanceMessageManager,
             callback,
+            windowID: this._currentWindowID,
             param: msgSendMessageParams,
         };
 
-        TimRender.runtime.set(callback, msgSendMessageParams.callback);
+        this._setCallback(callback, msgSendMessageParams.callback);
         return this._call(formatedData);
     }
 
@@ -1513,10 +1539,11 @@ export default class TimRender {
             method: "TIMAddRecvNewMsgCallback",
             manager: Managers.advanceMessageManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1535,10 +1562,11 @@ export default class TimRender {
             method: "TIMSetMsgReadedReceiptCallback",
             manager: Managers.advanceMessageManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1548,10 +1576,11 @@ export default class TimRender {
             method: "TIMSetMsgRevokeCallback",
             manager: Managers.advanceMessageManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1563,10 +1592,11 @@ export default class TimRender {
             method: "TIMSetMsgElemUploadProgressCallback",
             manager: Managers.advanceMessageManager,
             callback,
+            windowID: this._currentWindowID,
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
 
@@ -1579,7 +1609,7 @@ export default class TimRender {
             param: params,
         };
 
-        TimRender.runtime.set(callback, params.callback);
+        this._setCallback(callback, params.callback);
         return this._call(formatedData);
     }
     private _getSignalCustomData(param: customDataTpl) {
