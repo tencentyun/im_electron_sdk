@@ -129,7 +129,6 @@ export default class TimRender {
     constructor() {
         if (!TimRender.isListened) {
             ipcRenderer.on(`global-callback-reply`, (e: any, res: any) => {
-                console.log("事件回调到了渲染进程*************");
                 try {
                     const { callbackKey, responseData } = JSON.parse(res);
                     log.info("事件回调返回渲染进程", JSON.parse(res));
@@ -1534,6 +1533,7 @@ export default class TimRender {
     }
 
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams) {
+        this.TIMRemoveRecvNewMsgCallback();
         const callback = "TIMAddRecvNewMsgCallback";
         const formatedData = {
             method: "TIMAddRecvNewMsgCallback",
