@@ -3,6 +3,7 @@ import TimBaseManager from "./manager/timBaseManager";
 import TimGroupManager from "./manager/timGroupManager";
 import TimFriendshipManager from "./manager/friendshipManager";
 import TimAdvanceMessageManager from "./manager/advanceMessageManager";
+import { ipcRenderer } from "electron";
 
 let createdGroupId;
 
@@ -10,6 +11,12 @@ const APIS = [
     {
         manager: "timBaseManager",
         method: [
+            {
+                name: "创建窗口",
+                action: (callback) => {
+                    ipcRenderer.send("create_window")
+                }
+            },
             {
                 name: "callExperimentalAPI",
                 action: (callback) => {

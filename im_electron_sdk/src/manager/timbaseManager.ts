@@ -70,6 +70,7 @@ class TimbaseManager {
                 ? path.resolve(config_path, "sdk-config")
                 : path.resolve(os.homedir(), ".tencent-im/sdk-config"),
         });
+
         return this._sdkconfig.Imsdklib.TIMInit(
             this._sdkconfig.sdkappid,
             nodeStrigToCString(sdkconfig)

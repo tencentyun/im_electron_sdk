@@ -96,38 +96,59 @@ class TimMain {
         this._tim = new TIM({
             sdkappid: config.sdkappid,
         });
-        if (os.platform() === "linux") {
-            mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
-        }
+        mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
         //建立ipc通信通道
         if (!this.isLisened) {
             ipcMain.handle(TIMIPCLISTENR, async (event, data: ipcData<any>) => {
                 const requestData = JSON.parse(data as unknown as string);
-                const { callback, method } = requestData;
+                const { callback, method, windowID = 1 } = requestData;
                 let cb;
                 if (callback) {
-                    TimMain.event.set(callback, event);
+                    const cbs = TimMain.event.get(callback);
+
+                    if (!cbs) {
+                        const cbsObj: any = {};
+                        cbsObj[windowID] = event;
+                        TimMain.event.set(callback, cbsObj);
+                    } else {
+                        cbs[windowID] = event;
+                        TimMain.event.set(callback, cbs);
+                    }
+
                     cb = (...args: any) => {
                         console.log("callback-response", method);
-                        if (TimMain.event.get(method)) {
+                        if (TimMain.event.get(callback)) {
                             try {
-                                TimMain.event.get(method).sender?.send(
-                                    "global-callback-reply",
-                                    JSON.stringify({
-                                        callbackKey: callback,
-                                        responseData: args,
-                                    })
-                                );
+                                const replayCbs = TimMain.event.get(callback);
+                                Object.keys(replayCbs).map(item => {
+                                    log.info(
+                                        `${callback} window ${item} replay`
+                                    );
+                                    console.log(
+                                        `${callback} window ${item} replay`
+                                    );
+                                    try {
+                                        replayCbs[item]?.sender?.send(
+                                            `global-callback-reply`,
+                                            JSON.stringify({
+                                                callbackKey: callback,
+                                                responseData: args,
+                                            })
+                                        );
+                                    } catch (err) {
+                                        log.error("渲染进程丢失", err);
+                                    }
+                                });
                             } catch (err) {
                                 log.error("主渲染窗口事件绑定丢失", err);
-                                console.log("主渲染窗口事件绑定丢失", err);
                             }
                         } else {
                             log.error("主渲染窗口事件绑定丢失");
-                            console.log("全局回调事件对象丢失");
                         }
                     };
-                    TimMain._callback.set(callback, cb);
+                    if (!TimMain._callback.has(callback)) {
+                        TimMain._callback.set(callback, cb);
+                    }
                 }
                 const requestInstance = new Callback(
                     requestData,

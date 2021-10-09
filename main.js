@@ -43,6 +43,7 @@ function createWindow() {
   mainWindow.once('ready-to-show', async () => {
     mainWindow.show();
     mainWindow.webContents.openDevTools()
+    console.log(mainWindow.id,'窗口ID')
     // t.getTimbaseManager().TIMInit()
     // t.getTimbaseManager().TIMLogin({
     //   userID: "3708",
@@ -62,7 +63,9 @@ function createWindow() {
   })
 
 }
-
+ipcMain.on("create_window",()=>{
+  createWindow()
+})
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
