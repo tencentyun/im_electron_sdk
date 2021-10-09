@@ -1,6 +1,16 @@
 {
-    "entryPoints": ["./src/interface/", "./src/manager","./src/enum"],
+    "entryPoints": [
+        "./src/interface/",
+         "./src/manager",
+         "./src/enum",
+         "./src/manager/advanceMessageManager.ts",
+         "./src/manager/conversationManager.ts",
+         "./src/manager/friendshipManager.ts",
+         "./src/manager/groupManager.ts",
+         "./src/manager/timbaseManager.ts"
+        ],
     "out": "doc",
     "excludePrivate": true,
+    "excludeInternal": true,
     "name": "im_electron_sdk文档"
 }
