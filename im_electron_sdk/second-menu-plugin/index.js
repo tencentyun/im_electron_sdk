@@ -1,8 +1,7 @@
-// const pluginFun = require('./src/plugin')
-
+// sdk-electron在使用此插件前，需要注释typedoc源码，下的/output/themes/default//partials/navigation 下的第54行的 if (props.model.isProject()...
+// 此行的作用是如果modules类型存在
 const typedocInstance = require("typedoc");
 
-// const pluginJS = require('./src/plugin');
 function load(app) {
     
     if (app.converter.hasComponent("23")) {
@@ -49,12 +48,12 @@ function onResolveBegin(context) {
                     projectChildArr.push(ref);
                 }
             }
-            console.log(mod.name)
-            if(mod.name !== "inreface(各个接口泛型)")
-           {
-               // delete mod.children;
-               // context.project.removeReflection(mod);
-        }
+        //TODO： 这里是为了删除parents的子节点（moduls的节点），但是删除后会出现无法跳转的情况，目前需要优化
+        //     if(mod.name !== "inreface(各个接口泛型)")
+        //    {
+        //        delete mod.children;
+        //        context.project.removeReflection(mod);
+        // }
         }
     }
 }
@@ -85,7 +84,7 @@ function onRenderFinished(context) {
 function onPageStart(page) {
         let model = page.model;
         const childrenArr = [];
-        if(page.model.name === "im_electron_sdk文档"){
+        if(model.url.indexOf("modules.html") != -1){
         for(const key in model.children){
             
             const item = model.children[key];
@@ -103,7 +102,7 @@ function onPageStart(page) {
 }
 
 function onPageFinished(page) {
-    console.log("onPageFinished")
+  //  console.log("onPageFinished")
 }
 
 
