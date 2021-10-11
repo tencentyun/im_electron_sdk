@@ -31,7 +31,7 @@ interface sdkconfig {
  * @param {string | undefined} [json_params] json_params：兼容的字段，某些情况下会返回这个，根据具体接口返回
  * @param {string | undefined} [user_data] user_data：ImSDK负责透传的用户自定义数据，未做任何处理
  */
-//[TimResult](../../doc/enums/enum.timresult.html)
+//[TimResult](../../doc/enums/timresult.html)
 interface commonResponse {
     code: TIMResult | TIMErrCode;
     desc?: string | undefined;

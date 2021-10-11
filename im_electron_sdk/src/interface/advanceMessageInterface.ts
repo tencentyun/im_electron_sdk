@@ -385,7 +385,7 @@ interface MsgSetC2CReceiveMessageOptParams {
 /**
  * @param params params:json_identifier_array 用户 ID 列表
  * @param user_data user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
- * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../enums/enum.timresult.html)
+ * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../enums/timresult.html)
  *
  */
 interface MsgGetC2CReceiveMessageOptParams {

@@ -988,7 +988,7 @@ class FriendshipManager {
     }
     /**
      * @brief 设置添加好友的回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @param TIMOnAddFriendCallbackParams
      *
      * @note
@@ -1012,7 +1012,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置好友的回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @param  TIMOnDeleteFriendCallbackParams
      * @note
      * 此回调为了多终端同步。例如A设备、B设备都登录了同一帐号的ImSDK，A设备添加了好友，B设备ImSDK会收到添加好友的推送，ImSDK通过此回调告知开发者。
@@ -1037,7 +1037,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置更新好友资料的回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @param TIMUpdateFriendProfileCallbackParams
      * @note
      * 此回调为了多终端同步。例如A设备、B设备都登录了同一帐号的ImSDK，A设备更新了好友资料，B设备ImSDK会收到更新好友资料的推送，ImSDK通过此回调告知开发者。
@@ -1066,7 +1066,7 @@ class FriendshipManager {
     /**
      * @brief  设置好友添加请求的回调
      * @param TIMFriendAddRequestCallbackParams 好友添加请求回调
-     *  @category 回调相关
+     *  @category 回调相关接口(callback)
      * @note
      * 当前登入用户设置添加好友需要确认时，如果有用户请求加当前登入用户为好友，会收到好友添加请求的回调，ImSDK通过此回调告知开发者。如果多终端登入同一帐号，每个终端都会收到这个回调。
      */
@@ -1092,7 +1092,7 @@ class FriendshipManager {
     /**
      * @brief 设置好友申请删除的回调
      * @param TIMFriendApplicationListDeletedCallbackParams 好友申请删除回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @note
      *  1. 主动删除好友申请
      *  2. 拒绝好友申请
@@ -1129,7 +1129,7 @@ class FriendshipManager {
     /**
      * @brief 设置好友申请已读的回调
      * @param TIMFriendApplicationListReadCallbackParams
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @note
      * 如果调用 setFriendApplicationRead 设置好友申请列表已读，会收到这个回调（主要用于多端同步）
      */
@@ -1158,7 +1158,7 @@ class FriendshipManager {
     }
     /**
      * @brief 设置黑名单新增的回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @param TIMFriendBlackListAddedCallbackParams 黑名单新增的回调
      */
     TIMSetFriendBlackListAddedCallback(
@@ -1184,7 +1184,7 @@ class FriendshipManager {
 
     /**
      * @brief 设置黑名单删除的回调
-     * @category 回调相关
+     * @category 回调相关接口(callback)
      * @param TIMFriendBlackListDeletedCallbackParams 黑名单新增的回调
      */
     TIMSetFriendBlackListDeletedCallback(

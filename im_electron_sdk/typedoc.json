@@ -12,5 +12,7 @@
     "out": "doc",
     "excludePrivate": true,
     "excludeInternal": true,
-    "name": "im_electron_sdk文档"
+    "name": "im_electron_sdk文档",
+    "categoryOrder": ["回调相关接口(callback)","*"],
+    "categorizeByGroup": false
 }

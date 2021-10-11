@@ -408,7 +408,7 @@ class GroupManager {
     * @param json_group_getinfo_param 获取群组信息列表参数的Json字符串
     * @param cb 获取群组信息列表成功与否的回调。回调函数定义和参数解析请参考 [TIMCommCallback](TIMCloudCallback.h)
     * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
-    * @return {Promise<commonResponse>} 其中get_groups_info_result_code 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TimResult](../../doc/enums/enum.timresult.html)
+    * @return {Promise<commonResponse>} 其中get_groups_info_result_code 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](../../doc/enums/timresult.html)
     *
     * @note
     * 此接口用于获取指定群ID列表的群详细信息。具体返回的含义请暂时参考下方
@@ -1145,7 +1145,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组系统消息回调
-     * @category 回调相关接口
+     * @category 回调相关接口(callback)
      * @param GroupTipsCallbackParams
      * @note
      * 群组系统消息事件包括 加入群、退出群、踢出群、设置管理员、取消管理员、群资料变更、群成员资料变更。此消息是针对所有群组成员下发的
@@ -1168,7 +1168,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组属性变更回调
-     * @category 回调相关接口
+     * @category 回调相关接口(callback)
      * @param GroupAttributeCallbackParams
      * @note
      * 某个已加入的群的属性被修改了，会返回所在群组的所有属性（该群所有的成员都能收到）
