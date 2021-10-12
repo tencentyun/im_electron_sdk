@@ -1,4 +1,18 @@
 {
-    "entryPoints": ["./src/timRender.ts", "./src/interface/"],
-    "out": "doc"
+    "entryPoints": [
+        "./src/interface/",
+         "./src/manager",
+         "./src/enum",
+         "./src/manager/advanceMessageManager.ts",
+         "./src/manager/conversationManager.ts",
+         "./src/manager/friendshipManager.ts",
+         "./src/manager/groupManager.ts",
+         "./src/manager/timbaseManager.ts"
+        ],
+    "out": "doc",
+    "excludePrivate": true,
+    "excludeInternal": true,
+    "name": "im_electron_sdk文档",
+    "categoryOrder": ["回调相关接口(callback)","*"],
+    "categorizeByGroup": false
 }

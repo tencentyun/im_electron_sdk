@@ -1,0 +1,7 @@
+tox:
+  type: cloud
+  target: toc-electron-sdk-doc
+  dist: doc
+  wework:
+    ? chatid
+  clashKey: 867429fea0c07dae4018544f0bd39138
