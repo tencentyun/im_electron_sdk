@@ -1385,7 +1385,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 事件回调接口
-     * @category 回调相关接口(callback)(callback)
+     * @category 高级消息相关回调(callback)
      * @param TIMRecvNewMsgCallbackParams
      * @note  如果用户是登录状态，ImSDK收到新消息会通过此接口设置的回调抛出，
      * &emsp;
@@ -1412,7 +1412,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 删除接收新消息回调
-     * @category 回调相关接口(callback)
+     * @category 高级消息相关回调(callback)
      * @note 参数cb需要跟TIMAddRecvNewMsgCallback传入的cb一致，否则删除回调失败
      */
     TIMRemoveRecvNewMsgCallback(): void {
@@ -1424,7 +1424,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置消息已读回执回调
-     * @category 回调相关接口(callback)
+     * @category 高级消息相关回调(callback)
      * @param TIMMsgReadedReceiptCallbackParams
      * @note  发送方发送消息，接收方调用接口TIMMsgReportReaded上报该消息已读，发送方ImSDK会通过此接口设置的回调抛出。
      */
@@ -1448,7 +1448,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置接收的消息被撤回回调
-     * @category 回调相关接口(callback)
+     * @category 高级消息相关回调(callback)
      * @param TIMMsgRevokeCallbackParams
      * @note
      * 发送方发送消息，接收方收到消息。此时发送方调用接口TIMMsgRevoke撤回该消息，接收方的ImSDK会通过此接口设置的回调抛出。
@@ -1471,7 +1471,7 @@ class AdvanceMessageManage {
     }
     /**
      * ### 设置消息内元素相关文件上传进度回调
-     * @category 回调相关接口(callback)
+     * @category 高级消息相关回调(callback)
      * @param TIMMsgElemUploadProgressCallbackParams
      * @note
      * 设置消息元素上传进度回调。当消息内包含图片、声音、文件、视频元素时，ImSDK会上传这些文件，并触发此接口设置的回调，用户可以根据回调感知上传的进度
@@ -1506,7 +1506,7 @@ class AdvanceMessageManage {
     /**
      * ### 设置消息在云端被修改后回传回来的消息更新通知回调
      * @param TIMMsgUpdateCallbackParams
-     * @category 回调相关接口(callback)
+     * @category 高级消息相关回调(callback)
      *  @note
      * &emsp;
      * > 当您发送的消息在服务端被修改后，ImSDK会通过该回调通知给您
