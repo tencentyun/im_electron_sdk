@@ -1145,7 +1145,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组系统消息回调
-     * @category 回调相关接口(callback)
+     * @category 群组相关回调(callback)
      * @param GroupTipsCallbackParams
      * @note
      * 群组系统消息事件包括 加入群、退出群、踢出群、设置管理员、取消管理员、群资料变更、群成员资料变更。此消息是针对所有群组成员下发的
@@ -1168,7 +1168,7 @@ class GroupManager {
     }
     /**
      * @brief 设置群组属性变更回调
-     * @category 回调相关接口(callback)
+     * @category 群组相关回调(callback)
      * @param GroupAttributeCallbackParams
      * @note
      * 某个已加入的群的属性被修改了，会返回所在群组的所有属性（该群所有的成员都能收到）

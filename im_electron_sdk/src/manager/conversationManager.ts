@@ -383,7 +383,7 @@ class ConversationManager {
     // TODO这个参数有问题
     /**
      * ### 设置会话事件回调
-     * @category 回调相关接口(callback)
+     * @category 会话相关回调(callback)
      * @param setConvEventCallback
      * @note
      *
@@ -415,7 +415,7 @@ class ConversationManager {
     /**
      * ### 设置会话未读消息总数变更的回调
      * @param convTotalUnreadMessageCountChangedCallbackParam
-     * @category 回调相关接口(callback)
+     * @category 会话相关回调(callback)
      * @return  {Promise<any>} Promise的response返回值为：{ code, desc, json_param, user_data }
      */
     // TODO 这里的promise，返回可以删掉

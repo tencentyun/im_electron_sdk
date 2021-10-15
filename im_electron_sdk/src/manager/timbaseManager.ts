@@ -278,7 +278,7 @@ class TimbaseManager {
     /**
      * ### 设置网络连接状态监听回调
      * @param TIMSetNetworkStatusListenerCallbackParam
-     * @category 回调相关接口(callback)
+     * @category 基础接口相关回调(callback)
      * @note
      * &emsp;
      * > 当调用接口 [TIMInit](./manager_timbasemanager.default.html#timinit) 时，ImSDK会去连接云后台。此接口设置的回调用于监听网络连接的状态。
@@ -313,7 +313,7 @@ class TimbaseManager {
     /**
      *  ### 设置被踢下线通知回调
      * @param TIMSetKickedOfflineCallbackParam
-     * @category 回调相关接口(callback)
+     * @category 基础接口相关回调(callback)
      * @note
      * &emsp;
      * > 用户如果在其他终端登录，会被踢下线，这时会收到用户被踢下线的通知，出现这种情况常规的做法是提示用户进行操作（退出，或者再次把对方踢下线）。
@@ -344,7 +344,7 @@ class TimbaseManager {
     /**
      * @brief 设置票据过期回调
      * @param TIMSetUserSigExpiredCallbackParam
-     * @category 回调相关接口(callback)
+     * @category 基础接口相关回调(callback)
      * @note
      * 用户票据，可能会存在过期的情况，如果用户票据过期，此接口设置的回调会调用。
      * [TIMLogin](./manager_timbasemanager.default.html#timlogin)也将会返回70001错误码。开发者可根据错误码或者票据过期回调进行票据更换
@@ -366,7 +366,7 @@ class TimbaseManager {
     /**
      * ### 设置日志回调
      * @param TIMSetLogCallbackParam TIMSetLogCallbackParam
-     * @category 回调相关接口(callback)
+     * @category 基础接口相关回调(callback)
      * @note
      * 设置日志监听的回调之后，ImSDK内部的日志会回传到此接口设置的回调。
      * 开发者可以通过接口[SetConfig](./manager_timbasemanager.default.html#timsetconfig)配置哪些日志级别的日志回传到回调函数。
