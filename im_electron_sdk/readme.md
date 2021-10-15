@@ -4,7 +4,7 @@
 
 #### 支持平台
 
-Windows、Linux（uos）、Mac
+Windows、Mac、Linux（uos）
 
 #### 使用
 
@@ -39,9 +39,8 @@ timRender.TIMLogin({
 
 #### API列表
 
-接口名与C接口保持一致，返回结果如有异步，都为Promise
 
-[C接口文档](https://cloud.tencent.com/document/product/269/33546)
+[完整文档](https://comm.qq.com/toc-electron-sdk-doc/index.html)
 
 #### 关于文档
 
