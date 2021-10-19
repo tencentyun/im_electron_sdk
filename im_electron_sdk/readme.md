@@ -48,3 +48,7 @@ timRender.TIMLogin({
 右侧interface/xxx 是各个API方法的interface，其中有各个参数的提醒注意事项
 
 
+#### 其他
+
+底层sdk版本：mac(5.7.1435)、windows(5.7.1435)、Linux(5.7.1500)
+

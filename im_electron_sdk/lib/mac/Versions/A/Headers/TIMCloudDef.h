@@ -714,6 +714,7 @@ static const char* kTIMResponseSetEvnRes         = "response_set_env_res";      
 // Struct ServerAddress JsonKey
 static const char* kTIMServerAddressIp = "server_address_ip";                      // string, 只写(必填), 服务器 IP
 static const char* kTIMServerAddressPort = "server_address_port";                  // int,    只写(必填), 服务器端口
+static const char* kTIMServerAddressIsIPv6 = "server_address_is_ipv6";             // bool,   只写(选填), 是否 IPv6 地址，默认为 false
 // EndStruct
 
 /**

@@ -119,7 +119,10 @@ class AdvanceMessageManage {
                     ?.get(now)?.user_data;
                 if (code === 0)
                     resolve({ code, desc, json_params, user_data: us });
-                else reject(this.getErrorResponse({ code, desc }));
+                else
+                    reject(
+                        this.getErrorResponse({ code, desc, user_data: us })
+                    );
                 this._cache.get("TIMMsgSendMessage")?.delete(now);
             };
             const callback = jsFuncToFFIFun(cb);
@@ -142,7 +145,7 @@ class AdvanceMessageManage {
                 this._cache.get("TIMMsgSendMessage")?.get(now)?.user_data
             );
 
-            code !== 0 && reject(this.getErrorResponse({ code }));
+            code !== 0 && reject(this.getErrorResponse({ code, user_data }));
         });
     }
     /**
