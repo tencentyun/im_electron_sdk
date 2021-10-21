@@ -121,7 +121,17 @@ class AdvanceMessageManage {
                     resolve({ code, desc, json_params, user_data: us });
                 else
                     reject(
-                        this.getErrorResponse({ code, desc, user_data: us })
+                        this.getErrorResponse({
+                            code,
+                            desc,
+                            user_data: us,
+                            json_params: JSON.stringify({
+                                messageId: message_id_buffer
+                                    .toString()
+                                    .split("\u0000")[0],
+                                json_params,
+                            }),
+                        })
                     );
                 this._cache.get("TIMMsgSendMessage")?.delete(now);
             };
@@ -145,7 +155,18 @@ class AdvanceMessageManage {
                 this._cache.get("TIMMsgSendMessage")?.get(now)?.user_data
             );
 
-            code !== 0 && reject(this.getErrorResponse({ code, user_data }));
+            code !== 0 &&
+                reject(
+                    this.getErrorResponse({
+                        code,
+                        user_data,
+                        json_params: JSON.stringify({
+                            messageId: message_id_buffer
+                                .toString()
+                                .split("\u0000")[0],
+                        }),
+                    })
+                );
         });
     }
     /**
@@ -181,7 +202,22 @@ class AdvanceMessageManage {
                 console.log("========executed callback func============", fn);
                 if (code === 0)
                     fn && fn({ code, desc, json_params, user_data: us }, us);
-                else fn && fn(this.getErrorResponse({ code, desc }), us);
+                else
+                    fn &&
+                        fn(
+                            this.getErrorResponse({
+                                code,
+                                desc,
+                                user_data: us,
+                                json_params: JSON.stringify({
+                                    messageId: message_id_buffer
+                                        .toString()
+                                        .split("\u0000")[0],
+                                    json_params,
+                                }),
+                            }),
+                            us
+                        );
                 this._cache.get("TIMMsgSendMessageV2Callback")?.delete(now);
             };
             const c_callback = jsFuncToFFIFun(cb);
