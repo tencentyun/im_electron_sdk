@@ -1,6 +1,6 @@
 {
   "name": "im_electron_sdk",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "tencent cloud im for electron base c++ apis.",
   "main": "dist/main.js",
   "browser": "dist/renderer.js",
