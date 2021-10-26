@@ -37,6 +37,22 @@ timRender.TIMLogin({
 #### 注意
 1、多渲染进程使用sdk不能重复初始化和登录
 
+#### 常见问题
+- 使用vue-cli-plugin-electron-builder 构建的项目使用native modules 请参考[No native build was found for platform = xxx](https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/1492)
+- 自己使用webpack 构建的项目使用native modules 请参考[Windows 下常见问题](https://blog.csdn.net/Yoryky/article/details/106780254)
+- Dynamic Linking Error. electron-builder 配置 
+```javascript
+   extraFiles:[
+    {
+      "from": "./node_modules/im_electron_sdk/lib/",
+      "to": "./Resources",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ]
+```
+
 #### API列表
 
 
