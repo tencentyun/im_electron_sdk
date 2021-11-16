@@ -5,7 +5,7 @@ const timRenderInstance = new TimRender();
 const advanceMessageManager = {
     TIMMsgSendMessage:() => {
         return timRenderInstance.TIMMsgSendMessageV2({
-            conv_id: "lexuslin3",
+            conv_id: "admin",
             conv_type: 1,
             params: {
                 message_elem_array: [{
@@ -17,7 +17,7 @@ const advanceMessageManager = {
                     // file_elem_file_name: "xxxx",
                     // file_elem_file_size: 23150412 
                 }],
-                message_sender: "lexuslin3",
+                message_sender: "3708",
             },
             user_data: "123",
             callback: (data) => {
@@ -101,7 +101,7 @@ const advanceMessageManager = {
     },
     TIMMsgGetMsgList:() => {
         return timRenderInstance.TIMMsgGetMsgList({
-            conv_id: "lexuslin3",
+            conv_id: "admin",
             conv_type: 1,
             params: {
                 msg_getmsglist_param_last_msg: null,
