@@ -312,9 +312,10 @@ export default class TimRender {
                 if (this._getCallback("TIMOnRejected")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
-                    const newInviteeList = inviteeList.filter(
-                        (item: string) => item !== accepter
-                    );
+                    const newInviteeList =
+                        inviteeList?.filter(
+                            (item: string) => item !== accepter
+                        ) || [];
 
                     log.info(
                         `acceptList ${rejectList},newInviteeList :${newInviteeList}`
@@ -343,9 +344,10 @@ export default class TimRender {
                 if (this._getCallback("TIMOnAccepted")) {
                     // 收到拒绝，要把人从inviteList里去掉
                     const { inviteeList } = callInfo;
-                    const newInviteeList = inviteeList.filter(
-                        (item: string) => item !== accepter
-                    );
+                    const newInviteeList =
+                        inviteeList?.filter(
+                            (item: string) => item !== accepter
+                        ) || [];
                     log.info(
                         `acceptList ${acceptList},newInviteeList :${newInviteeList}`
                     );
@@ -383,9 +385,8 @@ export default class TimRender {
             if (this._getCallback("TIMOnTimeout")) {
                 const callInfo = deepClone(await this._getCallInfo(inviteID));
                 const { inviteeList } = callInfo;
-                const newInviteeList = inviteeList.filter(
-                    (item: any) => item !== handler
-                );
+                const newInviteeList =
+                    inviteeList?.filter((item: any) => item !== handler) || [];
                 if (newInviteeList.length > 0) {
                     parsedData.inviteeList = newInviteeList;
                     await this._setCallInfo(inviteID, parsedData);
@@ -1838,9 +1839,10 @@ export default class TimRender {
                     );
                     //@ts-ignore
                     const { inviteeList: localInviteeList } = localInfo;
-                    const newInviteeList = localInviteeList.filter(
-                        (item: any) => item !== senderID
-                    );
+                    const newInviteeList =
+                        localInviteeList?.filter(
+                            (item: any) => item !== senderID
+                        ) || [];
                     log.info(
                         `info: ${JSON.stringify(localInfo)},${newInviteeList}`
                     );

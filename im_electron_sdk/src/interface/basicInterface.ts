@@ -198,7 +198,8 @@ interface PrivatizationInfo {
  */
 interface callExperimentalAPIJsonParam {
     request_internal_operation: TIMInternalOperation;
-    request_set_custom_server_info_param: PrivatizationInfo;
+    request_set_ui_platform_param?: string;
+    request_set_custom_server_info_param?: PrivatizationInfo;
 }
 /**
  * @param {JSONCongfig}  json_config json_config:设置额外的用户配置
@@ -216,7 +217,7 @@ interface TIMSetConfigParam {
  */
 interface callExperimentalAPIParam {
     json_param: callExperimentalAPIJsonParam;
-    user_data: string;
+    user_data?: string;
 }
 /**
  * @param {Array<string>} friendship_getprofilelist_param_identifier_array friendship_getprofilelist_param_identifier_array:想要获取目标用户资料的UserID列表

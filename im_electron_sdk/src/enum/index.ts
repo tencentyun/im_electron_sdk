@@ -1300,4 +1300,6 @@ export enum TIMInternalOperation {
     kTIMInternalOperationSetMaxRetryCount = "internal_operation_set_max_retry_count",
     kTIMInternalOperationSetPrivatizationInfo = "internal_operation_set_privatization_info",
     kTIMInternalOperationInitLocalStorage = "internal_operation_init_local_storage",
+    kTIMInternalOperationSetUIPlatform = "internal_operation_set_ui_platform",
+    kTIMInternalOperationSetCosSaveRegionForConversation = "internal_operation_set_cos_save_region_for_conversation",
 }

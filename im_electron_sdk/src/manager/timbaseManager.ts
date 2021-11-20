@@ -30,7 +30,7 @@ import {
     randomString,
     transferTIMLogCallbackFun,
 } from "../utils/utils";
-import { TIMLoginStatus } from "../enum";
+import { TIMInternalOperation, TIMLoginStatus } from "../enum";
 import os from "os";
 import fs from "fs";
 import log from "../utils/log";
@@ -52,14 +52,14 @@ class TimbaseManager {
      * 在使用ImSDK进一步操作之前，需要先初始化ImSDK
 
      */
-    TIMInit(initParams?: initParam): number {
+    TIMInit(initParams?: initParam): Promise<number> {
         let sdkconfig: string;
         const { config_path } = initParams || {};
         if (config_path) {
             const res = fs.statSync(config_path);
             if (!res.isDirectory()) {
                 log.info(`${config_path} is not a validate directory`);
-                return -1;
+                return Promise.resolve(-1);
             }
         }
         sdkconfig = JSON.stringify({
@@ -70,11 +70,22 @@ class TimbaseManager {
                 ? path.resolve(config_path, "sdk-config")
                 : path.resolve(os.homedir(), ".tencent-im/sdk-config"),
         });
-
-        return this._sdkconfig.Imsdklib.TIMInit(
-            this._sdkconfig.sdkappid,
-            nodeStrigToCString(sdkconfig)
-        );
+        return new Promise(async resolve => {
+            console.log("开始上报");
+            const data = await this.callExperimentalAPI({
+                json_param: {
+                    request_internal_operation:
+                        TIMInternalOperation.kTIMInternalOperationSetUIPlatform,
+                    request_set_ui_platform_param: "electron",
+                },
+            });
+            console.log(data);
+            const res: number = this._sdkconfig.Imsdklib.TIMInit(
+                this._sdkconfig.sdkappid,
+                nodeStrigToCString(sdkconfig)
+            );
+            resolve(res);
+        });
     }
     /**
      * ### ImSDK卸载
@@ -450,8 +461,8 @@ class TimbaseManager {
             ? nodeStrigToCString(param.user_data)
             : nodeStrigToCString("");
         const json_param = nodeStrigToCString(JSON.stringify(param.json_param));
-
-        return new Promise((resolve, reject) => {
+        console.log(json_param);
+        return new Promise(resolve => {
             const now = `${Date.now()}${randomString()}`;
 
             const cb: CommonCallbackFun = (
@@ -463,7 +474,7 @@ class TimbaseManager {
                 if (code === 0) {
                     resolve({ code, desc, json_param, user_data });
                 } else {
-                    reject({ code, desc, json_param, user_data });
+                    resolve({ code, desc, json_param, user_data });
                 }
                 this._cache.get("callExperimentalAPI")?.delete(now);
             };
@@ -482,7 +493,7 @@ class TimbaseManager {
                 this._cache.get("callExperimentalAPI")?.get(now)?.callback,
                 user_data
             );
-            code !== 0 && reject({ code });
+            code !== 0 && resolve({ code });
             code === 0 && resolve({ code });
         });
     }
