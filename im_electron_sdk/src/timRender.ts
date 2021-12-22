@@ -278,6 +278,7 @@ export default class TimRender {
                 );
                 return null;
             }
+            console.log(await this.TIMGetLoginUserID({}));
             //@ts-ignore
             const userID = (await this.TIMGetLoginUserID({})).data.json_param;
             const { inviteeList } = parsedData;
