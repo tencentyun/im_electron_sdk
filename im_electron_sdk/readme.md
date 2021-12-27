@@ -66,5 +66,5 @@ timRender.TIMLogin({
 
 #### 其他
 
-底层sdk版本：mac(5.7.1445)、windows(5.7.1445)、Linux(5.7.1445)
+底层sdk版本：mac(5.8.1705)、windows(5.8.1705)、Linux(5.8.1705)
 

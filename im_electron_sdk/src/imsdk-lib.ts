@@ -36,7 +36,7 @@ const Imsdklib = ffi.Library(ffiPath, {
     TIMGetServerTime: [uint64Type, []],
     TIMLogout: [intType, [callback, voidPtrType]],
     TIMGetLoginStatus: [intType, []],
-    TIMGetLoginUserID: [intType, [callback, voidPtrType]],
+    TIMGetLoginUserID: [intType, [charPtrType]],
     // timbaseManager end
     // conversationManager start
     // 已废弃

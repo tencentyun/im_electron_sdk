@@ -32,7 +32,7 @@ interface TIMGetServerTimeFun {
     (): number;
 }
 interface TIMGetLoginUserIDFun {
-    (callback: Buffer, user_data?: string): number;
+    (user_id: Buffer): number;
 }
 
 interface TIMSetNetworkStatusListenerCallbackFun {
