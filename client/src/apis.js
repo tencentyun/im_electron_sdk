@@ -889,6 +889,16 @@ const APIS = [
                 }
             },
             {
+                name: 'TIMMsgSendReplyMessage',
+                action: (callback) => {
+                    TimAdvanceMessageManager.TIMMsgSendReplyMessage().then(data => {
+                        callback(JSON.stringify(data))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: 'TIMMsgCancelSend',
                 action: (callback) => {
                     TimAdvanceMessageManager.TIMMsgCancelSend().then(data => {

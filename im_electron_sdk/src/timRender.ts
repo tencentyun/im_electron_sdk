@@ -97,6 +97,7 @@ import {
     TRTCCallingCallGroupParam,
     TRTCCallingCallParam,
     initParam,
+    MsgSendReplyMessage,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -261,6 +262,27 @@ export default class TimRender {
         );
     }
     testDoc(param: TestInterface) {}
+
+    private getAbstractMsgText(message: any): string {
+        const displayTextMsg = message && message.text_elem_content;
+        const displayFileMsg = message && message.file_elem_file_name;
+        const displayContent = {
+            "0": displayTextMsg,
+            "1": "[图片]",
+            "2": "[声音]",
+            "3": "[自定义消息]",
+            "4": `[${displayFileMsg}]`,
+            "5": "[群组系统消息]",
+            "6": "[表情]",
+            "7": "[位置]",
+            "8": "[群组系统通知]",
+            "9": "[视频]",
+            "10": "[关系]",
+            "11": "[资料]",
+            "12": "[合并消息]",
+        }[message.elem_type as number];
+        return displayContent;
+    }
 
     private async _onInvited(inviteID: string, parsedData: any, message: any) {
         try {
@@ -1336,9 +1358,38 @@ export default class TimRender {
         this._setCallback(callback, msgSendMessageParams.callback);
         return this._call(formatedData);
     }
-    /**
-     *
-     */
+
+    TIMMsgSendReplyMessage(msgSendReplyMessage: MsgSendReplyMessage) {
+        const repliedMsg = msgSendReplyMessage.replyMsg;
+        if (!repliedMsg) {
+            throw Error("Need pass the reply msg");
+        }
+        const replyMsgContent = {
+            messageReply: {
+                messageID: repliedMsg.message_msg_id,
+                messageAbstract: this.getAbstractMsgText(
+                    repliedMsg.message_elem_array![0]
+                ),
+                messageSender:
+                    repliedMsg.message_sender_profile?.user_profile_nick_name ||
+                    repliedMsg.message_sender_profile?.user_profile_identifier,
+                messageType: repliedMsg.message_elem_array![0].elem_type,
+                version: "1",
+            },
+        };
+
+        return this.TIMMsgSendMessageV2({
+            conv_id: msgSendReplyMessage.conv_id,
+            conv_type: msgSendReplyMessage.conv_type,
+            params: {
+                ...msgSendReplyMessage.params,
+                message_cloud_custom_str: JSON.stringify(replyMsgContent),
+            },
+            callback: msgSendReplyMessage.callback,
+            user_data: msgSendReplyMessage.user_data,
+        });
+    }
+
     TIMMsgCancelSend(msgCancelSendParams: MsgCancelSendParams) {
         const formatedData = {
             method: "TIMMsgCancelSend",

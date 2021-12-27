@@ -1,6 +1,26 @@
 import { GroupMemberInfo } from "./groupInterface";
 import { TIMPlatform, TIMMsgStatus, TIMReceiveMessageOpt } from "../enum";
 
+type userProfileCustom = {
+    user_profile_custom_string_info_key: string;
+    user_profile_custom_string_info_value: string;
+};
+
+interface userProfile {
+    user_profile_add_permission: number;
+    user_profile_birthday: number;
+    user_profile_custom_string_array: Array<userProfileCustom>;
+    user_profile_face_url: string;
+    user_profile_gender: number;
+    user_profile_identifier: string;
+    user_profile_language: number;
+    user_profile_level: number;
+    user_profile_location: string;
+    user_profile_nick_name: string;
+    user_profile_role: number;
+    user_profile_self_signature: string;
+}
+
 /**
  *  @param conv_id  conv_id 会话的ID
  * @param conv_type  conv_type会话类型，请参考[TIMConvType](../enums/enum.timconvtype.html)
@@ -147,6 +167,25 @@ interface CustomElem {
     custom_elem_desc: string; // 读写, 自定义描述
     custom_elem_ext: string; // 读写, 后台推送对应的ext字段
     custom_elem_sound: string; // 读写, 自定义声音
+}
+
+/**
+  @param conv_id   conv_id 会话的ID
+* @param conv_type  conv_type 会话类型，请参考[TIMConvType](../enums/enum.timconvtype.html)
+* @param params  params：json_msg_param 消息json字符串
+* @param messageId  message_id 消息 ID ，调用接口后，可以读取到以 '\0' 结尾的字符串，分配内存大小不能低于 128 字节，如果不需要，可传入 null
+* @param callback  callback 发送新消息成功与否的回调。
+* @param user_data  user_data 用户自定义数据，ImSDK只负责传回给回调函数 result_cb，不做任何处理
+* @param replyMsg  replyMsg 为被回复的消息
+ */
+interface MsgSendReplyMessage {
+    conv_id: string;
+    conv_type: number;
+    params: Json_value_msg;
+    user_data?: string;
+    messageId?: string;
+    callback: Function;
+    replyMsg: Json_value_msg;
 }
 
 /**
@@ -495,7 +534,7 @@ interface MsgSearchLocalMessagesParams {
  *
  */
 interface Json_value_msg {
-    message_elem_array?: [Elem];
+    message_elem_array?: [Elem | any];
     message_conv_id?: string;
     message_conv_type?: number;
     message_sender?: string;
@@ -518,7 +557,7 @@ interface Json_value_msg {
     message_is_excluded_from_unread_count?: boolean;
     message_group_at_user_array?: string;
     message_is_forward_message?: boolean;
-    message_sender_profile?: Object;
+    message_sender_profile?: userProfile;
     message_sender_group_member_info?: GroupMemberInfo;
     message_offlie_push_config?: Object;
 }
@@ -777,4 +816,5 @@ export {
     Json_msg_locator,
     Json_get_msg_param,
     Json_value_msgdelete,
+    MsgSendReplyMessage,
 };

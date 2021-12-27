@@ -26,6 +26,27 @@ const advanceMessageManager = {
             }
         });
     },
+    TIMMsgSendReplyMessage: () => {
+        return timRenderInstance.TIMMsgSendReplyMessage({
+            conv_id: "121405",
+            conv_type: 1,
+            params: {
+                message_elem_array: [{
+                    elem_type: 0,
+                    text_elem_content: "123"
+                }],
+                message_sender: "3708",
+            },
+            user_data: "123",
+            replyMsg: {
+                message_elem_array: [{elem_type: 0, text_elem_content: "ffff"}],
+                message_msg_id: "144115234938202258-1640588749-1866690926",
+                message_sender_profile: {
+                    user_profile_nick_name: "nick name"
+                }
+            }
+        });
+    },
     TIMMsgCancelSend:() => {
         return timRenderInstance.TIMMsgCancelSend({
             conv_id: "lexuslin3",
