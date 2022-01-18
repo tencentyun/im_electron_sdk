@@ -1435,6 +1435,7 @@ class AdvanceMessageManage {
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams): void {
         const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
+        this.TIMRemoveRecvNewMsgCallback();
         const c_callback = ffi.Callback(
             voidType,
             [charPtrType, voidPtrType],
