@@ -107,6 +107,7 @@ class AdvanceMessageManage {
                     // @ts-ignore
                     params.message_elem_array[i].text_elem_content =
                         escapeUnicode(
+                            // @ts-ignore
                             params.message_elem_array[i].text_elem_content
                         );
                 }
@@ -205,6 +206,7 @@ class AdvanceMessageManage {
                     // @ts-ignore
                     params.message_elem_array[i].text_elem_content =
                         escapeUnicode(
+                            // @ts-ignore
                             params.message_elem_array[i].text_elem_content
                         );
                 }
