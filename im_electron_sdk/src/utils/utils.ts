@@ -92,6 +92,13 @@ function nodeStrigToCString(str: string): string {
     const buffer = Buffer.from(`${str}\0`, "utf8");
     return ref.readCString(buffer);
 }
+function escapeUnicode(str: string) {
+    var escRE = /[\u0000-\u001F\u2028\u2029]/g;
+    return str.replace(escRE, function (ch) {
+        return "\\u" + ("0000" + ch.charCodeAt(0).toString(16)).slice(-4);
+    });
+}
+
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
     const callback = ffi.Callback(
         voidType,
@@ -225,4 +232,5 @@ export {
     transferTIMLogCallbackFun,
     randomString,
     mkdirsSync,
+    escapeUnicode,
 };

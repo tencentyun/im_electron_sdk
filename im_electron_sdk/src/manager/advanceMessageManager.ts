@@ -41,6 +41,7 @@ import {
     nodeStrigToCString,
     jsFuncToFFIFun,
     randomString,
+    escapeUnicode,
 } from "../utils/utils";
 const ffi = require("ffi-napi");
 const ref = require("ref-napi");
@@ -99,6 +100,18 @@ class AdvanceMessageManage {
     ): Promise<commonResponse> {
         const { conv_id, conv_type, params, user_data, messageId } =
             msgSendMessageParams;
+        if (params.message_elem_array?.length) {
+            for (let i = 0; i < params.message_elem_array.length; i++) {
+                // @ts-ignore
+                if (params.message_elem_array[i].elem_type === 0) {
+                    // @ts-ignore
+                    params.message_elem_array[i].text_elem_content =
+                        escapeUnicode(
+                            params.message_elem_array[i].text_elem_content
+                        );
+                }
+            }
+        }
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -180,7 +193,23 @@ class AdvanceMessageManage {
     TIMMsgSendMessageV2(msgSendMessageParams: MsgSendMessageParamsV2) {
         const { conv_id, conv_type, params, user_data, messageId, callback } =
             msgSendMessageParams;
-        console.log("===============callback params===============", callback);
+        console.log(
+            "===============callback params===============",
+            params,
+            JSON.stringify(params)
+        );
+        if (params.message_elem_array?.length) {
+            for (let i = 0; i < params.message_elem_array.length; i++) {
+                // @ts-ignore
+                if (params.message_elem_array[i].elem_type === 0) {
+                    // @ts-ignore
+                    params.message_elem_array[i].text_elem_content =
+                        escapeUnicode(
+                            params.message_elem_array[i].text_elem_content
+                        );
+                }
+            }
+        }
         const c_conv_id = this.stringFormator(conv_id);
         const c_params = this.stringFormator(JSON.stringify(params));
         const c_user_data = this.stringFormator(user_data);
@@ -196,6 +225,7 @@ class AdvanceMessageManage {
                 user_data
             ) => {
                 const fn = this._callback.get("TIMMsgSendMessageV2Callback");
+                console.log(json_params, 22);
                 const us = this._cache
                     .get("TIMMsgSendMessageV2Callback")
                     ?.get(now)?.user_data;

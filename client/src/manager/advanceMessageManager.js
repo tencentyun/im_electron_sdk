@@ -1,4 +1,6 @@
 import TimRender from "../../../im_electron_sdk/dist/renderer";
+
+
 // import TimRender from "im_electron_sdk/dist/renderer";
 const timRenderInstance = new TimRender();
 
@@ -10,7 +12,7 @@ const advanceMessageManager = {
             params: {
                 message_elem_array: [{
                     elem_type: 0,
-                    text_elem_content: "123"
+                    text_elem_content: `这是特殊字符\u0014\ufffd`
                     // image_elem_orig_path: "/home/lexuslin/sucai/111.png",
                     // image_elem_level: 0
                     // file_elem_file_path: "/home/lexuslin/sucai/15.zip",
@@ -22,7 +24,23 @@ const advanceMessageManager = {
             user_data: "123",
             callback: (data) => {
                 // const {code, json_params, desc } = data;
-                console.log('============data===========', data);
+                
+
+                var d = data[0].json_params;
+                // d = d.replace(rx_escapable, function (a) {
+                //     var c = meta[a];
+                //     return typeof c === "string"
+                //         ? c
+                //         : "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
+                // })
+                
+                // d = d.replace(rx_dangerous,"")
+                // for(let i in meta){
+                //     d = d.replace(i,meta[i])
+                // }
+                // console.log(d)
+                console.log(JSON.parse(d));
+                // console.log('============data===========', JSON.parse(decodeURIComponent(encodeURIComponent(data[0].json_params))));
             }
         });
     },
@@ -78,7 +96,7 @@ const advanceMessageManager = {
             params: [{
                 message_elem_array: [{
                     elem_type: 0,
-                    text_elem_content: "123"
+                    text_elem_content: "这是特殊字符\u0014\ufffd"
                 }],
                 message_sender: "lexuslin3"
             }],
