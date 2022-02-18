@@ -76,18 +76,18 @@ class Callback {
                     `param：${param}`,
                     `data：${responseData}`
                 );
-                if (responseData) {
-                    if (responseData.json_param) {
-                        responseData.json_param = escapeUnicode(
-                            responseData.json_param
-                        );
-                    }
-                    if (responseData.json_params) {
-                        responseData.json_params = escapeUnicode(
-                            responseData.json_params
-                        );
-                    }
-                }
+                // if (responseData) {
+                //     if (responseData.json_param) {
+                //         responseData.json_param = escapeUnicode(
+                //             responseData.json_param
+                //         );
+                //     }
+                //     if (responseData.json_params) {
+                //         responseData.json_params = escapeUnicode(
+                //             responseData.json_params
+                //         );
+                //     }
+                // }
                 return JSON.stringify({ callback, data: responseData });
             } catch (error) {
                 console.log("some errors", error);
@@ -139,22 +139,22 @@ class TimMain {
                                     console.log(
                                         `${callback} window ${item} replay`
                                     );
-                                    if (args && args.length) {
-                                        for (let i = 0; i < args.length; i++) {
-                                            if (args[i].json_param) {
-                                                args[i].json_param =
-                                                    escapeUnicode(
-                                                        args[i].json_param
-                                                    );
-                                            }
-                                            if (args[i].json_params) {
-                                                args[i].json_params =
-                                                    escapeUnicode(
-                                                        args[i].json_params
-                                                    );
-                                            }
-                                        }
-                                    }
+                                    // if (args && args.length) {
+                                    //     for (let i = 0; i < args.length; i++) {
+                                    //         if (args[i].json_param) {
+                                    //             args[i].json_param =
+                                    //                 escapeUnicode(
+                                    //                     args[i].json_param
+                                    //                 );
+                                    //         }
+                                    //         if (args[i].json_params) {
+                                    //             args[i].json_params =
+                                    //                 escapeUnicode(
+                                    //                     args[i].json_params
+                                    //                 );
+                                    //         }
+                                    //     }
+                                    // }
                                     try {
                                         replayCbs[item]?.sender?.send(
                                             `global-callback-reply`,

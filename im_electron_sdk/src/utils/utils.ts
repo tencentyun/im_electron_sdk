@@ -94,9 +94,11 @@ function nodeStrigToCString(str: string): string {
 }
 function escapeUnicode(str: string) {
     var escRE = /[\u0000-\u001F\u2028\u2029]/g;
-    return str.replace(escRE, function (ch) {
-        return "\\u" + ("0000" + ch.charCodeAt(0).toString(16)).slice(-4);
-    });
+    return str
+        .replace(escRE, function (ch) {
+            return "\\u" + ("0000" + ch.charCodeAt(0).toString(16)).slice(-4);
+        })
+        .replace(/\\u000a/g, "\n");
 }
 
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
