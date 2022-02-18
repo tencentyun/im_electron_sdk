@@ -141,8 +141,8 @@ const TimBaseManager = {
   },
   TIMGroupJoin: () => {
     return timRenderInstance.TIMGroupJoin({
-      groupId: '@TGS#1UEDUNNHW',
-      helloMsg: '',
+      groupId: '@TGS#2WPDHLWH6',
+      helloMsg: 'hello',
       data: 'test data'
     })
   },
