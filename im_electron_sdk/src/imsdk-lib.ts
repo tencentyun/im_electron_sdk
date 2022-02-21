@@ -36,7 +36,7 @@ const Imsdklib = ffi.Library(ffiPath, {
     TIMGetServerTime: [uint64Type, []],
     TIMLogout: [intType, [callback, voidPtrType]],
     TIMGetLoginStatus: [intType, []],
-    TIMGetLoginUserID: [intType, [callback, voidPtrType]],
+    TIMGetLoginUserID: [intType, [charPtrType]],
     // timbaseManager end
     // conversationManager start
     // 已废弃
@@ -225,6 +225,18 @@ const Imsdklib = ffi.Library(ffiPath, {
         intType,
         [charPtrType, callback, voidPtrType],
     ],
+    TIMMsgSendGroupMessageReceipts: [
+        intType,
+        [charPtrType, callback, voidPtrType],
+    ],
+    TIMMsgGetGroupMessageReceipts: [
+        intType,
+        [charPtrType, callback, voidPtrType],
+    ],
+    TIMMsgGetGroupMessageReadMembers: [
+        intType,
+        [charPtrType, callback, voidPtrType],
+    ],
     TIMMsgBatchSend: [intType, [charPtrType, callback, voidPtrType]],
     TIMMsgSearchLocalMessages: [intType, [charPtrType, callback, voidPtrType]],
     TIMAddRecvNewMsgCallback: [voidType, [callback, voidPtrType]],
@@ -247,6 +259,7 @@ const Imsdklib = ffi.Library(ffiPath, {
     TIMSetFriendBlackListAddedCallback: [voidType, [callback, voidPtrType]],
     TIMSetFriendBlackListDeletedCallback: [voidType, [callback, voidPtrType]],
     TIMSetMsgUpdateCallback: [voidType, [callback, voidPtrType]],
+    TIMSetMsgGroupMessageReceiptCallback: [voidType, [callback, voidPtrType]],
     // friendship end
 });
 

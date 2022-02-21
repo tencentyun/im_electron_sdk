@@ -418,8 +418,33 @@ interface GroupAttributeCallbackFun {
         user_data: string
     ): void;
 }
-
+interface MsgGroupReadReceiptCallback {
+    (json_msg_readed_receipt_array: string, user_data: string): void;
+}
+interface MsgSendGroupMessageReceiptsParam {
+    json_msg_array: string;
+    user_data: string;
+}
+interface MsgGetGroupMessageReceiptsParam {
+    json_msg_array: string;
+    user_data: string;
+}
+interface MsgGetGroupMessageReadMembersParam {
+    json_msg: string;
+    filter: number;
+    next_seq: number;
+    count: number;
+    user_data: string;
+}
+interface MsgGroupMessageReceiptCallbackParam {
+    callback: MsgGroupReadReceiptCallback;
+    user_data?: string;
+}
 export {
+    MsgGroupMessageReceiptCallbackParam,
+    MsgSendGroupMessageReceiptsParam,
+    MsgGetGroupMessageReceiptsParam,
+    MsgGetGroupMessageReadMembersParam,
     GroupMemberInfo,
     GroupParams,
     CreateGroupParams,

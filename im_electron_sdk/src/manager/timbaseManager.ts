@@ -228,40 +228,18 @@ class TimbaseManager {
      * @return  {Promise<commonResponse>} Promise的response返回值为：{ code, desc, json_params（登录用户的 userid）, user_data }
      *
      */
-    TIMGetLoginUserID(param: getLoginUserIDParam): Promise<commonResponse> {
-        const userData = param.userData
-            ? nodeStrigToCString(param.userData)
-            : nodeStrigToCString("");
+    TIMGetLoginUserID(): Promise<commonResponse> {
         return new Promise((resolve, reject) => {
-            const now = `${Date.now()}${randomString()}`;
-            const cb: CommonCallbackFun = (
-                code,
-                desc,
-                json_param,
-                user_data
-            ) => {
-                if (code === 0) {
-                    resolve({ code, desc, json_param, user_data });
-                } else {
-                    reject({ code, desc, json_param, user_data });
-                }
-                this._cache.get("TIMGetLoginUserID")?.delete(now);
-            };
-            const callback = jsFuncToFFIFun(cb);
-            let cacheMap = this._cache.get("TIMGetLoginUserID");
-            if (cacheMap === undefined) {
-                cacheMap = new Map();
-            }
-            cacheMap.set(now, {
-                cb: cb,
-                callback: callback,
-            });
-            this._cache.set("TIMGetLoginUserID", cacheMap);
-            const code = this._sdkconfig.Imsdklib.TIMGetLoginUserID(
-                this._cache.get("TIMGetLoginUserID")?.get(now)?.callback,
-                Buffer.from(userData)
-            );
+            const user_id_buffer = Buffer.alloc(128);
+            const code =
+                this._sdkconfig.Imsdklib.TIMGetLoginUserID(user_id_buffer);
             code !== 0 && reject({ code });
+            resolve({
+                code,
+                json_param: user_id_buffer.toString().split("\u0000")[0],
+                desc: "",
+                user_data: "",
+            });
         });
     }
     private networkStatusListenerCallback(

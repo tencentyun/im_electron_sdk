@@ -98,6 +98,10 @@ import {
     TRTCCallingCallParam,
     initParam,
     MsgSendReplyMessage,
+    MsgSendGroupMessageReceiptsParam,
+    MsgGetGroupMessageReceiptsParam,
+    MsgGetGroupMessageReadMembersParam,
+    MsgGroupMessageReceiptCallbackParam,
 } from "./interface";
 import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
@@ -300,7 +304,6 @@ export default class TimRender {
                 );
                 return null;
             }
-            console.log(await this.TIMGetLoginUserID({}));
             //@ts-ignore
             const userID = (await this.TIMGetLoginUserID({})).data.json_param;
             const { inviteeList } = parsedData;
@@ -721,11 +724,11 @@ export default class TimRender {
         };
         return this._call(formatedData);
     }
-    TIMGetLoginUserID(param: getLoginUserIDParam) {
+    TIMGetLoginUserID() {
         const formatedData = {
             method: "TIMGetLoginUserID",
             manager: Managers.timBaseManager,
-            param: param,
+            param: {},
         };
         return this._call(formatedData);
     }
@@ -909,6 +912,39 @@ export default class TimRender {
             method: "TIMGroupGetGroupInfoList",
             manager: Managers.groupManager,
             param: getGroupListParams,
+        };
+
+        return this._call(formatedData);
+    }
+    TIMMsgSendGroupMessageReceipts(
+        msgSendGroupMessageReceipts: MsgSendGroupMessageReceiptsParam
+    ) {
+        const formatedData = {
+            method: "TIMMsgSendGroupMessageReceipts",
+            manager: Managers.groupManager,
+            param: msgSendGroupMessageReceipts,
+        };
+
+        return this._call(formatedData);
+    }
+    TIMMsgGetGroupMessageReceipts(
+        msgGetGroupMessageReceipts: MsgGetGroupMessageReceiptsParam
+    ) {
+        const formatedData = {
+            method: "TIMMsgGetGroupMessageReceipts",
+            manager: Managers.groupManager,
+            param: msgGetGroupMessageReceipts,
+        };
+
+        return this._call(formatedData);
+    }
+    TIMMsgGetGroupMessageReadMembers(
+        msgGetGroupMessageReadMembers: MsgGetGroupMessageReadMembersParam
+    ) {
+        const formatedData = {
+            method: "TIMMsgGetGroupMessageReadMembers",
+            manager: Managers.groupManager,
+            param: msgGetGroupMessageReadMembers,
         };
 
         return this._call(formatedData);
@@ -1327,6 +1363,22 @@ export default class TimRender {
         const formatedData = {
             method: "TIMSetFriendBlackListDeletedCallback",
             manager: Managers.friendshipManager,
+            callback,
+            windowID: this._currentWindowID,
+            param: params,
+        };
+
+        this._setCallback(callback, params.callback);
+        return this._call(formatedData);
+    }
+
+    TIMSetMsgGroupMessageReceiptCallback(
+        params: MsgGroupMessageReceiptCallbackParam
+    ) {
+        const callback = "TIMSetMsgGroupMessageReceiptCallback";
+        const formatedData = {
+            method: "TIMSetMsgGroupMessageReceiptCallback",
+            manager: Managers.groupManager,
             callback,
             windowID: this._currentWindowID,
             param: params,

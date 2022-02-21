@@ -32,7 +32,7 @@ interface TIMGetServerTimeFun {
     (): number;
 }
 interface TIMGetLoginUserIDFun {
-    (callback: Buffer, user_data: Buffer): number;
+    (user_id?: Buffer): number;
 }
 
 interface TIMSetNetworkStatusListenerCallbackFun {
@@ -497,6 +497,26 @@ interface TIMProfileModifySelfUserProfileFun {
 }
 // ==========Interface For friendship End===========
 
+interface TIMMsgSendGroupMessageReceiptsFun {
+    (json_param: string, callback: Buffer, user_data: string): number;
+}
+interface TIMMsgGetGroupMessageReceiptsFun {
+    (json_param: string, callback: Buffer, user_data: string): number;
+}
+interface TIMMsgGetGroupMessageReadMembersFun {
+    (
+        json_param: string,
+        filter: number,
+        next_seq: number,
+        count: number,
+        callback: Buffer,
+        user_data: string
+    ): number;
+}
+interface TIMSetMsgGroupMessageReceiptCallbackFun {
+    (callback: Buffer, user_data: string): void;
+}
+
 interface libMethods {
     // timbase start
     TIMInit: TIMInitFun;
@@ -584,6 +604,10 @@ interface libMethods {
     // friendship end
 
     // group start
+    TIMMsgSendGroupMessageReceipts: TIMMsgSendGroupMessageReceiptsFun;
+    TIMMsgGetGroupMessageReceipts: TIMMsgGetGroupMessageReceiptsFun;
+    TIMMsgGetGroupMessageReadMembers: TIMMsgGetGroupMessageReadMembersFun;
+    TIMSetMsgGroupMessageReceiptCallback: TIMSetMsgGroupMessageReceiptCallbackFun;
     TIMGroupCreate: TIMGroupCreateFun;
     TIMGroupDelete: TIMGroupDeleteFun;
     TIMGroupJoin: TIMGroupJoinFun;

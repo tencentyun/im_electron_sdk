@@ -33,6 +33,10 @@ import {
     GroupTipsCallbackParams,
     GroupAttributeCallbackParams,
     cache,
+    MsgSendGroupMessageReceiptsParam,
+    MsgGetGroupMessageReceiptsParam,
+    MsgGetGroupMessageReadMembersParam,
+    MsgGroupMessageReceiptCallbackParam,
 } from "../interface";
 import log from "../utils/log";
 import {
@@ -982,6 +986,126 @@ class GroupManager {
             if (code !== 0) reject(this.getErrorResponse({ code }));
         });
     }
+    TIMMsgSendGroupMessageReceipts(
+        msgSendGroupMessageReceipts: MsgSendGroupMessageReceiptsParam
+    ): Promise<commonResponse> {
+        const { json_msg_array, user_data } = msgSendGroupMessageReceipts;
+        const userData = this.stringFormator(user_data);
+
+        return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+            const successCallback: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                code === 0
+                    ? resolve({ code, desc, json_param, user_data })
+                    : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgSendGroupMessageReceipts")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            let cacheMap = this._cache.get("TIMMsgSendGroupMessageReceipts");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMMsgSendGroupMessageReceipts", cacheMap);
+            const code = this._imskdLib.TIMMsgSendGroupMessageReceipts(
+                nodeStrigToCString(json_msg_array),
+                this._cache.get("TIMMsgSendGroupMessageReceipts")?.get(now)
+                    ?.callback,
+                userData
+            );
+            if (code !== 0) reject(this.getErrorResponse({ code }));
+        });
+    }
+    TIMMsgGetGroupMessageReceipts(
+        msgGetGroupMessageReceipts: MsgGetGroupMessageReceiptsParam
+    ): Promise<commonResponse> {
+        const { json_msg_array, user_data } = msgGetGroupMessageReceipts;
+        const userData = this.stringFormator(user_data);
+
+        return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+            const successCallback: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                code === 0
+                    ? resolve({ code, desc, json_param, user_data })
+                    : reject(this.getErrorResponse({ code, desc }));
+                this._cache.get("TIMMsgGetGroupMessageReceipts")?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            let cacheMap = this._cache.get("TIMMsgGetGroupMessageReceipts");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMMsgGetGroupMessageReceipts", cacheMap);
+            const code = this._imskdLib.TIMMsgGetGroupMessageReceipts(
+                nodeStrigToCString(json_msg_array),
+                this._cache.get("TIMMsgGetGroupMessageReceipts")?.get(now)
+                    ?.callback,
+                userData
+            );
+            if (code !== 0) reject(this.getErrorResponse({ code }));
+        });
+    }
+    TIMMsgGetGroupMessageReadMembers(
+        msgGetGroupMessageReadMembers: MsgGetGroupMessageReadMembersParam
+    ): Promise<commonResponse> {
+        const { json_msg, user_data, filter, next_seq, count } =
+            msgGetGroupMessageReadMembers;
+        const userData = this.stringFormator(user_data);
+
+        return new Promise((resolve, reject) => {
+            const now = `${Date.now()}${randomString()}`;
+            const successCallback: CommonCallbackFun = (
+                code,
+                desc,
+                json_param,
+                user_data
+            ) => {
+                code === 0
+                    ? resolve({ code, desc, json_param, user_data })
+                    : reject(this.getErrorResponse({ code, desc }));
+                this._cache
+                    .get("TIMMsgGetGroupMessageReadMembers")
+                    ?.delete(now);
+            };
+            const callback = jsFuncToFFIFun(successCallback);
+            let cacheMap = this._cache.get("TIMMsgGetGroupMessageReadMembers");
+            if (cacheMap === undefined) {
+                cacheMap = new Map();
+            }
+            cacheMap.set(now, {
+                cb: successCallback,
+                callback: callback,
+            });
+            this._cache.set("TIMMsgGetGroupMessageReadMembers", cacheMap);
+            const code = this._imskdLib.TIMMsgGetGroupMessageReadMembers(
+                nodeStrigToCString(json_msg),
+                filter,
+                next_seq,
+                count,
+                this._cache.get("TIMMsgGetGroupMessageReadMembers")?.get(now)
+                    ?.callback,
+                userData
+            );
+            if (code !== 0) reject(this.getErrorResponse({ code }));
+        });
+    }
 
     /**
      * @brief 设置群属性，已有该群属性则更新其 value 值，没有该群属性则添加该群属性
@@ -1166,6 +1290,35 @@ class GroupManager {
             userData
         );
     }
+    private msgGroupMessageReceiptCallback(
+        json_msg_readed_receipt_array: string,
+        user_data: string
+    ) {
+        const fn = this._callback.get("TIMSetGroupAttributeChangedCallback");
+        fn && fn(json_msg_readed_receipt_array, user_data);
+    }
+    async TIMSetMsgGroupMessageReceiptCallback(
+        params: MsgGroupMessageReceiptCallbackParam
+    ): Promise<any> {
+        const { callback, user_data } = params;
+        const userData = this.stringFormator(user_data);
+        const c_callback = transformGroupTipFun(
+            this.msgGroupMessageReceiptCallback.bind(this)
+        );
+        this._ffiCallback.set(
+            "TIMSetMsgGroupMessageReceiptCallback",
+            c_callback
+        );
+        this._callback.set("TIMSetMsgGroupMessageReceiptCallback", callback);
+
+        this._imskdLib.TIMSetMsgGroupMessageReceiptCallback(
+            this._ffiCallback.get(
+                "TIMSetMsgGroupMessageReceiptCallback"
+            ) as Buffer,
+            userData
+        );
+    }
+
     /**
      * @brief 设置群组属性变更回调
      * @category 群组相关回调(callback)
