@@ -31,6 +31,56 @@ const TimBaseManager = {
       data: "ssss"
     });
   },
+  async TIMMsgSendGroupMessageReceipts(){
+   const data = await timRenderInstance.TIMMsgGetMsgList({
+        conv_id: "@TGS#1AC5PRWHY",
+        conv_type: 2,
+        params: {
+            msg_getmsglist_param_last_msg: null,
+            msg_getmsglist_param_count: 100
+        }
+    })
+    
+    return timRenderInstance.TIMMsgSendGroupMessageReceipts({
+      json_msg_array:data.data.json_params,
+    }); 
+  },
+  async TIMMsgGetGroupMessageReceipts(){
+    const data = await timRenderInstance.TIMMsgGetMsgList({
+      conv_id: "@TGS#1AC5PRWHY",
+      conv_type: 2,
+      params: {
+          msg_getmsglist_param_last_msg: null,
+          msg_getmsglist_param_count: 100
+      }
+  })
+    return timRenderInstance.TIMMsgGetGroupMessageReceipts({
+      json_msg_array:data.data.json_params,
+    }); 
+  },
+  async TIMMsgGetGroupMessageReadMembers(){
+    const data = await timRenderInstance.TIMMsgGetMsgList({
+      conv_id: "@TGS#1AC5PRWHY",
+      conv_type: 2,
+      params: {
+          msg_getmsglist_param_last_msg: null,
+          msg_getmsglist_param_count: 100
+      }
+  })
+    return timRenderInstance.TIMMsgGetGroupMessageReadMembers({
+      json_msg:JSON.stringify(JSON.parse(data.data.json_params)[0]),
+      filter: 0,
+      next_seq: 0,
+      count: 10,
+    }); 
+  },
+  TIMSetMsgGroupMessageReceiptCallback(){
+    return timRenderInstance.TIMSetMsgGroupMessageReceiptCallback({
+      callback:(...args)=>{
+        console.log(args)
+      }
+    }); 
+  },
   TIMGroupGetJoinedGroupList: () => {
     return timRenderInstance.TIMGroupGetJoinedGroupList();
   },

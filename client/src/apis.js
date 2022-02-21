@@ -369,6 +369,49 @@ const APIS = [
         manager: "groupManager",
         method: [
             {
+                name: "TIMMsgSendGroupMessageReceipts",
+                action: (callback) => {
+                    TimGroupManager.TIMMsgSendGroupMessageReceipts().then(res => {
+                        callback(JSON.stringify(res))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMMsgGetGroupMessageReceipts",
+                action: (callback) => {
+                    TimGroupManager.TIMMsgGetGroupMessageReceipts().then(res => {
+                        
+                        callback(JSON.stringify(res))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMMsgGetGroupMessageReadMembers",
+                action: (callback) => {
+                    TimGroupManager.TIMMsgGetGroupMessageReadMembers().then(res => {
+                        
+                        callback(JSON.stringify(res))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
+                name: "TIMSetMsgGroupMessageReceiptCallback",
+                action: (callback) => {
+                    TimGroupManager.TIMSetMsgGroupMessageReceiptCallback().then(res => {
+                        
+                        callback(JSON.stringify(res))
+                    }).catch(err => {
+                        callback(err.toString())
+                    })
+                }
+            },
+            {
                 name: "TIMGroupCreate",
                 action: (callback) => {
                     TimGroupManager.TIMGroupCreate().then(res => {
