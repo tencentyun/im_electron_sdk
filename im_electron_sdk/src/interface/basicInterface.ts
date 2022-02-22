@@ -12,6 +12,14 @@ import { libMethods } from "./libMethodInterface";
 interface CommonCallbackFun {
     (code: number, desc: string, json_param: string, user_data?: any): void;
 }
+interface GroupReadMembersCallback {
+    (
+        json_group_member_array: string,
+        next_seq: number,
+        is_finished: boolean,
+        user_data?: any
+    ): void;
+}
 interface CommonCallbackFuns {
     (code: number, desc: string, json_params: string, user_data?: any): void;
 }
@@ -337,4 +345,5 @@ export {
     TIMProfileModifySelfUserProfileParam,
     cache,
     CommonCallbackFuns,
+    GroupReadMembersCallback,
 };

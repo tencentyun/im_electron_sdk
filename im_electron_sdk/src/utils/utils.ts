@@ -6,6 +6,7 @@ import {
     TIMSetUserSigExpiredCallback,
     TIMSetNetworkStatusListenerCallback,
     TIMLogCallbackFun,
+    GroupReadMembersCallback,
 } from "../interface";
 import {
     convEventCallback,
@@ -112,6 +113,21 @@ function jsFuncToFFIFun(fun: CommonCallbackFun) {
             user_data?: any
         ) {
             fun(code, desc, json_param, user_data);
+        }
+    );
+    return callback;
+}
+function jsFuncToFFIFunForGroupRead(fun: GroupReadMembersCallback) {
+    const callback = ffi.Callback(
+        voidType,
+        [charPtrType, int32Type, ref.types.bool, voidPtrType],
+        function (
+            json_group_member_array: string,
+            next_seq: number,
+            is_finished: boolean,
+            user_data: any
+        ) {
+            fun(json_group_member_array, next_seq, is_finished, user_data);
         }
     );
     return callback;
@@ -235,4 +251,5 @@ export {
     randomString,
     mkdirsSync,
     escapeUnicode,
+    jsFuncToFFIFunForGroupRead,
 };

@@ -37,6 +37,7 @@ import {
     MsgGetGroupMessageReceiptsParam,
     MsgGetGroupMessageReadMembersParam,
     MsgGroupMessageReceiptCallbackParam,
+    GroupReadMembersCallback,
 } from "../interface";
 import log from "../utils/log";
 import {
@@ -45,6 +46,7 @@ import {
     transformGroupTipFun,
     transformGroupAttributeFun,
     randomString,
+    jsFuncToFFIFunForGroupRead,
 } from "../utils/utils";
 
 class GroupManager {
@@ -1071,20 +1073,33 @@ class GroupManager {
 
         return new Promise((resolve, reject) => {
             const now = `${Date.now()}${randomString()}`;
-            const successCallback: CommonCallbackFun = (
-                code,
-                desc,
-                json_param,
+            const successCallback: GroupReadMembersCallback = (
+                json_group_member_array,
+                next_seq,
+                is_finished,
                 user_data
             ) => {
-                code === 0
-                    ? resolve({ code, desc, json_param, user_data })
-                    : reject(this.getErrorResponse({ code, desc }));
+                console.log(
+                    json_group_member_array,
+                    next_seq,
+                    is_finished,
+                    user_data
+                );
+                resolve({
+                    code: 0,
+                    desc: "",
+                    json_param: JSON.stringify({
+                        json_group_member_array,
+                        next_seq,
+                        is_finished,
+                    }),
+                    user_data,
+                });
                 this._cache
                     .get("TIMMsgGetGroupMessageReadMembers")
                     ?.delete(now);
             };
-            const callback = jsFuncToFFIFun(successCallback);
+            const callback = jsFuncToFFIFunForGroupRead(successCallback);
             let cacheMap = this._cache.get("TIMMsgGetGroupMessageReadMembers");
             if (cacheMap === undefined) {
                 cacheMap = new Map();
@@ -1094,6 +1109,7 @@ class GroupManager {
                 callback: callback,
             });
             this._cache.set("TIMMsgGetGroupMessageReadMembers", cacheMap);
+
             const code = this._imskdLib.TIMMsgGetGroupMessageReadMembers(
                 nodeStrigToCString(json_msg),
                 filter,

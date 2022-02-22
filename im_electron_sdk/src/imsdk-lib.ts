@@ -235,7 +235,7 @@ const Imsdklib = ffi.Library(ffiPath, {
     ],
     TIMMsgGetGroupMessageReadMembers: [
         intType,
-        [charPtrType, callback, voidPtrType],
+        [charPtrType, intType, intType, intType, callback, voidPtrType],
     ],
     TIMMsgBatchSend: [intType, [charPtrType, callback, voidPtrType]],
     TIMMsgSearchLocalMessages: [intType, [charPtrType, callback, voidPtrType]],
