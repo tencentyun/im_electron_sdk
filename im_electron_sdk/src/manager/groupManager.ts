@@ -1040,6 +1040,7 @@ class GroupManager {
                 json_param,
                 user_data
             ) => {
+                console.log(code, desc, json_param, user_data);
                 code === 0
                     ? resolve({ code, desc, json_param, user_data })
                     : reject(this.getErrorResponse({ code, desc }));
@@ -1056,7 +1057,7 @@ class GroupManager {
             });
             this._cache.set("TIMMsgGetGroupMessageReceipts", cacheMap);
             const code = this._imskdLib.TIMMsgGetGroupMessageReceipts(
-                nodeStrigToCString(json_msg_array),
+                this.stringFormator(json_msg_array),
                 this._cache.get("TIMMsgGetGroupMessageReceipts")?.get(now)
                     ?.callback,
                 userData
@@ -1310,13 +1311,16 @@ class GroupManager {
         json_msg_readed_receipt_array: string,
         user_data: string
     ) {
-        const fn = this._callback.get("TIMSetGroupAttributeChangedCallback");
+        console.log("msgGroupMessageReceiptCallback called");
+
+        const fn = this._callback.get("TIMSetMsgGroupMessageReceiptCallback");
         fn && fn(json_msg_readed_receipt_array, user_data);
     }
     async TIMSetMsgGroupMessageReceiptCallback(
         params: MsgGroupMessageReceiptCallbackParam
     ): Promise<any> {
         const { callback, user_data } = params;
+        console.log(params);
         const userData = this.stringFormator(user_data);
         const c_callback = transformGroupTipFun(
             this.msgGroupMessageReceiptCallback.bind(this)
@@ -1333,6 +1337,7 @@ class GroupManager {
             ) as Buffer,
             userData
         );
+        return Promise.resolve({});
     }
 
     /**
