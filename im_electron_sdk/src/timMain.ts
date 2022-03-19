@@ -1,4 +1,4 @@
-import { ipcMain } from "electron";
+import { ipcMain, BrowserWindow } from "electron";
 
 import { TIMIPCLISTENR, CONSOLETAG } from "./const/const";
 import { initConfig } from "./interface";
@@ -57,7 +57,9 @@ class Callback {
                         "===========add callback successfully=========="
                     );
                     //@ts-ignore
-                    param.callback = cb;
+                    if (param) {
+                        param.callback = cb;
+                    }
                 }
                 try {
                     log.info(`${method} 入参:`, param);
@@ -108,6 +110,11 @@ class TimMain {
         this._tim = new TIM({
             sdkappid: config.sdkappid,
         });
+
+        try {
+            require("@electron/remote/main").initialize();
+        } catch (err) {}
+
         mkdirsSync(path.resolve(os.homedir(), ".tencent-im"));
         //建立ipc通信通道
         if (!this.isLisened) {
@@ -231,6 +238,9 @@ class TimMain {
         ipcMain.removeHandler("_deleteCallInfo");
 
         this._tim.getTimbaseManager().TIMUninit();
+    }
+    enable(webContents: any) {
+        require("@electron/remote/main").enable(webContents);
     }
 }
 export default TimMain;

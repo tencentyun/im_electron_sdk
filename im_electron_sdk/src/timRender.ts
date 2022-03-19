@@ -107,7 +107,8 @@ import { ipcData, Managers } from "./interface/ipcInterface";
 import { ipcRenderer } from "electron";
 import { TIMConvType } from "./enum";
 import log from "./utils/log";
-import { remote } from "electron";
+import { getCurrentWindow } from "@electron/remote";
+
 const deepClone = (obj: object) => {
     if (!obj) {
         return false;
@@ -130,7 +131,8 @@ interface TestInterface {
 export default class TimRender {
     static runtime: Map<string, Function> = new Map();
     static isListened = false;
-    private _currentWindowID = remote.getCurrentWindow().id;
+    private _currentWindowID = getCurrentWindow().id;
+
     constructor() {
         if (!TimRender.isListened) {
             ipcRenderer.on(`global-callback-reply`, (e: any, res: any) => {
@@ -1640,7 +1642,6 @@ export default class TimRender {
     }
 
     TIMAddRecvNewMsgCallback(params: TIMRecvNewMsgCallbackParams) {
-        this.TIMRemoveRecvNewMsgCallback();
         const callback = "TIMAddRecvNewMsgCallback";
         const formatedData = {
             method: "TIMAddRecvNewMsgCallback",
@@ -1655,9 +1656,12 @@ export default class TimRender {
     }
 
     TIMRemoveRecvNewMsgCallback() {
+        const callback = "TIMRemoveRecvNewMsgCallback";
         const formatedData = {
             method: "TIMRemoveRecvNewMsgCallback",
             manager: Managers.advanceMessageManager,
+            callback,
+            windowID: this._currentWindowID,
         };
 
         return this._call(formatedData);

@@ -1476,6 +1476,10 @@ class AdvanceMessageManage {
         this._ffiCallback.set("TIMAddRecvNewMsgCallback", c_callback);
         this._callback.set("TIMAddRecvNewMsgCallback", callback);
         this._globalUserData.set("TIMAddRecvNewMsgCallback", c_user_data);
+        console.log(
+            "设置消息监听",
+            this._ffiCallback.get("TIMAddRecvNewMsgCallback")
+        );
         this._sdkconfig.Imsdklib.TIMAddRecvNewMsgCallback(
             this._ffiCallback.get("TIMAddRecvNewMsgCallback") as Buffer,
             c_user_data
@@ -1488,10 +1492,18 @@ class AdvanceMessageManage {
      * @note 参数cb需要跟TIMAddRecvNewMsgCallback传入的cb一致，否则删除回调失败
      */
     TIMRemoveRecvNewMsgCallback(): void {
-        this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(
-            // @ts-ignore
-            this._ffiCallback.get("TIMAddRecvNewMsgCallback") || null
+        console.log(
+            "移除消息监听",
+            this._ffiCallback.get("TIMAddRecvNewMsgCallback")
         );
+        if (this._ffiCallback.get("TIMAddRecvNewMsgCallback")) {
+            this._sdkconfig.Imsdklib.TIMRemoveRecvNewMsgCallback(
+                // @ts-ignore
+                this._ffiCallback.get("TIMAddRecvNewMsgCallback")
+            );
+        } else {
+        }
+
         // this.tIMRecvNewMsgCallbackParams = undefined;
     }
     /**

@@ -5,8 +5,8 @@ const url = require('url')
 const TimMain = require('./im_electron_sdk/dist/main');
 // const TimMain = require('im_electron_sdk/dist/main');
 // const TIM = require('./im_electron_sdk/dist/tim')
-new TimMain({
-  sdkappid: 1400187352
+const mainInstance = new TimMain({
+  sdkappid: 1400597090
 })
 // const t = new TIM({
 //   sdkappid: 1400187352
@@ -26,7 +26,7 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js')
     }
   })
-
+  mainInstance.enable(mainWindow.webContents);
   // and load the index.html of the app.
   // mainWindow.loadURL(
   //   url.format({

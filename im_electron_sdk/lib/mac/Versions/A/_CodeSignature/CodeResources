@@ -6,64 +6,130 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		nQmH36ikxHItXEnOx8xjcOgJZ2s=
+		NjyKrN1jcyXOqx9izFfNonn/RqM=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/TIMCloud.h</key>
+		<key>Headers/ImSDKForMac_Plus.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			U8Ruu6DNUo5Wcc4hHdeYI91WAf0=
+			UZLMoMC/U5hDfzBSQpy39eF154M=
 			</data>
 			<key>hash2</key>
 			<data>
-			Ychn/U/qcSI7gLe3eBQ4WhXwHCyoY/aLo8BKE39az2s=
+			OLmWg1VHn47ti6OMRXn4fo9ur+5BzwyWo09FkwURS+Y=
 			</data>
 		</dict>
-		<key>Headers/TIMCloudCallback.h</key>
+		<key>Headers/TIMErrorCode.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			n3ml7E+HwbTtR4SR3tJve14kHDw=
+			+7Q/fFP+kZOlc+GNZUJ9MkAMmc8=
 			</data>
 			<key>hash2</key>
 			<data>
-			q6stYKVW1W414zgDQB73u+J58/E3N3gnxVGPP7Zc5+k=
+			k5VdpIt58jg4WMUP+ekuyEEAZ233+F6gD/bha2zZ1nQ=
 			</data>
 		</dict>
-		<key>Headers/TIMCloudComm.h</key>
+		<key>Headers/V2TIMManager+APNS.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			GfQkqn2mzb/PhyT5+C3nsidGcnw=
+			QkOu3oCdCAOuXGbd8RfQTA3V8Rk=
 			</data>
 			<key>hash2</key>
 			<data>
-			CR/4OerSelmPWAhgSyCFS6Ps+rgqQAhei/gxPYQBk+c=
+			NTocNTynsPnjwbR7T8xhGXEESXlQoN4Vq6J47y+n1NU=
 			</data>
 		</dict>
-		<key>Headers/TIMCloudDef.h</key>
+		<key>Headers/V2TIMManager+Conversation.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7bYUBNHbyEWo4NZqM1a2hqmRLZA=
+			GuzSY+Pa1HfeC+QCDQ+boROGg/c=
 			</data>
 			<key>hash2</key>
 			<data>
-			xAAHVJ2tDMijZCpIfCM6POqrTCt1BBJB1Lr1OXsKgDM=
+			/YkWO+ZoK+hEQaE5OuzHX+w8TvvCEIj9Jpb2bvwlqXU=
+			</data>
+		</dict>
+		<key>Headers/V2TIMManager+Friendship.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			0Vybfv5SYlq7vrHES7YyEoz4+UY=
+			</data>
+			<key>hash2</key>
+			<data>
+			ekp4/N62/bJWcQRGD20mqob3q7JKhUQuE8sby+ZQ5tI=
+			</data>
+		</dict>
+		<key>Headers/V2TIMManager+Group.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			wmn/25zZPcqm527uX7mkvL92pCM=
+			</data>
+			<key>hash2</key>
+			<data>
+			rqlsXNpmZ3tXapAPjvbYC6JMgLbCQleQUgH9samEfAE=
+			</data>
+		</dict>
+		<key>Headers/V2TIMManager+Message.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			B4TFgMTi8hAt7e5vIn24Q2dirNE=
+			</data>
+			<key>hash2</key>
+			<data>
+			UpmIJTn45U+4JMMbbh6rYb96hRSG5MCArN/IM6TSdlQ=
+			</data>
+		</dict>
+		<key>Headers/V2TIMManager+Signaling.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Mv5xdzUSpDgAFbtX0hQcKoTZVxo=
+			</data>
+			<key>hash2</key>
+			<data>
+			3OhJuVsT49AuGL7lA6I57u1VJD9+ZGJDH/vbO/y7gYU=
+			</data>
+		</dict>
+		<key>Headers/V2TIMManager.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			36xtUjgVAEfBiFYbY01xM4JJDak=
+			</data>
+			<key>hash2</key>
+			<data>
+			BgjHHkLSIXyhVX64XdLPHexxoJIhaKsXVag3UUbDlM4=
+			</data>
+		</dict>
+		<key>Modules/module.modulemap</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			WQ+ig3UYtlmGcbGw3cHQHOhyQ1U=
+			</data>
+			<key>hash2</key>
+			<data>
+			8HJS6EG2T0P95kb02IfB+jQOyNnsTq+LzcWbnxSePN4=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			nQmH36ikxHItXEnOx8xjcOgJZ2s=
+			NjyKrN1jcyXOqx9izFfNonn/RqM=
 			</data>
 			<key>hash2</key>
 			<data>
-			RsAxPxWaWeMIzOJB4TZH7WX0DJkxfWNA5dujZYC7jY0=
+			8j4pQGHfyqanJ7IPFez4CsA9AhqbkycbDbIs75ueZ+U=
 			</data>
 		</dict>
 	</dict>

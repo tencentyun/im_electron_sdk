@@ -1421,10 +1421,10 @@ TIM_DECL int TIMMsgGetGroupMessageReceipts(const char* json_msg_array, TIMCommCa
 /**
 * @brief 5.24 获取群消息已读群成员列表
 *
-* @param json_msg 消息
-* @param filter 群消息已读成员列表过滤
-* @param next_seq 下一次分页拉取的游标
-* @param is_finished 群消息已读群成员列表是否已经拉取完毕
+* @param json_msg 单条群消息
+* @param filter 指定拉取已读或未读群成员列表。
+* @param next_seq 分页拉取的游标，第一次默认取传 0，后续分页拉取时，传上一次分页拉取成功回调里的 next_seq
+* @param count 分页拉取的个数，最大支持 100 个。
 * @param cb 成功与否的回调。回调函数定义和参数解析请参考 [TIMCommCallback](TIMCloudCallback.h)
 * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
 * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
@@ -1453,7 +1453,51 @@ TIM_DECL int TIMMsgGetGroupMessageReceipts(const char* json_msg_array, TIMCommCa
 *
 */
 TIM_DECL int TIMMsgGetGroupMessageReadMembers(const char* json_msg, TIMGroupMessageReadMembersFilter filter, uint64_t next_seq, uint32_t count, TIMMsgGroupReadMembersCallback cb, const void* user_data);
-/// @}
+
+/*
+ * @brief 5.25 设置离线推送配置信息（iOS 和 Android 平台专用）
+ *
+ * @param json_token  离线推送配置
+ * @param cb 成功与否的回调。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
+ * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
+ * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+ * @example
+ *   Json::Value json_parameters;
+ *   json_parameters[kTIMOfflinePushTokenToken] = "xxxxx";
+ *   json_parameters[kTIMOfflinePushTokenBusinessID] = 1234578;
+ *   json_parameters[kTIMOfflinePushTokenIsTPNSToken] = false;
+ *   TIMMsgSetOfflinePushToken(json_parameters.toStyledString().c_str(),
+ *       [](int32_t code, const char* desc, const char* json_params, const void* user_data) {
+ *   }, nullptr);
+ *
+ * @note
+ * > 接口成功设置后会开启离线推送功能，如果您需要自定义推送的格式信息，请参考  TIMMsgSendMessage 接口。
+ * > 如果您想关闭离线推送，请把 json_token 设置为 NULL。
+*/
+TIM_DECL int TIMMsgSetOfflinePushToken(const char *json_token, TIMCommCallback cb, const void* user_data);
+
+/**
+ * @brief 5.26 APP 检测到应用退后台时可以调用此接口，可以用作桌面应用角标的初始化未读数量（iOS 和 Android 平台专用）。
+ *
+ * @param unread_count 未读数量
+ * @param cb 成功与否的回调。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
+ * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
+ * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+ * @note
+ * > 从 6.1 版本开始，如果配置了离线推送，会收到厂商或 TPNS 的离线推送通道下发的通知栏消息。
+*/
+TIM_DECL int TIMMsgDoBackground(uint32_t unread_count, TIMCommCallback cb, const void* user_data);
+
+/**
+ * @brief 5.27 APP 检测到应用进前台时可以调用此接口（iOS 和 Android 平台专用）。
+ *
+ * @param cb 成功与否的回调。回调函数定义请参考 [TIMCommCallback](TIMCloudCallback.h)
+ * @param user_data 用户自定义数据，ImSDK只负责传回给回调函数cb，不做任何处理
+ * @return int 返回TIM_SUCC表示接口调用成功（接口只有返回TIM_SUCC，回调cb才会被调用），其他值表示接口调用失败。每个返回值的定义请参考 [TIMResult](TIMCloudDef.h)
+ * @note
+ * > 从 6.1 版本开始，调用 TIMMsgDoForeground，会停止离线推送。但如果应用被 kill，仍然可以正常接收离线推送。
+*/
+TIM_DECL int TIMMsgDoForeground(TIMCommCallback cb, const void* user_data);
 
 /////////////////////////////////////////////////////////////////////////////////
 //

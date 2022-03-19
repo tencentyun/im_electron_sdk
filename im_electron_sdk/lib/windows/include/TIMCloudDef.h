@@ -140,24 +140,24 @@ enum TIMErrCode {
     //
     // ///////////////////////////////////////////////////////////////////////////////
 
-    // SSO 接入层的错误码
+    // 网络接入层的错误码
 
-    ERR_SVR_SSO_CONNECT_LIMIT                   = -302  ,  // SSO 的连接数量超出限制，服务端拒绝服务。
+    ERR_SVR_SSO_CONNECT_LIMIT                   = -302,    // Server 的连接数量超出限制，服务端拒绝服务。
     ERR_SVR_SSO_VCODE                           = -10000,  // 下发验证码标志错误。
-    ERR_SVR_SSO_D2_EXPIRED                      = -10001,  // D2 过期。
-    ERR_SVR_SSO_A2_UP_INVALID                   = -10003,  // A2 校验失败等场景使用。
-    ERR_SVR_SSO_A2_DOWN_INVALID                 = -10004,  // 处理下行包时发现 A2 验证没通过或者被安全打击。
-    ERR_SVR_SSO_EMPTY_KEY                       = -10005,  // 不允许空 D2Key 加密。
-    ERR_SVR_SSO_UIN_INVALID                     = -10006,  // D2 中的 uin 和 SSO 包头的 uin 不匹配。
+    ERR_SVR_SSO_D2_EXPIRED                      = -10001,  // Key 过期。Key 是根据 UserSig 生成的内部票据，Key 的有效期小于或等于 UserSig 的有效期。请重新调用 V2TIMManager.getInstance().login 登录接口生成新的 Key。
+    ERR_SVR_SSO_A2_UP_INVALID                   = -10003,  // Ticket 过期。Ticket 是根据 UserSig 生成的内部票据，Ticket 的有效期小于或等于 UserSig 的有效期。请重新调用 V2TIMManager.getInstance().login 登录接口生成新的 Ticket。
+    ERR_SVR_SSO_A2_DOWN_INVALID                 = -10004,  // 票据验证没通过或者被安全打击。请重新调用 V2TIMManager.getInstance().login 登录接口生成新的票据。
+    ERR_SVR_SSO_EMPTY_KEY                       = -10005,  // 不允许空 Key。
+    ERR_SVR_SSO_UIN_INVALID                     = -10006,  // Key 中的帐号和请求包头的帐号不匹配。
     ERR_SVR_SSO_VCODE_TIMEOUT                   = -10007,  // 验证码下发超时。
-    ERR_SVR_SSO_NO_IMEI_AND_A2                  = -10008,  // 需要带上 IMEI 和 A2 。
-    ERR_SVR_SSO_COOKIE_INVALID                  = -10009,  // Cookie 非法。
-    ERR_SVR_SSO_DOWN_TIP                        = -10101,  // 下发提示语，D2 过期。
-    ERR_SVR_SSO_DISCONNECT                      = -10102,  // 断链锁屏。
+    ERR_SVR_SSO_NO_IMEI_AND_A2                  = -10008,  // 需要带上 Key 和 Ticket。
+    ERR_SVR_SSO_COOKIE_INVALID                  = -10009,  // Cookie 检查不匹配。
+    ERR_SVR_SSO_DOWN_TIP                        = -10101,  // 下发提示语时 Key 过期。Key 是根据 UserSig 生成的内部票据，Key 的有效期小于或等于 UserSig 的有效期。请重新调用 V2TIMManager.getInstance().login 登录接口生成新的 Key。
+    ERR_SVR_SSO_DISCONNECT                      = -10102,  // 网络连接断开。
     ERR_SVR_SSO_IDENTIFIER_INVALID              = -10103,  // 失效身份。
     ERR_SVR_SSO_CLIENT_CLOSE                    = -10104,  // 终端自动退出。
     ERR_SVR_SSO_MSFSDK_QUIT                     = -10105,  // MSFSDK 自动退出。
-    ERR_SVR_SSO_D2KEY_WRONG                     = -10106,  // SSO D2key 解密失败次数太多，通知终端需要重置，重新刷新 D2 。
+    ERR_SVR_SSO_D2KEY_WRONG                     = -10106,  // 解密失败次数超过阈值，通知终端需要重置，请重新调用 TIMManager.getInstance().login 登录接口生成新的 Key。
     ERR_SVR_SSO_UNSURPPORT                      = -10107,  // 不支持聚合，给终端返回统一的错误码。终端在该 TCP 长连接上停止聚合。
     ERR_SVR_SSO_PREPAID_ARREARS                 = -10108,  // 预付费欠费。
     ERR_SVR_SSO_PACKET_WRONG                    = -10109,  // 请求包格式错误。
@@ -166,6 +166,7 @@ enum TIMErrCode {
     ERR_SVR_SSO_APPID_WITHOUT_USING             = -10112,  // SDKAppID 停用。
     ERR_SVR_SSO_FREQ_LIMIT                      = -10113,  // 频率限制(用户)，频率限制是设置针对某一个协议的每秒请求数的限制。
     ERR_SVR_SSO_OVERLOAD                        = -10114,  // 过载丢包(系统)，连接的服务端处理过多请求，处理不过来，拒绝服务。
+    ERR_SVR_SSO_FREQUENCY_LIMIT                 = -20009,  // 终端访问接口超频。
 
     // 资源文件错误码
 
@@ -498,7 +499,7 @@ enum TIMConvType {
     kTIMConv_Invalid, // 无效会话
     kTIMConv_C2C,     // 个人会话
     kTIMConv_Group,   // 群组会话
-    kTIMConv_System,  // 系统会话
+    kTIMConv_System,  // 系统会话，已废弃
 };
 
 /**
@@ -596,7 +597,7 @@ static const char* kTIMGroupGetInfoOptionCustomArray = "group_get_info_option_cu
 */
 // Struct UserConfig JsonKey
 static const char* kTIMUserConfigIsReadReceipt            = "user_config_is_read_receipt";             // bool, 只写(选填), true表示要收已读回执事件
-static const char* kTIMUserConfigIsSyncReport             = "user_config_is_sync_report";              // bool, 只写(选填), true表示服务端要删掉已读状态
+static const char* kTIMUserConfigIsSyncReport             = "user_config_is_sync_report";              // bool, 只写(选填), true表示服务端要删掉已读状态，已废弃
 static const char* kTIMUserConfigIsIngoreGroupTipsUnRead  = "user_config_is_ingore_grouptips_unread";  // bool, 只写(选填), true表示群tips不计入群消息已读计数
 static const char* kTIMUserConfigIsDisableStorage         = "user_config_is_is_disable_storage";       // bool, 只写(选填), 是否禁用本地数据库，true表示禁用，false表示不禁用。默认是false
 static const char* kTIMUserConfigGroupGetInfoOption       = "user_config_group_getinfo_option";        // object [GroupGetInfoOption](),  只写(选填),获取群组信息默认选项
@@ -756,12 +757,27 @@ static const char* kTIMResponseSetEvnRes         = "response_set_env_res";      
 /// @name 消息关键类型
 /// @brief 消息相关宏定义，以及相关结构成员存取Json Key定义
 /// @{
+
+/**
+* @brief 设置离线推送配置信息
+*/
+// Struct OfflinePushToken JsonKey
+static const char* kTIMOfflinePushTokenToken        = "offline_push_token_token";          //string, 只写（选填）, 注册应用到厂商平台或者 TPNS 时获取的 token。使用注意事项：当接入推送 TPNS 通道，需要设置 isTPNSToken 为 true，上报注册 TPNS 获取的 token；当接入推送为厂商通道，需要设置 isTPNSToken 为 false，上报注册厂商获取的 token。
+static const char* kTIMOfflinePushTokenBusinessID   = "offline_push_token_business_id";    //uint32, 只写（选填），IM 控制台证书 ID，接入 TPNS 时不需要填写
+static const char* kTIMOfflinePushTokenIsTPNSToken  = "offline_push_token_is_tpns_token";  //bool, 只写（选填），是否接入配置 TPNS, token 是否是从 TPNS 获取
+// EndStruct
+
+/// 接收时不会播放声音
+static const char *const kIOSOfflinePushNoSound = "push.no_sound";
+/// 接收时播放系统声音
+static const char *const kIOSOfflinePushDefaultSound = "default";
+
 /**
 * @brief 消息在iOS系统上的离线推送配置
 */
 // Struct IOSOfflinePushConfig JsonKey
 static const char* kTIMIOSOfflinePushConfigTitle       = "ios_offline_push_config_title";         //string, 读写, 通知标题
-static const char* kTIMIOSOfflinePushConfigSound       = "ios_offline_push_config_sound";         //string, 读写, 当前消息在iOS设备上的离线推送提示声音URL。当设置为push.no_sound时表示无提示音无振动
+static const char* kTIMIOSOfflinePushConfigSound       = "ios_offline_push_config_sound";         //string, 读写, 离线推送声音设置（仅对 iOS 生效）。当 iOSSound = kIOSOfflinePushNoSound，表示接收时不会播放声音；当 iOSSound = kIOSOfflinePushDefaultSound，表示接收时播放系统声音；如果要自定义 iOSSound，需要先把语音文件链接进 Xcode 工程，然后把语音文件名（带后缀）设置给 iOSSound。
 static const char* kTIMIOSOfflinePushConfigIgnoreBadge = "ios_offline_push_config_ignore_badge";  //bool, 读写, 是否忽略badge计数。若为true，在iOS接收端，这条消息不会使App的应用图标未读计数增加
 // EndStruct
 
@@ -782,9 +798,10 @@ enum TIMAndroidOfflinePushNotifyMode {
 */
 // Struct AndroidOfflinePushConfig JsonKey
 static const char* kTIMAndroidOfflinePushConfigTitle         = "android_offline_push_config_title";            //string, 读写, 通知标题
-static const char* kTIMAndroidOfflinePushConfigSound         = "android_offline_push_config_sound";            //string, 读写, 当前消息在Android设备上的离线推送提示声音URL
+static const char* kTIMAndroidOfflinePushConfigSound         = "android_offline_push_config_sound";            //string, 读写, 离线推送声音设置（仅对 Android 生效）。只有华为和谷歌手机支持设置声音提示，小米手机设置声音提示，请您参照：https://dev.mi.com/console/doc/detail?pId=1278#_3_0。AndroidSound: Android 工程里 raw 目录中的铃声文件名，不需要后缀名。
 static const char* kTIMAndroidOfflinePushConfigNotifyMode    = "android_offline_push_config_notify_mode";      //uint [TIMAndroidOfflinePushNotifyMode](), 读写, 当前消息的通知模式
-static const char* kTIMAndroidOfflinePushConfigOPPOChannelID = "android_offline_push_config_oppo_channel_id";  //string, 读写, OPPO的ChannelID
+static const char* kTIMAndroidOfflinePushConfigVIVOClassification = "android_offline_push_config_vivo_classification";            //uint32, 读写，离线推送设置 VIVO 手机 （仅对 Android 生效），VIVO 手机离线推送消息分类，0：运营消息，1：系统消息。默认取值为 1 。
+static const char* kTIMAndroidOfflinePushConfigOPPOChannelID = "android_offline_push_config_oppo_channel_id";  //string, 读写, 离线推送设置 OPPO 手机 8.0 系统及以上的渠道 ID（仅对 Android 生效）。
 // EndStruct
 
 /**
@@ -865,8 +882,8 @@ static const char* kTIMMsgIsOnlineMsg = "message_is_online_msg"; //bool,        
 static const char* kTIMMsgIsPeerRead  = "message_is_peer_read";  //bool,           只读,            消息是否被会话对方已读
 static const char* kTIMMsgNeedReadReceipt    = "message_need_read_receipt";     //bool,           读写(选填),    是否需要已读回执（只对 Group 消息有效）
 static const char* kTIMMsgHasSentReceipt     = "message_has_sent_receipt";      //bool,           只读,         是否已经发送了已读回执（只对 Group 消息有效）
-static const char* kTIMMsgReceiptReadCount   = "msg_receipt_read_count";        //uint64,         只读,         群消息已读人数
-static const char* kTIMMsgReceiptUnreadCount = "msg_receipt_unread_count";      //uint64,         只读,         群消息未读人数
+static const char* kTIMMsgReceiptReadCount   = "message_receipt_read_count";    //int32,          只读,         注意：这个字段是内部字段，不推荐使用，推荐调用 TIMMsgGetGroupMessageReceipts 获取群消息已读回执
+static const char* kTIMMsgReceiptUnreadCount = "message_receipt_unread_count";  //int32,          只读,         注意：这个字段是内部字段，不推荐使用，推荐调用 TIMMsgGetGroupMessageReceipts 获取群消息已读回执
 static const char* kTIMMsgStatus      = "message_status";        //uint [TIMMsgStatus](), 读写(选填), 消息当前状态
 static const char* kTIMMsgUniqueId    = "message_unique_id";     //uint64,         只读,       消息的唯一标识，推荐使用 kTIMMsgMsgId
 static const char* kTIMMsgMsgId       = "message_msg_id";        //string,         只读,       消息的唯一标识
@@ -1009,7 +1026,7 @@ static const char* kTIMImageElemLargePicSize    = "image_elem_large_pic_size";  
 static const char* kTIMImageElemOrigUrl         = "image_elem_orig_url";         // string, 只读,       原图URL
 static const char* kTIMImageElemThumbUrl        = "image_elem_thumb_url";        // string, 只读,       缩略图URL
 static const char* kTIMImageElemLargeUrl        = "image_elem_large_url";        // string, 只读,       大图片URL
-static const char* kTIMImageElemTaskId          = "image_elem_task_id";          // int,    只读,       任务ID，废弃
+static const char* kTIMImageElemTaskId          = "image_elem_task_id";          // int,    只读,       任务ID，已废弃
 // EndStruct
 
 /**
@@ -1027,7 +1044,7 @@ static const char* kTIMSoundElemFileId          = "sound_elem_file_id";         
 static const char* kTIMSoundElemBusinessId      = "sound_elem_business_id";      // int,    只读,       下载时用到的businessID
 static const char* kTIMSoundElemDownloadFlag    = "sound_elem_download_flag";    // int,    只读,       是否需要申请下载地址(0:需要申请，1:到cos申请，2:不需要申请,直接拿url下载)
 static const char* kTIMSoundElemUrl             = "sound_elem_url";              // string, 只读,       下载的URL
-static const char* kTIMSoundElemTaskId          = "sound_elem_task_id";          // int,    只读,       任务ID，废弃
+static const char* kTIMSoundElemTaskId          = "sound_elem_task_id";          // int,    只读,       任务ID，已废弃
 // EndStruct
 
 /**
@@ -1057,7 +1074,7 @@ static const char* kTIMFileElemFileId        = "file_elem_file_id";        // st
 static const char* kTIMFileElemBusinessId    = "file_elem_business_id";    // int,      只读, 下载时用到的businessID
 static const char* kTIMFileElemDownloadFlag  = "file_elem_download_flag";  // int,      只读, 文件下载flag
 static const char* kTIMFileElemUrl           = "file_elem_url";            // string,   只读, 文件下载的URL
-static const char* kTIMFileElemTaskId        = "file_elem_task_id";        // int,      只读, 任务ID，废弃
+static const char* kTIMFileElemTaskId        = "file_elem_task_id";        // int,      只读, 任务ID，已废弃
 // EndStruct
 
 /**
@@ -1080,7 +1097,7 @@ static const char* kTIMVideoElemImagePath          = "video_elem_image_path";   
 static const char* kTIMVideoElemImageId            = "video_elem_image_id";             // string, 只读, 截图 ID
 static const char* kTIMVideoElemImageDownloadFlag  = "video_elem_image_download_flag";  // int,    只读, 截图文件下载flag 
 static const char* kTIMVideoElemImageUrl           = "video_elem_image_url";            // string, 只读, 截图文件下载的URL 
-static const char* kTIMVideoElemTaskId             = "video_elem_task_id";              // uint,   只读, 任务ID，废弃
+static const char* kTIMVideoElemTaskId             = "video_elem_task_id";              // uint,   只读, 任务ID，已废弃
 // EndStruct
 
 /**
@@ -1151,7 +1168,7 @@ static const char* kTIMGroupTipsElemTipType                     = "group_tips_el
 static const char* kTIMGroupTipsElemOpUser                      = "group_tips_elem_op_user";                        // string,   只读, 操作者ID
 static const char* kTIMGroupTipsElemGroupName                   = "group_tips_elem_group_name";                     // string,   只读, 群组名称
 static const char* kTIMGroupTipsElemGroupId                     = "group_tips_elem_group_id";                       // string,   只读, 群组ID
-static const char* kTIMGroupTipsElemTime                        = "group_tips_elem_time";                           // uint,     只读, 群消息时间，废弃
+static const char* kTIMGroupTipsElemTime                        = "group_tips_elem_time";                           // uint,     只读, 群消息时间，已废弃
 static const char* kTIMGroupTipsElemUserArray                   = "group_tips_elem_user_array";                     // array string, 只读, 被操作的帐号列表
 static const char* kTIMGroupTipsElemGroupChangeInfoArray        = "group_tips_elem_group_change_info_array";        // array [GroupTipGroupChangeInfo](),  只读, 群资料变更信息列表,仅当 tips_type 值为 kTIMGroupTip_GroupInfoChange 时有效
 static const char* kTIMGroupTipsElemMemberChangeInfoArray       = "group_tips_elem_member_change_info_array";       // array [GroupTipMemberChangeInfo](), 只读, 群成员变更信息列表,仅当 tips_type 值为 kTIMGroupTip_MemberInfoChange 时有效
@@ -1448,7 +1465,7 @@ static const char* kTIMGroupAtInfoAtType       = "conv_group_at_info_at_type"; /
 // Struct ConvInfo JsonKey
 static const char* kTIMConvId               = "conv_id";                    // string, 只读, 会话ID
 static const char* kTIMConvType             = "conv_type";                  // uint [TIMConvType](), 只读, 会话类型
-static const char* kTIMConvOwner            = "conv_owner";                 // string, 只读, 会话所有者，废弃
+static const char* kTIMConvOwner            = "conv_owner";                 // string, 只读, 会话所有者，已废弃
 static const char* kTIMConvUnReadNum        = "conv_unread_num";            // uint64, 只读, 会话未读计数
 static const char* kTIMConvActiveTime       = "conv_active_time";           // uint64, 只读, 会话的激活时间
 static const char* kTIMConvIsHasLastMsg     = "conv_is_has_lastmsg";        // bool, 只读, 会话是否有最后一条消息
