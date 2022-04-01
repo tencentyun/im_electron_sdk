@@ -94,12 +94,12 @@ function nodeStrigToCString(str: string): string {
     return ref.readCString(buffer);
 }
 function escapeUnicode(str: string) {
-    var escRE = /[\u0000-\u001F\u2028\u2029]/g;
-    return str
-        .replace(escRE, function (ch) {
-            return "\\u" + ("0000" + ch.charCodeAt(0).toString(16)).slice(-4);
-        })
-        .replace(/\\u000a/g, "\n");
+    return str.replace(
+        /[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]|[\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u000b\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f]/g,
+        function (a) {
+            return "\\u" + ("0000" + a.charCodeAt(0).toString(16)).slice(-4);
+        }
+    );
 }
 
 function jsFuncToFFIFun(fun: CommonCallbackFun) {
