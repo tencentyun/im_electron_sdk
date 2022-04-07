@@ -1,6 +1,6 @@
 {
   "name": "im_electron_sdk",
-  "version": "1.4.10-1",
+  "version": "1.4.10-2",
   "description": "tencent cloud im for electron base c++ apis. （This is a private version, don't use it, you can use the previous version）",
   "main": "dist/main.js",
   "browser": "dist/renderer.js",
@@ -68,7 +68,6 @@
     "@electron/remote": "^2.0.7",
     "electron-log": "^4.4.1",
     "ffi-napi": "^4.0.3",
-    "ref-napi": "^3.0.3",
     "ref-struct-napi": "^1.1.1",
     "uuid": "^8.3.2"
   }

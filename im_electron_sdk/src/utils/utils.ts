@@ -15,14 +15,13 @@ import {
 import { app } from "electron";
 const path = require("path");
 const os = require("os");
-const ref = require("ref-napi");
 const ffi = require("ffi-napi");
 const fs = require("fs");
-const voidPtrType = ref.types.CString;
-const charPtrType = ref.types.CString;
-const int32Type = ref.types.int32;
-const voidType = ref.types.void;
-const intType = ref.types.int;
+const voidPtrType = ffi.types.CString;
+const charPtrType = ffi.types.CString;
+const int32Type = ffi.types.int32;
+const voidType = ffi.types.void;
+const intType = ffi.types.int;
 
 const ffipaths: any = {
     linux: app.isPackaged
@@ -89,9 +88,8 @@ function getFFIPath() {
     }
     return res;
 }
-function nodeStrigToCString(str: string): string {
-    const buffer = Buffer.from(`${str}\0`, "utf8");
-    return ref.readCString(buffer);
+function nodeStrigToCString(str: string): any {
+    return Buffer.from(`${str}\0`, "utf8");
 }
 function escapeUnicode(str: string) {
     return str.replace(
@@ -120,7 +118,7 @@ function jsFuncToFFIFun(fun: CommonCallbackFun) {
 function jsFuncToFFIFunForGroupRead(fun: GroupReadMembersCallback) {
     const callback = ffi.Callback(
         voidType,
-        [charPtrType, int32Type, ref.types.bool, voidPtrType],
+        [charPtrType, int32Type, ffi.types.bool, voidPtrType],
         function (
             json_group_member_array: string,
             next_seq: number,
@@ -193,7 +191,7 @@ function jsFunToFFITIMSetUserSigExpiredCallback(
     fun: TIMSetUserSigExpiredCallback
 ) {
     const callback = ffi.Callback(
-        ref.types.void,
+        ffi.types.void,
         [voidPtrType],
         function (user_data?: any) {
             fun(user_data);
@@ -203,7 +201,7 @@ function jsFunToFFITIMSetUserSigExpiredCallback(
 }
 function transformGroupTipFun(fun: GroupTipCallBackFun) {
     const callback = ffi.Callback(
-        ref.types.void,
+        ffi.types.void,
         [charPtrType, voidPtrType],
         function (json_group_tip_array: string, user_data?: any) {
             fun(json_group_tip_array, user_data);
@@ -214,7 +212,7 @@ function transformGroupTipFun(fun: GroupTipCallBackFun) {
 
 function transformGroupAttributeFun(fun: GroupAttributeCallbackFun) {
     const callback = ffi.Callback(
-        ref.types.void,
+        ffi.types.void,
         [charPtrType, charPtrType, voidPtrType],
         function (
             group_id: string,

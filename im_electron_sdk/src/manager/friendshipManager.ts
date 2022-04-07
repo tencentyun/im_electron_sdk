@@ -40,10 +40,9 @@ import {
     randomString,
 } from "../utils/utils";
 const ffi = require("ffi-napi");
-const ref = require("ref-napi");
-const voidPtrType = ref.types.CString;
-const charPtrType = ref.types.CString;
-const voidType = ref.types.void;
+const voidPtrType = ffi.types.CString;
+const charPtrType = ffi.types.CString;
+const voidType = ffi.types.void;
 
 class FriendshipManager {
     private _sdkconfig: sdkconfig;

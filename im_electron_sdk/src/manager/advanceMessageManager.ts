@@ -44,11 +44,10 @@ import {
     escapeUnicode,
 } from "../utils/utils";
 const ffi = require("ffi-napi");
-const ref = require("ref-napi");
-const voidPtrType = ref.types.CString;
-const charPtrType = ref.types.CString;
-const uint32Type = ref.types.uint32;
-const voidType = ref.types.void;
+const voidPtrType = ffi.types.CString;
+const charPtrType = ffi.types.CString;
+const uint32Type = ffi.types.uint32;
+const voidType = ffi.types.void;
 
 class AdvanceMessageManage {
     private _sdkconfig: sdkconfig;
@@ -1567,7 +1566,7 @@ class AdvanceMessageManage {
         const { callback, user_data = "" } = params;
         const c_user_data = this.stringFormator(user_data);
         const c_callback = ffi.Callback(
-            ref.types.void,
+            ffi.types.void,
             [charPtrType, uint32Type, uint32Type, uint32Type, voidPtrType],
             this.msgElemUploadProgressCallback.bind(this)
         );

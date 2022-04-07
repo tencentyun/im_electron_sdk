@@ -1,14 +1,13 @@
 import { getFFIPath } from "./utils/utils";
 
 const ffi = require("ffi-napi");
-const ref = require("ref-napi");
 const ffiPath = getFFIPath();
-const voidPtrType = ref.types.CString;
-const charPtrType = ref.types.CString;
-const intType = ref.types.int;
-const uint64Type = ref.types.uint64;
-const voidType = ref.types.void;
-const boolType = ref.types.bool;
+const voidPtrType = ffi.types.CString;
+const charPtrType = ffi.types.CString;
+const intType = ffi.types.int;
+const uint64Type = ffi.types.uint64;
+const voidType = ffi.types.void;
+const boolType = ffi.types.bool;
 const callback = "pointer";
 
 const Imsdklib = ffi.Library(ffiPath, {
